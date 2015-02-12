@@ -194,3 +194,6 @@ sympy-plots-for-*.tex/
 *.xdy
 
 # Migration Files, add new app(module) migrations here before creating app
+authentication/migrations/
+posts/migrations/
+groups/migrations/
