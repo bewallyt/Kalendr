@@ -36,8 +36,17 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'rest_framework',
     'compressor',
+    'authentication',
+    'posts',
+    'groups',
+)
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,6 +109,7 @@ COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
+    '/static/templates/posts',
 )
 
 REST_FRAMEWORK = {
@@ -113,3 +123,13 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
+
+AUTH_USER_MODEL = 'authentication.Account'
+
+MAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kalendr458@gmail.com'
+EMAIL_HOST_PASSWORD = 'petecarrol'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
