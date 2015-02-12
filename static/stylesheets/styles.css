@@ -1,0 +1,93 @@
+.btn-add-new-post {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.btn-add-new-friend {
+  position: fixed;
+  bottom: 88px;
+  right: 20px;
+}
+
+.no-posts-here {
+  text-align: center;
+}
+
+.post {}
+
+.post .post__meta {
+  font-weight: bold;
+  text-align: right;
+  padding-bottom: 19px;
+}
+
+.post .post__meta a:hover {
+  text-decoration: none;
+}
+
+.account {}
+
+.account .account__header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.account .account__username {
+  font-weight: bold;
+}
+
+.buttonform{
+    text-align: center;
+}
+
+.post__notify__false {
+    display: none;
+}
+
+.post__repeat__none {
+    display: none;
+}
+
+
+.all_day{
+    margin-left: 50em;
+}
+
+.post__repeatnone{
+    display: none;
+}
+
+.post__time{
+    display: none;
+}
+
+.post .post__beta__true{
+  text-align: right;
+  padding-bottom: 19px;
+    font-size: 70%;
+}
+
+.post .day_of_week{
+    font-size: 70%;
+}
+
+.post .post__beta__false{
+    display: none;
+}
+
+.post .post__location__none {
+    display: none;
+}
+
+.post .post__location__inline {
+    display: inline;
+}
+
+.post .post__content{
+    display: inline;
+}
+
+.post .post__description__none{
+   display: none;
+}
