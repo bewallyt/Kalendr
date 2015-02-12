@@ -1,6 +1,6 @@
 /**
  * DateController
- * @namespace thinkster.posts.controllers
+ * @namespace kalendr.posts.controllers
  */
 (function () {
     'use strict';

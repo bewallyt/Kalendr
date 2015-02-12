@@ -29,7 +29,7 @@
         /**
          * @name activate
          * @desc Actions to be performed when this controller is instantiated
-         * @memberOf thinkster.accounts.controllers.GroupController
+         * @memberOf kalendr.accounts.controllers.GroupController
          */
         function activate() {
             var username = $routeParams.username.substr(1);
