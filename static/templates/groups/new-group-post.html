@@ -1,0 +1,37 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <label for="form-group">
+            <center>New Group</center>
+        </label>
+        <br>
+        Group Name:
+        <br>
+    <textarea class="form-control"
+              id="Name"
+              rows="1"
+              placeholder="ex. Software Maintainability Group"
+              ng-model="vm.name">
+    </textarea>
+
+        <br>
+        Group Members:
+        <br>
+
+    <textarea class="form-control"
+              id="Members"
+              rows="1"
+              placeholder="ex. Bob Bill Jane Joe"
+              ng-model="vm.members">
+    </textarea>
+        <br>
+
+
+    </div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
+    </div>
+</form>

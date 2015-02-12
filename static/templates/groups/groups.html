@@ -1,0 +1,43 @@
+<div class="account" ng-show="vm.isAuthenticated" ng-cloak>
+  <div class="jumbotron account__header">
+    <h1 class="account__username" ng-cloak>{{ vm.account.username }}'s Groups</h1>
+  </div>
+
+  <groups posts="vm.groups"></groups>
+</div>
+
+<a class="btn btn-primary btn-fab btn-raised mdi-content-add btn-add-new-post"
+   href="javascript:void(0)"
+   ng-show="vm.isAuthenticated"
+   ng-dialog="/static/templates/groups/new-group-post.html"
+   ng-dialog-controller="NewGroupPostController as vm"></a>
+
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+    <h3>Menu</h3>
+    <a href="#">Celery seakale</a>
+    <a href="#">Dulse daikon</a>
+    <a href="#">Zucchini garlic</a>
+    <a href="#">Catsear azuki bean</a>
+    <a href="#">Dandelion bunya</a>
+    <a href="#">Rutabaga</a>
+</nav>
+
+
+<a class="mdi-social-person-add btn btn-primary btn-fab btn-raised btn-add-new-friend"
+        id="showLeftPush"
+        ng-show="vm.isAuthenticated"
+        ng-dialog-controller="NewGroupPostController as vm"></a>
+
+
+<script src="js/classie.js"></script>
+<script>
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+            showLeftPush = document.getElementById('showLeftPush'),
+            body = document.body;
+
+    showLeftPush.onclick = function () {
+        classie.toggle(this, 'active');
+        classie.toggle(body, 'cbp-spmenu-push-toright');
+        classie.toggle(menuLeft, 'cbp-spmenu-open');
+    };
+</script>

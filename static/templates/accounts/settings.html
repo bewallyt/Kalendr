@@ -1,0 +1,39 @@
+<div class="col-md-4 col-md-offset-4">
+  <div class="well" ng-show="vm.account">
+    <form role="form" class="settings" ng-submit="vm.update()">
+      <div class="form-group">
+        <input type="text" class="form-control" id="settings__email" ng-model="vm.account.email"required>
+        <span class="form-highlight"></span>
+        <span class="form-bar"></span>
+        <label class="float-label" for="settings__email">Email</label>
+      </div>
+
+
+      <div class="form-group">
+        <input type="password" class="form-control" id="settings__password" ng-model="vm.account.password" required>
+        <span class="form-highlight"></span>
+        <span class="form-bar"></span>
+        <label class="float-label" for="settings__password">Password</label>
+      </div>
+
+      <div class="form-group">
+        <input type="password" class="form-control" id="settings__confirm-password" ng-model="vm.account.confirm_password" required>
+        <span class="form-highlight"></span>
+        <span class="form-bar"></span>
+        <label class="float-label" for="settings__confirm-password">Confirm Password</label>
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" id="settings__username" ng-model="vm.account.username" required>
+        <span class="form-highlight"></span>
+        <span class="form-bar"></span>
+        <label class="float-label" for="settings__username">Username</label>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger pull-right" ng-click="vm.destroy()">Delete Account</button>
+      </div>
+    </form>
+  </div>
+</div>
