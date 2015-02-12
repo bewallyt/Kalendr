@@ -29,14 +29,15 @@
         /**
          * @name activate
          * @desc Actions to be performed when this controller is instantiated
-         * @memberOf kalendr.accounts.controllers.GroupController
+         * @memberOf thinkster.accounts.controllers.GroupController
          */
         function activate() {
             var username = $routeParams.username.substr(1);
-            console.log('in group username :'  + username);
+            console.log('in group username :' + username);
 
             Account.get(username).then(accountSuccessFn, accountErrorFn);
             Groups.get(username).then(postsSuccessFn, postsErrorFn);
+            Authentication.getUsers().then(usersSuccessFn);
 
             $scope.$on('group.created', function (event, group) {
                 Groups.get(username).then(postsSuccessFn, postsErrorFn);
@@ -91,6 +92,21 @@
             function postsErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
+
+            function usersSuccessFn(data, status, headers, config) {
+                console.log('users success: ' + data.data);
+                vm.users = data.data;
+
+                var i;
+                for (i = 0; i < vm.users.length; i++) {
+                    console.log(vm.users[i].username);
+                }
+
+            }
+
+
         }
+
+
     }
 })();

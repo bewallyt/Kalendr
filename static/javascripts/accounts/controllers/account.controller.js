@@ -29,13 +29,14 @@
         /**
          * @name activate
          * @desc Actions to be performed when this controller is instantiated
-         * @memberOf kalendr.accounts.controllers.AccountController
+         * @memberOf thinkster.accounts.controllers.AccountController
          */
         function activate() {
             var username = $routeParams.username.substr(1);
 
             Account.get(username).then(accountSuccessFn, accountErrorFn);
             Posts.get(username).then(postsSuccessFn, postsErrorFn);
+            Authentication.getUsers().then(usersSuccessFn);
 
             $scope.$on('post.created', function (event, post) {
                 Posts.get(username).then(postsSuccessFn, postsErrorFn);
@@ -71,13 +72,13 @@
              * @desc Update `posts` on viewmodel
              */
             function postsSuccessFn(data, status, headers, config) {
-                              console.log('post success: ' + data.data.content);
+                              console.log('post success: ');
                 vm.posts = data.data;
-                //
-                //  var i;
-                //  for(i = 0; i < vm.posts.length; i++){
-                //      console.log(vm.posts[i].content);
-                //  }
+
+                  var i;
+                  for(i = 0; i < vm.posts.length; i++){
+                      console.log(vm.posts[i].content);
+                  }
 
             }
 
@@ -88,6 +89,17 @@
              */
             function postsErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
+            }
+
+            function usersSuccessFn(data, status, headers, config) {
+                console.log('users success: ' + data.data);
+                vm.users = data.data;
+
+                  var i;
+                  for(i = 0; i < vm.users.length; i++){
+                      console.log(vm.users[i].username);
+                  }
+
             }
         }
     }

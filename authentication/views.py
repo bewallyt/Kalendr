@@ -41,6 +41,10 @@ class AccountViewSet(viewsets.ModelViewSet):
             'message': 'Account could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+    def get_queryset(self):
+        return self.queryset
+
+
 
 class LoginView(views.APIView):
     def post(self, request, format=None):

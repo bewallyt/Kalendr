@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('thinkster.posts.controllers')
+        .module('kalendr.posts.controllers')
         .controller('DateController', DateController);
 
     DateController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Posts'];
