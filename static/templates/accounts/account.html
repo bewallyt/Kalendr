@@ -14,13 +14,18 @@
    ng-dialog-controller="NewPostController as vm"></a>
 
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-    <h3>Menu</h3>
-    <a href="#">Celery seakale</a>
-    <a href="#">Dulse daikon</a>
-    <a href="#">Zucchini garlic</a>
-    <a href="#">Catsear azuki bean</a>
-    <a href="#">Dandelion bunya</a>
-    <a href="#">Rutabaga</a>
+    <h3>Social Bar</h3>
+
+    <div class="form-group">
+
+        <input type="text" class="form-control" id="search__username" ng-model="vm.search__username" required>
+        <label id="form" class="float-label" for="search__username">Search for User</label>
+
+    </div>
+    <ul>
+        <li class="mdi-social-person" ng-repeat="user in vm.users">  {{ user.username }}</li>
+    </ul>
+
 </nav>
 
 
@@ -29,6 +34,14 @@
         ng-show="vm.isAuthenticated"
         ng-dialog-controller="NewPostController as vm"></a>
 
+
+
+<a class="mdi-notification-event-note btn btn-primary btn-fab btn-raised btn-change-date"
+        id="showLeftPush"
+        href="javascript:void(0)"
+        ng-show="vm.isAuthenticated"
+        ng-dialog="/static/templates/posts/change-calendar.html"
+        ng-dialog-controller="DateController as vm"></a>
 
 <script src="js/classie.js"></script>
 <script>

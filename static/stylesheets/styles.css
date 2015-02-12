@@ -10,6 +10,12 @@
   right: 20px;
 }
 
+.btn-change-date{
+  position: fixed;
+  bottom: 154px;
+  right: 20px;
+}
+
 .no-posts-here {
   text-align: center;
 }
@@ -90,4 +96,21 @@
 
 .post .post__description__none{
    display: none;
+}
+
+.form-control:focus{
+    border-bottom: 2px solid #CDF0ED;
+}
+
+#button__padding{
+    margin-left: 20px;
+}
+#date__padding{
+    margin-left: 50px;
+}
+
+.transparent {
+zoom: 1;
+filter: alpha(opacity=50);
+opacity: 0.5;
 }
