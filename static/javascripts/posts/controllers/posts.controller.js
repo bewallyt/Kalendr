@@ -28,8 +28,7 @@
          * @memberOf kalendr.posts.controllers.PostsController
          */
         function activate() {
-            //console.log('posts.controller.js activate()');
-            //console.log('scope posts: ' + $scope.posts.length);
+
             var i;
             for (i = 0; i < $scope.posts.length; i++) {
                 console.log($scope.posts[i].content);
@@ -51,16 +50,7 @@
          */
         function calculateNumberOfColumns() {
             var width = $(window).width();
-
-            if (width >= 1200) {
-                return 4;
-            } else if (width >= 992) {
-                return 3;
-            } else if (width >= 768) {
-                return 2;
-            } else {
-                return 1;
-            }
+            return 7;
         }
 
 
@@ -112,11 +102,6 @@
          */
         function render(current, original) {
 
-            //var i;
-            //for(i = 0; i < current.length; i++){
-            //    //console.log('current: ' + current[i].content);
-            //}
-            //console.log('original' + original);
             if (current !== original) {
                 vm.columns = [];
 

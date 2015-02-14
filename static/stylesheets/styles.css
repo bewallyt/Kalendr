@@ -20,7 +20,9 @@
   text-align: center;
 }
 
-.post {}
+.post {
+    height: 200px;
+}
 
 .post .post__meta {
   font-weight: bold;
@@ -113,4 +115,8 @@
 zoom: 1;
 filter: alpha(opacity=50);
 opacity: 0.5;
+}
+
+.col-md-1 {
+    width: 13%;
 }
