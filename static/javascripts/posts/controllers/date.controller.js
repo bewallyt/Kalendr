@@ -9,34 +9,25 @@
         .module('kalendr.posts.controllers')
         .controller('DateController', DateController);
 
-    DateController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Posts'];
+    DateController.$inject = ['$rootScope', '$scope', '$routeParams','$routeParams', 'Authentication', 'Snackbar', 'Posts'];
 
     /**
      * @namespace DateController
      */
-    function DateController($rootScope, $scope,Authentication, Snackbar, Posts) {
+    function DateController($rootScope, $scope, Authentication, $routeParams, Snackbar, Posts) {
         var vm = this;
         vm.submit = submit;
+        var username = $routeParams.username.substr(1);
+
 
         function submit() {
 
+            var weekNum = vm.start_time.isocalendar()[1];
 
-            Posts.create(vm.content, vm.start_time, vm.notification, vm.repeat, vm.location_event,
-                vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
-                vm.need_repeat).then(createPostSuccessFn, createPostErrorFn);
+            Posts.getWeek(username, weekNum).then(createPostSuccessFn, createPostErrorFn);
 
-            $rootScope.$broadcast('post.created', {
-                content: vm.content,
-                repeat: vm.repeat,
-                start_time: vm.start_time,
-                notification: vm.notification,
-                location_event: vm.location_event,
-                description_event: vm.description_event,
-                begin_time: vm.begin_time,
-                end_time: vm.end_time,
-                end_repeat: vm.end_repeat,
-                not_all_day: vm.not_all_day,
-                dayOfWeek: dayOfWeek,
+            $rootScope.$broadcast('post.getWeek', {
+                weekNum: weekNum,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }
@@ -47,7 +38,7 @@
 
 
             function createPostSuccessFn(data, status, headers, config) {
-                Snackbar.show('Success! Event added to Kalendr');
+                Snackbar.show('Success! Week Changed');
             }
 
 

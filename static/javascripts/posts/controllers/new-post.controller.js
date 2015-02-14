@@ -29,6 +29,9 @@
 
             var num_day = vm.start_time.getDay();
             var dayOfWeek;
+            var weekNum = vm.start_time.isocalendar()[1];
+            var isWeekSet = True;
+
             if (num_day == 0) dayOfWeek = 'Sunday';
             else if (num_day == 1) dayOfWeek = 'Monday';
             else if (num_day == 2) dayOfWeek = 'Tuesday';
@@ -50,7 +53,7 @@
 
             Posts.create(vm.content, vm.start_time, vm.notification, vm.repeat, vm.location_event,
                 vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
-                vm.need_repeat).then(createPostSuccessFn, createPostErrorFn);
+                vm.need_repeat, weekNum, isWeekSet).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('post.created', {
                 content: vm.content,
@@ -64,6 +67,8 @@
                 end_repeat: vm.end_repeat,
                 not_all_day: vm.not_all_day,
                 dayOfWeek: dayOfWeek,
+                weekNum: weekNum,
+                isWeekSet: isWeekSet,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }

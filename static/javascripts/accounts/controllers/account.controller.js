@@ -35,17 +35,23 @@
             var username = $routeParams.username.substr(1);
 
             Account.get(username).then(accountSuccessFn, accountErrorFn);
-            Posts.get(username).then(postsSuccessFn, postsErrorFn);
+            Posts.getWeek(username, null).then(postsSuccessFn, postsErrorFn);
             Authentication.getUsers().then(usersSuccessFn);
 
             $scope.$on('post.created', function (event, post) {
-                Posts.get(username).then(postsSuccessFn, postsErrorFn);
+                console.log('post.created: scope get week' + post.weekNum);
+                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
                 vm.posts.unshift(post);
-                Posts.get(username).then(postsSuccessFn, postsErrorFn);
+                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
             });
 
             $scope.$on('post.created.error', function () {
                 vm.posts.shift();
+            });
+
+            $scope.$on('post.getWeek', function (event, post){
+                console.log('scope get week' + post.weekNum);
+                Posts.getWeek(username, post.weekNum);
             });
 
             /**
