@@ -106,15 +106,29 @@
                 vm.columns = [];
 
                 for (var i = 0; i < calculateNumberOfColumns(); ++i) {
-                    //console.log('numbofcolumns' + calculateNumberOfColumns());
+                    console.log('numbofcolumns' + calculateNumberOfColumns());
                     vm.columns.push([]);
                 }
 
                 for (var i = 0; i < current.length; ++i) {
-                    var column = i % calculateNumberOfColumns();
-                    //console.log('column: ' + column + ' pushing current: ' + current[i].content);
+                    //console.log('column: ' + column + ' pushing current: ' + current[i].content +" "+current[i].day_of_week);
 
-                    vm.columns[column].push(current[i]);
+                    if (current[i].day_of_week=='Sunday') {
+                        vm.columns[0].push(current[i]);
+                    } else if (current[i].day_of_week=='Monday') {
+                        vm.columns[1].push(current[i]);
+                    } else if (current[i].day_of_week=='Tuesday') {
+                        vm.columns[2].push(current[i]);
+                    } else if (current[i].day_of_week=='Wednesday') {
+                        vm.columns[3].push(current[i]);
+                    } else if (current[i].day_of_week=='Thursday') {
+                        vm.columns[4].push(current[i]);
+                    } else if (current[i].day_of_week=='Friday') {
+                        vm.columns[5].push(current[i]);
+                    } else {
+                        vm.columns[6].push(current[i]);
+                    }
+
                 }
             }
         }
