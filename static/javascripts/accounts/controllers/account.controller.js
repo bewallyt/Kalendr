@@ -31,6 +31,12 @@
          * @desc Actions to be performed when this controller is instantiated
          * @memberOf kalendr.accounts.controllers.AccountController
          */
+
+        vm.activate = function () {
+            vm.weekNum = null;
+            activate();
+            Snackbar.show('Back to Today!');
+        };
         function activate() {
 
             var username = $routeParams.username.substr(1);
@@ -67,7 +73,8 @@
             else dayOfWeek = 'Saturday';
 
 
-            vm.date = dayOfWeek + ', ' + month + ' ' + now.getDate();
+            var homeDate = dayOfWeek + ', ' + month + ' ' + now.getDate();
+            vm.date = homeDate;
             if (vm.weekNum == null) vm.weekNum = now.getWeekNum();
 
             Account.get(username).then(accountSuccessFn, accountErrorFn);
@@ -137,6 +144,13 @@
 
                 vm.date = dayOfWeek + ', ' + month + ' ' + date.toString();
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                Snackbar.show('Carried to week ' + vm.weekNum +': ' + vm.date +  '!');
+            });
+
+            $scope.$on('post.goHome', function () {
+                vm.date = homeDate;
+                vm.weekNum = now.getWeekNum();
+                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             });
 
             /**

@@ -44,9 +44,10 @@
         ng-dialog-controller="NewPostController as vm"></a>
 
 
-<a class="mdi-action-store btn btn-primary btn-fab btn-raised btn-home"
+<button class="mdi-action-store btn btn-primary btn-fab btn-raised btn-home"
+        type="submit"
         ng-show="vm.isAuthenticated"
-        ng-dialog-controller="NewPostController as vm"></a>
+        ng-click="vm.activate()"></button>
 
 
 

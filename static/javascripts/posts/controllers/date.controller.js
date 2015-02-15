@@ -32,7 +32,7 @@
 
 
             //Posts.getWeek(username, weekNum).then(createPostSuccessFn, createPostErrorFn);
-            $http.get('/api/v1/accounts/' + username + '/posts/' + weekNum + '/week/');
+            //$http.get('/api/v1/accounts/' + username + '/posts/' + weekNum + '/week/');
 
             $rootScope.$broadcast('post.getWeek', {
                 weekNum: weekNum,
