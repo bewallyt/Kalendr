@@ -18,8 +18,8 @@
     function Posts($http) {
         var Posts = {
             all: all,
-            get: get,
-            create: create
+            create: create,
+            getWeek: getWeek
         };
 
         return Posts;
@@ -45,16 +45,18 @@
          * @memberOf kalendr.posts.services.Posts
          */
         function create(content, start_time, notification, repeat, location_event, description_event, begin_time, end_time,
-                        end_repeat, not_all_day, day_of_week, need_repeat) {
+                        end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set) {
 
             if (end_repeat === null) end_repeat = start_time;
             //console.log('start_time of event: ' + start_time);
             console.log('asked for notification: ' + notification);
+            console.log('start date: ' + start_time);
             console.log('repeats: ' + repeat);
             console.log('begin_time ' + begin_time);
             console.log('end_time ' + end_time);
             console.log('description: ' + description_event);
             console.log('location_event: ' + location_event);
+            console.log('week_number: ' + week_num);
             return $http.post('/api/v1/posts/', {
                 content: content,
                 start_time: start_time,
@@ -67,7 +69,9 @@
                 end_repeat: end_repeat,
                 not_all_day: not_all_day,
                 day_of_week: day_of_week,
-                need_repeat: need_repeat
+                need_repeat: need_repeat,
+                week_num: week_num,
+                is_week_set: is_week_set
             });
         }
 
@@ -79,8 +83,12 @@
          * @returns {Promise}
          * @memberOf kalendr.posts.services.Posts
          */
-        function get(id) {
-            return $http.get('/api/v1/accounts/' + id + '/posts/');
+        //function get(id) {
+        //    return $http.get('/api/v1/accounts/' + id + '/posts/');
+        //}
+
+        function getWeek(id, weekNum) {
+            return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
         }
     }
 })();
