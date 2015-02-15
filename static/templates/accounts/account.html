@@ -35,14 +35,13 @@
         ng-show="vm.isAuthenticated"
         ng-dialog-controller="NewPostController as vm"></a>
 
-<a class="mdi-image-navigate-before btn btn-primary btn-fab btn-raised btn-before"
+<button class="mdi-image-navigate-before btn btn-primary btn-fab btn-raised btn-before"
         ng-show="vm.isAuthenticated"
-        ng-dialog-controller="NewPostController as vm"></a>
+        ng-click="vm.before()"></button>
 
-<a class="mdi-image-navigate-next btn btn-primary btn-fab btn-raised btn-next"
+<button class="mdi-image-navigate-next btn btn-primary btn-fab btn-raised btn-next"
         ng-show="vm.isAuthenticated"
-        ng-dialog-controller="NewPostController as vm"></a>
-
+        ng-click="vm.next()"></button>
 
 <button class="mdi-action-store btn btn-primary btn-fab btn-raised btn-home"
         type="submit"
