@@ -34,10 +34,9 @@
         function activate() {
 
             var username = $routeParams.username.substr(1);
+            console.log('username account.html: ' + username);
 
-            Account.get(username).then(accountSuccessFn, accountErrorFn);
-            Posts.getWeek(username, null).then(postsSuccessFn, postsErrorFn);
-            Authentication.getUsers().then(usersSuccessFn);
+
 
             var now = new Date();
             var dayOfWeek;
@@ -52,14 +51,17 @@
             else if (num_day == 5) dayOfWeek = 'Friday';
             else dayOfWeek = 'Saturday';
 
-
-
             var date = Date().substring(3, 10);
             vm.date = dayOfWeek + ', ' + date;
-            if(vm.weekNum == null) vm.weekNum = getWeekNum(y2k(now.getYear()),now.getMonth(),now.getDate());
+            if(vm.weekNum == null) vm.weekNum = getWeekNum(y2k(now.getFullYear()),now.getMonth(),now.getDate()) + 1;
+
+            Account.get(username).then(accountSuccessFn, accountErrorFn);
+            Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
+            Authentication.getUsers().then(usersSuccessFn);
 
             $scope.$on('post.created', function (event, post) {
-                console.log('post.created: scope get week' + post.weekNum);
+                console.log('post.created: scope get week: ' + post.weekNum);
+
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
                 vm.posts.unshift(post);
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
@@ -70,8 +72,8 @@
             });
 
             $scope.$on('post.getWeek', function (event, post) {
-                console.log('scope get week' + post.weekNum);
-                Posts.getWeek(username, post.weekNum);
+                console.log('scope get week: ' + post.weekNum);
+                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
             });
 
             /**

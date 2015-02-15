@@ -87,7 +87,7 @@
         //}
 
         function getWeek(id, weekNum) {
-            return $http.get('/api/v1/accounts/' + id + '/posts/');
+            return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
         }
     }
 })();

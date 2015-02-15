@@ -31,7 +31,7 @@ class AccountPostsViewSet(viewsets.ViewSet):
     serializer_class = PostSerializer
     print 'in accountpostsview'
 
-    def list(self, request, account_username=None, weekNum=None):
+    def list(self, request, account_username=None, post_pk=None):
         print 'in list of accountpostsview'
 
         queryset = self.queryset.filter(author__username=account_username)
@@ -53,11 +53,12 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 e.week_num = e.start_time.isocalendar()[1]
                 e.save()
 
-        if weekNum == None or weekNum == 0:
-            weekNum = datetime.datetime.today().isocalendar()[1]
+        if post_pk == None or post_pk == 0:
+            print 'post_pk dne'
+            post_pk = datetime.datetime.today().isocalendar()[1]
 
         filtered_set = queryset.filter(notification='True')
-        filtered_week = queryset.filter(week_num = weekNum)
+        filtered_week = queryset.filter(week_num = post_pk)
         queryset = filtered_week.order_by('-start_time')
         queryset = queryset.reverse()
 
