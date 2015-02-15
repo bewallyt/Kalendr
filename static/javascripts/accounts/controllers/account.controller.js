@@ -46,11 +46,13 @@
             var num_day = date.getDay();
             var dayOfWeek = findDay(num_day);
 
-            var homeDate = dayOfWeek + ', ' + month + ' ' + date.getDate();
+            var homeDate = date;
             var homeWeek = date.getWeekNum();
-            var home_month = date.getMonth();
+            var homeDayOfWeek = dayOfWeek;
+            var homeMonth = month;
+            var homeGetDate = date.getDate();
 
-            vm.date = homeDate;
+            vm.date = dayOfWeek + ', ' + month + ' ' + date.getDate();
             if (vm.weekNum == null) vm.weekNum = homeWeek;
 
             Account.get(username).then(accountSuccessFn, accountErrorFn);
@@ -151,21 +153,27 @@
             }
 
             vm.activate = function () {
-                vm.date = homeDate;
+                date = homeDate;
+
+                vm.date = homeDayOfWeek + ', ' + homeMonth + ' ' + homeGetDate;
                 vm.weekNum = homeWeek;
                 Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
                 Snackbar.show('Back to Today!');
             };
 
             vm.next = function () {
-                if (vm.weekNum < 52) {
+                if (vm.weekNum < 53) {
                     vm.weekNum = vm.weekNum + 1;
-                    console.log('date: ' + date);
-                    console.log('date.getDate(): ' + date.getDate());
                     date.setDate(date.getDate() + 7);
-                    vm.date = date;
+
+                    num_month = date.getMonth();
+                    month = findMonth(num_month);
+
+                    num_day = date.getDay();
+                    dayOfWeek = findDay(num_day);
+
+                    vm.date = dayOfWeek + ', ' + month + ' ' + date.getDate();
                     Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
-                    Snackbar.show('Shifted to week ' + vm.weekNum + ': ' + vm.date + '!');
 
                 }
             };
@@ -178,13 +186,11 @@
                     num_month = date.getMonth();
                     month = findMonth(num_month);
 
-
                     num_day = date.getDay();
                     dayOfWeek = findDay(num_day);
 
                     vm.date = dayOfWeek + ', ' + month + ' ' + date.getDate();
                     Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
-                    Snackbar.show('Shifted to week ' + vm.weekNum + ': ' + vm.date + '!');
                 }
             };
         }

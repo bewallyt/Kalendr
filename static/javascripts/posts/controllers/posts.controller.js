@@ -106,7 +106,7 @@
                 vm.columns = [];
 
                 for (var i = 0; i < calculateNumberOfColumns(); ++i) {
-                    console.log('numbofcolumns' + calculateNumberOfColumns());
+                    //console.log('numbofcolumns' + calculateNumberOfColumns());
                     vm.columns.push([]);
                 }
 
