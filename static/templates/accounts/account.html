@@ -48,16 +48,18 @@
         ng-show="vm.isAuthenticated"
         ng-click="vm.activate()"></button>
 
+<button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pud"
+        ng-show="vm.isAuthenticated"
+        ng-dialog="/static/templates/posts/change-calendar.html"></button>
+
 
 
 <a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
-        id="showLeftPush"
         href="javascript:void(0)"
         ng-show="vm.isAuthenticated"
         ng-dialog="/static/templates/posts/change-calendar.html"
         ng-dialog-controller="DateController as vm"></a>
 
-<script src="js/classie.js"></script>
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
             showLeftPush = document.getElementById('showLeftPush'),
