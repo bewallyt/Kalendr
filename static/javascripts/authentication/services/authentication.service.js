@@ -3,19 +3,19 @@
  * @namespace kalendr.authentication.services
  */
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('kalendr.authentication.services')
-    .factory('Authentication', Authentication);
+    angular
+        .module('kalendr.authentication.services')
+        .factory('Authentication', Authentication);
 
-  Authentication.$inject = ['$rootScope', '$cookies', '$http'];
+    Authentication.$inject = ['$rootScope', '$cookies', '$http', 'Posts'];
 
     /**
      * @namespace Authentication
      * @returns {Factory}
      */
-    function Authentication($rootScope, $cookies, $http) {
+    function Authentication($rootScope, $cookies, $http, Posts) {
         /**
          * @name Authentication
          * @desc The Factory to be returned
@@ -86,7 +86,23 @@
                 Authentication.setAuthenticatedAccount(data.data);
 
                 window.location = '/+' + data.data.username;
+                var now = Date();
+                Posts.getWeek(data.data.username, now.getWeekNum()).then(postsSuccessFn, postsErrorFn);
+
+
             }
+
+            function postsSuccessFn(data, status, headers, config) {
+                var posts = data.data;
+                var
+
+                var i;
+                for(i = 0; i < posts.length; i++){
+                    if(posts[i].start_time.getDay() !=)
+                }
+
+            }
+
 
             /**
              * @name loginErrorFn
@@ -191,5 +207,28 @@
         function unauthenticate() {
             delete $cookies.authenticatedAccount;
         }
+    }
+
+    function getTimeOfDay(hour){
+        if(hour < 5 && hour > 20) return 'Night';
+        else if (hour >= 5 && hour < 12) return 'Morning';
+        else if (hour < 12 && hour < 6) return 'Afternoon';
+        else return 'Evening';
+    }
+
+    Date.prototype.getWeekNum = function () {
+        var determinedate = new Date();
+        determinedate.setFullYear(this.getFullYear(), this.getMonth(), this.getDate());
+        var D = determinedate.getDay();
+        var addForSunday = 0;
+        if (D == 0) {
+            D = 7;
+            addForSunday = 1
+        }
+        determinedate.setDate(determinedate.getDate() + (4 - D));
+        var YN = determinedate.getFullYear();
+        var ZBDoCY = Math.floor((determinedate.getTime() - new Date(YN, 0, 1, -6)) / 86400000);
+        var WN = 1 + Math.floor(ZBDoCY / 7) + addForSunday;
+        return WN;
     }
 })();
