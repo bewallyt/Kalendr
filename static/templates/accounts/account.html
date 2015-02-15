@@ -1,6 +1,7 @@
 <div class="account" ng-show="vm.isAuthenticated" ng-cloak>
     <div class="jumbotron account__header">
-        <h1 class="account__username" ng-cloak>{{ vm.account.username }}'s Kalendr</h1>
+        <h1 class="account__username" ng-cloak>{{ vm.date }}</h1>
+        <h3>Week {{ vm.weekNum }}</h3>
     </div>
 
     <posts posts="vm.posts"></posts>
@@ -36,7 +37,7 @@
 
 
 
-<a class="mdi-notification-event-note btn btn-primary btn-fab btn-raised btn-change-date"
+<a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
         id="showLeftPush"
         href="javascript:void(0)"
         ng-show="vm.isAuthenticated"

@@ -4,8 +4,10 @@ from rest_framework.response import Response
 from posts.models import Post
 from posts.permissions import IsAuthorOfPost
 from posts.serializers import PostSerializer
-from posts.repeat import repeat_events, find_repeat
+from posts.repeat import repeat_events
 from django.core.mail import send_mail
+
+import datetime
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.order_by('-created_at')
@@ -27,13 +29,12 @@ class PostViewSet(viewsets.ModelViewSet):
 class AccountPostsViewSet(viewsets.ViewSet):
     queryset = Post.objects.select_related('author')
     serializer_class = PostSerializer
+    print 'in accountpostsview'
 
-    def list(self, request, account_username=None):
+    def list(self, request, account_username=None, post_pk=None):
+        print 'in list of accountpostsview'
+
         queryset = self.queryset.filter(author__username=account_username)
-        filtered_set = queryset.filter(notification='True')
-        queryset = queryset.order_by('-start_time')
-        queryset = queryset.reverse()
-
 
         for e in queryset:
 
@@ -42,10 +43,25 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 e.save()
                 repeat_events(e)
             if e.is_date_set == False:
+                e.is_date_set = True
                 e.show_date = str(e.start_time)[5:7] + "/" + str(e.start_time)[8:10] + "/" + str(e.start_time)[0:4]
                 e.show_begin_time = str(e.begin_time)[11:16]
                 e.show_end_time = str(e.begin_time)[11:16]
                 e.save()
+            if e.is_week_set == False:
+                e.is_week_set = True
+                e.week_num = e.start_time.isocalendar()[1]
+                e.save()
+
+        if post_pk == None or post_pk == 0:
+            print 'post_pk dne'
+            post_pk = datetime.datetime.today().isocalendar()[1]
+
+        filtered_set = queryset.filter(notification='True')
+        filtered_week = queryset.filter(week_num = post_pk)
+        queryset = filtered_week.order_by('-start_time')
+        queryset = queryset.reverse()
+
 
         serializer = self.serializer_class(queryset, many=True)
 
@@ -58,3 +74,5 @@ class AccountPostsViewSet(viewsets.ViewSet):
         print 'in account post view'
 
         return Response(serializer.data)
+
+
