@@ -28,8 +28,7 @@
          * @memberOf kalendr.posts.controllers.PostsController
          */
         function activate() {
-            //console.log('posts.controller.js activate()');
-            //console.log('scope posts: ' + $scope.posts.length);
+
             var i;
             for (i = 0; i < $scope.posts.length; i++) {
                 console.log($scope.posts[i].content);
@@ -51,16 +50,7 @@
          */
         function calculateNumberOfColumns() {
             var width = $(window).width();
-
-            if (width >= 1200) {
-                return 4;
-            } else if (width >= 992) {
-                return 3;
-            } else if (width >= 768) {
-                return 2;
-            } else {
-                return 1;
-            }
+            return 7;
         }
 
 
@@ -112,11 +102,6 @@
          */
         function render(current, original) {
 
-            //var i;
-            //for(i = 0; i < current.length; i++){
-            //    //console.log('current: ' + current[i].content);
-            //}
-            //console.log('original' + original);
             if (current !== original) {
                 vm.columns = [];
 
@@ -126,10 +111,24 @@
                 }
 
                 for (var i = 0; i < current.length; ++i) {
-                    var column = i % calculateNumberOfColumns();
-                    //console.log('column: ' + column + ' pushing current: ' + current[i].content);
+                    //console.log('column: ' + column + ' pushing current: ' + current[i].content +" "+current[i].day_of_week);
 
-                    vm.columns[column].push(current[i]);
+                    if (current[i].day_of_week=='Sunday') {
+                        vm.columns[0].push(current[i]);
+                    } else if (current[i].day_of_week=='Monday') {
+                        vm.columns[1].push(current[i]);
+                    } else if (current[i].day_of_week=='Tuesday') {
+                        vm.columns[2].push(current[i]);
+                    } else if (current[i].day_of_week=='Wednesday') {
+                        vm.columns[3].push(current[i]);
+                    } else if (current[i].day_of_week=='Thursday') {
+                        vm.columns[4].push(current[i]);
+                    } else if (current[i].day_of_week=='Friday') {
+                        vm.columns[5].push(current[i]);
+                    } else {
+                        vm.columns[6].push(current[i]);
+                    }
+
                 }
             }
         }
