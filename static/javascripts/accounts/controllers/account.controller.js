@@ -77,6 +77,25 @@
             $scope.$on('post.created', function (event, post) {
                 console.log('post.created: scope get week: ' + post.weekNum);
 
+                var num_month = post.start_time.getMonth();
+                var month;
+
+                if (num_month == 0) month = 'Jan';
+                else if (num_month == 1) month = 'Feb';
+                else if (num_month == 2) month = 'March';
+                else if (num_month == 3) month = 'April';
+                else if (num_month == 4) month = 'May';
+                else if (num_month == 5) month = 'June';
+                else if (num_month == 6) month = 'July';
+                else if (num_month == 7) month = 'Aug';
+                else if (num_month == 8) month = 'Sept';
+                else if (num_month == 9) month = 'Oct';
+                else if (num_month == 10) month = 'Nov';
+                else month = 'Dec';
+
+                vm.date = post.dayOfWeek + ', ' + month + ' ' + post.start_time.getDate();
+                vm.weekNum = post.weekNum;
+
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
                 vm.posts.unshift(post);
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);

@@ -29,8 +29,8 @@
 
             var num_day = vm.start_time.getDay();
             var dayOfWeek;
-            var weekNum = vm.start_time.isocalendar()[1];
-            var isWeekSet = True;
+            var weekNum = vm.start_time.getWeekNum();
+            var isWeekSet = true;
 
             if (num_day == 0) dayOfWeek = 'Sunday';
             else if (num_day == 1) dayOfWeek = 'Monday';
@@ -95,5 +95,17 @@
                 Snackbar.error(data.error);
             }
         }
+    }
+
+    Date.prototype.getWeekNum = function () {
+        var determinedate = new Date();
+        determinedate.setFullYear(this.getFullYear(), this.getMonth(), this.getDate());
+        var D = determinedate.getDay();
+        if (D == 0) D = 7;
+        determinedate.setDate(determinedate.getDate() + (4 - D));
+        var YN = determinedate.getFullYear();
+        var ZBDoCY = Math.floor((determinedate.getTime() - new Date(YN, 0, 1, -6)) / 86400000);
+        var WN = 1 + Math.floor(ZBDoCY / 7);
+        return WN;
     }
 })();
