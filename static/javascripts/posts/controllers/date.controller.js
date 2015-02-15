@@ -26,8 +26,9 @@
             console.log(vm.changed_week.getFullYear());
             console.log(vm.changed_week.getMonth());
             console.log(vm.changed_week.getDate());
-            var weekNum = getWeekNum(y2k(vm.changed_week.getFullYear()),vm.changed_week.getMonth(),vm.changed_week.getDate()) + 1;
+            var weekNum = vm.changed_week.getWeekNum();
             console.log(weekNum);
+            console.log(vm.changed_week);
 
 
             //Posts.getWeek(username, weekNum).then(createPostSuccessFn, createPostErrorFn);
@@ -35,9 +36,7 @@
 
             $rootScope.$broadcast('post.getWeek', {
                 weekNum: weekNum,
-                author: {
-                    username: username
-                }
+                date: vm.changed_week
             });
 
             $scope.closeThisDialog();
@@ -55,23 +54,15 @@
         }
     }
 
-    function getWeekNum(year, month, day) {
-        var when = new Date(year, month, day);
-        var newYear = new Date(year, 0, 1);
-        var offset = 7 + 1 - newYear.getDay();
-        if (offset == 8) offset = 1;
-        var daynum = ((Date.UTC(y2k(year), when.getMonth(), when.getDate(), 0, 0, 0) - Date.UTC(y2k(year), 0, 1, 0, 0, 0)) / 1000 / 60 / 60 / 24) + 1;
-        var weeknum = Math.floor((daynum - offset + 7) / 7);
-        if (weeknum == 0) {
-            year--;
-            var prevNewYear = new Date(year, 0, 1);
-            var prevOffset = 7 + 1 - prevNewYear.getDay();
-            if (prevOffset == 2 || prevOffset == 8) weeknum = 53; else weeknum = 52;
-        }
-        return weeknum;
-    }
-
-    function y2k(number) {
-        return (number < 1000) ? number + 1900 : number;
+    Date.prototype.getWeekNum = function () {
+        var determinedate = new Date();
+        determinedate.setFullYear(this.getFullYear(), this.getMonth(), this.getDate());
+        var D = determinedate.getDay();
+        if (D == 0) D = 7;
+        determinedate.setDate(determinedate.getDate() + (4 - D));
+        var YN = determinedate.getFullYear();
+        var ZBDoCY = Math.floor((determinedate.getTime() - new Date(YN, 0, 1, -6)) / 86400000);
+        var WN = 1 + Math.floor(ZBDoCY / 7);
+        return WN;
     }
 })();

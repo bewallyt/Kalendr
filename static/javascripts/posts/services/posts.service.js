@@ -50,6 +50,7 @@
             if (end_repeat === null) end_repeat = start_time;
             //console.log('start_time of event: ' + start_time);
             console.log('asked for notification: ' + notification);
+            console.log('start date: ' + start_time);
             console.log('repeats: ' + repeat);
             console.log('begin_time ' + begin_time);
             console.log('end_time ' + end_time);
