@@ -50,7 +50,10 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 e.save()
             if e.is_week_set == False:
                 e.is_week_set = True
-                e.week_num = e.start_time.isocalendar()[1]
+                if e.day_of_week == 'Sunday':
+                    e.week_num = e.start_time.isocalendar()[1] + 1
+                else:
+                    e.week_num = e.start_time.isocalendar()[1]
                 e.save()
 
         if post_pk == None or post_pk == 0:

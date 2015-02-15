@@ -10,6 +10,24 @@
   right: 20px;
 }
 
+.btn-home {
+  position: fixed;
+  bottom: 220px;
+  right: 20px;
+}
+
+.btn-before {
+  position: fixed;
+  bottom: 286px;
+  right: 20px;
+}
+
+.btn-next {
+  position: fixed;
+  bottom: 352px;
+  right: 20px;
+}
+
 .btn-change-date{
   position: fixed;
   bottom: 154px;
