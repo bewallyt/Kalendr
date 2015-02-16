@@ -63,6 +63,12 @@
        ng-dialog="/static/templates/posts/change-calendar.html"
        ng-dialog-controller="DateController as vm"></a>
 
+
+<button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pud"
+        ng-show="vm.isAuthenticated"
+        ng-dialog="/static/templates/posts/change-calendar.html"></button>
+
+
     <script src="js/classie.js"></script>
     <script>
         var menuLeft = document.getElementById('cbp-spmenu-s1'),
@@ -75,7 +81,6 @@
             classie.toggle(menuLeft, 'cbp-spmenu-open');
         };
     </script>
-
 
 
 
