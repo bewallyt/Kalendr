@@ -6,7 +6,7 @@
 
 #form{
     color: #CDF0ED;
-    padding-left: 50px;
+    padding-left: 60px;
 }
 #search__username{
     color: #CDF0ED;
@@ -22,7 +22,7 @@
 	color: #CDF0ED;
 	font-size: 1.7em;
 	padding-top: 20px;
-    padding-left: 50px;
+    padding-left: 64px;
     padding-bottom: 50px;
 	margin: 0;
 	font-weight: 300;
@@ -34,6 +34,7 @@
 	color: #CDF0ED;
 	font-size: 1.1em;
 	font-weight: 300;
+	margin-left: 20px;
 }
 
 
