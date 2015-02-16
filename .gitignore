@@ -197,4 +197,4 @@ authentication/migrations/
 posts/migrations/
 groups/migrations/
 puds/migrations/
-visibility/migrations
+access/migrations
