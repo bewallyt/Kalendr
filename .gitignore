@@ -196,3 +196,4 @@ sympy-plots-for-*.tex/
 authentication/migrations/
 posts/migrations/
 groups/migrations/
+puds/migrations/

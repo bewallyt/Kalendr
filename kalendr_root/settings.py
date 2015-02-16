@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'compressor',
     'authentication',
     'posts',
+    'puds',
 )
 
 TEMPLATE_LOADERS = (

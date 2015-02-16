@@ -10,6 +10,7 @@
             'kalendr.groups',
             'kalendr.layout',
             'kalendr.posts',
+            'kalendr.puds',
             'kalendr.utils'
         ]);
 

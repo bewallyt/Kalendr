@@ -88,6 +88,7 @@
         //}
 
         function getWeek(id, weekNum) {
+            console.log('in get week');
             return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
         }
     }
