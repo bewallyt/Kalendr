@@ -11,7 +11,7 @@ class PudSerializer(serializers.ModelSerializer):
         model = Pud
 
         fields = ('id', 'author', 'content', 'created_at', 'updated_at', 'priority',
-                  'repeat', 'need_repeat', 'is_completed')
+                  'repeat', 'need_repeat', 'is_completed', 'duration')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
     def get_validation_exclusions(self, *args, **kwargs):

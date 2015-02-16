@@ -8,6 +8,7 @@ class Pud(models.Model):
     notification = models.BooleanField(default=False)
 
     priority = models.DecimalField(max_digits=2, decimal_places=0, blank=True, default=0)
+    duration = models.DecimalField(max_digits=2, decimal_places=0, blank=True, default=0)
     is_completed = models.BooleanField(default=False)
 
     repeat = models.CharField(max_length=10, blank=True)
