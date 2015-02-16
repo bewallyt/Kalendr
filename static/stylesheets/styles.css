@@ -1,44 +1,52 @@
 .btn-add-new-post {
   position: fixed;
-  bottom: 22px;
+  bottom: 12px;
   right: 20px;
 }
 
-.btn-add-new-friend {
+.btn-create-pud {
   position: fixed;
-  bottom: 88px;
-  right: 20px;
-}
-
-.btn-home {
-  position: fixed;
-  bottom: 286px;
-  right: 20px;
-}
-
-.btn-before {
-  position: fixed;
-  bottom: 352px;
-  right: 20px;
-}
-
-.btn-next {
-  position: fixed;
-  bottom: 418px;
+  bottom: 78px;
   right: 20px;
 }
 
 .btn-pud {
     position: fixed;
-    bottom: 154px;
+    bottom: 144px;
     right: 20px;
+}
+
+.btn-add-new-friend {
+  position: fixed;
+  bottom: 210px;
+  right: 20px;
+}
+
+.btn-home {
+  position: fixed;
+  bottom: 276px;
+  right: 20px;
 }
 
 .btn-change-date{
   position: fixed;
-  bottom: 220px;
+  bottom: 342px;
   right: 20px;
 }
+
+.btn-before {
+  position: fixed;
+  bottom: 408px;
+  right: 20px;
+}
+
+.btn-next {
+  position: fixed;
+  bottom: 474px;
+  right: 20px;
+}
+
+
 
 .no-posts-here {
   text-align: center;

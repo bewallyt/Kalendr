@@ -1,0 +1,54 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <center><h2>Create Present-Until-Done Task</h2></center>
+
+        <div class="form-group">
+
+            <input type="text" class="form-control" id="event__name" ng-model="vm.content" required>
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label class="float-label" for="event__name">Name of PUD Task</label>
+
+        </div>
+
+        <div class="col-sm-6">
+            <div class="slider shor slider-success" id="event__priority"></div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="slider shor slider-success" id="event__duration"></div>
+        </div>
+
+
+        Repeat:
+        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating "/>
+
+        <div ng-show="vm.is_repeating == true">
+            <br>
+            <select class="form-control" ng-model="vm.repeat">
+                <option value='Daily'>Daily</option>
+                <option value='Weekly'>Weekly</option>
+                <option value='Monthly'>Monthly</option>
+            </select>
+            <br>
+            Repeat until:
+            <br>
+            <input type="date" name="endrepeat" ng-model="vm.end_repeat">
+        </div>
+        <br>
+        Receive email notifications:
+        <input type="checkbox" name="notification" ng-model="vm.notification "/>
+        <br>
+        <input type="datetime-local" name="notify_when" ng-model="vm.notify_when" ng-show="vm.notification == true"/>
+        <br ng-show="vm.notification == true">
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+        </div>
+
+
+    </div>
+
+</form>

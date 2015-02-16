@@ -3,6 +3,7 @@ from django.utils.datetime_safe import datetime
 
 from authentication.models import Account
 from groups.models import KGroup
+from puds.models import Pud
 
 
 class Post(models.Model):
@@ -29,6 +30,9 @@ class Post(models.Model):
     day_of_week = models.CharField(max_length=10, blank=True, default='none')
     week_num = models.DecimalField(max_digits=2, decimal_places=0, blank=True, default=0)
     is_week_set = models.BooleanField(default=False)
+    is_holiday = models.BooleanField(default=False)
+
+    pud = models.ForeignKey(Pud, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

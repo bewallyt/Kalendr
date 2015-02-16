@@ -1,6 +1,7 @@
 <div class="account" ng-show="vm.isAuthenticated" ng-cloak>
     <div class="jumbotron account__header">
         <h1 class="account__username" ng-cloak>{{ vm.date }}</h1>
+
         <h3>Week {{ vm.weekNum }}</h3>
     </div>
 
@@ -31,9 +32,9 @@
 
 
 <a class="mdi-social-person-add btn btn-primary btn-fab btn-raised btn-add-new-friend"
-        id="showLeftPush"
-        ng-show="vm.isAuthenticated"
-        ng-dialog-controller="NewPostController as vm"></a>
+   id="showLeftPush"
+   ng-show="vm.isAuthenticated"
+   ng-dialog-controller="NewPostController as vm"></a>
 
 <button class="mdi-image-navigate-before btn btn-primary btn-fab btn-raised btn-before"
         ng-show="vm.isAuthenticated"
@@ -48,30 +49,38 @@
         ng-show="vm.isAuthenticated"
         ng-click="vm.activate()"></button>
 
+<a class="mdi-content-create btn btn-primary btn-fab btn-raised btn-create-pud"
+        href="javascript:void(0)"
+        ng-show="vm.isAuthenticated"
+        ng-dialog="/static/templates/puds/new-pud.html"
+        ng-dialog-controller="NewPudController as vm"></a>
+
+
+    <a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
+       id="showLeftPush"
+       href="javascript:void(0)"
+       ng-show="vm.isAuthenticated"
+       ng-dialog="/static/templates/posts/change-calendar.html"
+       ng-dialog-controller="DateController as vm"></a>
+
+
 <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pud"
         ng-show="vm.isAuthenticated"
         ng-dialog="/static/templates/posts/change-calendar.html"></button>
 
 
+    <script src="js/classie.js"></script>
+    <script>
+        var menuLeft = document.getElementById('cbp-spmenu-s1'),
+                showLeftPush = document.getElementById('showLeftPush'),
+                body = document.body;
 
-<a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
-        href="javascript:void(0)"
-        ng-show="vm.isAuthenticated"
-        ng-dialog="/static/templates/posts/change-calendar.html"
-        ng-dialog-controller="DateController as vm"></a>
-
-<script>
-    var menuLeft = document.getElementById('cbp-spmenu-s1'),
-            showLeftPush = document.getElementById('showLeftPush'),
-            body = document.body;
-
-    showLeftPush.onclick = function () {
-        classie.toggle(this, 'active');
-        classie.toggle(body, 'cbp-spmenu-push-toright');
-        classie.toggle(menuLeft, 'cbp-spmenu-open');
-    };
-</script>
-
+        showLeftPush.onclick = function () {
+            classie.toggle(this, 'active');
+            classie.toggle(body, 'cbp-spmenu-push-toright');
+            classie.toggle(menuLeft, 'cbp-spmenu-open');
+        };
+    </script>
 
 
 

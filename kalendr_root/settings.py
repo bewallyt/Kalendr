@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'authentication',
     'posts',
     'groups',
+    'puds',
 )
 
 TEMPLATE_LOADERS = (

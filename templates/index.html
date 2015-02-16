@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html ng-app="kalendr">
-    <head>
-        <title>Kalendr</title>
+<head>
+    <title>Kalendr</title>
 
-            <base href="/"/>
+    <base href="/"/>
 
-        {% include 'stylesheets.html' %}
-        {% include 'javascripts.html' %}
-        {% include 'navbar.html' %}
-    </head>
+    {% include 'stylesheets.html' %}
+    {% include 'javascripts.html' %}
+    {% include 'navbar.html' %}
+</head>
 
-    <script>
-        $(document).ready(function () {
-            $.material.init();
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $.material.init();
+    });
+</script>
 
-    <div class="container-fluid">
-        <body class="cbp-spmenu-push">
-            <div class="row">
-                <div class="col-xs-12 ng-view"></div>
-            </div>
-        </body>
+<div class="container-fluid">
+    <body class="cbp-spmenu-push">
+    <div class="row">
+        <div class="col-xs-12 ng-view"></div>
     </div>
+    </body>
+</div>
 
 </html>
