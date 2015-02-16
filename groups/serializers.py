@@ -11,3 +11,7 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = KGroup
         fields = ('name', 'owner', 'members')
+
+    def get_validation_exclusions(self, *args, **kwargs):
+        exclusions = super(GroupSerializer, self).get_validation_exclusions()
+        return exclusions + ['owner']

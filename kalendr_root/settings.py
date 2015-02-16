@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'posts',
     'groups',
     'puds',
+    'access',
 )
 
 TEMPLATE_LOADERS = (

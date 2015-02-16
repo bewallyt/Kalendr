@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from authentication.models import Account
 from groups.models import KGroup
 from groups.serializers import GroupSerializer
 from rest_framework import permissions, viewsets
@@ -8,10 +9,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = KGroup.objects.all()
     serializer_class = GroupSerializer
     
-    def perform_create(self, serializer):
-        print 'in perform create'
-        instance = serializer.save(owner=self.request.user)
-
+    def create(self, request):
+        print 'in create'
+        members = [Account.objects.get(username=member_username) for member_username in request.members]
+        serializer = self.serializer_class(owner=request.user, name=request.name, members=members)
         return super(GroupViewSet, self).perform_create(serializer)    
 
 
