@@ -84,22 +84,7 @@
              */
             function loginSuccessFn(data, status, headers, config) {
                 Authentication.setAuthenticatedAccount(data.data);
-
                 window.location = '/+' + data.data.username;
-                var now = Date();
-                Posts.getWeek(data.data.username, now.getWeekNum()).then(postsSuccessFn, postsErrorFn);
-
-
-            }
-
-            function postsSuccessFn(data, status, headers, config) {
-                var posts = data.data;
-                var
-
-                var i;
-                for(i = 0; i < posts.length; i++){
-                    if(posts[i].start_time.getDay() !=)
-                }
 
             }
 

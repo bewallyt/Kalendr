@@ -6,7 +6,7 @@
 
 .btn-add-new-friend {
   position: fixed;
-  bottom: 88px;
+  bottom: 154px;
   right: 20px;
 }
 
@@ -18,19 +18,25 @@
 
 .btn-before {
   position: fixed;
-  bottom: 286px;
+  bottom: 352px;
   right: 20px;
 }
 
 .btn-next {
   position: fixed;
-  bottom: 352px;
+  bottom: 418px;
+  right: 20px;
+}
+
+.btn-create-pud {
+  position: fixed;
+  bottom: 88px;
   right: 20px;
 }
 
 .btn-change-date{
   position: fixed;
-  bottom: 154px;
+  bottom: 286px;
   right: 20px;
 }
 

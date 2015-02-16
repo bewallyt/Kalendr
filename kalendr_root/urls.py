@@ -6,6 +6,7 @@ from authentication.views import AccountViewSet, LoginView, LogoutView
 from posts.views import AccountPostsViewSet, PostViewSet
 from kalendr_root.views import IndexView
 # from groups.views import GroupViewSet, AccountGroupsViewSet
+from puds.views import AccountPudsViewSet
 
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
@@ -17,6 +18,7 @@ accounts_router = routers.NestedSimpleRouter(
 )
 accounts_router.register(r'posts', AccountPostsViewSet)
 # accounts_router.register(r'groups', AccountGroupsViewSet)
+accounts_router.register(r'puds', AccountPudsViewSet)
 
 week_router = routers.NestedSimpleRouter(
     accounts_router, r'posts', lookup='post'
