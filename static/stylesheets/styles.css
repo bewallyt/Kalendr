@@ -4,6 +4,18 @@
   right: 20px;
 }
 
+.btn-create-pud {
+  position: fixed;
+  bottom: 88px;
+  right: 20px;
+}
+
+.btn-pud {
+    position: fixed;
+    bottom: 154px;
+    right: 20px;
+}
+
 .btn-add-new-friend {
   position: fixed;
   bottom: 220px;
@@ -13,6 +25,12 @@
 .btn-home {
   position: fixed;
   bottom: 286px;
+  right: 20px;
+}
+
+.btn-change-date{
+  position: fixed;
+  bottom: 352px;
   right: 20px;
 }
 
@@ -28,23 +46,7 @@
   right: 20px;
 }
 
-.btn-create-pud {
-  position: fixed;
-  bottom: 88px;
-  right: 20px;
-}
 
-.btn-pud {
-    position: fixed;
-    bottom: 154px;
-    right: 20px;
-}
-
-.btn-change-date{
-  position: fixed;
-  bottom: 352px;
-  right: 20px;
-}
 
 .no-posts-here {
   text-align: center;
