@@ -1,13 +1,13 @@
 .btn-add-new-post {
-  position: fixed;
-  bottom: 12px;
-  right: 20px;
+    position: fixed;
+    bottom: 12px;
+    right: 20px;
 }
 
 .btn-create-pud {
-  position: fixed;
-  bottom: 78px;
-  right: 20px;
+    position: fixed;
+    bottom: 78px;
+    right: 20px;
 }
 
 .btn-pudview {
@@ -17,39 +17,37 @@
 }
 
 .btn-add-new-friend {
-  position: fixed;
-  bottom: 210px;
-  right: 20px;
+    position: fixed;
+    bottom: 210px;
+    right: 20px;
 }
 
 .btn-home {
-  position: fixed;
-  bottom: 276px;
-  right: 20px;
+    position: fixed;
+    bottom: 276px;
+    right: 20px;
 }
 
-.btn-change-date{
-  position: fixed;
-  bottom: 342px;
-  right: 20px;
+.btn-change-date {
+    position: fixed;
+    bottom: 342px;
+    right: 20px;
 }
 
 .btn-before {
-  position: fixed;
-  bottom: 408px;
-  right: 20px;
+    position: fixed;
+    bottom: 408px;
+    right: 20px;
 }
 
 .btn-next {
-  position: fixed;
-  bottom: 474px;
-  right: 20px;
+    position: fixed;
+    bottom: 474px;
+    right: 20px;
 }
 
-
-
 .no-posts-here {
-  text-align: center;
+    text-align: center;
 }
 
 .post {
@@ -57,27 +55,28 @@
 }
 
 .post .post__meta {
-  font-weight: bold;
-  text-align: right;
-  padding-bottom: 19px;
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 19px;
 }
 
 .post .post__meta a:hover {
-  text-decoration: none;
+    text-decoration: none;
 }
 
-.account {}
+.account {
+}
 
 .account .account__header {
-  margin-bottom: 20px;
-  text-align: center;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .account .account__username {
-  font-weight: bold;
+    font-weight: bold;
 }
 
-.buttonform{
+.buttonform {
     text-align: center;
 }
 
@@ -89,30 +88,29 @@
     display: none;
 }
 
-
-.all_day{
+.all_day {
     margin-left: 50em;
 }
 
-.post__repeatnone{
+.post__repeatnone {
     display: none;
 }
 
-.post__time{
+.post__time {
     display: none;
 }
 
-.post .post__beta__true{
-  text-align: right;
-  padding-bottom: 19px;
+.post .post__beta__true {
+    text-align: right;
+    padding-bottom: 19px;
     font-size: 70%;
 }
 
-.post .day_of_week{
+.post .day_of_week {
     font-size: 70%;
 }
 
-.post .post__beta__false{
+.post .post__beta__false {
     display: none;
 }
 
@@ -124,31 +122,57 @@
     display: inline;
 }
 
-.post .post__content{
+.post .post__content {
     display: inline;
 }
 
-.post .post__description__none{
-   display: none;
+.post .post__description__none {
+    display: none;
 }
 
-.form-control:focus{
+.form-control:focus {
     border-bottom: 2px solid #CDF0ED;
 }
 
-#button__padding{
+#button__padding {
     margin-left: 20px;
 }
-#date__padding{
+
+#date__padding {
     margin-left: 50px;
 }
 
 .transparent {
-zoom: 1;
-filter: alpha(opacity=50);
-opacity: 0.5;
+    zoom: 1;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
 }
 
 .col-md-1 {
     width: 13%;
+}
+
+.name-pud {
+  float:left;
+}
+
+.duration-pud {
+  float:left;
+}
+
+.complete-pud {
+  float:left;
+}
+
+.repeat-pud {
+  float: left;
+  margin-right: 200px;
+}
+
+.priority-pud {
+  float: left;
+}
+
+.details-pud {
+  margin-right: 100px;
 }
