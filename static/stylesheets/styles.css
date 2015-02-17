@@ -28,6 +28,7 @@
   right: 20px;
 }
 
+
 .btn-change-date{
   position: fixed;
   bottom: 342px;
@@ -151,4 +152,9 @@ opacity: 0.5;
 
 .col-md-1 {
     width: 13%;
+}
+
+.radio_buttons{
+    margin-right: 20px;
+    padding-left: 20px;
 }

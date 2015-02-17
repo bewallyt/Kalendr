@@ -34,7 +34,7 @@
 
         function activate() {
 
-            var username = $routeParams.username.substr(1);
+            var username = Authentication.getAuthenticatedAccount().username;
             console.log('username account.html: ' + username);
 
 
