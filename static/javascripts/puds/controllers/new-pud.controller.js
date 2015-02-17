@@ -9,12 +9,12 @@
         .module('kalendr.puds.controllers')
         .controller('NewPudController', NewPudController);
 
-    NewPudController.$inject = ['$scope', 'Authentication', 'Puds', 'Snackbar'];
+    NewPudController.$inject = ['$rootScope','$scope', 'Authentication', 'Puds', 'Snackbar'];
 
     /**
      * @namespace NewPudController
      */
-    function NewPudController($scope, Authentication, Puds, Snackbar) {
+    function NewPudController($rootScope, $scope, Authentication, Puds, Snackbar) {
         var vm = this;
         vm.submit = submit;
         vm.need_repeat = false;
