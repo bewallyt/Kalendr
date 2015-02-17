@@ -9,12 +9,12 @@
         .module('kalendr.puds.controllers')
         .controller('PudsController', PudsController);
 
-    PudsController.$inject = ['$timeout', '$scope'];
+    PudsController.$inject = ['$scope'];
 
     /**
      * @namespace PudsController
      */
-    function PudsController($timeout, $scope) {
+    function PudsController($scope) {
         var vm = this;
         vm.columns = [];
 

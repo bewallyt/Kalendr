@@ -44,23 +44,28 @@
          * @returns {Promise}
          * @memberOf kalendr.puds.services.Puds
          */
-        function create(content, priority, duration, isRepeating, repeatType,
-                notification, notifyWhen) {
+        function create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
+                        need_repeat, notifyWhen) {
             console.log('in puds.service.js create()');
             console.log('pud content: ' + content);
-            console.log('priority: ' + priority);
-            console.log('duration: ' + duration);
-            console.log('isRepeating: ' + isRepeating);
-            console.log('repeatType: ' + repeatType);
             console.log('notification: ' + notification);
+            console.log('priority: ' + priority);
+            console.log('priority int: ' + priority_int);
+            console.log('duration: ' + duration);
+            console.log('repeat: ' + repeatType);
+            console.log('repeat_int: ' + repeat_int);
+            console.log('need_repeat: ' + need_repeat);
             console.log('notifyWhen: ' + notifyWhen);
             return $http.post('/api/v1/puds/', {
                 content: content,
+                notification: notification,
                 priority: priority,
+                priority_int: priority_int,
                 duration: duration,
-                need_repeat: isRepeating,
                 repeat: repeatType,
-                notification: notification
+                repeat_int: repeat_int,
+                need_repeat: need_repeat,
+                notify_when: notifyWhen
             });
         }
 
