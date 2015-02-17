@@ -23,7 +23,7 @@
       scope: {
         group: '='
       },
-      templateUrl: '/static/templates/groups/group-post.html'
+      //templateUrl: '/static/templates/groups/group-post.html'
     };
 
     return directive;

@@ -18,14 +18,14 @@
      * @desc The directive to be returned
      * @memberOf kalendr.posts.directives.Post
      */
-    //var directive = {
-    //  restrict: 'E',
-    //  scope: {
-    //    post: '='
-    //  },
-    //  templateUrl: '/static/templates/posts/post.html'
-    //};
-    //
-    //return directive;
+    var directive = {
+      restrict: 'E',
+      scope: {
+        post: '='
+      },
+      templateUrl: '/static/templates/posts/post.html'
+    };
+
+    return directive;
   }
 })();
