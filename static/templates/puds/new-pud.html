@@ -10,15 +10,25 @@
             <label class="float-label" for="event__name">Name of PUD Task</label>
 
         </div>
-        <div class="form-group">
-            Priority:
-            <input type="radio" name="priority" value="very_low" class="radio_buttons">Very Low</input>
-            <input type="radio" name="priority" value="low" class="radio_buttons">Low</input>
-            <input type="radio" name="priority" value="medium" class="radio_buttons">Medium</input>
-            <input type="radio" name="priority" value="high" class="radio_buttons">High</input>
-            <input type="radio" name="priority" value="very_high" class="radio_buttons">Very High</input>
+        <center><h4>Priority</h4></center>
+        <center><div class="form-group">
+                <label for="very_low">Very Low</label>
+                <input type="radio" name="priority" id="very_low" value="very_low">
+                <label class="radio_btn_label" for="low">Low</label>
+                <input type="radio" name="priority" id="low" value="low">
+                <label class="radio_btn_middle" for="medium">Medium</label>
+                <input type="radio" name="priority" id="medium" value="medium">
+                <label class="radio_btn_label" for="high">High</label>
+                <input type="radio" name="priority" id="high" value="high">
+                <label for="very_high">Very High</label>
+                <input type="radio" name="priority" id="very_high" value="very_high">
         </div>
-        <br>
+        </center>
+
+        <div class="form-group">
+            Duration (in hours):
+            <input id="duration" type="number" name="quantity" min="1" max="100">
+        </div>
 
 
         Repeat:
@@ -31,10 +41,6 @@
                 <option value='Weekly'>Weekly</option>
                 <option value='Monthly'>Monthly</option>
             </select>
-            <br>
-            Repeat until:
-            <br>
-            <input type="date" name="endrepeat" ng-model="vm.end_repeat">
         </div>
         <br>
         Receive email notifications:
