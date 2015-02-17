@@ -1,0 +1,25 @@
+<div class="pudview-content row" ng-cloak>
+    <div class="dummy-column col-md-4">
+        <h2>This Week</h2>
+
+        <div ng-repeat="pud in vm.columns[0]">
+            <pud pud="pud"></pud>
+        </div>
+    </div>
+
+    <div class="dummy-column col-md-4">
+        <h2>This Month</h2>
+
+        <div ng-repeat="pud in vm.columns[1]">
+            <pud pud="pud"></pud>
+        </div>
+    </div>
+
+    <div class="dummy-column col-md-4">
+        <h2>By Priority</h2>
+
+        <div ng-repeat="pud in vm.columns[2]">
+            <pud pud="pud"></pud>
+        </div>
+    </div>
+</div><!-- /pudview-content -->
