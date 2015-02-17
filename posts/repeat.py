@@ -58,6 +58,13 @@ def repeat_events(event):
         temp_event.show_end_time = str(temp_event.begin_time)[11:16]
         temp_event.is_date_set = True
 
+        temp_event.is_week_set = True
+        if temp_event.day_of_week == 'Sunday':
+            temp_event.week_num = temp_event.start_time.isocalendar()[1] + 1
+        else:
+            temp_event.week_num = temp_event.start_time.isocalendar()[1]
+        print 'in repeat py day of week: ' + str(temp_event.week_num)
+
         temp_event.save()
 
 

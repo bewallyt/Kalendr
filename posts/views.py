@@ -54,6 +54,7 @@ class AccountPostsViewSet(viewsets.ViewSet):
                     e.week_num = e.start_time.isocalendar()[1] + 1
                 else:
                     e.week_num = e.start_time.isocalendar()[1]
+                print 'day of week: ' + str(e.week_num)
                 e.save()
 
         if post_pk == None or post_pk == 0:

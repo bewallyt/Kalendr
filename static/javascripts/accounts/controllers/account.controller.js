@@ -69,7 +69,6 @@
                 vm.weekNum = post.weekNum;
 
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
-                vm.posts.unshift(post);
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
             });
 
