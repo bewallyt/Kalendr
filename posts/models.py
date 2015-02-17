@@ -2,11 +2,13 @@ from django.db import models
 from django.utils.datetime_safe import datetime
 
 from authentication.models import Account
+from groups.models import KGroup
 from puds.models import Pud
 
 
 class Post(models.Model):
     author = models.ForeignKey(Account)
+    shared_with = models.ManyToManyField(KGroup, blank=True, through='access.AccessRule')
     content = models.CharField(max_length=40)
     start_time = models.DateTimeField(default=datetime.now())
     notification = models.BooleanField(default=False)
