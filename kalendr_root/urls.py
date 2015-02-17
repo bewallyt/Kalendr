@@ -12,6 +12,7 @@ router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
 router.register(r'posts', PostViewSet)
 router.register(r'groups', GroupViewSet)
+router.register(r'puds', PudViewSet)
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'
