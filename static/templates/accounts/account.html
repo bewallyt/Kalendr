@@ -30,40 +30,44 @@
 
 </nav>
 
-<div id="morphsearch" class="morphsearch">
+<div id="pudview" class="pudview">
+    <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview"
+            id="btn-pudview"
+            ng-show="vm.isAuthenticated"></button>
+    <div class="pudview-content">
+        <div class="dummy-column">
+            <h2>This Week</h2>
+            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
+                <img class="round"
+                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
+                     alt="Sara Soueidan"/>
 
-                <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pud morphsearch-input"
-                    ng-show="vm.isAuthenticated"></button>
+                <h3>Sara Soueidan</h3>
+            </a>
 
-				<div class="morphsearch-content">
-					<div class="dummy-column">
-						<h2>This Week</h2>
-						<a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-							<img class="round" src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G" alt="Sara Soueidan"/>
-							<h3>Sara Soueidan</h3>
-						</a>
+        </div>
+        <div class="dummy-column">
+            <h2>This Month</h2>
+            <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/08/05/page-preloading-effect/">
+                <img src="img/thumbs/PagePreloadingEffect.png" alt="PagePreloadingEffect"/>
 
-					</div>
-					<div class="dummy-column">
-						<h2>This Month</h2>
-						<a class="dummy-media-object" href="http://tympanus.net/codrops/2014/08/05/page-preloading-effect/">
-							<img src="img/thumbs/PagePreloadingEffect.png" alt="PagePreloadingEffect"/>
-							<h3>Page Preloading Effect</h3>
-						</a>
+                <h3>Page Preloading Effect</h3>
+            </a>
 
-					</div>
-					<div class="dummy-column">
-						<h2>By Priority</h2>
-						<a class="dummy-media-object" href="http://tympanus.net/codrops/2014/10/07/tooltip-styles-inspiration/">
-							<img src="img/thumbs/TooltipStylesInspiration.png" alt="TooltipStylesInspiration"/>
-							<h3>Tooltip Styles Inspiration</h3>
-						</a>
+        </div>
+        <div class="dummy-column">
+            <h2>By Priority</h2>
+            <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/10/07/tooltip-styles-inspiration/">
+                <img src="img/thumbs/TooltipStylesInspiration.png" alt="TooltipStylesInspiration"/>
 
-					</div>
-				</div><!-- /morphsearch-content -->
-				<span class="morphsearch-close"></span>
-			</div><!-- /morphsearch -->
+                <h3>Tooltip Styles Inspiration</h3>
+            </a>
 
+        </div>
+    </div>
+    <!-- /pudview-content -->
+    <button class="pudview-close" id="pudview-close"></button>
+</div><!-- /pudview -->
 
 <a class="mdi-social-person-add btn btn-primary btn-fab btn-raised btn-add-new-friend"
    id="showLeftPush"
@@ -84,74 +88,67 @@
         ng-click="vm.activate()"></button>
 
 <a class="mdi-content-create btn btn-primary btn-fab btn-raised btn-create-pud"
-        href="javascript:void(0)"
-        ng-show="vm.isAuthenticated"
-        ng-dialog="/static/templates/puds/new-pud.html"
-        ng-dialog-controller="NewPudController as vm"></a>
+   href="javascript:void(0)"
+   ng-show="vm.isAuthenticated"
+   ng-dialog="/static/templates/puds/new-pud.html"
+   ng-dialog-controller="NewPudController as vm"></a>
 
 
-    <a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
-       id="showLeftPush"
-       href="javascript:void(0)"
-       ng-show="vm.isAuthenticated"
-       ng-dialog="/static/templates/posts/change-calendar.html"
-       ng-dialog-controller="DateController as vm"></a>
+<a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
+   id="showLeftPush"
+   href="javascript:void(0)"
+   ng-show="vm.isAuthenticated"
+   ng-dialog="/static/templates/posts/change-calendar.html"
+   ng-dialog-controller="DateController as vm"></a>
 
 
-<button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pud"
-        ng-show="vm.isAuthenticated"
-        ng-dialog="/static/templates/posts/change-calendar.html"></button>
-
-
-
-</script>
 <script>
-			(function() {
-				var morphSearch = document.getElementById( 'morphsearch' ),
-					input = morphSearch.querySelector( 'button.morphsearch-input' ),
-					ctrlClose = morphSearch.querySelector( 'span.morphsearch-close' ),
-					isOpen = isAnimating = false,
-					// show/hide pud area
-					toggleSearch = function(evt) {
-						// return if open and the input gets focused
-						if( evt.type.toLowerCase() === 'focus' && isOpen ) return false;
+    (function () {
+        var pudScreen = document.getElementById('pudview');
+        var input = document.getElementById('btn-pudview');
+        var ctrlClose = document.getElementById('pudview-close');
+        var isOpen = false;
+        var isAnimating = false;
+        // show/hide pud area
+        toggleSearch = function (evt) {
+            // return if open and the input gets clicked
+            if (evt.type.toLowerCase() === 'click' && isOpen) return false;
 
-						var offsets = morphsearch.getBoundingClientRect();
-						if( isOpen ) {
-							classie.remove( morphSearch, 'open' );
-							input.blur();
-						}
-						else {
-							classie.add( morphSearch, 'open' );
-						}
-						isOpen = !isOpen;
-					};
-				input.addEventListener( 'focus', toggleSearch );
-				ctrlClose.addEventListener( 'click', toggleSearch );
-				// esc key closes search overlay
-				// keyboard navigation events
-				document.addEventListener( 'keydown', function( ev ) {
-					var keyCode = ev.keyCode || ev.which;
-					if( keyCode === 27 && isOpen ) {
-						toggleSearch(ev);
-					}
-				} );
-			})();
+            var offsets = pudview.getBoundingClientRect();
+            if (isOpen) {
+                classie.remove(pudScreen, 'open');
+                input.blur();
+            }
+            else {
+                classie.add(pudScreen, 'open');
+            }
+            isOpen = !isOpen;
+        };
+        input.addEventListener('click', toggleSearch);
+        ctrlClose.addEventListener('focus', toggleSearch);
+        // esc key closes search overlay
+        // keyboard navigation events
+        document.addEventListener('keydown', function (ev) {
+            var keyCode = ev.keyCode || ev.which;
+            if (keyCode === 27 && isOpen) {
+                toggleSearch(ev);
+            }
+        });
+    })();
 </script>
 
-    <script src="js/classie.js"></script>
-    <script>
-        var menuLeft = document.getElementById('cbp-spmenu-s1'),
-                showLeftPush = document.getElementById('showLeftPush'),
-                body = document.body;
+<script>
+    var menuLeft = document.getElementById('cbp-spmenu-s1'),
+            showLeftPush = document.getElementById('showLeftPush'),
+            body = document.body;
 
 
-        showLeftPush.onclick = function () {
-            classie.toggle(this, 'active');
-            classie.toggle(body, 'cbp-spmenu-push-toright');
-            classie.toggle(menuLeft, 'cbp-spmenu-open');
-        };
-    </script>
+    showLeftPush.onclick = function () {
+        classie.toggle(this, 'active');
+        classie.toggle(body, 'cbp-spmenu-push-toright');
+        classie.toggle(menuLeft, 'cbp-spmenu-open');
+    };
+</script>
 
 
 
