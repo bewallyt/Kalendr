@@ -28,11 +28,11 @@
     right: 20px;
 }
 
-
-.btn-change-date{
-  position: fixed;
-  bottom: 342px;
-  right: 20px;}
+.btn-change-date {
+    position: fixed;
+    bottom: 342px;
+    right: 20px;
+}
 
 .btn-change-date {
     position: fixed;
@@ -159,30 +159,31 @@
 }
 
 .radio_buttons {
-            margin-right: 20px;
-            padding-left: 20px;
-        }
+    margin-right: 20px;
+    padding-left: 20px;
+}
+
 .name-pud {
-  float:left;
+    float: left;
 }
 
 .duration-pud {
-  float:left;
+    float: left;
 }
 
 .complete-pud {
-  float:left;
+    float: left;
 }
 
 .repeat-pud {
-  float: left;
-  margin-right: 200px;
+    float: left;
+    margin-right: 200px;
 }
 
 .priority-pud {
-  float: left;
+    float: left;
 }
 
 .details-pud {
-  margin-right: 100px;
+    margin-right: 100px;
 }
