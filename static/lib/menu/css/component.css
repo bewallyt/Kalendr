@@ -15,6 +15,9 @@
     text-align: center;
 }
 
+.bar_section{
+	color: #CDF0ED;	
+}
 
 
 
@@ -22,7 +25,7 @@
 	color: #CDF0ED;
 	font-size: 1.7em;
 	padding-top: 20px;
-    padding-left: 64px;
+/*    padding-left: 64px;*/
     padding-bottom: 50px;
 	margin: 0;
 	font-weight: 300;
@@ -34,7 +37,7 @@
 	color: #CDF0ED;
 	font-size: 1.1em;
 	font-weight: 300;
-	margin-left: 20px;
+/*	margin-left: 20px;*/
 }
 
 
@@ -53,6 +56,11 @@
 	height: 100%;
 	top: 0;
 	z-index: 1000;
+}
+
+.cbp-spmenu-vertical li {
+	border-bottom: 1px solid #009587;
+	padding: 0.8em;
 }
 
 .cbp-spmenu-vertical li {

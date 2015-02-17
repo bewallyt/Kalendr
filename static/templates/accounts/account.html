@@ -9,17 +9,59 @@
 </div>
 
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-    <h3>Social Bar</h3>
+    <center><h3>Social Bar</h3></center>
 
-    <div class="form-group">
+    <center><div class="form-group">
 
         <input type="text" class="form-control" id="search__username" ng-model="vm.search__username" required>
         <label id="form" class="float-label" for="search__username">Search for User</label>
 
-    </div>
-    <ul>
+    </div></center>
+<!--    <ul>
         <li class="mdi-social-person" ng-repeat="user in vm.users">  {{ user.username }}</li>
-    </ul>
+    </ul> -->
+<div>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
+    <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
+  </p>
+
+  <label class="checkbox">
+    <input type="checkbox" ng-model="oneAtATime">
+    Open only one at a time
+  </label>
+  <accordion close-others="oneAtATime">
+    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      This content is straight in the template.
+    </accordion-group>
+    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+      {{group.content}}
+    </accordion-group>
+    <accordion-group heading="Dynamic Body Content">
+      <p>The body of the accordion group grows to fit the contents</p>
+        <button class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+        <div ng-repeat="item in items">{{item}}</div>
+    </accordion-group>
+    <accordion-group is-open="status.open">
+        <accordion-heading>
+            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        This is just some content to illustrate fancy headings.
+    </accordion-group>
+  </accordion>
+</div>
+    <div class="form-group">
+        <center><h4 class="bar_section">Shared With</h4></center>
+            <h5 class="bar_section">Groups:</h5>
+            <ul>
+
+            </ul>
+            <h5 class="bar_section">Users:</h5>
+            <ul>
+
+            </ul>
+    </div>
+
 
 </nav>
 
@@ -39,7 +81,7 @@
         </div>
         <div class="dummy-column">
             <h2>This Month</h2>
-           <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
+            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
                 <img class="round"
                      src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
                      alt="Sara Soueidan"/>
@@ -59,7 +101,8 @@
             </a>
 
         </div>
-    </div><!-- /pudview-content -->
+    </div>
+    <!-- /pudview-content -->
     <button class="pudview-close" id="pudview-close"></button>
 </div><!-- /pudview -->
 
@@ -87,9 +130,9 @@
         ng-show="vm.isAuthenticated"
         ng-click="vm.activate()"></button>
 
- <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview"
-            id="btn-pudview"
-            ng-show="vm.isAuthenticated"></button>
+<button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview"
+        id="btn-pudview"
+        ng-show="vm.isAuthenticated"></button>
 
 <a class="mdi-content-create btn btn-primary btn-fab btn-raised btn-create-pud"
    href="javascript:void(0)"

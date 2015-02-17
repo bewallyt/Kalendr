@@ -201,3 +201,4 @@ input[type="radio"]{
     width: 70%;
 }
 
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
