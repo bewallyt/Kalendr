@@ -13,26 +13,26 @@
         <center><h4>Priority</h4></center>
         <center><div class="form-group">
                 <label for="very_low">Very Low</label>
-                <input type="radio" name="priority" id="very_low" value="very_low">
+                <input type="radio" name="priority" id="very_low" value="very_low" ng-model="vm.priority">
                 <label class="radio_btn_label" for="low">Low</label>
-                <input type="radio" name="priority" id="low" value="low">
+                <input type="radio" name="priority" id="low" value="low" ng-model="vm.priority">
                 <label class="radio_btn_middle" for="medium">Medium</label>
-                <input type="radio" name="priority" id="medium" value="medium">
+                <input type="radio" name="priority" id="medium" value="medium" ng-model="vm.priority">
                 <label class="radio_btn_label" for="high">High</label>
-                <input type="radio" name="priority" id="high" value="high">
+                <input type="radio" name="priority" id="high" value="high" ng-model="vm.priority">
                 <label for="very_high">Very High</label>
-                <input type="radio" name="priority" id="very_high" value="very_high">
+                <input type="radio" name="priority" id="very_high" value="very_high" ng-model="vm.priority">
         </div>
         </center>
 
         <div class="form-group">
             Duration (in hours):
-            <input id="duration" type="number" name="quantity" min="1" max="100">
+            <input id="duration" type="number" name="quantity" min="1" max="100" ng-model="vm.duration">
         </div>
 
 
         Repeat:
-        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating "/>
+        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating"/>
 
         <div ng-show="vm.is_repeating == true">
             <br>
