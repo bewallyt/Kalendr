@@ -17,9 +17,6 @@
     function DateController($http, $rootScope, $scope, Authentication, $routeParams, Snackbar, Posts) {
         var vm = this;
         vm.submit = submit;
-        var username = $routeParams.username.substr(1);
-        console.log('username changedate: ' + username);
-
 
         function submit() {
 
@@ -30,9 +27,6 @@
             console.log(weekNum);
             console.log(vm.changed_week);
 
-
-            //Posts.getWeek(username, weekNum).then(createPostSuccessFn, createPostErrorFn);
-            //$http.get('/api/v1/accounts/' + username + '/posts/' + weekNum + '/week/');
 
             $rootScope.$broadcast('post.getWeek', {
                 weekNum: weekNum,
