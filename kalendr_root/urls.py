@@ -6,7 +6,7 @@ from authentication.views import AccountViewSet, LoginView, LogoutView
 from posts.views import AccountPostsViewSet, PostViewSet
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet
-from puds.views import AccountPudsViewSet
+from puds.views import AccountPudsViewSet, PudViewSet
 
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)

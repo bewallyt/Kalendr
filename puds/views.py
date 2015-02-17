@@ -1,6 +1,5 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from puds import permissions
 
 from puds.models import Pud
 from puds.permissions import IsAuthorOfPud
