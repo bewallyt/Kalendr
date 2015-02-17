@@ -8,13 +8,6 @@
     <posts posts="vm.posts"></posts>
 </div>
 
-
-<a class="btn btn-primary btn-fab btn-raised mdi-content-add btn-add-new-post"
-   href="javascript:void(0)"
-   ng-show="vm.isAuthenticated"
-   ng-dialog="/static/templates/posts/new-post.html"
-   ng-dialog-controller="NewPostController as vm"></a>
-
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
     <h3>Social Bar</h3>
 
@@ -64,10 +57,15 @@
             </a>
 
         </div>
-    </div>
-    <!-- /pudview-content -->
+    </div><!-- /pudview-content -->
     <button class="pudview-close" id="pudview-close"></button>
 </div><!-- /pudview -->
+
+<a class="btn btn-primary btn-fab btn-raised mdi-content-add btn-add-new-post"
+   href="javascript:void(0)"
+   ng-show="vm.isAuthenticated"
+   ng-dialog="/static/templates/posts/new-post.html"
+   ng-dialog-controller="NewPostController as vm"></a>
 
 <a class="mdi-social-person-add btn btn-primary btn-fab btn-raised btn-add-new-friend"
    id="showLeftPush"
@@ -93,14 +91,12 @@
    ng-dialog="/static/templates/puds/new-pud.html"
    ng-dialog-controller="NewPudController as vm"></a>
 
-
 <a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
    id="showLeftPush"
    href="javascript:void(0)"
    ng-show="vm.isAuthenticated"
    ng-dialog="/static/templates/posts/change-calendar.html"
    ng-dialog-controller="DateController as vm"></a>
-
 
 <script>
     (function () {

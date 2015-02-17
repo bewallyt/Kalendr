@@ -1,38 +1,34 @@
-<div class="row">
-    <div class="col-sm-12">
-        <div class="well">
-            <div class="post">
-                <div class="post__meta">
-                    <a href="/+{{ post.author.username }}" class="post__date" {{ post.show_date }}>
-                        {{ post.show_date }}
-                    </a>
+<div class="well">
+    <div class="post">
+        <div class="post__meta">
+            <a href="/+{{ post.author.username }}" class="post__date" {{ post.show_date }}>
+                {{ post.show_date }}
+            </a>
 
-                    <div class="day_of_week">
-                        {{ post.day_of_week }}
-                    </div>
-
-                    <div class="post__beta__{{ post.not_all_day }}">
-                        {{ post.show_begin_time }}
-                    </div>
-
-                </div>
-
-
-                <span class="post__content">{{ post.content }} </span>
-                <span class="post__location__{{ post.location_event }}">@ {{ post.location_event }}</span>
-
-                <div class="post__notify__{{ post.notification }}">
-                    <h6>Notification set.</h6>
-                </div>
-
-                <div class="post__repeat__{{ post.repeat }}">
-                    <h6>{{ post.repeat }}</h6>
-                </div>
-
-                <div class="post__description__{{ post.description_event }}">
-                    <h6>{{ post.description_event }}</h6>
-                </div>
+            <div class="day_of_week">
+                {{ post.day_of_week }}
             </div>
+
+            <div class="post__beta__{{ post.not_all_day }}">
+                {{ post.show_begin_time }}
+            </div>
+
+        </div>
+
+
+        <span class="post__content">{{ post.content }} </span>
+        <span class="post__location__{{ post.location_event }}">@ {{ post.location_event }}</span>
+
+        <div class="post__notify__{{ post.notification }}">
+            <h6>Notification set.</h6>
+        </div>
+
+        <div class="post__repeat__{{ post.repeat }}">
+            <h6>{{ post.repeat }}</h6>
+        </div>
+
+        <div class="post__description__{{ post.description_event }}">
+            <h6>{{ post.description_event }}</h6>
         </div>
     </div>
 </div>
