@@ -21,7 +21,6 @@
             <ul class="nav navbar-nav pull-right">
                 {% if user.is_authenticated %}
 
-                    <li class="withripple"><a href="/+{{ user.username }}/groups">{{ user.username }}'s Groups</a></li>
                     <li class="withripple"><a href="/+{{ user.username }}/settings">Settings</a></li>
                     <li class="withripple"><a href="javascript:void(0)" ng-click="vm.logout()">Logout</a></li>
                 {% else %}
