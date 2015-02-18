@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 
 import datetime
 
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.order_by('-created_at')
     serializer_class = PostSerializer

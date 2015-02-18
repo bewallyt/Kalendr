@@ -9,13 +9,13 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Puds',
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts',
         'Account', 'Snackbar', '$scope'];
 
     /**
      * @namespace AccountController
      */
-    function AccountController($timeout, $location, Authentication, $routeParams, Posts, Puds,
+    function AccountController($timeout, $location, Authentication, $routeParams, Posts,
                                Account, Snackbar, $scope) {
         var vm = this;
 
@@ -24,7 +24,7 @@
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
-        vm.puds = [];
+        //vm.puds = [];
 
         if (vm.isAuthenticated) activate();
 
@@ -95,59 +95,40 @@
                 Snackbar.show('Carried to week ' + vm.weekNum + ': ' + vm.date + '!');
             });
 
-            $scope.$on('pud.created', function (event, pud) {
-                Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
-            });
+            //$scope.$on('pud.created', function (event, pud) {
+            //    console.log(pud.content);
+            //    Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+            //});
+            //
+            //$scope.$on('pud.created.error', function () {
+            //});
 
-            $scope.$on('pud.created.error', function () {
-            });
-
-
-            /**
-             * @name accountSuccessAccount
-             * @desc Update `account` on viewmodel
-             */
             function accountSuccessFn(data, status, headers, config) {
                 vm.account = data.data;
             }
 
-
-            /**
-             * @name accountErrorFn
-             * @desc Redirect to index and show error Snackbar
-             */
             function accountErrorFn(data, status, headers, config) {
                 $location.url('/');
                 Snackbar.error('That user does not exist.');
             }
 
-
-            /**
-             * @name postsSucessFn
-             * @desc Update `posts` on viewmodel
-             */
             function postsSuccessFn(data, status, headers, config) {
                 console.log('post success: ');
                 vm.posts = data.data;
             }
 
-
-            /**
-             * @name postsErrorFn
-             * @desc Show error snackbar
-             */
             function postsErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
-            function pudsSuccessFn(data, status, headers, config) {
-                console.log("puds success");
-                vm.puds = data.data;
-            }
-
-            function pudsErrorFn(data, status, headers, config) {
-                Snackbar.error(data.data.error);
-            }
+            //function pudsSuccessFn(data, status, headers, config) {
+            //    console.log("puds success");
+            //    vm.puds = data.data;
+            //}
+            //
+            //function pudsErrorFn(data, status, headers, config) {
+            //    Snackbar.error(data.data.error);
+            //}
 
             function usersSuccessFn(data, status, headers, config) {
                 console.log('users success: ' + data.data);
