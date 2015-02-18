@@ -18,10 +18,11 @@
 
         vm.countries = [
             {name: 'Afghanistan', code: 'AF'},
-            {name: 'Aland Islands', cotde: 'AX'},
+            {name: 'Aland Islands', code: 'AX'},
             {name: 'Albania', code: 'AL'},
             {name: 'Algeria', code: 'DZ'},
             {name: 'American Samoa', code: 'AS'}];
+        console.log(vm.countries);
 
         vm.selectedCountry = null;
 
@@ -153,14 +154,6 @@
             function postsSuccessFn(data, status, headers, config) {
                 console.log('post success: ');
                 vm.posts = data.data;
-                //
-                //if (vm.posts.length > 0) {
-                //    if (vm.posts[0].week_num != null) vm.weekNum = vm.posts[0].week_num;
-                //}
-                //var i;
-                //for (i = 0; i < vm.posts.length; i++) {
-                //    console.log(vm.posts[i].content);
-                //}
 
             }
 
@@ -176,11 +169,15 @@
             function usersSuccessFn(data, status, headers, config) {
                 console.log('users success: ' + data.data);
                 vm.users = data.data;
-
-                //var i;
-                //for (i = 0; i < vm.users.length; i++) {
-                //    console.log(vm.users[i].username);
-                //}
+                vm.userArray = new Object();
+                var i;
+                for (i = 0; i < vm.users.length; i++) {
+                    vm.userArray[i] = vm.users[i];
+                }
+                console.log('vm.users:');
+                console.log(vm.users);
+                //console.log('user array:');
+                //console.log(vm.userArray);
 
             }
 

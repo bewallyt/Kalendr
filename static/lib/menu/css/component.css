@@ -211,6 +211,7 @@
     */
     margin-top: -6px;
     background-color: #009587;
+    vertical-align: center
 }
 
 .angucomplete-searching {
@@ -262,7 +263,7 @@
 
 /* Example media queries */
 
-@media screen and (max-width: 55.1875em){
+/*@media screen and (max-width: 55.1875em){
 
 	.cbp-spmenu-horizontal {
 		font-size: 75%;
@@ -299,4 +300,4 @@
 	.cbp-spmenu-push-toright {
 		left: 190px;
 	}
-}
+}*/

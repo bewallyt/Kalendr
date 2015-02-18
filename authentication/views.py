@@ -41,8 +41,11 @@ class AccountViewSet(viewsets.ModelViewSet):
             'message': 'Account could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_queryset(self):
-        return self.queryset
+    def list(self, request):
+        print 'in list'
+        serializer = self.serializer_class(self.queryset, many=True)
+        print serializer.data
+        return Response(serializer.data)
 
 
 
