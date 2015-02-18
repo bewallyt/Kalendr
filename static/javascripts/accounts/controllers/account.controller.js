@@ -8,12 +8,12 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Account', 'Snackbar', '$scope'];
+    AccountController.$inject = [ '$location', 'Authentication', 'Posts', 'Account', 'Snackbar', '$scope'];
 
     /**
      * @namespace AccountController
      */
-    function AccountController($timeout, $location, Authentication, $routeParams, Posts, Account, Snackbar, $scope) {
+    function AccountController($location, Authentication, Posts, Account, Snackbar, $scope) {
         var vm = this;
 
         vm.countries = [

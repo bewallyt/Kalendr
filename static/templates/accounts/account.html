@@ -10,22 +10,15 @@
 
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
     <center><h3>Social Bar</h3></center>
-
-    <angucomplete id="ex1" placeholder="Search countries" pause="100" selectedobject="vm.selectedCountry"
+<div class="form-group">
+    <angucomplete id="search__username" pause="100" selectedobject="vm.selectedCountry"
                   localdata="vm.countries" searchfields="name" titlefield="name" minlength="1"
-                  inputclass="form-control form-control-small" matchclass="highlight"/>
+                  inputclass="form-control2" matchclass="highlight" placeholder="Search for user"/>
+    <!--<label id="search__username" class="label" for="search__username">Search for User</label>-->
 
-    <center>
-        <div class="form-group">
+</div>
 
-            <input type="text" class="form-control" id="search__username" ng-model="vm.search__username" required>
-            <label id="form" class="float-label" for="search__username">Search for User</label>
 
-        </div>
-    </center>
-    <!--    <ul>
-        <li class="mdi-social-person" ng-repeat="user in vm.users">  {{ user.username }}</li>
-    </ul> -->
     <div>
         <p>
             <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
