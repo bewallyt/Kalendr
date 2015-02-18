@@ -65,6 +65,7 @@
 
                 for (var i = 0; i < current.length; ++i) {
                     console.log("number of puds " + current.length);
+                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].repeat_int);
                     if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
                         current[i].repeat_int == 2) {
                         vm.columns[0].push(current[i]);
@@ -75,6 +76,7 @@
                 }
                 var sorted = prioritySort(vm.pr_sort);
                 for (var s = 0; s < sorted.length; ++s) {
+                    console.log('pusing priority level: ' + sorted[s]);
                     vm.columns[2].push(sorted[s]);
                 }
             }

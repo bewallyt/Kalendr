@@ -9,13 +9,13 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts',
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Puds',
         'Account', 'Snackbar', '$scope'];
 
     /**
      * @namespace AccountController
      */
-    function AccountController($timeout, $location, Authentication, $routeParams, Posts,
+    function AccountController($timeout, $location, Authentication, $routeParams, Posts, Puds,
                                Account, Snackbar, $scope) {
         var vm = this;
 
@@ -96,7 +96,7 @@
             });
 
             $scope.$on('pud.created', function (event, pud) {
-                console.log(pud.content);
+                console.log('printing content from account controller: '+pud.content);
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
             });
 
@@ -193,7 +193,7 @@
         var ZBDoCY = Math.floor((determinedate.getTime() - new Date(YN, 0, 1, -6)) / 86400000);
         var WN = 1 + Math.floor(ZBDoCY / 7) + addForSunday;
         return WN;
-    }
+    };
 
     function findMonth(num_month) {
         var month;

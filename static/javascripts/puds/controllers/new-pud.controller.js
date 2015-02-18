@@ -22,9 +22,15 @@
         function submit() {
             var repeat_int;
             var priority_int;
+            var notification;
+            var notifyWhen;
 
             var content = vm.content;
-            var notification = vm.notification;
+
+            if (vm.notification == undefined) {
+                notification = false;
+            }
+
             var priority = vm.priority;
 
             if (vm.priority == 'low') {
@@ -48,13 +54,18 @@
                 repeat_int = 1;
             } else {
                 repeat_int = 0;
+                repeatType = 'Perpetual';
             }
 
             if (vm.repeat == 'Weekly' ||
                 vm.repeat == 'Monthly' ||
                 vm.repeat == 'Daily') vm.need_repeat = true;
 
-            var notifyWhen = parseInt(vm.notify_when);
+            if (vm.notify_when == NaN) {
+                notifyWhen = 0;
+            } else {
+                notifyWhen = parseInt(vm.notify_when);
+            }
 
             Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                 vm.need_repeat, notifyWhen).then(createPudSuccessFn, createPudErrorFn);
