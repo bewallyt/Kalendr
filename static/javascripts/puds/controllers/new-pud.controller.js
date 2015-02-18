@@ -59,6 +59,23 @@
             Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                 vm.need_repeat, notifyWhen).then(createPudSuccessFn, createPudErrorFn);
 
+            $rootScope.$broadcast('pud.created', {
+                content: content,
+                notification: notification,
+                priority: priority,
+                priority_int: priority_int,
+                duration: duration,
+                repeat: repeatType,
+                repeat_int: repeat_int,
+                need_repeat: vm.need_repeat,
+                notify_when: notifyWhen,
+                author: {
+                    username: Authentication.getAuthenticatedAccount().username
+                }
+            });
+
+            $scope.closeThisDialog();
+
             function createPudSuccessFn(data, status, headers, config) {
                 Snackbar.show('Success! PUD added to Kalendr');
             }
@@ -68,7 +85,7 @@
                 Snackbar.error(data.error);
             }
 
-            $scope.closeThisDialog();
+
         }
     }
 })();

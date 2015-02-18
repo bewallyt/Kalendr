@@ -24,7 +24,7 @@
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
-        //vm.puds = [];
+        vm.puds = [];
 
         if (vm.isAuthenticated) activate();
 
@@ -95,13 +95,13 @@
                 Snackbar.show('Carried to week ' + vm.weekNum + ': ' + vm.date + '!');
             });
 
-            //$scope.$on('pud.created', function (event, pud) {
-            //    console.log(pud.content);
-            //    Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
-            //});
-            //
-            //$scope.$on('pud.created.error', function () {
-            //});
+            $scope.$on('pud.created', function (event, pud) {
+                console.log(pud.content);
+                Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+            });
+
+            $scope.$on('pud.created.error', function () {
+            });
 
             function accountSuccessFn(data, status, headers, config) {
                 vm.account = data.data;
@@ -121,14 +121,14 @@
                 Snackbar.error(data.data.error);
             }
 
-            //function pudsSuccessFn(data, status, headers, config) {
-            //    console.log("puds success");
-            //    vm.puds = data.data;
-            //}
-            //
-            //function pudsErrorFn(data, status, headers, config) {
-            //    Snackbar.error(data.data.error);
-            //}
+            function pudsSuccessFn(data, status, headers, config) {
+                console.log("puds success");
+                vm.puds = data.data;
+            }
+
+            function pudsErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
 
             function usersSuccessFn(data, status, headers, config) {
                 console.log('users success: ' + data.data);
