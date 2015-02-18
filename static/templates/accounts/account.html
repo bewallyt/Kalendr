@@ -25,41 +25,8 @@
 
 <div id="pudview" class="pudview" ng-show="vm.isAuthenticated">
 
-    <div class="pudview-content">
-        <div class="dummy-column">
-            <h2>This Week</h2>
-            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                <img class="round"
-                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
-                     alt="Sara Soueidan"/>
+    <puds puds="vm.puds"></puds>
 
-                <h3>Sara Soueidan</h3>
-            </a>
-
-        </div>
-        <div class="dummy-column">
-            <h2>This Month</h2>
-           <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                <img class="round"
-                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
-                     alt="Sara Soueidan"/>
-
-                <h3>Sara Soueidan</h3>
-            </a>
-
-        </div>
-        <div class="dummy-column">
-            <h2>By Priority</h2>
-            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                <img class="round"
-                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
-                     alt="Sara Soueidan"/>
-
-                <h3>Sara Soueidan</h3>
-            </a>
-
-        </div>
-    </div><!-- /pudview-content -->
     <button class="pudview-close" id="pudview-close"></button>
 </div><!-- /pudview -->
 
@@ -87,9 +54,9 @@
         ng-show="vm.isAuthenticated"
         ng-click="vm.activate()"></button>
 
- <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview"
-            id="btn-pudview"
-            ng-show="vm.isAuthenticated"></button>
+<button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview"
+        id="btn-pudview"
+        ng-show="vm.isAuthenticated"></button>
 
 <a class="mdi-content-create btn btn-primary btn-fab btn-raised btn-create-pud"
    href="javascript:void(0)"

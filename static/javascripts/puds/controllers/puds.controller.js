@@ -30,11 +30,11 @@
         function activate() {
 
             var i;
-            for (i=0; i<$scope.puds.length; i++) {
-                console.log($scope.posts[i].content);
+            for (i=0; i<$scope.puds.length; i++) { //code breaks here
+                console.log($scope.puds[i].content);
             }
             $scope.$watchCollection(function () {
-                return $scope.posts;
+                return $scope.puds;
             }, render);
             $scope.$watch(function () {
                 return $(window).width();

@@ -9,7 +9,8 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Account', 'Snackbar', '$scope'];
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Puds',
+        'Account', 'Snackbar', '$scope'];
 
     /**
      * @namespace AccountController
@@ -22,7 +23,7 @@
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
-
+        vm.puds = [];
 
         if (vm.isAuthenticated) activate();
 
