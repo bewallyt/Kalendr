@@ -30,7 +30,7 @@
         function activate() {
 
             var i;
-            for (i=0; i<$scope.puds.length; i++) { //code breaks here
+            for (i = 0; i < $scope.puds.length; i++) {
                 console.log($scope.puds[i].content);
             }
             $scope.$watchCollection(function () {
@@ -51,12 +51,12 @@
             if (current !== original) {
                 vm.columns = [];
 
-                for (var i=0; i<calculateNumberOfColumns(); ++i) {
+                for (var i = 0; i < calculateNumberOfColumns(); ++i) {
                     vm.columns.push([]);
                 }
 
-                for (var i=0; i<current.length; ++i) {
-                    console.log("number of puds "+ current.length);
+                for (var i = 0; i < current.length; ++i) {
+                    console.log("number of puds " + current.length);
                     //if (current[i].repeat == 'Daily') {
                     //    vm.columns[0].push(current[i]);
                     //} else if (current[i].repeat == 'Weekly') {

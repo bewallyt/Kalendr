@@ -8,13 +8,13 @@ body {
 }
 
 .pudview {
-	width: 1px;
-	min-height: 1px;
+	width: 0px;
+	min-height: 0px;
 	background: #ffffff;
 	position: absolute;
 	z-index: 10000;
-	top: 50px;
-	right: 50px;
+	top: 0px;
+	right: 0px;
 	-webkit-transform-origin: 100% 0;
 	transform-origin: 100% 0;
 	-webkit-transition-property: min-height, width, top, right;

@@ -33,6 +33,7 @@
          * @memberOf kalendr.puds.services.Puds
          */
         function all() {
+            console.log("in all puds");
             return $http.get('/api/v1/puds/');
         }
 
@@ -79,6 +80,7 @@
          */
 
         function get(id) {
+            console.log('in get puds');
             return $http.get('/api/v1/accounts/' + id + '/puds/');
         }
     }
