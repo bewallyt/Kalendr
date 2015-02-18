@@ -16,6 +16,7 @@
      */
     function PudsController($scope) {
         var vm = this;
+
         vm.columns = [];
 
         activate();
@@ -54,15 +55,16 @@
                     vm.columns.push([]);
                 }
 
-                //for (var i=0; i<current.length; ++i) {
-                //    if (current[i].repeat == 'Daily') {
-                //        vm.columns[0].push(current[i]);
-                //    } else if (current[i].repeat == 'Weekly') {
-                //        vm.columns[0].push(current[i]);
-                //    } else if (current[i].repeat == 'Monthly') {
-                //        vm.columns[1].push(current[i]);
-                //    }
-                //}
+                for (var i=0; i<current.length; ++i) {
+                    console.log("number of puds "+ current.length);
+                    //if (current[i].repeat == 'Daily') {
+                    //    vm.columns[0].push(current[i]);
+                    //} else if (current[i].repeat == 'Weekly') {
+                    //    vm.columns[0].push(current[i]);
+                    //} else if (current[i].repeat == 'Monthly') {
+                    //    vm.columns[1].push(current[i]);
+                    //}
+                }
             }
         }
 

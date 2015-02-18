@@ -12,7 +12,7 @@ class Pud(models.Model):
     duration = models.DecimalField(max_digits=2, decimal_places=0, blank=True, default=0)
     is_completed = models.BooleanField(default=False)
 
-    repeat = models.CharField(max_length=10, blank=True)
+    repeat = models.CharField(max_length=10, blank=True, default='Perpetual')
     repeat_int = models.DecimalField(max_digits=1, decimal_places=0, blank=True, default=0)  # perpetual
     need_repeat = models.BooleanField(default=False)
 
