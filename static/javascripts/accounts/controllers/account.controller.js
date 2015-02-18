@@ -3,10 +3,9 @@
  * @namespace kalendr.accounts.controllers
  */
 (function () {
-    'use strict';
 
     angular
-        .module('kalendr.accounts.controllers' )
+        .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
     AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Account', 'Snackbar', '$scope'];
@@ -16,6 +15,15 @@
      */
     function AccountController($timeout, $location, Authentication, $routeParams, Posts, Account, Snackbar, $scope) {
         var vm = this;
+
+        vm.countries = [
+            {name: 'Afghanistan', code: 'AF'},
+            {name: 'Aland Islands', cotde: 'AX'},
+            {name: 'Albania', code: 'AL'},
+            {name: 'Algeria', code: 'DZ'},
+            {name: 'American Samoa', code: 'AS'}];
+
+        vm.selectedCountry = null;
 
         vm.oneAtATime = true;
 

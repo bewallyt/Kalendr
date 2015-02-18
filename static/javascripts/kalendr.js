@@ -12,7 +12,8 @@
             'kalendr.posts',
             'kalendr.puds',
             'kalendr.utils',
-            'ui.bootstrap'
+            'ui.bootstrap',
+            'angucomplete'
         ]);
 
     angular

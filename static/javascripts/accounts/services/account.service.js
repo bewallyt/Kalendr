@@ -3,7 +3,6 @@
  * @namespace kalendr.accounts.services
  */
 (function () {
-  'use strict';
 
   angular
     .module('kalendr.accounts.services')
@@ -23,7 +22,8 @@
     var Account = {
       destroy: destroy,
       get: get,
-      update: update
+      update: update,
+      getAccounts: getAccounts
     };
 
     return Account;
@@ -52,6 +52,10 @@
     function get(username) {
         console.log('account username' + username);
       return $http.get('/api/v1/accounts/' + username + '/');
+    }
+
+    function getAccounts() {
+        console.log('in getAccounts()');
     }
 
 
