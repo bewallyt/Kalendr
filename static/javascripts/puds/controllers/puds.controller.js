@@ -18,6 +18,7 @@
         var vm = this;
 
         vm.columns = [];
+        vm.pr_sort = [];
 
         activate();
 
@@ -46,6 +47,13 @@
             return 3;
         }
 
+        function prioritySort(pr_sort) {
+            pr_sort.sort(function (a, b) {
+                return b.priority_int - a.priority_int;
+            });
+            return pr_sort;
+        }
+
         function render(current, original) {
 
             if (current !== original) {
@@ -57,13 +65,17 @@
 
                 for (var i = 0; i < current.length; ++i) {
                     console.log("number of puds " + current.length);
-                    //if (current[i].repeat == 'Daily') {
-                    //    vm.columns[0].push(current[i]);
-                    //} else if (current[i].repeat == 'Weekly') {
-                    //    vm.columns[0].push(current[i]);
-                    //} else if (current[i].repeat == 'Monthly') {
-                    //    vm.columns[1].push(current[i]);
-                    //}
+                    if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
+                        current[i].repeat_int == 2) {
+                        vm.columns[0].push(current[i]);
+                    } else {
+                        vm.columns[1].push(current[i]);
+                    }
+                    vm.pr_sort.push(current[i]);
+                }
+                var sorted = prioritySort(vm.pr_sort);
+                for (var s = 0; s < sorted.length; ++s) {
+                    vm.columns[2].push(sorted[s]);
                 }
             }
         }
