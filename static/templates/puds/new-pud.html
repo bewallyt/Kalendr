@@ -41,10 +41,10 @@
             </select>
         </div>
         <br>
-        Email notifications (day interval):
+        Notifications (day interval, 0 indicates no notifications):
         <input type="checkbox" name="notification" ng-model="vm.notification"/>
         <br>
-        <input type="number" name="notify_when" min="1" max="7" ng-model="vm.notify_when" ng-show="vm.notification == true"/>
+        <input type="number" name="notify_when" min="1" max="7" value='0' ng-model="vm.notify_when" ng-show="vm.notification == true"/>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">
                 Submit

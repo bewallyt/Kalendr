@@ -9,7 +9,7 @@
         .module('kalendr.puds.controllers')
         .controller('NewPudController', NewPudController);
 
-    NewPudController.$inject = ['$rootScope','$scope', 'Authentication', 'Puds', 'Snackbar'];
+    NewPudController.$inject = ['$rootScope', '$scope', 'Authentication', 'Puds', 'Snackbar'];
 
     /**
      * @namespace NewPudController
@@ -61,11 +61,7 @@
                 vm.repeat == 'Monthly' ||
                 vm.repeat == 'Daily') vm.need_repeat = true;
 
-            if (vm.notify_when == NaN) {
-                notifyWhen = 0;
-            } else {
-                notifyWhen = parseInt(vm.notify_when);
-            }
+            notifyWhen = parseInt(vm.notify_when);
 
             Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                 vm.need_repeat, notifyWhen).then(createPudSuccessFn, createPudErrorFn);
