@@ -1,234 +1,236 @@
 html, body {
-	height: 100%;
+    height: 100%;
 }
 
 body {
-	overflow-x: hidden;
-	overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .pudview {
-	width: 0px;
-	min-height: 0px;
-	background: #ffffff;
-	position: absolute;
-	z-index: 10000;
-	top: 0px;
-	right: 0px;
-	-webkit-transform-origin: 100% 0;
-	transform-origin: 100% 0;
-	-webkit-transition-property: min-height, width, top, right;
-	transition-property: min-height, width, top, right;
-	-webkit-transition-duration: 0.5s;
-	transition-duration: 0.5s;
-	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
-	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+    width: 0px;
+    min-height: 0px;
+    background: #ffffff;
+    position: absolute;
+    z-index: 10000;
+    top: 0px;
+    right: 0px;
+    -webkit-transform-origin: 100% 0;
+    transform-origin: 100% 0;
+    -webkit-transition-property: min-height, width, top, right;
+    transition-property: min-height, width, top, right;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .pudview.open {
-	width: 100%;
-	min-height: 100%;
-	top: 0px;
-	right: 0px;
+    width: 100%;
+    min-height: 100%;
+    top: 0px;
+    right: 0px;
 }
 
 .pudview.hideInput .btn-pudview {
-	color: transparent;
-	-webkit-transition: color 0.3s;
-	transition: color 0.3s;
+    color: transparent;
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
 }
 
 .pudview.open .btn-pudview {
-	font-size: 7em;
+    font-size: 7em;
 }
 
-/* placeholder */
 .btn-pudview::-webkit-input-placeholder {
-	color: #c2c2c2;
+    color: #c2c2c2;
 }
 
 .btn-pudview:-moz-placeholder {
-	color: #c2c2c2;
+    color: #c2c2c2;
 }
 
 .btn-pudview::-moz-placeholder {
-	color: #c2c2c2;
+    color: #c2c2c2;
 }
 
 .btn-pudview:-ms-input-placeholder {
-	color: #c2c2c2;
+    color: #c2c2c2;
 }
 
-/* hide placeholder when active in Chrome */
 .gn-search:focus::-webkit-input-placeholder {
-	color: transparent;
+    color: transparent;
 }
 
-input[type="search"] { /* reset normalize */
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
+input[type="search"] {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .btn-pudview:focus,
 .pudview-submit:focus {
-	outline: none;
+    outline: none;
 }
 
 .pudview-close {
-	width: 36px;
-	height: 36px;
-	position: absolute;
-	right: 1em;
-	top: 1em;
-	overflow: hidden;
-	text-indent: 100%;
-	cursor: pointer;
-	pointer-events: none;
-	opacity: 0;
-	-webkit-transform: scale3d(0,0,1);
-	transform: scale3d(0,0,1);
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    overflow: hidden;
+    text-indent: 100%;
+    cursor: pointer;
+    pointer-events: none;
+    opacity: 0;
+    -webkit-transform: scale3d(0, 0, 1);
+    transform: scale3d(0, 0, 1);
     border: none;
     background: none;
 }
 
 .pudview.open .pudview-close {
-	opacity: 1;
-	pointer-events: auto;
-	-webkit-transform: scale3d(1,1,1);
-	transform: scale3d(1,1,1);
-	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
-	transition: opacity 0.3s, transform 0.3s;
-	-webkit-transition-delay: 0.5s;
-	transition-delay: 0.5s;
+    opacity: 1;
+    pointer-events: auto;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    -webkit-transition-delay: 0.5s;
+    transition-delay: 0.5s;
 }
 
 .pudview-close::before,
 .pudview-close::after {
-	content: '';
-	position: absolute;
-	width: 2px;
-	height: 100%;
-	top: 0;
-	left: 50%;
-	border-radius: 3px;
-	opacity: 0.2;
-	background: #000;
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    border-radius: 3px;
+    opacity: 0.2;
+    background: #000;
 }
 
 .pudview-close:hover.pudview-close::before,
 .pudview-close:hover.pudview-close::after {
-	opacity: 1;
+    opacity: 1;
 }
 
 .pudview-close::before {
-	-webkit-transform: rotate(45deg);
-	transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 .pudview-close::after {
-	-webkit-transform: rotate(-45deg);
-	transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 .pudview-content {
-	color: #333;
-	margin-top: 4.5em;
-	width: 100%;
-	height: 0;
-	overflow: hidden;
-	padding: 0 10.5%;
-	background: #ffffff;
-	position: absolute;
-	pointer-events: none;
-	opacity: 0;
+    color: #333;
+    margin-top: 4.5em;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    padding: 0 10.5%;
+    background: #ffffff;
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
 }
 
 .pudview.open .pudview-content {
-	opacity: 1;
-	height: auto;
-	overflow: visible; /* this breaks the transition of the children in FF: https://bugzilla.mozilla.org/show_bug.cgi?id=625289 */
-	pointer-events: auto;
-	-webkit-transition: opacity 0.3s 0.5s;
-	transition: opacity 0.3s 0.5s;
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    pointer-events: auto;
+    -webkit-transition: opacity 0.3s 0.5s;
+    transition: opacity 0.3s 0.5s;
 }
 
 .dummy-column {
-	padding: 0 0 5em;
-	float: left;
-	opacity: 0;
-	-webkit-transform: translate3d(0,100px,0);
-	transform: translateY(100px);
-	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-	transition: transform 0.5s, opacity 0.5s;
+    padding: 0 0 5em;
+    float: left;
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100px, 0);
+    transform: translateY(100px);
+    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+    transition: transform 0.5s, opacity 0.5s;
 }
 
 .pudview.open .dummy-column:first-child {
-	-webkit-transition-delay: 0.4s;
-	transition-delay: 0.4s;
+    -webkit-transition-delay: 0.4s;
+    transition-delay: 0.4s;
 }
 
 .pudview.open .dummy-column:nth-child(2) {
-	-webkit-transition-delay: 0.45s;
-	transition-delay: 0.45s;
+    -webkit-transition-delay: 0.45s;
+    transition-delay: 0.45s;
 }
 
 .pudview.open .dummy-column:nth-child(3) {
-	-webkit-transition-delay: 0.5s;
-	transition-delay: 0.5s;
+    -webkit-transition-delay: 0.5s;
+    transition-delay: 0.5s;
 }
 
 .pudview.open .dummy-column {
-	opacity: 1;
-	-webkit-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
 .dummy-column:nth-child(2) {
-	margin: 0 5%;
+    margin: 0 5%;
 }
 
 .dummy-column h2 {
-	font-size: 1em;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	font-weight: 800;
-	color: #c2c2c2;
-	padding: 0.5em 0;
+    font-size: 1em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #c2c2c2;
+    padding: 0.5em 0;
 }
 
 .dummy-media-object:hover h3 {
-	color: rgba(236,90,98,1);
+    color: rgba(236, 90, 98, 1);
 }
 
 .pudview.open ~ .overlay {
-	opacity: 1;
+    opacity: 1;
 }
 
 @media screen and (max-width: 53.125em) {
-	.btn-pudview {
-		padding: 0 25% 0 10px;
-	}
-	.pudview.open .btn-pudview {
-		font-size: 2em;
-	}
-	.dummy-column {
-		float: none;
-		width: auto;
-		padding: 0 0 2em;
-	}
-	.dummy-column:nth-child(2) {
-		margin: 0;
-	}
-	.pudview.open .pudview-submit {
-		-webkit-transform: translate3d(0,-50%,0) scale3d(0.5,0.5,1);
-		transform: translate3d(0,-50%,0) scale3d(0.5,0.5,1);
-	}
+    .btn-pudview {
+        padding: 0 25% 0 10px;
+    }
+
+    .pudview.open .btn-pudview {
+        font-size: 2em;
+    }
+
+    .dummy-column {
+        float: none;
+        width: auto;
+        padding: 0 0 2em;
+    }
+
+    .dummy-column:nth-child(2) {
+        margin: 0;
+    }
+
+    .pudview.open .pudview-submit {
+        -webkit-transform: translate3d(0, -50%, 0) scale3d(0.5, 0.5, 1);
+        transform: translate3d(0, -50%, 0) scale3d(0.5, 0.5, 1);
+    }
 }
 
 @media screen and (max-width: 60.625em) {
-	.pudview {
-		width: 80%;
-		top: 10%;
-		right: 10%;
-	}
+    .pudview {
+        width: 80%;
+        top: 10%;
+        right: 10%;
+    }
 }
