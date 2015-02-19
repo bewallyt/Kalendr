@@ -8,7 +8,7 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = [ '$location', 'Authentication', 'Posts', 'Account', 'Snackbar', '$scope'];
+    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Account', 'Snackbar', '$scope'];
 
     /**
      * @namespace AccountController
@@ -16,32 +16,7 @@
     function AccountController($location, Authentication, Posts, Account, Snackbar, $scope) {
 
         var vm = this;
-        vm.selectedUser = null;
-
-        vm.oneAtATime = true;
-
-        vm.groups = [
-            {
-                title: 'Dynamic Group Header - 1',
-                content: 'Dynamic Group Body - 1'
-            },
-            {
-                title: 'Dynamic Group Header - 2',
-                content: 'Dynamic Group Body - 2'
-            }
-        ];
-
-        vm.items = ['Item 1', 'Item 2', 'Item 3'];
-
-        vm.addItem = function () {
-            var newItemNo = vm.items.length + 1;
-            vm.items.push('Item ' + newItemNo);
-        };
-
-        vm.status = {
-            isFirstOpen: true,
-            isFirstDisabled: false
-        };
+        instantiateAccordian();
 
         vm.isAuthenticated = Authentication.isAuthenticated();
 
@@ -61,8 +36,6 @@
         function activate() {
 
             var username = Authentication.getAuthenticatedAccount().username;
-            console.log('username account.html: ' + username);
-
 
             var date = new Date();
             var num_month = date.getMonth();
@@ -214,6 +187,24 @@
                     Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
                 }
             };
+        }
+
+        function instantiateAccordian() {
+            vm.selectedUser = null;
+            vm.oneAtATime = true;
+            vm.status = {
+                isFirstOpen: true,
+                isFirstDisabled: false
+            };
+
+        //vm.addItem = function () {
+        //    var newItemNo = vm.items.length + 1;
+        //    vm.items.push('Item ' + newItemNo);
+        //};
+        }
+
+        function instantiateDate(){
+
         }
     }
 
