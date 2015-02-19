@@ -66,7 +66,8 @@
                 console.log("number of puds " + current.length);
 
                 for (var i = 0; i < current.length; ++i) {
-                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].need_repeat); //charfields and booleans work
+                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].need_repeat + ' priority_int: ' +
+                    current[i].priority_int); //charfields and booleans work
                     if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
                         current[i].repeat_int == 2) {
                         vm.columns[0].push(current[i]);

@@ -67,6 +67,7 @@
                 notifyWhen = 0;
             }
 
+
             Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                 vm.need_repeat, notifyWhen).then(createPudSuccessFn, createPudErrorFn);
 
