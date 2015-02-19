@@ -5,6 +5,7 @@ from puds.models import Pud
 from puds.permissions import IsAuthorOfPud
 from puds.serializers import PudSerializer
 
+
 class PudViewSet(viewsets.ModelViewSet):
     queryset = Pud.objects.order_by('-created_at')
     serializer_class = PudSerializer

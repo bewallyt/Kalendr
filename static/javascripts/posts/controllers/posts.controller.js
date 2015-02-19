@@ -55,45 +55,6 @@
 
 
         /**
-         * @name approximateShortestColumn
-         * @desc An algorithm for approximating which column is shortest
-         * @returns The index of the shortest column
-         * @memberOf kalendr.posts.controllers.PostsController
-         */
-        function approximateShortestColumn() {
-            var scores = vm.columns.map(columnMapFn);
-
-            return scores.indexOf(Math.min.apply(this, scores));
-
-
-            /**
-             * @name columnMapFn
-             * @desc A map function for scoring column heights
-             * @returns The approximately normalized height of a given column
-             */
-            function columnMapFn(column) {
-                var lengths = column.map(function (element) {
-                    return element.content.length;
-                });
-
-                return lengths.reduce(sum, 0) * column.length;
-            }
-
-
-            /**
-             * @name sum
-             * @desc Sums two numbers
-             * @params {Number} m The first number to be summed
-             * @params {Number} n The second number to be summed
-             * @returns The sum of two numbers
-             */
-            function sum(m, n) {
-                return m + n;
-            }
-        }
-
-
-        /**
          * @name render
          * @desc Renders Posts into columns of approximately equal height
          * @param {Array} current The current value of `vm.posts`
@@ -106,7 +67,7 @@
                 vm.columns = [];
 
                 for (var i = 0; i < calculateNumberOfColumns(); ++i) {
-                    //console.log('numbofcolumns' + calculateNumberOfColumns());
+                    console.log('numbofcolumns' + calculateNumberOfColumns());
                     vm.columns.push([]);
                 }
 

@@ -116,44 +116,10 @@
 
 </nav>
 
-<div id="pudview" class="pudview">
+<div id="pudview" class="pudview" ng-show="vm.isAuthenticated">
 
-    <div class="pudview-content">
-        <div class="dummy-column">
-            <h2>This Week</h2>
-            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                <img class="round"
-                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
-                     alt="Sara Soueidan"/>
+    <puds puds="vm.puds"></puds>
 
-                <h3>Sara Soueidan</h3>
-            </a>
-
-        </div>
-        <div class="dummy-column">
-            <h2>This Month</h2>
-            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                <img class="round"
-                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
-                     alt="Sara Soueidan"/>
-
-                <h3>Sara Soueidan</h3>
-            </a>
-
-        </div>
-        <div class="dummy-column">
-            <h2>By Priority</h2>
-            <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                <img class="round"
-                     src="http://0.gravatar.com/avatar/81b58502541f9445253f30497e53c280?s=50&d=identicon&r=G"
-                     alt="Sara Soueidan"/>
-
-                <h3>Sara Soueidan</h3>
-            </a>
-
-        </div>
-    </div>
-    <!-- /pudview-content -->
     <button class="pudview-close" id="pudview-close"></button>
 </div><!-- /pudview -->
 
@@ -166,7 +132,7 @@
 <a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend"
    id="showLeftPush"
    ng-show="vm.isAuthenticated"
-   ng-dialog-controller="NewPostController as vm"></a>
+   ng-dialog-controller="NewPostController as vm"></a><!--redundant controller??!!! -->
 
 <button class="mdi-image-navigate-before btn btn-primary btn-fab btn-raised btn-before"
         ng-show="vm.isAuthenticated"

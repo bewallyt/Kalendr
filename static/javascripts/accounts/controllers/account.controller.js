@@ -8,12 +8,15 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Account', 'Snackbar', '$scope'];
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Puds',
+        'Account', 'Snackbar', '$scope'];
+
 
     /**
      * @namespace AccountController
      */
-    function AccountController($location, Authentication, Posts, Account, Snackbar, $scope) {
+    function AccountController($timeout, $location, Authentication, $routeParams, Posts, Puds,
+                               Account, Snackbar, $scope) {
 
         var vm = this;
         instantiateAccordian();
@@ -39,7 +42,7 @@
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
-
+        vm.puds = [];
 
         if (vm.isAuthenticated) activate();
 
@@ -109,42 +112,45 @@
                 Snackbar.show('Carried to week ' + vm.weekNum + ': ' + vm.date + '!');
             });
 
+            $scope.$on('pud.created', function (event, pud) {
+                console.log('printing content from account controller: '+pud.content);
+                Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+            });
 
-            /**
-             * @name accountSuccessAccount
-             * @desc Update `account` on viewmodel
-             */
+            $scope.$on('pud.created.error', function () {
+            });
+
             function accountSuccessFn(data, status, headers, config) {
                 vm.account = data.data;
             }
 
-
-            /**
-             * @name accountErrorFn
-             * @desc Redirect to index and show error Snackbar
-             */
             function accountErrorFn(data, status, headers, config) {
                 $location.url('/');
                 Snackbar.error('That user does not exist.');
             }
 
-
-            /**
-             * @name postsSucessFn
-             * @desc Update `posts` on viewmodel
-             */
             function postsSuccessFn(data, status, headers, config) {
                 console.log('post success: ');
                 vm.posts = data.data;
-
             }
 
-
-            /**
-             * @name postsErrorFn
-             * @desc Show error snackbar
-             */
             function postsErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function pudsSuccessFn(data, status, headers, config) {
+                console.log("puds success");
+                // Not getting the newest pud.
+                vm.puds = data.data;
+
+                var i;
+                for(i = 0; i < vm.puds.length; i++){
+                    console.log(vm.puds[i].content);
+                    console.log(vm.puds[i].priority_int);
+                }
+            }
+
+            function pudsErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
@@ -265,7 +271,7 @@
         var ZBDoCY = Math.floor((determinedate.getTime() - new Date(YN, 0, 1, -6)) / 86400000);
         var WN = 1 + Math.floor(ZBDoCY / 7) + addForSunday;
         return WN;
-    }
+    };
 
     function findMonth(num_month) {
         var month;

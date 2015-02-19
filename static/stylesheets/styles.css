@@ -158,6 +158,9 @@
     width: 13%;
 }
 
+.col-md-4 {
+    width: 30%;
+}
 
 .name-pud {
     float: left;
