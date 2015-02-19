@@ -199,6 +199,71 @@ input[type="radio"]{
     margin-left: auto;
     margin-right: auto;
     width: 70%;
+
+}
+
+#absolute{
+    position: absolute;
+}
+
+.panel-title{
+     outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.panel-heading{
+     outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.panel .panel-default{
+         outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.accordion-toggle{
+          outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.panel-collapse{
+    outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.panel-body{
+    outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

@@ -14,17 +14,9 @@
      * @namespace AccountController
      */
     function AccountController($location, Authentication, Posts, Account, Snackbar, $scope) {
+
         var vm = this;
-
-        vm.countries = [
-            {name: 'Afghanistan', code: 'AF'},
-            {name: 'Aland Islands', code: 'AX'},
-            {name: 'Albania', code: 'AL'},
-            {name: 'Algeria', code: 'DZ'},
-            {name: 'American Samoa', code: 'AS'}];
-        console.log(vm.countries);
-
-        vm.selectedCountry = null;
+        vm.selectedUser = null;
 
         vm.oneAtATime = true;
 

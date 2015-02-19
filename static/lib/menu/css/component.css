@@ -3,6 +3,8 @@
 	background: #009587;
 	position: fixed;
 	color: #cdf0ed;
+	overflow-y:scroll;
+    overflow-x:hidden;
 }
 
 #form{
@@ -188,12 +190,28 @@
     color: #cdf0ed;
 }
 
+.form-control3 {
+    outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
 
 .angucomplete-holder {
     position: relative;
     color: #cdf0ed;
 
 }
+
+.accordion-style{
+	background-color: #009587;
+	color:#009587;
+}
+
 
 .angucomplete-dropdown {
     border-color: #cdf0ed;
