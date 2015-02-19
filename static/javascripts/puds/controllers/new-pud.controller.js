@@ -61,7 +61,11 @@
                 vm.repeat == 'Monthly' ||
                 vm.repeat == 'Daily') vm.need_repeat = true;
 
-            notifyWhen = parseInt(vm.notify_when);
+            if (notification) {
+                notifyWhen = parseInt(vm.notify_when);
+            } else {
+                notifyWhen = 0;
+            }
 
             Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                 vm.need_repeat, notifyWhen).then(createPudSuccessFn, createPudErrorFn);
@@ -73,7 +77,7 @@
                 priority_int: priority_int,
                 duration: duration,
                 repeat: repeatType,
-                repeat_int: repeat_int,
+                repeat_int: 1,
                 need_repeat: vm.need_repeat,
                 notify_when: notifyWhen,
                 author: {
