@@ -18,8 +18,8 @@
         <center><a class="mdi-social-person-add btn btn-default btn-flat"
                    ng-show="vm.selectedUser"
                    ng-click="vm.addFollower()"></a></center>
-    </div>
 
+    </div>
 
 
     <div>
@@ -30,7 +30,10 @@
                     Followers <i class="pull-right glyphicon"
                                  ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
                 </accordion-heading>
-                Followers
+                    <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
+                        {{ follower }}
+                    </li>
+                <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
 
             <accordion-group is-open="status.open">
@@ -38,7 +41,12 @@
                     Groups I've Created <i class="pull-right glyphicon"
                                            ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
                 </accordion-heading>
-                Groups
+                <ul ng-show="vm.hasGroups">
+                    <li ng-repeat="group in vm.groupList">
+                        {{ follower }}
+                    </li>
+                </ul>
+                <h5 ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
             </accordion-group>
         </accordion>
     </div>

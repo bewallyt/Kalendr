@@ -18,11 +18,19 @@
         var vm = this;
         instantiateAccordian();
 
+        vm.addFollower = addFollower;
+        vm.followerList = [];
+        vm.hasFollowers = false;
+
+        vm.groupList = [];
+        vm.hasGroups = false;
+
         vm.isAuthenticated = Authentication.isAuthenticated();
 
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
+
 
 
         if (vm.isAuthenticated) activate();
@@ -36,6 +44,7 @@
         function activate() {
 
             var username = Authentication.getAuthenticatedAccount().username;
+            vm.myUsername = username;
 
             var date = new Date();
             var num_month = date.getMonth();
@@ -203,9 +212,20 @@
         //};
         }
 
-        function instantiateDate(){
+        function addFollower(){
+            vm.hasFollowers = true;
+            // vm.followerList gets list of followers (groups with only 1 user -- flagged)
+            vm.followerList.unshift(vm.selectedUser.originalObject.username);
+            console.log('selected user:' + vm.selectedUser);
+            console.log('selected title:' + vm.selectedUser.title);
+            console.log('selected email:' + vm.selectedUser.email);
+            console.log('selected user_object:' + vm.selectedUser.originalObject);
+            console.log('selected username:' + vm.selectedUser.originalObject.username);
+            console.log('selected username:' + vm.selectedUser.originalObject.email);
 
         }
+
+
     }
 
     Date.prototype.getWeekNum = function () {
