@@ -66,7 +66,7 @@
                 console.log("number of puds " + current.length);
 
                 for (var i = 0; i < current.length; ++i) {
-                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].priority_int);
+                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].repeat);
                     if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
                         current[i].repeat_int == 2) {
                         vm.columns[0].push(current[i]);

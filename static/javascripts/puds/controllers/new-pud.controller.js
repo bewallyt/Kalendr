@@ -77,7 +77,7 @@
                 priority_int: priority_int,
                 duration: duration,
                 repeat: repeatType,
-                repeat_int: 1,
+                repeat_int: repeat_int,
                 need_repeat: vm.need_repeat,
                 notify_when: notifyWhen,
                 author: {
