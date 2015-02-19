@@ -59,28 +59,31 @@
             if (current !== original) {
                 vm.columns = [];
 
-                for (var i = 0; i < calculateNumberOfColumns(); ++i) {
+                for (var i = 0; i < calculateNumberOfColumns(); i++) {
                     vm.columns.push([]);
                 }
                 console.log('number of columns: ' + vm.columns.length);
                 console.log("number of puds " + current.length);
 
-                for (var i = 0; i < current.length; ++i) {
-                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].need_repeat + ' priority_int: ' +
+                for (var i = 0; i < current.length; i++) {
+                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].repeat_int + ' priority_int: ' +
                     current[i].priority_int); //charfields and booleans work
                     if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
                         current[i].repeat_int == 2) {
                         vm.columns[0].push(current[i]);
+                        console.log('pushing: ' + current[i].content + 'here');
                     } else {
-                        vm.columns[1].push(current[i]); //is everything getting pushed to column 1 because repeat_int is undefined?
+                        vm.columns[1].push(current[i]);
+                        console.log('pushing monthly into column 2: ' + current[i].content);
                     }
-                    vm.pr_sort.push(current[i]);
+                    vm.columns[2].push(current[i]);
+                    //vm.pr_sort.push(current[i]);
                 }
-                var sorted = prioritySort(vm.pr_sort);
-                for (var s = 0; s < sorted.length; ++s) {
-                    console.log('pushing priority level: ' + sorted[s]); //the sorting is not working apparently
-                    vm.columns[2].push(sorted[s]);
-                }
+                //var sorted = prioritySort(vm.pr_sort);
+                //for (var s = 0; s < sorted.length; ++s) {
+                //    console.log('pushing priority level: ' + sorted[s]); //the sorting is not working apparently
+                //    vm.columns[2].push(sorted[s]);
+                //}
             }
         }
 

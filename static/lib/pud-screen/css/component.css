@@ -196,41 +196,6 @@ input[type="search"] { /* reset normalize */
 	padding: 0.5em 0;
 }
 
-.round {
-	border-radius: 50%;
-}
-
-.dummy-media-object {
-	padding: 0.75em;
-	display: block;
-	margin: 0.3em 0;
-	cursor: pointer;
-	border-radius: 5px;
-	background: rgba(118,117,128,0.05);
-}
-
-.dummy-media-object:hover,
-.dummy-media-object:focus {
-	background: rgba(118,117,128,0.1);
-}
-
-.dummy-media-object img {
-	display: inline-block;
-	width: 50px;
-	margin: 0 10px 0 0;
-	vertical-align: middle;
-}
-
-.dummy-media-object h3 {
-	vertical-align: middle;
-	font-size: 0.85em;
-	display: inline-block;
-	font-weight: 700;
-	margin: 0 0 0 0;
-	width: calc(100% - 70px);
-	color: rgba(145,145,145,0.7);
-}
-
 .dummy-media-object:hover h3 {
 	color: rgba(236,90,98,1);
 }
