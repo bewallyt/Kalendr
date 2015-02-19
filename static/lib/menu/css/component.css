@@ -2,19 +2,28 @@
 .cbp-spmenu {
 	background: #009587;
 	position: fixed;
+	color: #cdf0ed;
+	overflow-y:scroll;
+    overflow-x:hidden;
 }
 
 #form{
     color: #CDF0ED;
     padding-left: 60px;
 }
+
+
 #search__username{
     color: #CDF0ED;
     display: block;
     margin: 0 auto;
     text-align: center;
+    background: #009587;
 }
 
+.bar_section{
+	color: #CDF0ED;	
+}
 
 
 
@@ -22,7 +31,7 @@
 	color: #CDF0ED;
 	font-size: 1.7em;
 	padding-top: 20px;
-    padding-left: 64px;
+/*    padding-left: 64px;*/
     padding-bottom: 50px;
 	margin: 0;
 	font-weight: 300;
@@ -34,12 +43,13 @@
 	color: #CDF0ED;
 	font-size: 1.1em;
 	font-weight: 300;
-	margin-left: 20px;
+/*	margin-left: 20px;*/
 }
 
 
 .cbp-spmenu li:hover {
 	color: #000000;
+	background-color: #cdf0ed
 }
 
 .cbp-spmenu li:active {
@@ -49,18 +59,21 @@
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
+	color: #cdf0ed;
 	width: 240px;
 	height: 100%;
 	top: 0;
 	z-index: 1000;
 }
 
+
 .cbp-spmenu-vertical li {
 	border-bottom: 1px solid #009587;
-	padding: 0.8em;
+	padding: 0.2em;
 }
 
 .cbp-spmenu-horizontal {
+	color: #cdf0ed;
 	width: 100%;
 	height: 150px;
 	left: 0;
@@ -145,13 +158,140 @@
 	transition: all 0.3s ease;
 }
 
+.form-control {
+    outline: 0;
+    border-color: #cdf0ed;
+    border-style: solid;
+    border-width: 1px;
+    width: 95%;
+    background-color: #cdf0ed;
+    padding: 6px;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.form-control2 {
+    outline: 0;
+    border-color: #cdf0ed;
+    border-style: solid;
+    border-width: 1px;
+    width: 95%;
+    background-color: #009587;
+    padding: 6px;
+    border-radius: 2px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+.form-control3 {
+    outline: 0;
+    background-color: #009587;
+    padding: 6px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+#add_group{
+	border-bottom: 1px solid #cdf0ed;
+}
+
+#search_button{
+	border-bottom: 1px solid #cdf0ed;
+}
+
+
+.angucomplete-holder {
+    position: relative;
+    color: #cdf0ed;
+
+}
+
+.accordion-style{
+	background-color: #009587;
+	color:#009587;
+}
+
+
+.angucomplete-dropdown {
+    border-color: #cdf0ed;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    width: 200px;
+    padding: 6px;
+    margin-left: 5px;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    /*top: 32px;
+    left: 0px;
+    */
+    margin-top: -6px;
+    background-color: #009587;
+    vertical-align: center
+}
+
+.angucomplete-searching {
+    color: #cdf0ed;
+    font-size: 14px;
+}
+
+.angucomplete-description {
+    font-size: 14px;
+}
+
+.angucomplete-row {
+    padding: 5px;
+    color: #000000;
+    margin-bottom: 4px;
+
+}
+
+.angucomplete-selected-row, .angucomplete-row:hover {
+    color: #cdf0ed;
+}
+
+.angucomplete-image-holder {
+    padding-top: 2px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.angucomplete-image {
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    border-color: #ececec;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.angucomplete-image-default {
+    /* Add your own default image here
+     background-image: url('/assets/default.png');
+    */
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
+
+
 /* Example media queries */
 
-@media screen and (max-width: 55.1875em){
+/*@media screen and (max-width: 55.1875em){
 
 	.cbp-spmenu-horizontal {
 		font-size: 75%;
 		height: 110px;
+		color: #cdf0ed;
 	}
 
 	.cbp-spmenu-top {
@@ -183,4 +323,4 @@
 	.cbp-spmenu-push-toright {
 		left: 190px;
 	}
-}
+}*/

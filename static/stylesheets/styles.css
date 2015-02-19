@@ -202,5 +202,41 @@ input[type="radio"]{
     margin-left: auto;
     margin-right: auto;
     width: 70%;
+
 }
 
+#absolute{
+    position: absolute;
+
+}
+
+.panel-title{
+    padding: 6px;
+    text-align: center;
+    font-size: 16px;
+    color: #009587;
+}
+
+
+.panel-collapse{
+    background-color: #009587;
+    text-align: center;
+    font-size: 14px;
+    color: #cdf0ed;
+}
+
+/*.panel-body{*/
+    /*outline: 0;*/
+    /*background-color: #009587;*/
+    /*padding: 6px;*/
+    /*margin-bottom: 5px;*/
+    /*text-align: center;*/
+    /*font-size: 14px;*/
+    /*color: #cdf0ed;*/
+/*}*/
+
+#green{
+
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

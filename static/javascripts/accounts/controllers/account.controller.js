@@ -3,7 +3,6 @@
  * @namespace kalendr.accounts.controllers
  */
 (function () {
-    'use strict';
 
     angular
         .module('kalendr.accounts.controllers')
@@ -12,12 +11,31 @@
     AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Puds',
         'Account', 'Snackbar', '$scope'];
 
+
     /**
      * @namespace AccountController
      */
     function AccountController($timeout, $location, Authentication, $routeParams, Posts, Puds,
                                Account, Snackbar, $scope) {
+
         var vm = this;
+        instantiateAccordian();
+
+        vm.addFollower = addFollower;
+        vm.followerList = [];
+        vm.hasFollowers = false;
+
+        vm.groupList = [];
+        vm.hasGroups = false;
+
+        vm.groupName = null;
+        vm.groupMembers = [];
+        vm.selectedMember = null;
+        vm.rule = null;
+        vm.addMembers = addMembers;
+        vm.addGroup = addGroup;
+        //vm.isGroupComplete = (vm.groupName != null) && (vm.selectedMember != null) && (vm.rule != null);
+
 
         vm.isAuthenticated = Authentication.isAuthenticated();
 
@@ -37,8 +55,7 @@
         function activate() {
 
             var username = Authentication.getAuthenticatedAccount().username;
-            console.log('username account.html: ' + username);
-
+            vm.myUsername = username;
 
             var date = new Date();
             var num_month = date.getMonth();
@@ -140,6 +157,16 @@
             function usersSuccessFn(data, status, headers, config) {
                 console.log('users success: ' + data.data);
                 vm.users = data.data;
+                vm.userArray = new Object();
+                var i;
+                for (i = 0; i < vm.users.length; i++) {
+                    vm.userArray[i] = vm.users[i];
+                }
+                console.log('vm.users:');
+                console.log(vm.users);
+                //console.log('user array:');
+                //console.log(vm.userArray);
+
             }
 
             vm.activate = function () {
@@ -184,6 +211,50 @@
                 }
             };
         }
+
+        function instantiateAccordian() {
+            vm.selectedUser = null;
+            vm.oneAtATime = false;
+            vm.status = {
+                isFirstOpen: true,
+                isFirstDisabled: false
+            };
+
+            //vm.addItem = function () {
+            //    var newItemNo = vm.items.length + 1;
+            //    vm.items.push('Item ' + newItemNo);
+            //};
+        }
+
+        function addFollower() {
+            vm.hasFollowers = true;
+            // vm.followerList gets list of followers (groups with only 1 user -- flagged)
+            vm.followerList.unshift(vm.selectedUser.originalObject.username);
+            console.log('selected user:' + vm.selectedUser);
+            console.log('selected title:' + vm.selectedUser.title);
+            console.log('selected email:' + vm.selectedUser.email);
+            console.log('selected user_object:' + vm.selectedUser.originalObject);
+            console.log('selected username:' + vm.selectedUser.originalObject.username);
+            console.log('selected username:' + vm.selectedUser.originalObject.email);
+
+        }
+
+        function addMembers() {
+            vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
+        }
+
+        function addGroup() {
+            // Make group list a button with popup description
+            // create API request
+            vm.groupList.unshift(vm.groupName);
+            vm.hasGroups = true;
+            vm.groupName = null;
+            vm.groupMembers = [];
+            vm.selectedMember = null;
+            vm.rule = null;
+        }
+
+
     }
 
     Date.prototype.getWeekNum = function () {

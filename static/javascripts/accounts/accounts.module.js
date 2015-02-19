@@ -1,5 +1,4 @@
 (function () {
-  'use strict';
 
   angular
     .module('kalendr.accounts', [
@@ -12,4 +11,5 @@
 
   angular
     .module('kalendr.accounts.services', []);
+
 })();
