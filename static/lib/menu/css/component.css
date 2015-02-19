@@ -197,6 +197,14 @@
     color: #cdf0ed;
 }
 
+#add_group{
+	border-bottom: 1px solid #cdf0ed;
+}
+
+#search_button{
+	border-bottom: 1px solid #cdf0ed;
+}
+
 
 .angucomplete-holder {
     position: relative;
@@ -215,9 +223,9 @@
     border-width: 1px;
     border-style: solid;
     border-radius: 2px;
-    width: 228px;
+    width: 200px;
     padding: 6px;
-    margin-left: 6px;
+    margin-left: 5px;
     cursor: pointer;
     z-index: 9999;
     position: absolute;

@@ -25,12 +25,20 @@
         vm.groupList = [];
         vm.hasGroups = false;
 
+        vm.groupName = null;
+        vm.groupMembers = [];
+        vm.selectedMember = null;
+        vm.rule = null;
+        vm.addMembers = addMembers;
+        vm.addGroup = addGroup;
+        //vm.isGroupComplete = (vm.groupName != null) && (vm.selectedMember != null) && (vm.rule != null);
+
+
         vm.isAuthenticated = Authentication.isAuthenticated();
 
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
-
 
 
         if (vm.isAuthenticated) activate();
@@ -200,19 +208,19 @@
 
         function instantiateAccordian() {
             vm.selectedUser = null;
-            vm.oneAtATime = true;
+            vm.oneAtATime = false;
             vm.status = {
                 isFirstOpen: true,
                 isFirstDisabled: false
             };
 
-        //vm.addItem = function () {
-        //    var newItemNo = vm.items.length + 1;
-        //    vm.items.push('Item ' + newItemNo);
-        //};
+            //vm.addItem = function () {
+            //    var newItemNo = vm.items.length + 1;
+            //    vm.items.push('Item ' + newItemNo);
+            //};
         }
 
-        function addFollower(){
+        function addFollower() {
             vm.hasFollowers = true;
             // vm.followerList gets list of followers (groups with only 1 user -- flagged)
             vm.followerList.unshift(vm.selectedUser.originalObject.username);
@@ -223,6 +231,21 @@
             console.log('selected username:' + vm.selectedUser.originalObject.username);
             console.log('selected username:' + vm.selectedUser.originalObject.email);
 
+        }
+
+        function addMembers() {
+            vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
+        }
+
+        function addGroup() {
+            // Make group list a button with popup description
+            // create API request
+            vm.groupList.unshift(vm.groupName);
+            vm.hasGroups = true;
+            vm.groupName = null;
+            vm.groupMembers = [];
+            vm.selectedMember = null;
+            vm.rule = null;
         }
 
 

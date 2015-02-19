@@ -10,16 +10,6 @@
 
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
     <center><h3>Social Bar</h3></center>
-    <div class="form-group">
-        <angucomplete id="search__username" pause="100" selectedobject="vm.selectedUser"
-                      localdata="vm.users" titlefield="username" searchfields="username" minlength="1"
-                      inputclass="form-control2" matchclass="highlight" placeholder="Search for user"/>
-
-        <center><a class="mdi-social-person-add btn btn-default btn-flat"
-                   ng-show="vm.selectedUser"
-                   ng-click="vm.addFollower()"></a></center>
-
-    </div>
 
 
     <div>
@@ -30,22 +20,95 @@
                     Followers <i class="pull-right glyphicon"
                                  ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
                 </accordion-heading>
-                    <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
-                        {{ follower }}
-                    </li>
+
+                <button type="button" class="mdi-social-person-add btn btn-primary btn-lg" data-toggle="collapse"
+                        data-target="#search">
+                </button>
+                <div id="search" class="collapse">
+                    <angucomplete id="search__username" pause="100" selectedobject="vm.selectedUser"
+                                  localdata="vm.users" titlefield="username" searchfields="username" minlength="1"
+                                  inputclass="form-control2" matchclass="highlight" placeholder="Search for user"/>
+
+                    <button data-toggle="collapse" data-target="#search" ng-show="vm.selectedUser"
+                            ng-click="vm.addFollower()"
+                            class="btn btn-primary">
+                        Add Follower
+                    </button>
+                </div>
+                <br>
+
+                <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
+                    {{ follower }}
+                </li>
                 <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
 
             <accordion-group is-open="status.open">
                 <accordion-heading>
-                    Groups I've Created <i class="pull-right glyphicon"
-                                           ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                    Groups<i class="pull-right glyphicon"
+                             ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
                 </accordion-heading>
-                <ul ng-show="vm.hasGroups">
-                    <li ng-repeat="group in vm.groupList">
-                        {{ follower }}
-                    </li>
-                </ul>
+                <center>
+
+                    <button type="button" class="mdi-social-group-add btn btn-primary btn-lg"
+                            data-toggle="collapse" data-target="#add_group">
+                    </button>
+                    <div id="add_group" class="collapse">
+                        <form role="form" ng-submit="vm.addGroup()">
+                            <div class="form-group">
+                                <div class="form-group">
+
+                                    <input type="text" style="text-align: center; color: #cdf0ed " class="form-control"
+                                           id="group__name"
+                                           ng-model="vm.groupName" required>
+                                    <span class="form-highlight"></span>
+                                    <span class="form-bar"></span>
+                                    <label id="green" class="float-label-center" for="group__name">Group Name</label>
+
+                                </div>
+
+                                <angucomplete id="search__members" pause="100" selectedobject="vm.selectedMember"
+                                              localdata="vm.users" titlefield="username" searchfields="username"
+                                              minlength="1"
+                                              inputclass="form-control2" matchclass="highlight"
+                                              placeholder="Search for group members"/>
+
+
+                                <center><a class="mdi-social-plus-one btn btn-primary "
+                                           ng-show="vm.selectedMember"
+                                           ng-click="vm.addMembers()"></a></center>
+
+                                <li ng-repeat="member in vm.groupMembers">
+                                    {{ member }}
+                                </li>
+
+
+                                <div class="form-group">
+                                    Group Rules:
+                                    <select class="form-control" ng-model="vm.rule" id="group__rules">
+                                        <option value='Daily'>Busy Only</option>
+                                        <option value='Weekly'>See All</option>
+                                        <option value='Monthly'>Modify</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <button data-toggle="collapse" data-target="#add_group" type="submit"
+                                        class="btn btn-primary">
+                                    Create Group
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </center>
+                <br>
+                <li ng-repeat="group in vm.groupList">
+                    {{ group }}
+                </li>
                 <h5 ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
             </accordion-group>
         </accordion>

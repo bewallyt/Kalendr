@@ -1,30 +1,43 @@
 <form role="form" ng-submit="vm.submit()">
     <div class="form-group">
-        <label for="form-group">
-            <center>New Group</center>
-        </label>
-        <br>
-        Group Name:
-        <br>
-    <textarea class="form-control"
-              id="Name"
-              rows="1"
-              placeholder="ex. Software Maintainability Group"
-              ng-model="vm.name">
-    </textarea>
+        <center><h2>New Group</h2></center>
 
-        <br>
-        Group Members:
-        <br>
+        <div class="form-group">
 
-    <textarea class="form-control"
-              id="Members"
-              rows="1"
-              placeholder="ex. Bob Bill Jane Joe"
-              ng-model="vm.members">
-    </textarea>
-        <br>
+            <input type="text" class="form-control" id="group__name" ng-model="vm.name" required>
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label class="float-label" for="group__name">Group Name</label>
 
+        </div>
+
+        <div class="form-group">
+
+            <input type="text" class="form-control" id="group__members" ng-model="vm.members" required>
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label class="float-label" for="group__members">Group Members</label>
+
+        </div>
+
+        <angucomplete id="search__username" pause="100" selectedobject="vm.selectedUser"
+                      localdata="vm.users" titlefield="username" searchfields="username" minlength="1"
+                      inputclass="form-control2" matchclass="highlight" placeholder="Search for user"/>
+
+        <center><a class="mdi-social-person-add btn btn-default btn-flat"
+                   ng-show="vm.selectedUser"
+                   ng-click="vm.addFollower()"></a></center>
+
+
+        <div class="form-group">
+            Group Rules:
+            <select class="form-control" ng-model="vm.rule" id="group__rules">
+                <option value='Daily'>Busy Only</option>
+                <option value='Weekly'>See All</option>
+                <option value='Monthly'>Modify</option>
+            </select>
+
+        </div>
 
     </div>
 

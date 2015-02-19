@@ -204,6 +204,7 @@ input[type="radio"]{
 
 #absolute{
     position: absolute;
+
 }
 
 .panel-title{
@@ -230,5 +231,9 @@ input[type="radio"]{
     /*font-size: 14px;*/
     /*color: #cdf0ed;*/
 /*}*/
+
+#green{
+
+}
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
