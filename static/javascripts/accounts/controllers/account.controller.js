@@ -36,7 +36,6 @@
         vm.rule = null;
         vm.addMembers = addMembers;
         vm.addGroup = addGroup;
-        //vm.isGroupComplete = (vm.groupName != null) && (vm.selectedMember != null) && (vm.rule != null);
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -47,12 +46,6 @@
         vm.puds = [];
 
         if (vm.isAuthenticated) activate();
-
-        /**
-         * @name activate
-         * @desc Actions to be performed when this controller is instantiated
-         * @memberOf kalendr.accounts.controllers.AccountController
-         */
 
         function activate() {
 
@@ -173,7 +166,14 @@
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    vm.groupList.unshift(data.data[i].name);
+                    if(data.data[i].is_follow_group == false){
+                        vm.groupList.unshift(data.data[i].name);
+                    }
+                    else{
+                        vm.followerList.unshift(data.data[i].name);
+                        vm.hasFollowers = true;
+                    }
+
 
                 }
             }
@@ -233,23 +233,13 @@
                 isFirstDisabled: false
             };
 
-            //vm.addItem = function () {
-            //    var newItemNo = vm.items.length + 1;
-            //    vm.items.push('Item ' + newItemNo);
-            //};
+
         }
 
         function addFollower() {
             vm.hasFollowers = true;
-            // vm.followerList gets list of followers (groups with only 1 user -- flagged)
             vm.followerList.unshift(vm.selectedUser.originalObject.username);
-            console.log('selected user:' + vm.selectedUser);
-            console.log('selected title:' + vm.selectedUser.title);
-            console.log('selected email:' + vm.selectedUser.email);
-            console.log('selected user_object:' + vm.selectedUser.originalObject);
-            console.log('selected username:' + vm.selectedUser.originalObject.username);
-            console.log('selected username:' + vm.selectedUser.originalObject.email);
-
+            Groups.create(vm.selectedUser.originalObject.username, vm.selectedUser.originalObject, Authentication.getAuthenticatedAccount(), true);
         }
 
         function addMembers() {
@@ -258,11 +248,8 @@
         }
 
         function addGroup() {
-            // Make group list a button with popup description
-            // create API request
 
-            Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount());
-
+            Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
             vm.groupList.unshift(vm.groupName);
             vm.hasGroups = true;
             vm.groupName = null;

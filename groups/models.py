@@ -7,6 +7,7 @@ class KGroup(models.Model):
     name = models.CharField(max_length=50)
     owner = models.ForeignKey(Account, related_name='mygroups', blank=True)
     members = models.ManyToManyField(Account)
+    is_follow_group = models.BooleanField(default=False)
 
 
     def __unicode__(self):

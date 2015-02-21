@@ -10,7 +10,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = KGroup
-        fields = ('name', 'owner', 'members')
+        fields = ('name', 'owner', 'members', 'is_follow_group')
 
 
     def get_validation_exclusions(self, *args, **kwargs):
