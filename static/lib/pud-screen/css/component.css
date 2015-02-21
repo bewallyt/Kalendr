@@ -10,7 +10,8 @@ body {
 .pudview {
     width: 0px;
     min-height: 0px;
-    background: #ffffff;
+    /*background: #ffffff;*/
+    background-color: transparent;
     position: absolute;
     z-index: 10000;
     top: 0px;
@@ -30,6 +31,7 @@ body {
     min-height: 100%;
     top: 0px;
     right: 0px;
+    background-color: transparent;
 }
 
 .pudview.hideInput .btn-pudview {
@@ -135,7 +137,8 @@ input[type="search"] {
     height: 0;
     overflow: hidden;
     padding: 0 10.5%;
-    background: #ffffff;
+    /*background: #ffffff;*/
+    background-color: transparent;
     position: absolute;
     pointer-events: none;
     opacity: 0;

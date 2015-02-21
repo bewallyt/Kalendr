@@ -1,14 +1,14 @@
 <div class="well">
     <div class="pud">
         <div class='namepud detailspud'>{{ pud.content }}</div>
-        <div class='durationpud detailspud'>Time</div>
+        <div class='durationpud detailspud'>{{ pud.duration }}</div>
         <input type='checkbox' class='completepud detailspud'/>
         <br/>
         <br/>
 
         <div class='second-row'>
-            <div class='repeatpud'>Repeat</div>
-            <div class='prioritypud'>Priority</div>
+            <div class='repeatpud'>{{ pud.repeat }}</div>
+            <div class='prioritypud'>{{ pud.priority }}</div>
         </div>
     </div>
 </div>
