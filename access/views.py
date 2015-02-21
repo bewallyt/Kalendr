@@ -17,8 +17,9 @@ class AccessViewSet(viewsets.ModelViewSet):
         return super(AccessViewSet, self).perform_create(serializer)
 
     '''
-    post: p0
-    # return all rules for a post
+    # expecting:
+    post: post_id
+    # returns: list of all AccessRules for a post (need to call this only when modifying a post)
     '''
     def list(self, request):
         post = Post.objects.get(id=request.post)
@@ -27,14 +28,15 @@ class AccessViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     '''
-    post: p0
+    # expecting:
+    post: post_id
     rules:
         [
-            (group = g2, visibility = 'ALL')
-            (group = g1, visibility = 'MOD')
+            (group: group_name1, visibility: 'ALL'),
+            (group: group_name2, visibility: 'MOD'),
         ]
     # order of rule determined from position in list
-    # set all rules at once (takes care of modify/delete)
+    # set all rules at once
     '''
     def create(self, request):
         print 'in create'
@@ -57,6 +59,9 @@ class AccountAccessViewSet(viewsets.ViewSet):
     queryset = AccessRule.objects.select_related('group')
     serializer_class = AccessRuleSerializer
 
+    '''
+    # returns: list of access rules
+    '''
     def list(self, request, account_username=None):
         print 'in list'
 
@@ -67,7 +72,7 @@ class AccountAccessViewSet(viewsets.ViewSet):
         for group in groups:
             queryset = queryset | self.queryset.filter(group=group)
 
-        # then eliminate duplicates for a given post, taking only the highest ranked
+        # then eliminate duplicates for a given post, taking only the highest precedence
         # queryset = queryset.order_by('post', 'order').distinct('post'); requires PostgreSQL
         queryset = queryset.order_by('order')
         posts_seen = set()

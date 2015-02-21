@@ -8,7 +8,17 @@ from rest_framework.response import Response
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = KGroup.objects.all()
     serializer_class = GroupSerializer
-    
+
+    '''
+    # expecting:
+    name: group_name
+    members:
+        [
+            member_username1,
+            member_username2
+        ]
+
+    '''
     def create(self, request):
         print 'in create'
         members = [Account.objects.get(username=member_username) for member_username in request.members]
@@ -19,7 +29,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 class AccountGroupsViewSet(viewsets.ViewSet):
     queryset = KGroup.objects.select_related('owner')
     serializer_class = GroupSerializer
-    
+
+    '''
+    # returns: a list of KGroups
+    '''
     def list(self, request, account_username=None):
         print 'in list'
 
