@@ -17,7 +17,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class AccountGroupsViewSet(viewsets.ViewSet):
-    queryset = KGroup.objects.all()
+    queryset = KGroup.objects.select_related('owner')
     serializer_class = GroupSerializer
     
     def list(self, request, account_username=None):
