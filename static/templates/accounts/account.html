@@ -14,6 +14,19 @@
 
     <div>
         <accordion close-others="vm.oneAtATime">
+            <accordion-group is-open="status.isSecondOpen"
+                             is-disabled="status.isSecondDisabled">
+                <accordion-heading>
+                    Following <i class="pull-right glyphicon"
+                                 ng-class="{'glyphicon-chevron-down': status.isSecondOpen, 'glyphicon-chevron-right': !status.isSecondOpen}"></i>
+                </accordion-heading>
+                <br>
+
+                <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
+                    {{ following }}
+                </li>
+                <h5 ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
+            </accordion-group>
             <accordion-group is-open="status.isFirstOpen"
                              is-disabled="status.isFirstDisabled">
                 <accordion-heading>

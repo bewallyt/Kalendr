@@ -19,7 +19,8 @@
         var Groups = {
             all: all,
             get: get,
-            create: create
+            create: create,
+            getFollowing: getFollowing
         };
 
         return Groups;
@@ -70,6 +71,11 @@
         function get(id) {
             console.log('getting groups');
             return $http.get('/api/v1/accounts/' + id + '/groups/');
+        }
+
+        function getFollowing(id) {
+            console.log('getting following');
+            return $http.get('/api/v1/accounts/' + id + '/following/');
         }
     }
 })();

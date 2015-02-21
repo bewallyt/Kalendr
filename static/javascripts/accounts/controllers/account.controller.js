@@ -26,6 +26,9 @@
         vm.followerList = [];
         vm.hasFollowers = false;
 
+        vm.followingList = [];
+        vm.isFollowing = false;
+
         vm.groupList = [];
         vm.hasGroups = false;
 
@@ -50,6 +53,7 @@
         function activate() {
 
             username = Authentication.getAuthenticatedAccount().username;
+            console.log('current user: ' + username);
             vm.myUsername = username;
 
             var date = new Date();
@@ -73,6 +77,7 @@
             Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             Authentication.getUsers().then(usersSuccessFn);
             Groups.get(username).then(groupSuccessFn, groupErrorFn);
+            Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
 
             $scope.$on('post.created', function (event, post) {
                 console.log('post.created: scope get week: ' + post.weekNum);
@@ -166,10 +171,10 @@
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    if(data.data[i].is_follow_group == false){
+                    if (data.data[i].is_follow_group == false) {
                         vm.groupList.unshift(data.data[i].name);
                     }
-                    else{
+                    else {
                         vm.followerList.unshift(data.data[i].name);
                         vm.hasFollowers = true;
                     }
@@ -179,6 +184,20 @@
             }
 
             function groupErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function followingSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0) vm.isFollowing = true;
+
+                var i;
+                for (i = 0; i < data.data.length; i++) {
+                    console.log(data.data[i].owner);
+                    vm.followingList.unshift(data.data[i].owner);
+                }
+            }
+
+            function followingErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 

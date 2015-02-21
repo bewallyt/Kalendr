@@ -30,10 +30,8 @@ class PostViewSet(viewsets.ModelViewSet):
 class AccountPostsViewSet(viewsets.ViewSet):
     queryset = Post.objects.select_related('author')
     serializer_class = PostSerializer
-    print 'in accountpostsview'
 
     def list(self, request, account_username=None, post_pk=None):
-        print 'in list of accountpostsview'
 
         queryset = self.queryset.filter(author__username=account_username)
 
@@ -76,7 +74,6 @@ class AccountPostsViewSet(viewsets.ViewSet):
                       'kalendr458@gmail.com', [notify_post.author.email],
                       fail_silently=False)
 
-        print 'in account post view'
 
         return Response(serializer.data)
 
