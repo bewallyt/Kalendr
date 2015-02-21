@@ -192,8 +192,9 @@
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    console.log(data.data[i].owner);
-                    vm.followingList.unshift(data.data[i].owner);
+                    if($.inArray(data.data[i].owner.username, vm.followingList) == -1){
+                        vm.followingList.unshift(data.data[i].owner.username);
+                    }
                 }
             }
 
