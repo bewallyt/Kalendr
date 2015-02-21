@@ -18,8 +18,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     name: group_name
     members:
         [
-            member_username1,
-            member_username2
+            {username: member_username1},
+            {username: member_username2}
         ]
 
     '''
@@ -30,6 +30,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         print 'request'
         print self.request.data
+        print serializer.is_valid()
 
         print self.request.data['members'][0]['username']
 

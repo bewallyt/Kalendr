@@ -7,7 +7,7 @@ from access.models import AccessRule
 
 class AccessRuleSerializer(serializers.ModelSerializer):
     post = PostSerializer(read_only=True)
-    group = GroupSerializer()
+    group = GroupSerializer(read_only=True)
 
     class Meta:
         model = AccessRule

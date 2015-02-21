@@ -4,55 +4,78 @@ from posts.models import Post
 from groups.models import KGroup
 from access.models import AccessRule
 from access.serializers import AccessRuleSerializer
+from groups.serializers import GroupSerializer
+from posts.serializers import PostSerializer
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+import json
 
 class AccessViewSet(viewsets.ModelViewSet):
     queryset = AccessRule.objects.order_by('order')
     serializer_class = AccessRuleSerializer
 
-    def perform_create(self, serializer):
-        print 'in perform create:'
-
-        return super(AccessViewSet, self).perform_create(serializer)
-
     '''
     # expecting:
     post: post_id
-    # returns: list of all AccessRules for a post (need to call this only when modifying a post)
+    # returns: list of all AccessRules for a post
+    # (need to call this only when modifying a post)
     '''
     def list(self, request):
-        post = Post.objects.get(id=request.post)
+        post = Post.objects.get(id=request.data['post'])
         queryset = self.queryset.filter(post=post)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
+    # '''
+    # # expecting:
+    # post: post_id
+    # rules:
+    # [
+    # (group: group_name1, visibility: 'ALL'),
+    # (group: group_name2, visibility: 'MOD'),
+    # ]
+    # # order of rule determined from position in list
+    # # set all rules at once
+    # '''
+    # def perform_create(self, serializer):
+    #     post = Post.objects.get(id=self.request.data['post'])
+    #
+    #     order = 0
+    #     for rule in self.request.data['rules']:
+    #         group_name = rule['group']
+    #
+    #         rule['order'] = order
+    #         rule['post'] = post
+    #         rule['group'] = KGroup.objects.filter(owner=self.request.user).get(name=group_name)
+    #         serializer = self.serializer_class(rule)
+    #         instance = super(AccessViewSet, self).perform_create(serializer)
+    #         order += 1
+    #     return instance
+
     '''
     # expecting:
     post: post_id
-    rules:
-        [
-            (group: group_name1, visibility: 'ALL'),
-            (group: group_name2, visibility: 'MOD'),
-        ]
-    # order of rule determined from position in list
-    # set all rules at once
+    group: group_name
+    order: int
+    visibility: 'ALL'
+    # make this call in a loop -- (post is the same every iteration)
+        for each rule: create(post, group, order, visibility)
+      where order starts from 0 and increments
     '''
-    def create(self, request):
-        print 'in create'
+    def perform_create(self, serializer):
+        print 'in perform create:'
 
-        post = Post.objects.get(id=request.post)
-        self.queryset.filter(post=post).delete()
+        post = Post.objects.get(id=self.request.data['post'])
+        group = KGroup.objects.filter(owner=self.request.user).get(name=self.request.data['group'])
 
-        order = 0
-        for rule in request.rules:
-            self.perform_create(self.serializer_class(
-                post=post,
-                group=KGroup.objects.filter(owner=self.request.user).get(id=rule.group),
-                visibility=rule.visibility,
-                order=order
-            ))
-            order += 1
+        renderer = JSONRenderer()
+
+        self.request.data['post'] = json.loads(renderer.render(PostSerializer(post).data))
+        self.request.data['group'] = json.loads(renderer.render(GroupSerializer(group).data))
+
+        serializer = self.serializer_class(self.request.data)
+        return super(AccessViewSet, self).perform_create(serializer)
 
 
 class AccountAccessViewSet(viewsets.ViewSet):
