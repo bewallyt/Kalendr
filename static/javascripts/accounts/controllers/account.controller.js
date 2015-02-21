@@ -167,12 +167,16 @@
             }
 
             function groupSuccessFn(data, status, headers, config) {
+                // Only adding groups that I am owner of here:
                 if (data.data.length > 0) vm.hasGroups = true;
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
                     if (data.data[i].is_follow_group == false) {
-                        vm.groupList.unshift(data.data[i].name);
+                        if ($.inArray(data.data[i].name, vm.groupList) == -1) {
+                            console.log('Groups I own: ' + data.data[i].name);
+                            vm.groupList.unshift(data.data[i].name);
+                        }
                     }
                     else {
                         vm.followerList.unshift(data.data[i].name);
@@ -188,13 +192,24 @@
             }
 
             function followingSuccessFn(data, status, headers, config) {
-                if (data.data.length > 0) vm.isFollowing = true;
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    if($.inArray(data.data[i].owner.username, vm.followingList) == -1){
-                        vm.followingList.unshift(data.data[i].owner.username);
+                    console.log('is following group: ' + data.data[i].is_follow_group);
+                    if (data.data[i].is_follow_group) {
+                        vm.isFollowing = true;
+                        if ($.inArray(data.data[i].owner.username, vm.followingList) == -1) {
+                            vm.followingList.unshift(data.data[i].owner.username);
+                        }
                     }
+                    else {
+                        vm.hasGroups = true;
+                        console.log('Groups Im a member of: ' + data.data[i].name);
+                        if ($.inArray(data.data[i].name, vm.groupList) == -1) {
+                            vm.groupList.unshift(data.data[i].name);
+                        }
+                    }
+
                 }
             }
 
@@ -259,7 +274,9 @@
         function addFollower() {
             vm.hasFollowers = true;
             vm.followerList.unshift(vm.selectedUser.originalObject.username);
-            Groups.create(vm.selectedUser.originalObject.username, vm.selectedUser.originalObject, Authentication.getAuthenticatedAccount(), true);
+            var userAccount = [];
+            userAccount.unshift(vm.selectedUser.originalObject);
+            Groups.create(vm.selectedUser.originalObject.username, userAccount, Authentication.getAuthenticatedAccount(), true);
         }
 
         function addMembers() {
