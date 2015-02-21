@@ -8,33 +8,35 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds',
-        'Account', 'Snackbar', '$scope'];
+    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
 
 
     /**
      * @namespace AccountController
      */
-    function AccountController($location, Authentication, Posts, Puds,
-                               Account, Snackbar, $scope) {
+    function AccountController($location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
 
         var vm = this;
         instantiateAccordian();
+        var username;
 
         vm.addFollower = addFollower;
         vm.followerList = [];
         vm.hasFollowers = false;
+
+        vm.followingList = [];
+        vm.isFollowing = false;
 
         vm.groupList = [];
         vm.hasGroups = false;
 
         vm.groupName = null;
         vm.groupMembers = [];
+        var groupAccounts = [];
         vm.selectedMember = null;
         vm.rule = null;
         vm.addMembers = addMembers;
         vm.addGroup = addGroup;
-        //vm.isGroupComplete = (vm.groupName != null) && (vm.selectedMember != null) && (vm.rule != null);
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -46,15 +48,10 @@
 
         if (vm.isAuthenticated) activate();
 
-        /**
-         * @name activate
-         * @desc Actions to be performed when this controller is instantiated
-         * @memberOf kalendr.accounts.controllers.AccountController
-         */
-
         function activate() {
 
-            var username = Authentication.getAuthenticatedAccount().username;
+            username = Authentication.getAuthenticatedAccount().username;
+            console.log('current user: ' + username);
             vm.myUsername = username;
 
             var date = new Date();
@@ -77,6 +74,8 @@
             Account.get(username).then(accountSuccessFn, accountErrorFn);
             Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             Authentication.getUsers().then(usersSuccessFn);
+            Groups.get(username).then(groupSuccessFn, groupErrorFn);
+            Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
 
             $scope.$on('post.created', function (event, post) {
                 console.log('post.created: scope get week: ' + post.weekNum);
@@ -113,7 +112,7 @@
             });
 
             $scope.$on('pud.created', function (event, pud) {
-                console.log('printing content from account controller: '+pud.content);
+                console.log('printing content from account controller: ' + pud.content);
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
             });
 
@@ -156,11 +155,43 @@
                 for (i = 0; i < vm.users.length; i++) {
                     vm.userArray[i] = vm.users[i];
                 }
-                console.log('vm.users:');
-                console.log(vm.users);
-                //console.log('user array:');
-                //console.log(vm.userArray);
 
+            }
+
+            function groupSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0) vm.hasGroups = true;
+
+                var i;
+                for (i = 0; i < data.data.length; i++) {
+                    if (data.data[i].is_follow_group == false) {
+                        vm.groupList.unshift(data.data[i].name);
+                    }
+                    else {
+                        vm.followerList.unshift(data.data[i].name);
+                        vm.hasFollowers = true;
+                    }
+
+
+                }
+            }
+
+            function groupErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function followingSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0) vm.isFollowing = true;
+
+                var i;
+                for (i = 0; i < data.data.length; i++) {
+                    if($.inArray(data.data[i].owner.username, vm.followingList) == -1){
+                        vm.followingList.unshift(data.data[i].owner.username);
+                    }
+                }
+            }
+
+            function followingErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
             }
 
             vm.activate = function () {
@@ -214,36 +245,28 @@
                 isFirstDisabled: false
             };
 
-            //vm.addItem = function () {
-            //    var newItemNo = vm.items.length + 1;
-            //    vm.items.push('Item ' + newItemNo);
-            //};
+
         }
 
         function addFollower() {
             vm.hasFollowers = true;
-            // vm.followerList gets list of followers (groups with only 1 user -- flagged)
             vm.followerList.unshift(vm.selectedUser.originalObject.username);
-            console.log('selected user:' + vm.selectedUser);
-            console.log('selected title:' + vm.selectedUser.title);
-            console.log('selected email:' + vm.selectedUser.email);
-            console.log('selected user_object:' + vm.selectedUser.originalObject);
-            console.log('selected username:' + vm.selectedUser.originalObject.username);
-            console.log('selected username:' + vm.selectedUser.originalObject.email);
-
+            Groups.create(vm.selectedUser.originalObject.username, vm.selectedUser.originalObject, Authentication.getAuthenticatedAccount(), true);
         }
 
         function addMembers() {
             vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
+            groupAccounts.unshift(vm.selectedMember.originalObject);
         }
 
         function addGroup() {
-            // Make group list a button with popup description
-            // create API request
+
+            Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
             vm.groupList.unshift(vm.groupName);
             vm.hasGroups = true;
             vm.groupName = null;
             vm.groupMembers = [];
+            groupAccounts = [];
             vm.selectedMember = null;
             vm.rule = null;
         }

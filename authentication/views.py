@@ -44,7 +44,6 @@ class AccountViewSet(viewsets.ModelViewSet):
     def list(self, request):
         print 'in list'
         serializer = self.serializer_class(self.queryset, many=True)
-        print serializer.data
         return Response(serializer.data)
 
 
