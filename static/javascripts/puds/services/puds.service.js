@@ -47,16 +47,6 @@
          */
         function create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                         need_repeat, notifyWhen) {
-            console.log('in puds.service.js create()');
-            console.log('pud content: ' + content);
-            console.log('notification: ' + notification);
-            console.log('priority: ' + priority);
-            console.log('priority int: ' + priority_int);
-            console.log('duration: ' + duration);
-            console.log('repeat: ' + repeatType);
-            console.log('repeat_int: ' + repeat_int);
-            console.log('need_repeat: ' + need_repeat);
-            console.log('notifyWhen: ' + notifyWhen);
             return $http.post('/api/v1/puds/', {
                 content: content,
                 notification: notification,
