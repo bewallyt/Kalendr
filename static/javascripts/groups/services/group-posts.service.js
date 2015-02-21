@@ -46,7 +46,7 @@
      * @returns {Promise}
      * @memberOf kalendr.posts.services.Posts
      */
-    function create(name, members, owner, is_private) {
+    function create(name, members, owner) {
         console.log('creating groups');
         console.log('name of group: ' + name);
         console.log('members of group: ' + members);

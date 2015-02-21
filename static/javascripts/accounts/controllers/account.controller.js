@@ -8,18 +8,19 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', '$routeParams', 'Posts', 'Puds',
-        'Account', 'Snackbar', '$scope'];
+    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds',
+        'Account', 'Snackbar', '$scope', 'Groups'];
 
 
     /**
      * @namespace AccountController
      */
-    function AccountController($timeout, $location, Authentication, $routeParams, Posts, Puds,
-                               Account, Snackbar, $scope) {
+    function AccountController($location, Authentication, Posts, Puds,
+                               Account, Snackbar, $scope, Groups) {
 
         var vm = this;
         instantiateAccordian();
+        var username;
 
         vm.addFollower = addFollower;
         vm.followerList = [];
@@ -30,6 +31,7 @@
 
         vm.groupName = null;
         vm.groupMembers = [];
+        var groupAccounts = [];
         vm.selectedMember = null;
         vm.rule = null;
         vm.addMembers = addMembers;
@@ -54,7 +56,7 @@
 
         function activate() {
 
-            var username = Authentication.getAuthenticatedAccount().username;
+            username = Authentication.getAuthenticatedAccount().username;
             vm.myUsername = username;
 
             var date = new Date();
@@ -77,6 +79,7 @@
             Account.get(username).then(accountSuccessFn, accountErrorFn);
             Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             Authentication.getUsers().then(usersSuccessFn);
+            Groups.get(username).then(groupSuccessFn, groupErrorFn);
 
             $scope.$on('post.created', function (event, post) {
                 console.log('post.created: scope get week: ' + post.weekNum);
@@ -113,7 +116,7 @@
             });
 
             $scope.$on('pud.created', function (event, pud) {
-                console.log('printing content from account controller: '+pud.content);
+                console.log('printing content from account controller: ' + pud.content);
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
             });
 
@@ -144,7 +147,7 @@
                 vm.puds = data.data;
 
                 var i;
-                for(i = 0; i < vm.puds.length; i++){
+                for (i = 0; i < vm.puds.length; i++) {
                     console.log(vm.puds[i].content);
                     console.log(vm.puds[i].priority_int);
                 }
@@ -162,11 +165,21 @@
                 for (i = 0; i < vm.users.length; i++) {
                     vm.userArray[i] = vm.users[i];
                 }
-                console.log('vm.users:');
-                console.log(vm.users);
-                //console.log('user array:');
-                //console.log(vm.userArray);
 
+            }
+
+            function groupSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0) vm.hasGroups = true;
+
+                var i;
+                for (i = 0; i < data.data.length; i++) {
+                    vm.groupList.unshift(data.data[i].name);
+
+                }
+            }
+
+            function groupErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
             }
 
             vm.activate = function () {
@@ -241,15 +254,20 @@
 
         function addMembers() {
             vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
+            groupAccounts.unshift(vm.selectedMember.originalObject);
         }
 
         function addGroup() {
             // Make group list a button with popup description
             // create API request
+
+            Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount());
+
             vm.groupList.unshift(vm.groupName);
             vm.hasGroups = true;
             vm.groupName = null;
             vm.groupMembers = [];
+            groupAccounts = [];
             vm.selectedMember = null;
             vm.rule = null;
         }

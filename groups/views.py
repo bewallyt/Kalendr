@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from rest_framework import viewsets, status
+
+from rest_framework.response import Response
+
 from authentication.models import Account
+
 from groups.models import KGroup
 from groups.serializers import GroupSerializer
-from rest_framework import permissions, viewsets
-from rest_framework.response import Response
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = KGroup.objects.all()
@@ -19,11 +22,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         ]
 
     '''
-    def create(self, request):
-        print 'in create'
-        members = [Account.objects.get(username=member_username) for member_username in request.members]
-        serializer = self.serializer_class(owner=request.user, name=request.name, members=members)
-        return super(GroupViewSet, self).perform_create(serializer)    
+
+    def perform_create(self, serializer):
+        return super(GroupViewSet, self).perform_create(serializer)
+
 
 
 class AccountGroupsViewSet(viewsets.ViewSet):
@@ -33,6 +35,7 @@ class AccountGroupsViewSet(viewsets.ViewSet):
     '''
     # returns: a list of KGroups
     '''
+
     def list(self, request, account_username=None):
         print 'in list'
 
