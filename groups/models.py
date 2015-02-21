@@ -8,5 +8,6 @@ class KGroup(models.Model):
     owner = models.ForeignKey(Account, related_name='mygroups', blank=True)
     members = models.ManyToManyField(Account)
 
+
     def __unicode__(self):
         return '{0}'.format(self.name)

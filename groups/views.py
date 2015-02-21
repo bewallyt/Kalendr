@@ -24,6 +24,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     '''
 
     def perform_create(self, serializer):
+
+        instance = serializer.save(owner=self.request.user)
         return super(GroupViewSet, self).perform_create(serializer)
 
 
