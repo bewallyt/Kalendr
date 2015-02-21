@@ -66,15 +66,13 @@
                 console.log("number of puds " + current.length);
 
                 for (var i = 0; i < current.length; i++) {
-                    console.log('pud: ' + current[i].content + ' repeat_int: ' + current[i].repeat_int + ' priority_int: ' +
-                    current[i].priority_int); //charfields and booleans work
                     if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
                         current[i].repeat_int == 2) {
                         vm.columns[0].push(current[i]);
-                        console.log('pushing: ' + current[i].content + 'here');
+                        console.log('pushing into column 1: ' + current[i].content);
                     } else {
                         vm.columns[1].push(current[i]);
-                        console.log('pushing monthly into column 2: ' + current[i].content);
+                        console.log('pushing into column 2: ' + current[i].content);
                     }
                     vm.columns[2].push(current[i]);
                     //vm.pr_sort.push(current[i]);

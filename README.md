@@ -15,8 +15,10 @@ To run the application, clone the repository and navigate into it.
 
 4. $ bower install
 
-5. $ python manage.py makemigrations
+5. $ bower install angular-bootstrap
 
-6. $ python manage.py migrate
+6. $ python manage.py makemigrations
 
-7. $ python manage.py runserver
+7. $ python manage.py migrate
+
+8. $ python manage.py runserver
