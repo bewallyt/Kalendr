@@ -6,7 +6,7 @@ from authentication.views import AccountViewSet, LoginView, LogoutView
 from posts.views import AccountPostsViewSet, PostViewSet
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
-    AccountNonFollowerGroupsViewSet
+    AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet
 
 from access.views import AccessViewSet, AccountAccessViewSet
 from puds.views import AccountPudsViewSet, PudViewSet
