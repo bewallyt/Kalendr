@@ -32,7 +32,10 @@ class Post(models.Model):
     is_week_set = models.BooleanField(default=False)
     is_holiday = models.BooleanField(default=False)
 
-    pud = models.ForeignKey(Pud, null=True)
+    # pud = models.ForeignKey(Pud, null=True)
+    pud_time = models.BooleanField(default=False)
+    pud = models.CharField(max_length=40, blank=True, default='none')
+    duration = models.IntegerField(blank=True, default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

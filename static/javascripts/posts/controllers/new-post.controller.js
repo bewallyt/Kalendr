@@ -31,6 +31,7 @@
             var dayOfWeek;
             var weekNum = vm.start_time.getWeekNum();
             var isWeekSet = true;
+            var pud;
 
             if (num_day == 0) dayOfWeek = 'Sunday';
             else if (num_day == 1) dayOfWeek = 'Monday';
@@ -51,9 +52,17 @@
                 vm.repeat == 'Monthly' ||
                 vm.repeat == 'Daily') vm.need_repeat = true;
 
+            if (vm.pud_time == undefined) {
+                vm.pud_time = false;
+                pud = 'none';
+                vm.duration = 0;
+            } else {
+                pud = 'mutable';
+            }
+
             Posts.create(vm.content, vm.start_time, vm.notification, vm.repeat, vm.location_event,
                 vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
-                vm.need_repeat, weekNum, isWeekSet).then(createPostSuccessFn, createPostErrorFn);
+                vm.need_repeat, weekNum, isWeekSet, vm.pud_time, pud, vm.duration).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('post.created', {
                 content: vm.content,
@@ -69,6 +78,9 @@
                 dayOfWeek: dayOfWeek,
                 weekNum: weekNum,
                 isWeekSet: isWeekSet,
+                pud_time: vm.pud_time,
+                pud: pud,
+                duration: vm.duration,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }

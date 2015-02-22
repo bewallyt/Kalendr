@@ -40,12 +40,11 @@
         /**
          * @name create
          * @desc Create a new Post
-         * @param {string} content The content of the new Post
          * @returns {Promise}
          * @memberOf kalendr.posts.services.Posts
          */
         function create(content, start_time, notification, repeat, location_event, description_event, begin_time, end_time,
-                        end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set) {
+                        end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set, pud_time, pud, duration) {
 
             if (end_repeat === null) end_repeat = start_time;
             //console.log('start_time of event: ' + start_time);
@@ -71,7 +70,10 @@
                 day_of_week: day_of_week,
                 need_repeat: need_repeat,
                 week_num: week_num,
-                is_week_set: is_week_set
+                is_week_set: is_week_set,
+                put_time: pud_time,
+                pud: pud,
+                duration: duration
             });
         }
 
@@ -79,7 +81,6 @@
         /**
          * @name get
          * @desc Get the Posts of a given user
-         * @param {string} username The username to get Posts for
          * @returns {Promise}
          * @memberOf kalendr.posts.services.Posts
          */
