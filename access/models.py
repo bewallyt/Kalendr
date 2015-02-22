@@ -3,8 +3,8 @@ from posts.models import Post
 from groups.models import KGroup
 
 class AccessRule(models.Model):
-    post = models.ForeignKey(Post)
-    group = models.ForeignKey(KGroup)
+    post = models.ForeignKey(Post, blank=True)
+    group = models.ForeignKey(KGroup, blank=True)
     VISIBILITY_CHOICES = (
         ('BUS', 'Busy Only'),
         ('ALL', 'All'),

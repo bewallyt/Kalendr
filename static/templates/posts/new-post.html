@@ -1,6 +1,6 @@
 <form role="form" ng-submit="vm.submit()">
     <div class="form-group">
-                <center><h2>New Event</h2></center>
+        <center><h2>New Event</h2></center>
 
         <div class="form-group">
 
@@ -43,10 +43,14 @@
             <input type="time" name="starttime" ng-model="vm.begin_time">
             End time:
             <input type="time" name="endtime" ng-model="vm.end_time">
+            <br>
+             Pud allocation:
+            <input type="checkbox" name="is_pud_time" ng-model="vm.pud_time"/>
         </div>
         <br>
+
         Repeat:
-        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating "/>
+        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating" ng-hide="vm.pud_time == true"/>
 
         <div ng-show="vm.is_repeating == true">
             <br>
@@ -67,11 +71,11 @@
         <input type="datetime-local" name="notify_when" ng-model="vm.notify_when" ng-show="vm.notification == true"/>
         <br ng-show="vm.notification == true">
 
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">
-            Submit
-        </button>
-    </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+        </div>
 
 
     </div>

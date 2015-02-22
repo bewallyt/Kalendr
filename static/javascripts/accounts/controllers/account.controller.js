@@ -8,15 +8,9 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds',
-        'Account', 'Snackbar', '$scope', 'Groups', '$rootScope'];
+    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
 
-
-    /**
-     * @namespace AccountController
-     */
-    function AccountController($location, Authentication, Posts, Puds,
-                               Account, Snackbar, $scope, Groups, $rootScope) {
+    function AccountController($location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
 
         var vm = this;
         instantiateAccordian();
@@ -145,12 +139,6 @@
                 console.log("puds success");
                 // Not getting the newest pud.
                 vm.puds = data.data;
-
-                var i;
-                for (i = 0; i < vm.puds.length; i++) {
-                    console.log(vm.puds[i].content);
-                    console.log(vm.puds[i].priority_int);
-                }
             }
 
             function pudsErrorFn(data, status, headers, config) {

@@ -144,6 +144,10 @@
     display: none;
 }
 
+.post__pud__false {
+    display: none;
+}
+
 .form-control:focus {
     border-bottom: 2px solid #CDF0ED;
 }
@@ -170,28 +174,28 @@
     width: 30%;
 }
 
-.name-pud {
+.namepud {
     float: left;
 }
 
-.duration-pud {
+.durationpud {
     float: left;
 }
 
-.complete-pud {
+.completepud {
     float: left;
 }
 
-.repeat-pud {
+.repeatpud {
     float: left;
     margin-right: 200px;
 }
 
-.priority-pud {
+.prioritypud {
     float: left;
 }
 
-.details-pud {
+.detailspud {
     margin-right: 100px;
 }
 input[type="radio"]{
