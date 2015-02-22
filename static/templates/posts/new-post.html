@@ -43,13 +43,14 @@
             <input type="time" name="starttime" ng-model="vm.begin_time">
             End time:
             <input type="time" name="endtime" ng-model="vm.end_time">
+            <br>
+             Pud allocation:
+            <input type="checkbox" name="is_pud_time" ng-model="vm.pud_time"/>
         </div>
         <br>
-        Pud allocation:
-        <input type="checkbox" name="is_pud_time" ng-model="vm.pud_time"/>
-        <br>
+        
         Repeat:
-        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating" ng-show="vm.pud_time == false"/>
+        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating" ng-hide="vm.pud_time == true"/>
 
         <div ng-show="vm.is_repeating == true">
             <br>

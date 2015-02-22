@@ -71,7 +71,7 @@
                 need_repeat: need_repeat,
                 week_num: week_num,
                 is_week_set: is_week_set,
-                put_time: pud_time,
+                pud_time: pud_time,
                 pud: pud,
                 duration: duration
             });
