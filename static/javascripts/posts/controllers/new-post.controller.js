@@ -11,6 +11,7 @@
 
     NewPostController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Posts'];
 
+
     /**
      * @namespace NewPostController
      */
@@ -58,6 +59,9 @@
                 vm.duration = 0;
             } else {
                 pud = 'mutable';
+                vm.duration = timeDiff(vm.begin_time, vm.end_time);
+                vm.content = "Complete Task";
+                vm.description_event = 'Work on: ';
             }
 
             Posts.create(vm.content, vm.start_time, vm.notification, vm.repeat, vm.location_event,
@@ -107,6 +111,10 @@
                 Snackbar.error(data.error);
             }
         }
+    }
+
+    function timeDiff(begin_time, end_time) {
+        return Math.ceil(end_time.getHours() - begin_time.getHours());
     }
 
     Date.prototype.getWeekNum = function () {

@@ -136,6 +136,10 @@
     display: none;
 }
 
+.post__pud__false {
+    display: none;
+}
+
 .form-control:focus {
     border-bottom: 2px solid #CDF0ED;
 }
