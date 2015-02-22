@@ -35,6 +35,7 @@
         vm.addGroup = addGroup;
         vm.groupNum = 0;
         //vm.groupClick = groupClick;
+        var pud_post;
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -77,6 +78,14 @@
 
             $scope.$on('post.created', function (event, post) {
                 console.log('post.created: scope get week: ' + post.weekNum);
+                if (post.pud_time) {
+                    console.log('this event is for a pud!');
+                    pud_post = post;
+                    //Puds.get(username)
+                }
+
+                console.log(pud_post.content);
+                console.log(pud_post.duration);
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
