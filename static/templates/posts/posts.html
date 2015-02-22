@@ -1,15 +1,16 @@
 <div class="row" ng-cloak>
     <div ng-repeat="column in vm.columns">
         <div class="col-md-1">
+            <div class='weekday' ng-show="vm.columns[0]==column && column.length==0"><h5>S u n d a y</h5></div>
+            <div class='weekday' ng-show="vm.columns[1]==column && column.length==0"><h5>M o n d a y</h5></div>
+            <div class='weekday' ng-show="vm.columns[2]==column && column.length==0"><h5>T u e s d a y</h5></div>
+            <div class='weekday' ng-show="vm.columns[3]==column && column.length==0"><h5>W e d n e s d a y</h5></div>
+            <div class='weekday' ng-show="vm.columns[4]==column && column.length==0"><h5>T h u r s d a y</h5></div>
+            <div class='weekday' ng-show="vm.columns[5]==column && column.length==0"><h5>F r i d a y</h5></div>
+            <div class='weekday' ng-show="vm.columns[6]==column && column.length==0"><h5>S a t u r d a y</h5></div>
             <div ng-repeat="post in column">
                 <post post="post"></post>
             </div>
-        </div>
-    </div>
-
-    <div ng-hide="vm.columns && vm.columns.length">
-        <div class="col-sm-12 no-posts-here">
-            <em>The are no events here.</em>
         </div>
     </div>
 </div>
