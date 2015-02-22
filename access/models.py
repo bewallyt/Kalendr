@@ -22,6 +22,7 @@ class AccessRule(models.Model):
 
     # If just setting the precedence, the owner of the event may not want whoever the event is shared with to
     # get a notification of the sharing.
+    # But the current implementation is that we notify whoever we shared with whenever we share
     notify_receiver = models.BooleanField(default=True)
 
     # receiver_response is set to NO_RESP when an AccessRule is created/ when an event is shared.
