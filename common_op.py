@@ -98,6 +98,9 @@ u"user0's tagline"
 # The above post listed 2 ways of changing password
 
 
+
+
+
 '''
     Change the password for an existing user, on the command line
 '''
@@ -216,6 +219,7 @@ user5 = Account.objects.get(username="user5")
 
 
 
+# After doing mygroups.members.add(), we don't need to do .save() for the change to be saved in the DB.
 
 
 
@@ -230,6 +234,10 @@ user5 = Account.objects.get(username="user5")
 # I did it through our web interface, because I didn't want to manually modify the date fields, such as create_at,etc.
 
 
+
+
+
+
 '''
     Get all the posts that this user owns
 '''
@@ -238,21 +246,106 @@ user5 = Account.objects.get(username="user5")
 >>> type(user0.myevents.all())
 <class 'django.db.models.query.QuerySet'>
 
+
+
+
+
+
 '''
     Share a post with a group. Or in other words, create a link through AccessRule
 '''
+# Example on how to use through field:
+# https://docs.djangoproject.com/en/1.7/topics/db/models/#extra-fields-on-many-to-many-relationships
+
+# It seems that the linking is done by creating and saving the through field model objects instead of explicitly
+# linking posts and groups.
+>>> post1 = user0.myevents.get(content = "post1")
+>>> post1
+<Post: post1>
+>>> user0_groupuser1 = user0.mygroups.get(name="user1")
+>>> user0_groupuser1
+<KGroup: user1>
+>>> user0_groupuser4 = user0.mygroups.get(name="user4")
+>>> user0_groupuser4
+<KGroup: user4>
+>>> ar1 = AccessRule(post=post1,group=user0_groupuser1, visibility='MOD', order=1)
+>>> ar1
+<AccessRule: post1,user1>
+>>> ar1.save()
+>>> post1.shared_with
+<django.db.models.fields.related.ManyRelatedManager object at 0x102770690>
+>>> post1.shared_with.all()
+[<KGroup: user1>]
+>>> ar2 = AccessRule(post=post1,group=user0_groupuser4, visibility='BUS', order=2)
+>>> ar2
+<AccessRule: post1,user4>
+>>> ar2.save()
+>>> post1.shared_with.all()
+[<KGroup: user1>, <KGroup: user4>]
+
+
+
+# Another example
+>>> post2 = user0.myevents.get(content = "post2")
+>>> user0_family = user0.mygroups.get(name="family")
+>>> user0_groupuser5 = user0.mygroups.get(name="user5")
+>>> ar3 = AccessRule(post=post2,group=user0_family, visibility='BUS', order=2)
+>>> ar3.save()
+>>> ar4 = AccessRule(post=post2,group=user0_groupuser5, visibility='MOD', order=1)
+>>> ar4.save()
+>>> post2.shared_with.all()
+[<KGroup: family>, <KGroup: user5>]
+
+
+# For repeated events
+>>> for apost in post2:
+...     i = i+1
+...     link = AccessRule(post = apost, group=user1_groupuser5, visibility="MOD", order=i)
+...     link.save()
+...
+>>> post2
+[<Post: post2>, <Post: post2>, <Post: post2>, <Post: post2>]
+>>> post2[1]
+<Post: post2>
+>>> post2[1].shared_with
+<django.db.models.fields.related.ManyRelatedManager object at 0x102770e10>
+>>> post2[1].shared_with.all()
+[<KGroup: user5>]
 
 
 
 '''
     Get all the groups that I'm a member of
 '''
+# Use user2 as an example
+# KGroup has a M2M field to Account, w/o through field
+>>> KGroup.objects.filter(members__username="user2")
+[<KGroup: family>, <KGroup: user2>, <KGroup: user2>]
+
+# Get all the groups in which user2 is a member and are owned by user0
+>>> KGroup.objects.filter(members__username="user2", owner__username="user0")
+[<KGroup: family>, <KGroup: user2>]
+
+
 
 
 '''
     Filter the groups in which I'm the only member
 '''
+# First of all, this is how we further apply filters onto a queryset:
+>>> q = KGroup.objects.filter(members__username="user2")
+>>> q;
+[<KGroup: family>, <KGroup: user2>, <KGroup: user2>]
+>>> type(q)
+<class 'django.db.models.query.QuerySet'>
+>>> q.filter(owner__username="user0")
+[<KGroup: family>, <KGroup: user2>]
+>>> q
+[<KGroup: family>, <KGroup: user2>, <KGroup: user2>]
 
+
+>>> type(q[0])
+<class 'groups.models.KGroup'>
 
 
 '''
