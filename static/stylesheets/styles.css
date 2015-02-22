@@ -131,9 +131,29 @@
     position: absolute;
 }
 
-button:hover{
-    text-decoration: none;
+.corner_div{
+    float:right;
+    margin-top: 55%;
 }
+
+.top_corner_div{
+    float:left;
+    margin-top: -4%;
+    margin-left: -1%;
+}
+
+#visible_well button{
+    display: none;
+}
+
+
+#visible_well:hover .left-side{
+    display: inline;
+}
+#visible_well:hover .right-side{
+    display: inline;
+}
+
 
 
 .account .account__header {
