@@ -51,6 +51,12 @@
     bottom: 474px;
     right: 20px;
 }
+.btn-notifications {
+    position: fixed;
+    bottom: 540px;
+    right: 20px;
+}
+
 
 .btn-nopadding {
     width: 15em;  height: 3em;

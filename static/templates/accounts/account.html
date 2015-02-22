@@ -182,6 +182,9 @@
    ng-dialog="/static/templates/posts/change-calendar.html"
    ng-dialog-controller="DateController as vm"></a>
 
+<button class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
+        ng-show="vm.isAuthenticated"><span style="font-size: 14px">1</span></button>
+
 <script>
     (function () {
         var pudScreen = document.getElementById('pudview');
