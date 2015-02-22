@@ -56,15 +56,6 @@ class AccountGroupsViewSet(viewsets.ViewSet):
         print 'in list'
 
         queryset = self.queryset.filter(owner__username=account_username)
-
-        for e in queryset:
-            print 'first queryset: '
-            print 'group name: ' + e.name
-            print 'group owner: ' + e.owner.username
-            print 'number of members: ' + str(e.members.count())
-            for m in e.members.all():
-                print 'group members: ' + m.username
-
         serializer = self.serializer_class(queryset, many=True)
 
         return Response(serializer.data)
@@ -76,20 +67,8 @@ class AccountFollowingViewSet(viewsets.ViewSet):
     def list(self, request, account_username=None):
         print 'in follower API'
 
-        # for e in self.queryset:
-        #     print 'first queryset: '
-        #     print 'group name: ' + e.name
-        #     print 'group owner: ' + e.owner.username
-        #     print 'number of members: ' + str(e.members.count())
-        #     for m in e.members.all():
-        #         print 'group members: ' + m.username
-
         queryset = self.queryset.filter(members__username=account_username)
 
-        # for e in queryset:
-        #     print 'queryset: '
-        #     print e.name
-        # print 'my account: ' + account_username
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
@@ -99,22 +78,11 @@ class AccountSpecificGroupViewSet(viewsets.ViewSet):
     serializer_class = GroupSerializer
 
     def list(self, request, account_username=None):
-        print 'in groupSpeicific API'
+        print 'in groupSpeciific API'
 
-        # for e in self.queryset:
-        #     print 'first queryset: '
-        #     print 'group name: ' + e.name
-        #     print 'group owner: ' + e.owner.username
-        #     print 'number of members: ' + str(e.members.count())
-        #     for m in e.members.all():
-        #         print 'group members: ' + m.username
 
         queryset = self.queryset.filter(created_at=account_username)
 
-        for e in queryset:
-            print 'created AT queryset: '
-            print e.name
-        print 'createdAt ' + account_username
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
     

@@ -49,7 +49,6 @@
         function activate() {
 
             username = Authentication.getAuthenticatedAccount().username;
-            console.log('current user: ' + username);
             vm.myUsername = username;
 
             var date = new Date();
@@ -76,7 +75,6 @@
             Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
 
             $scope.$on('post.created', function (event, post) {
-                console.log('post.created: scope get week: ' + post.weekNum);
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
@@ -93,7 +91,6 @@
             });
 
             $scope.$on('post.getWeek', function (event, post) {
-                console.log('scope get week: ' + post.weekNum);
 
                 vm.weekNum = post.weekNum;
                 num_month = post.date.getMonth();
@@ -127,7 +124,6 @@
             }
 
             function postsSuccessFn(data, status, headers, config) {
-                console.log('post success: ');
                 vm.posts = data.data;
             }
 
@@ -136,7 +132,6 @@
             }
 
             function pudsSuccessFn(data, status, headers, config) {
-                console.log("puds success");
                 // Not getting the newest pud.
                 vm.puds = data.data;
             }
@@ -164,9 +159,7 @@
                 for (i = 0; i < data.data.length; i++) {
                     if (data.data[i].is_follow_group == false) {
                         if ($.inArray(data.data[i], vm.groupList) == -1) {
-                            console.log('Groups I own: ' + data.data[i]);
                             vm.groupList.unshift(data.data[i]);
-                            console.log(data.data[i]);
                         }
                     }
                     else {
@@ -186,7 +179,6 @@
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    console.log('is following group: ' + data.data[i].is_follow_group);
                     if (data.data[i].is_follow_group) {
                         vm.isFollowing = true;
                         if ($.inArray(data.data[i].owner.username, vm.followingList) == -1) {
@@ -195,7 +187,6 @@
                     }
                     else {
                         vm.hasGroups = true;
-                        console.log('Groups Im a member of: ' + data.data[i].name);
                         if ($.inArray(data.data[i].name, vm.groupList) == -1) {
                             vm.groupList.unshift(data.data[i]);
                         }
@@ -288,17 +279,15 @@
         }
 
         function groupSuccessFnTwo(data, status, headers, config) {
-            // Only adding groups that I am owner of here:
+            console.log('group added');
             if (data.data.length > 0) vm.hasGroups = true;
-            vm.groupList = [];
 
             var i;
             for (i = 0; i < data.data.length; i++) {
                 if (data.data[i].is_follow_group == false) {
                     if ($.inArray(data.data[i], vm.groupList) == -1) {
-                        console.log('Groups I own: ' + data.data[i]);
+                        console.log(data.data[i].name);
                         vm.groupList.unshift(data.data[i]);
-                        console.log(data.data[i]);
                     }
                 }
             }
