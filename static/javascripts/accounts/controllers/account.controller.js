@@ -10,10 +10,6 @@
 
     AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
 
-
-    /**
-     * @namespace AccountController
-     */
     function AccountController($location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
 
         var vm = this;
@@ -37,6 +33,8 @@
         vm.rule = null;
         vm.addMembers = addMembers;
         vm.addGroup = addGroup;
+        vm.groupNum = 0;
+        //vm.groupClick = groupClick;
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -159,12 +157,17 @@
             }
 
             function groupSuccessFn(data, status, headers, config) {
+                // Only adding groups that I am owner of here:
                 if (data.data.length > 0) vm.hasGroups = true;
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
                     if (data.data[i].is_follow_group == false) {
-                        vm.groupList.unshift(data.data[i].name);
+                        if ($.inArray(data.data[i], vm.groupList) == -1) {
+                            console.log('Groups I own: ' + data.data[i]);
+                            vm.groupList.unshift(data.data[i]);
+                            console.log(data.data[i]);
+                        }
                     }
                     else {
                         vm.followerList.unshift(data.data[i].name);
@@ -180,13 +183,24 @@
             }
 
             function followingSuccessFn(data, status, headers, config) {
-                if (data.data.length > 0) vm.isFollowing = true;
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    if($.inArray(data.data[i].owner.username, vm.followingList) == -1){
-                        vm.followingList.unshift(data.data[i].owner.username);
+                    console.log('is following group: ' + data.data[i].is_follow_group);
+                    if (data.data[i].is_follow_group) {
+                        vm.isFollowing = true;
+                        if ($.inArray(data.data[i].owner.username, vm.followingList) == -1) {
+                            vm.followingList.unshift(data.data[i].owner.username);
+                        }
                     }
+                    else {
+                        vm.hasGroups = true;
+                        console.log('Groups Im a member of: ' + data.data[i].name);
+                        if ($.inArray(data.data[i].name, vm.groupList) == -1) {
+                            vm.groupList.unshift(data.data[i]);
+                        }
+                    }
+
                 }
             }
 
@@ -251,7 +265,9 @@
         function addFollower() {
             vm.hasFollowers = true;
             vm.followerList.unshift(vm.selectedUser.originalObject.username);
-            Groups.create(vm.selectedUser.originalObject.username, vm.selectedUser.originalObject, Authentication.getAuthenticatedAccount(), true);
+            var userAccount = [];
+            userAccount.unshift(vm.selectedUser.originalObject);
+            Groups.create(vm.selectedUser.originalObject.username, userAccount, Authentication.getAuthenticatedAccount(), true);
         }
 
         function addMembers() {
@@ -262,7 +278,7 @@
         function addGroup() {
 
             Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
-            vm.groupList.unshift(vm.groupName);
+            Groups.get(username).then(groupSuccessFnTwo);
             vm.hasGroups = true;
             vm.groupName = null;
             vm.groupMembers = [];
@@ -270,6 +286,29 @@
             vm.selectedMember = null;
             vm.rule = null;
         }
+
+        function groupSuccessFnTwo(data, status, headers, config) {
+            // Only adding groups that I am owner of here:
+            if (data.data.length > 0) vm.hasGroups = true;
+            vm.groupList = [];
+
+            var i;
+            for (i = 0; i < data.data.length; i++) {
+                if (data.data[i].is_follow_group == false) {
+                    if ($.inArray(data.data[i], vm.groupList) == -1) {
+                        console.log('Groups I own: ' + data.data[i]);
+                        vm.groupList.unshift(data.data[i]);
+                        console.log(data.data[i]);
+                    }
+                }
+            }
+        }
+
+        //function groupClick(group) {
+        //    $rootScope.$broadcast('group.clicked', {
+        //        created_at: group.created_at
+        //    });
+        //}
 
 
     }

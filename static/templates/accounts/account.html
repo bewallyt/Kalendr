@@ -120,7 +120,12 @@
                 </center>
                 <br>
                 <li ng-repeat="group in vm.groupList">
-                    {{ group }}
+                    <a class="btn btn-flat btn-default btn-nopadding"
+                       ng-click="vm.groupClick(group)"
+                       href="javascript:void(0)"
+                       ng-show="vm.isAuthenticated"
+                       ng-dialog="/static/templates/groups/group.html"
+                       ng-dialog-data="{{ group }}">{{ group.name }}</a>
                 </li>
                 <h5 ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
             </accordion-group>

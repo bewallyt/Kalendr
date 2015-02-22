@@ -9,7 +9,7 @@
     ]);
 
   angular
-    .module('kalendr.groups.controllers', []);
+    .module('kalendr.groups.controllers', ['ngDialog']);
 
   angular
     .module('kalendr.groups.directives', ['ngDialog']);

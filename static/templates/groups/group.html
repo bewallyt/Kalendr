@@ -1,0 +1,9 @@
+<center><h2>{{ ngDialogData.name }}</h2></center>
+<center><h5>Created on: {{ ngDialogData.created_at | date:'MM-dd-yyyy' }}</h5></center>
+<br>
+<center><h4>Owner: {{ ngDialogData.owner.username }} </h4></center>
+<center><h5>{{ ngDialogData.owner.email }}</h5></center>
+
+<br>
+Members:
+<li ng-repeat="member in ngDialogData.members">{{ member.username }} - {{ member.email }}</li>
