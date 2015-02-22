@@ -193,12 +193,20 @@ False
 >>> Account.objects.all()[0].mygroups.get(name="family").members
 <django.db.models.fields.related.ManyRelatedManager object at 0x1027e6c10>
 
-
+>>> user0 = Account.objects.get(username="user0")
 >>> user1 = Account.objects.get(username="user1")
 >>> user2 = Account.objects.get(username="user2")
 >>> user3 = Account.objects.get(username="user3")
 >>> user4 = Account.objects.get(username="user4")
 >>> user5 = Account.objects.get(username="user5")
+user0 = Account.objects.get(username="user0")
+user1 = Account.objects.get(username="user1")
+user2 = Account.objects.get(username="user2")
+user3 = Account.objects.get(username="user3")
+user4 = Account.objects.get(username="user4")
+user5 = Account.objects.get(username="user5")
+
+
 
 >>> Account.objects.all()[0].mygroups.get(name="family").members.add(user2, user4, user5)
 >>> Account.objects.all()[0].mygroups.get(name="family").members.all()
@@ -213,17 +221,22 @@ False
 
 
 '''
-    Create a post
+    Create a post/event
 '''
+>>> user0.myevents
+<django.db.models.fields.related.RelatedManager object at 0x1026b8a50>
 
 
-
+# I did it through our web interface, because I didn't want to manually modify the date fields, such as create_at,etc.
 
 
 '''
     Get all the posts that this user owns
 '''
+>>> user0.myevents.all()
 
+>>> type(user0.myevents.all())
+<class 'django.db.models.query.QuerySet'>
 
 '''
     Share a post with a group. Or in other words, create a link through AccessRule
