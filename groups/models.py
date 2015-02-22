@@ -9,6 +9,9 @@ class KGroup(models.Model):
     members = models.ManyToManyField(Account)
     is_follow_group = models.BooleanField(default=False)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __unicode__(self):
         return '{0}'.format(self.name)

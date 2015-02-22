@@ -48,8 +48,9 @@
 
 
 .cbp-spmenu li:hover {
-	color: #000000;
-	background-color: #cdf0ed
+/*	color: #000000;*/
+/*	background-color: #cdf0ed;*/
+	
 }
 
 .cbp-spmenu li:active {

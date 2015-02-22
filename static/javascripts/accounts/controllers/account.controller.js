@@ -9,14 +9,14 @@
         .controller('AccountController', AccountController);
 
     AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds',
-        'Account', 'Snackbar', '$scope', 'Groups'];
+        'Account', 'Snackbar', '$scope', 'Groups', '$rootScope'];
 
 
     /**
      * @namespace AccountController
      */
     function AccountController($location, Authentication, Posts, Puds,
-                               Account, Snackbar, $scope, Groups) {
+                               Account, Snackbar, $scope, Groups, $rootScope) {
 
         var vm = this;
         instantiateAccordian();
@@ -39,6 +39,8 @@
         vm.rule = null;
         vm.addMembers = addMembers;
         vm.addGroup = addGroup;
+        vm.groupNum = 0;
+        vm.groupClick = groupClick;
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -173,9 +175,10 @@
                 var i;
                 for (i = 0; i < data.data.length; i++) {
                     if (data.data[i].is_follow_group == false) {
-                        if ($.inArray(data.data[i].name, vm.groupList) == -1) {
-                            console.log('Groups I own: ' + data.data[i].name);
-                            vm.groupList.unshift(data.data[i].name);
+                        if ($.inArray(data.data[i], vm.groupList) == -1) {
+                            console.log('Groups I own: ' + data.data[i]);
+                            vm.groupList.unshift(data.data[i]);
+                            console.log(data.data[i]);
                         }
                     }
                     else {
@@ -206,7 +209,7 @@
                         vm.hasGroups = true;
                         console.log('Groups Im a member of: ' + data.data[i].name);
                         if ($.inArray(data.data[i].name, vm.groupList) == -1) {
-                            vm.groupList.unshift(data.data[i].name);
+                            vm.groupList.unshift(data.data[i]);
                         }
                     }
 
@@ -294,6 +297,12 @@
             groupAccounts = [];
             vm.selectedMember = null;
             vm.rule = null;
+        }
+
+        function groupClick(group) {
+            $rootScope.$broadcast('group.clicked', {
+                created_at: group.created_at
+            });
         }
 
 

@@ -7,7 +7,7 @@
     ]);
 
   angular
-    .module('kalendr.accounts.controllers', []);
+    .module('kalendr.accounts.controllers', ['ngDialog']);
 
   angular
     .module('kalendr.accounts.services', []);

@@ -20,7 +20,8 @@
             all: all,
             get: get,
             create: create,
-            getFollowing: getFollowing
+            getFollowing: getFollowing,
+            getSpecific: getSpecific
         };
 
         return Groups;
@@ -76,6 +77,11 @@
         function getFollowing(id) {
             console.log('getting following');
             return $http.get('/api/v1/accounts/' + id + '/following/');
+        }
+
+        function getSpecific(id) {
+            console.log('getting specific group');
+            return $http.get('/api/v1/accounts/' + id + '/specific_group/');
         }
     }
 })();
