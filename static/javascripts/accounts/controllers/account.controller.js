@@ -34,7 +34,7 @@
         vm.addMembers = addMembers;
         vm.addGroup = addGroup;
         vm.groupNum = 0;
-        vm.groupClick = groupClick;
+        //vm.groupClick = groupClick;
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -278,7 +278,7 @@
         function addGroup() {
 
             Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
-            vm.groupList.unshift(vm.groupName);
+            Groups.get(username).then(groupSuccessFnTwo);
             vm.hasGroups = true;
             vm.groupName = null;
             vm.groupMembers = [];
@@ -287,11 +287,28 @@
             vm.rule = null;
         }
 
-        function groupClick(group) {
-            $rootScope.$broadcast('group.clicked', {
-                created_at: group.created_at
-            });
+        function groupSuccessFnTwo(data, status, headers, config) {
+            // Only adding groups that I am owner of here:
+            if (data.data.length > 0) vm.hasGroups = true;
+            vm.groupList = [];
+
+            var i;
+            for (i = 0; i < data.data.length; i++) {
+                if (data.data[i].is_follow_group == false) {
+                    if ($.inArray(data.data[i], vm.groupList) == -1) {
+                        console.log('Groups I own: ' + data.data[i]);
+                        vm.groupList.unshift(data.data[i]);
+                        console.log(data.data[i]);
+                    }
+                }
+            }
         }
+
+        //function groupClick(group) {
+        //    $rootScope.$broadcast('group.clicked', {
+        //        created_at: group.created_at
+        //    });
+        //}
 
 
     }

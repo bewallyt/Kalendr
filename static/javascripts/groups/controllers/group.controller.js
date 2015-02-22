@@ -2,6 +2,10 @@
  * GroupController
  * @namespace kalendr.Group.controllers
  */
+
+/**
+ * BENSON: FYI this code is currently superfluous..
+ */
 (function () {
     'use strict';
 
