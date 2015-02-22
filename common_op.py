@@ -349,5 +349,18 @@ user5 = Account.objects.get(username="user5")
 
 
 '''
+    Get all follower groups
+'''
+>>> KGroup.objects.filter(owner__username = "user0", is_follow_group=True)
+[<KGroup: user1>, <KGroup: user2>, <KGroup: user3>, <KGroup: user4>, <KGroup: user5>]
+
+'''
+    Get all non-follower groups
+'''
+>>> KGroup.objects.filter(owner__username = "user0", is_follow_group=False)
+[<KGroup: family>]
+
+
+'''
     Get all the posts that are shared with me
 '''
