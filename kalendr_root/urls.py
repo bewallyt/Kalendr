@@ -5,7 +5,9 @@ from rest_framework_nested import routers
 from authentication.views import AccountViewSet, LoginView, LogoutView
 from posts.views import AccountPostsViewSet, PostViewSet
 from kalendr_root.views import IndexView
-from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet
+from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
+    AccountNonFollowerGroupsViewSet
+
 from access.views import AccessViewSet, AccountAccessViewSet
 from puds.views import AccountPudsViewSet, PudViewSet
 
@@ -21,6 +23,9 @@ accounts_router = routers.NestedSimpleRouter(
 )
 accounts_router.register(r'posts', AccountPostsViewSet)
 accounts_router.register(r'groups', AccountGroupsViewSet)
+accounts_router.register(r'myfollowergroups', AccountFollowerGroupsViewSet)
+accounts_router.register(r'mynonfollowergroups', AccountNonFollowerGroupsViewSet)
+
 accounts_router.register(r'access', AccountAccessViewSet)
 accounts_router.register(r'puds', AccountPudsViewSet)
 accounts_router.register(r'following', AccountFollowingViewSet)
