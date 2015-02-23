@@ -76,5 +76,3 @@ class AccountPostsViewSet(viewsets.ViewSet):
 
 
         return Response(serializer.data)
-
-

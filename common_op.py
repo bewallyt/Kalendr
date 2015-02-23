@@ -364,3 +364,9 @@ user5 = Account.objects.get(username="user5")
 '''
     Get all the posts that are shared with me
 '''
+>>> Post.objects.filter(shared_with__name="user5")
+[<Post: post2>]
+>>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = True)
+[<Post: post2>]
+>>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = False)
+[]
