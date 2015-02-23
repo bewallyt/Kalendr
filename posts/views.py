@@ -32,7 +32,8 @@ class AccountPostsViewSet(viewsets.ViewSet):
     serializer_class = PostSerializer
 
     def list(self, request, account_username=None, post_pk=None):
-
+        print "is this the id passed " + account_username
+        print "is this the week number " + post_pk
         queryset = self.queryset.filter(author__username=account_username)
 
         for e in queryset:
@@ -61,20 +62,34 @@ class AccountPostsViewSet(viewsets.ViewSet):
             post_pk = datetime.datetime.today().isocalendar()[1]
 
         filtered_set = queryset.filter(notification='True')
-        filtered_week = queryset.filter(week_num = post_pk)
+        filtered_week = queryset.filter(week_num=post_pk)
         queryset = filtered_week.order_by('-start_time')
         queryset = queryset.reverse()
 
-
         serializer = self.serializer_class(queryset, many=True)
-
 
         for notify_post in filtered_set:
             send_mail(notify_post.content, 'Kalendr reminder - event at: ' + notify_post.show_begin_time,
                       'kalendr458@gmail.com', [notify_post.author.email],
                       fail_silently=False)
 
-
         return Response(serializer.data)
 
 
+class AccountSavePostViewSet(viewsets.ViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def list(self, request, account_username=None, post_pk=None, pud_pk=None):
+        print "ABOUT TO SAVE!!!"
+        print "author username: " + account_username
+        print "post id: " + post_pk
+        print "pud content: " + pud_pk
+        post = self.queryset.filter(author__username=account_username).get(id=post_pk)
+        print post.content
+        post.pud = pud_pk
+        post.save()
+        print post.pud
+        serializer = self.serializer_class(post, many=False)
+        print "serialization finished"
+        return Response(serializer.data)

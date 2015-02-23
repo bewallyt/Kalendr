@@ -172,7 +172,12 @@
                 //for (var i = 0; i < time_prune.length; i++) {
                 //    console.log(time_prune[i].content + " " + time_prune[i].priority_int);
                 //}
-                Posts.savePost(username, pud_post.id, time_prune[0].content);
+                if (time_prune.length != 0) {
+                    Posts.savePost(username, pud_post.id, time_prune[0].content);
+                } else {
+                    Posts.savePost(username, pud_post.id, 'No Task Available');
+                }
+                //Posts.savePost(username, pud_post.id, time_prune[0].content);
 
                 //Posts.getWeek(username, pud_post.weekNum).then(postsSuccessFn, postsErrorFn);
                 //Posts.getWeek(username, pud_post.weekNum).then(postsSuccessFn, postsErrorFn);

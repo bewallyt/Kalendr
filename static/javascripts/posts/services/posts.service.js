@@ -19,7 +19,8 @@
         var Posts = {
             all: all,
             create: create,
-            getWeek: getWeek
+            getWeek: getWeek,
+            savePost: savePost
         };
 
         return Posts;
@@ -76,13 +77,13 @@
          * @returns {Promise}
          * @memberOf kalendr.posts.services.Posts
          */
-        //function get(id) {
-        //    return $http.get('/api/v1/accounts/' + id + '/posts/');
-        //}
 
         function getWeek(id, weekNum) {
-            console.log('in get week');
             return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
+        }
+
+        function savePost(id, post_id, pud_content) {
+            return $http.get('/api/v1/accounts/' + id + '/posts/' + post_id + '/savePostPud/' + pud_content + '/pudContent/');
         }
     }
 })();
