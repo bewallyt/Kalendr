@@ -289,6 +289,10 @@ input[type="radio"] {
     margin: 0 20px 0 20px;
 }
 
+.radio_btn_left {
+    margin: 0 0px 0 10px;
+}
+
 .radio_btn_label {
     margin: 0 0px 0 15px;
 }
@@ -297,6 +301,18 @@ input[type="radio"] {
     margin: 0 0px 0 5px;
 }
 
+
+.radio_btn_left_post {
+    margin: 0 0px 0 -24px;
+}
+
+.radio_btn_label {
+    margin: 0 0px 0 15px;
+}
+
+.radio_btn_middle_post {
+    margin: 0 0px 0 0px;
+}
 .form-group .center {
     margin-left: auto;
     margin-right: auto;

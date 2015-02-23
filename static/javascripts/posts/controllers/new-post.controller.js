@@ -27,6 +27,9 @@
         vm.users;
         vm.addGroups = addGroups;
 
+        vm.rule;
+        vm.groupRuleDict = new Object();
+
 
         /**
          * @name submit
@@ -121,6 +124,8 @@
 
         function addGroups() {
             vm.sharedGroups.unshift(vm.selectedGroup.originalObject);
+            vm.groupRuleDict[vm.selectedGroup.originalObject.name] = vm.rule;
+
         }
     }
 

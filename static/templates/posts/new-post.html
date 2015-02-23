@@ -89,13 +89,23 @@
                           inputclass="form-control2" matchclass="highlight"
                           placeholder="Search Groups and Followers"/>
 
+        <center><h4 ng-show="vm.selectedGroup">Access Rule</h4></center>
+        <center><div class="form-group" ng-show="vm.selectedGroup">
+                <label class="radio_btn_left" for="busy">Busy</label><input type="radio" name="rule" id="busy" value="Busy" ng-model="vm.rule">
+                <label class="radio_btn_middle_post" for="see">Read Only</label>
+                <input type="radio" name="rule" id="see" value="Read Only" ng-model="vm.rule">
+                <label class="radio_btn_label" for="modify">Modify</label>
+                <input type="radio" name="rule" id="modify" value="Modify" ng-model="vm.rule">
+
+        </div>
+        </center>
+
             <center><a class="absolute mdi-social-plus-one btn btn-default "
-                       ng-show="vm.selectedGroup"
+                       type="reset"
+                       ng-show="vm.rule"
                        ng-click="vm.addGroups()"></a></center>
 
-            <li ng-repeat="group in vm.sharedGroups">
-                {{ group.name }}
-            </li>
+            <li ng-repeat="(group, rule) in vm.groupRuleDict">{{group}} - {{rule}}</li>
         </div>
 
         <div class="form-group">
