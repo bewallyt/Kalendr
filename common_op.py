@@ -8,6 +8,13 @@ from groups.models import  KGroup
 from authentication.models import Account
 from access.models import AccessRule
 
+user0 = Account.objects.get(username="user0")
+user1 = Account.objects.get(username="user1")
+user2 = Account.objects.get(username="user2")
+user3 = Account.objects.get(username="user3")
+user4 = Account.objects.get(username="user4")
+user5 = Account.objects.get(username="user5")
+
 
 # On django model manager: https://docs.djangoproject.com/en/1.7/topics/db/managers/
 # django doc on making queries is also helpful:
@@ -370,6 +377,18 @@ user5 = Account.objects.get(username="user5")
 [<Post: post2>]
 >>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = False)
 []
+
+
+
+
+'''
+    Get all the posts that are shared with me that I haven't reply to yet
+'''
+>>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = True, accessrule__receiver_response='NO_RESP')
+[<Post: post2>]
+
+
+
 
 
 '''

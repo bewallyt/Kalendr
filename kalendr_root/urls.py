@@ -13,7 +13,7 @@ from puds.views import AccountPudsViewSet, PudViewSet
 
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
-router.register(r'posts', PostViewSet)
+router.register(r'ModelViewSet', PostViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'access', AccessViewSet)
 router.register(r'puds', PudViewSet)
