@@ -51,6 +51,7 @@ class AccessViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
+# see shared posts
 class AccountAccessViewSet(viewsets.ViewSet):
     queryset = AccessRule.objects.select_related('group')
     serializer_class = AccessRuleSerializer
