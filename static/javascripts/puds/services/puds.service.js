@@ -64,13 +64,12 @@
         /**
          * @name get
          * @desc Get the Puds of a given user
-         * @param {string} username The username to get Puds for
+         * @param {string} id The username to get Puds for
          * @returns {Promise}
          * @memberOf kalendr.puds.services.Puds
          */
 
         function get(id) {
-            console.log('in get puds');
             return $http.get('/api/v1/accounts/' + id + '/puds/');
         }
     }

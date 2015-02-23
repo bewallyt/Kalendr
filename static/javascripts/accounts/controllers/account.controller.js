@@ -75,17 +75,10 @@
             Authentication.getUsers().then(usersSuccessFn);
             Groups.get(username).then(groupSuccessFn, groupErrorFn);
             Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
+            Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
 
             $scope.$on('post.created', function (event, post) {
                 console.log('post.created: scope get week: ' + post.weekNum);
-                if (post.pud_time) {
-                    console.log('this event is for a pud!');
-                    pud_post = post;
-                    //Puds.get(username)
-                }
-
-                console.log(pud_post.content);
-                console.log(pud_post.duration);
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
@@ -93,8 +86,13 @@
                 vm.date = post.dayOfWeek + ', ' + month + ' ' + post.start_time.getDate();
                 vm.weekNum = post.weekNum;
 
-                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
-                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                if (post.pud_time) {
+                    console.log('this event is for a pud!');
+                    Posts.getWeek(username, post.weekNum).then(postIdSuccessFn, postIdErrorFn);
+                } else {
+                    Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                    Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                }
             });
 
             $scope.$on('post.created.error', function () {
@@ -119,7 +117,6 @@
             });
 
             $scope.$on('pud.created', function (event, pud) {
-                console.log('printing content from account controller: ' + pud.content);
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
             });
 
@@ -136,7 +133,6 @@
             }
 
             function postsSuccessFn(data, status, headers, config) {
-                console.log('post success: ');
                 vm.posts = data.data;
             }
 
@@ -144,8 +140,49 @@
                 Snackbar.error(data.data.error);
             }
 
+            function postIdSuccessFn(data, status, headers, config) {
+                console.log('this is the returned data length: ' + data.data.length);
+                console.log('this is the data head: ' + data.data[0].duration);
+                console.log('this is the data tail: ' + data.data[data.data.length - 1].duration);
+                console.log('this is the data tail id: ' + data.data[data.data.length - 1].id);
+                pud_post = data.data[data.data.length - 1];
+                Puds.get(username).then(pudTimeSuccessFn, pudTimeErrorFn);
+            }
+
+            function postIdErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function pudTimeSuccessFn(data, status, headers, config) {
+                var time_prune = [];
+                console.log("pud_post duration: " + pud_post.duration);
+                console.log('pud_post id: ' + pud_post.id);
+                data.data.sort(function (a, b) {
+                    return b.duration - a.duration;
+                });
+                for (var s = 0; s < data.data.length; s++) {
+                    console.log(data.data[s].content + " " + data.data[s].duration);
+                    if (data.data[s].duration <= pud_post.duration) {
+                        time_prune.push(data.data[s]);
+                    }
+                }
+                time_prune.sort(function (a, b) {
+                    return b.priority_int - a.priority_int;
+                });
+                //for (var i = 0; i < time_prune.length; i++) {
+                //    console.log(time_prune[i].content + " " + time_prune[i].priority_int);
+                //}
+                Posts.savePost(username, pud_post.id, time_prune[0].content);
+
+                //Posts.getWeek(username, pud_post.weekNum).then(postsSuccessFn, postsErrorFn);
+                //Posts.getWeek(username, pud_post.weekNum).then(postsSuccessFn, postsErrorFn);
+            }
+
+            function pudTimeErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
             function pudsSuccessFn(data, status, headers, config) {
-                console.log("puds success");
                 // Not getting the newest pud.
                 vm.puds = data.data;
             }
