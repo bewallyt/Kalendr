@@ -51,6 +51,8 @@
             vm.ownedGroups = [];
             vm.memberOfGroups = [];
 
+            vm.shareable = [];
+
             username = Authentication.getAuthenticatedAccount().username;
             vm.myUsername = username;
 
@@ -78,10 +80,12 @@
             // Groups I own
             Groups.getNonFollowerOwnedGroups(username).then(groupOwnerSuccessFn, groupOwnerErrorFn);
             Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
-
             // Groups I don't own
             Groups.getMemberGroups(username).then(groupMemberSuccessFn, groupMemberErrorFn);
             Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
+
+            // To update shareable list
+            Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
 
             $scope.$on('post.created', function (event, post) {
 
@@ -134,10 +138,6 @@
 
             function postsSuccessFn(data, status, headers, config) {
                 vm.posts = data.data;
-                //var i;
-                //for(i = 0; i < vm.posts.length; i++){
-                //    console.log(vm.posts[i]);
-                //}
             }
 
             function postsErrorFn(data, status, headers, config) {
@@ -170,6 +170,7 @@
                   vm.hasOwnedGroups = true;
                 }
                 vm.ownedGroups = data.data;
+                Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
 
             }
 
@@ -201,6 +202,7 @@
             function followerSuccessFn(data, status, headers, config) {
                 vm.followerList = data.data;
                 if (data.data.length > 0) vm.hasFollowers = true;
+                Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
             }
 
             function followerErrorFn(data, status, headers, config) {
@@ -249,6 +251,14 @@
 
             function FollowerCreateErrorFn() {
                 Snackbar.error('Follower Addition Error');
+            }
+
+            function groupsSuccessFn(data, status, headers, config){
+                vm.shareable = data.data;
+            }
+
+            function groupsErrorFn(data, status, headers, config){
+                Snackbar.error(data.data.error);
             }
 
 

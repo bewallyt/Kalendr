@@ -149,6 +149,7 @@
    href="javascript:void(0)"
    ng-show="vm.isAuthenticated"
    ng-dialog="/static/templates/posts/new-post.html"
+   ng-dialog-data="{{ vm.shareable }}"
    ng-dialog-controller="NewPostController as vm"></a>
 
 <a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend"
@@ -163,6 +164,7 @@
 <button class="mdi-image-navigate-next btn btn-primary btn-fab btn-raised btn-next"
         ng-show="vm.isAuthenticated"
         ng-click="vm.next()"></button>
+
 
 <button class="mdi-action-store btn btn-primary btn-fab btn-raised btn-home"
         type="submit"

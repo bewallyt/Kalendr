@@ -20,6 +20,13 @@
         vm.submit = submit;
         vm.need_repeat = false;
 
+        // Share Variables
+        vm.is_shared = false;
+        vm.selectedGroup;
+        vm.sharedGroups = [];
+        vm.users;
+        vm.addGroups = addGroups;
+
 
         /**
          * @name submit
@@ -110,6 +117,10 @@
                 $rootScope.$broadcast('post.created.error');
                 Snackbar.error(data.error);
             }
+        }
+
+        function addGroups() {
+            vm.sharedGroups.unshift(vm.selectedGroup.originalObject);
         }
     }
 

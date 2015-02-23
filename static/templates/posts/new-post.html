@@ -1,7 +1,6 @@
 <form role="form" ng-submit="vm.submit()">
     <div class="form-group">
         <center><h2>New Event</h2></center>
-
         <div class="form-group">
 
             <input type="text" class="form-control" id="event__name" ng-init="vm.content = ngDialogData.content"
@@ -35,7 +34,8 @@
         </div>
         Date of Event:
         <br>
-        <input type="date" id="event__date" name="date" value="{{ ngDialogData.start_time | date: 'yyyy-MM-dd' }}" ng-init="vm.start_time = ngDialogData.start_time"
+        <input type="date" id="event__date" name="date" value="{{ ngDialogData.start_time | date: 'yyyy-MM-dd' }}"
+               ng-init="vm.start_time = ngDialogData.start_time"
                ng-model="vm.start_time">
 
         <input type="checkbox" class="all_day" ng-model="vm.not_all_day"/> Not all day?
@@ -55,7 +55,7 @@
         <br>
 
         Repeat:
-        <input type="checkbox" name="is_repeating"  ng-model="vm.is_repeating" ng-hide="vm.pud_time == true"/>
+        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating" ng-hide="vm.pud_time == true"/>
 
         <div ng-show="vm.is_repeating == true">
             <br>
@@ -75,6 +75,28 @@
         <br>
         <input type="datetime-local" name="notify_when" ng-model="vm.notify_when" ng-show="vm.notification == true"/>
         <br ng-show="vm.notification == true">
+
+        <br>
+
+        Share Event?
+        <input type="checkbox" ng-model="vm.is_shared"/>
+
+        <div ng-show="vm.is_shared == true">
+            <br>
+            <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedGroup"
+                          localdata="ngDialogData" titlefield="name" searchfields="name"
+                          minlength="1"
+                          inputclass="form-control2" matchclass="highlight"
+                          placeholder="Search Groups and Followers"/>
+
+            <center><a class="absolute mdi-social-plus-one btn btn-default "
+                       ng-show="vm.selectedGroup"
+                       ng-click="vm.addGroups()"></a></center>
+
+            <li ng-repeat="group in vm.sharedGroups">
+                {{ group.name }}
+            </li>
+        </div>
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">
