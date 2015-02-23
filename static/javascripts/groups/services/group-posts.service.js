@@ -22,7 +22,13 @@
             create: create,
             getFollowing: getFollowing,
             getSpecific: getSpecific,
-            getLatest: getLatest
+            getLatest: getLatest,
+            getAllFollowing: getAllFollowing,
+            getFollowers: getFollowers,
+            getNonFollowerOwnedGroups: getNonFollowerOwnedGroups,
+            getMemberGroups: getMemberGroups,
+
+
         };
 
         return Groups;
@@ -75,9 +81,9 @@
             return $http.get('/api/v1/accounts/' + id + '/groups/');
         }
 
-        function getFollowing(id) {
+        function getAllFollowing(id) {
             console.log('getting following');
-            return $http.get('/api/v1/accounts/' + id + '/following/');
+            return $http.get('/api/v1/accounts/' + id + '/following_all/');
         }
 
         function getSpecific(id) {
@@ -88,6 +94,26 @@
         function getLatest(id) {
             console.log('getting latest created group');
             return $http.get('/api/v1/accounts/' + id + '/latest_group/');
+        }
+
+        function getFollowers(id) {
+            console.log('getting my followers group');
+            return $http.get('/api/v1/accounts/' + id + '/myfollowergroups/');
+        }
+
+        function getNonFollowerOwnedGroups(id) {
+            console.log('getting my non follower owned group');
+            return $http.get('/api/v1/accounts/' + id + '/mynonfollowergroups/');
+        }
+
+        function getMemberGroups(id) {
+            console.log('getting non follower owned group');
+            return $http.get('/api/v1/accounts/' + id + '/mymembergroups/');
+        }
+
+        function getFollowing(id) {
+            console.log('getting non follower owned group');
+            return $http.get('/api/v1/accounts/' + id + '/following/');
         }
     }
 })();

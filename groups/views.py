@@ -116,6 +116,34 @@ class AccountFollowingViewSet(viewsets.ViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
+# Returns all following groups that account_username is a member of
+class AccountFollowingPersonViewSet(viewsets.ViewSet):
+    queryset = KGroup.objects.all()
+    serializer_class = GroupSerializer
+
+    def list(self, request, account_username=None):
+        print 'in member following API'
+
+        queryset = self.queryset.filter(members__username=account_username)
+        queryset = queryset.filter(is_follow_group=True)
+
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+# Returns all non-following groups that account_username is a member of
+class AccountFollowingGroupViewSet(viewsets.ViewSet):
+    queryset = KGroup.objects.all()
+    serializer_class = GroupSerializer
+
+    def list(self, request, account_username=None):
+        print 'in member non-following group API'
+
+        queryset = self.queryset.filter(members__username=account_username)
+        queryset = queryset.filter(is_follow_group=False)
+
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
 
 class AccountSpecificGroupViewSet(viewsets.ViewSet):
     queryset = KGroup.objects.all()

@@ -16,26 +16,6 @@
         instantiateAccordian();
         var username;
 
-        vm.addFollower = addFollower;
-        vm.followerList = [];
-        vm.hasFollowers = false;
-
-        vm.followingList = [];
-        vm.isFollowing = false;
-
-        vm.groupList = [];
-        vm.hasGroups = false;
-
-        vm.groupName = null;
-        vm.groupMembers = [];
-        var groupAccounts = [];
-        vm.selectedMember = null;
-        vm.rule = null;
-        vm.addMembers = addMembers;
-        vm.addGroup = addGroup;
-        vm.groupNum = 0;
-        //vm.groupClick = groupClick;
-
 
         vm.isAuthenticated = Authentication.isAuthenticated();
 
@@ -47,6 +27,29 @@
         if (vm.isAuthenticated) activate();
 
         function activate() {
+
+            vm.addFollower = addFollower;
+            vm.followerList = [];
+            vm.hasFollowers = false;
+
+            vm.followingList = [];
+            vm.isFollowing = false;
+
+
+            vm.hasGroups = false;
+            vm.hasOwnedGroups = false;
+            vm.hasMemberOfGroups = false;
+
+            vm.groupName = null;
+            vm.groupMembers = [];
+            var groupAccounts = [];
+            vm.selectedMember = null;
+            vm.rule = null;
+            vm.addMembers = addMembers;
+            vm.addGroup = addGroup;
+
+            vm.ownedGroups = [];
+            vm.memberOfGroups = [];
 
             username = Authentication.getAuthenticatedAccount().username;
             vm.myUsername = username;
@@ -71,7 +74,13 @@
             Account.get(username).then(accountSuccessFn, accountErrorFn);
             Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             Authentication.getUsers().then(usersSuccessFn);
-            Groups.get(username).then(groupSuccessFn, groupErrorFn);
+
+            // Groups I own
+            Groups.getNonFollowerOwnedGroups(username).then(groupOwnerSuccessFn, groupOwnerErrorFn);
+            Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
+
+            // Groups I don't own
+            Groups.getMemberGroups(username).then(groupMemberSuccessFn, groupMemberErrorFn);
             Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
 
             $scope.$on('post.created', function (event, post) {
@@ -155,21 +164,93 @@
 
             }
 
-            function groupSuccessFn(data, status, headers, config) {
+            function groupOwnerSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0){
+                  vm.hasGroups = true;
+                  vm.hasOwnedGroups = true;
+                }
+                vm.ownedGroups = data.data;
 
             }
 
-            function groupErrorFn(data, status, headers, config) {
+            function groupOwnerErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function groupMemberSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0){
+                    vm.hasMemberOfGroups = true;
+                    vm.hasGroups = true;
+                }
+                vm.memberOfGroups = data.data;
+            }
+
+            function groupMemberErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
             function followingSuccessFn(data, status, headers, config) {
                 vm.followingList = data.data;
+                if (data.data.length > 0) vm.isFollowing = true;
             }
 
             function followingErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
+
+            function followerSuccessFn(data, status, headers, config) {
+                vm.followerList = data.data;
+                if (data.data.length > 0) vm.hasFollowers = true;
+            }
+
+            function followerErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function addFollower() {
+                vm.hasFollowers = true;
+                vm.followerList.unshift(vm.selectedUser.originalObject);
+                Groups.create(vm.selectedUser.originalObject.username, [vm.selectedUser.originalObject], Authentication.getAuthenticatedAccount(), true).then(FollowerCreateSuccessFn, FollowerCreateErrorFn);
+            }
+
+            function addMembers() {
+                vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
+                groupAccounts.unshift(vm.selectedMember.originalObject);
+            }
+
+            function addGroup() {
+
+                Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false).then(groupCreateSuccessFn, groupCreateErrorFn);
+                $timeout(callAtTimeout, 3000);
+            }
+
+            function groupCreateSuccessFn() {
+                Snackbar.show('Group Created!');
+                Groups.getNonFollowerOwnedGroups(username).then(groupOwnerSuccessFn, groupOwnerErrorFn);
+
+                // Reset Group Field data
+                vm.hasGroups = true;
+                vm.groupName = null;
+                vm.groupMembers = [];
+                groupAccounts = [];
+                vm.selectedMember = null;
+                vm.rule = null;
+            }
+
+            function groupCreateErrorFn() {
+                Snackbar.error('Group Creation Error');
+            }
+
+            function FollowerCreateSuccessFn() {
+                Snackbar.show('Follower Added!');
+                Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
+
+            }
+
+            function FollowerCreateErrorFn() {
+                Snackbar.error('Follower Addition Error');
+            }
+
 
             vm.activate = function () {
                 date = homeDate;
@@ -221,46 +302,7 @@
                 isFirstOpen: true,
                 isFirstDisabled: false
             };
-
-
         }
-
-        function addFollower() {
-            vm.hasFollowers = true;
-            vm.followerList.unshift(vm.selectedUser.originalObject.username);
-            var userAccount = [];
-            userAccount.unshift(vm.selectedUser.originalObject);
-            Groups.create(vm.selectedUser.originalObject.username, userAccount, Authentication.getAuthenticatedAccount(), true);
-        }
-
-        function addMembers() {
-            vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
-            groupAccounts.unshift(vm.selectedMember.originalObject);
-        }
-
-        function addGroup() {
-
-            Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
-            $timeout(callAtTimeout, 3000);
-            Groups.getLatest(username).then(groupSuccessFnTwo);
-            vm.hasGroups = true;
-            vm.groupName = null;
-            vm.groupMembers = [];
-            groupAccounts = [];
-            vm.selectedMember = null;
-            vm.rule = null;
-        }
-
-        function groupSuccessFnTwo(data, status, headers, config) {
-            console.log(data.data);
-            vm.groupList.unshift(data.data);
-        }
-
-        //function groupClick(group) {
-        //    $rootScope.$broadcast('group.clicked', {
-        //        created_at: group.created_at
-        //    });
-        //}
 
 
     }
@@ -313,8 +355,8 @@
     }
 
     function callAtTimeout() {
-    console.log("Waiting for get request...");
-}
+        console.log("Waiting for get request...");
+    }
 
 
 })

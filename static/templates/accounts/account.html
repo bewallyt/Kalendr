@@ -23,7 +23,7 @@
                 <br>
 
                 <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
-                    {{ following }}
+                    {{ following.owner.username }}
                 </li>
                 <h5 ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
             </accordion-group>
@@ -51,7 +51,7 @@
                 <br>
 
                 <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
-                    {{ follower }}
+                    {{ follower.name }}
                 </li>
                 <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
@@ -95,19 +95,7 @@
                                     {{ member }}
                                 </li>
 
-
-                                <div class="form-group">
-                                    Group Rules:
-                                    <select class="form-control" ng-model="vm.rule" id="group__rules">
-                                        <option value='Daily'>Busy Only</option>
-                                        <option value='Weekly'>See All</option>
-                                        <option value='Monthly'>Modify</option>
-                                    </select>
-
-                                </div>
-
                             </div>
-
 
                             <div class="form-group">
                                 <button data-toggle="collapse" data-target="#add_group" type="submit"
@@ -119,14 +107,30 @@
                     </div>
                 </center>
                 <br>
-                <li ng-repeat="group in vm.groupList">
-                    <a class="btn btn-flat btn-default btn-nopadding"
-                       ng-click="vm.groupClick(group)"
-                       href="javascript:void(0)"
-                       ng-show="vm.isAuthenticated"
-                       ng-dialog="/static/templates/groups/group.html"
-                       ng-dialog-data="{{ group }}">{{ group.name }}</a>
-                </li>
+
+                <div ng-show="vm.hasGroups">
+                    <div ng-show="vm.hasOwnedGroups"><p class="groups_underline" align="left">Groups I own</p>
+                        <li ng-repeat="group in vm.ownedGroups">
+                            <a class="btn btn-flat btn-default btn-nopadding"
+                               ng-click="vm.groupClick(group)"
+                               href="javascript:void(0)"
+                               ng-show="vm.isAuthenticated"
+                               ng-dialog="/static/templates/groups/group.html"
+                               ng-dialog-data="{{ group }}"><p class="group_button_text" align="left">{{ group.name }}</p></a>
+                        </li>
+                        <br>
+                    </div>
+                    <div ng-show="vm.hasMemberOfGroups"><p class="groups_underline" align="left">Groups I'm a member of</p>
+                        <li ng-repeat="group in vm.memberOfGroups">
+                            <a class="btn btn-flat btn-default btn-nopadding"
+                               ng-click="vm.groupClick(group)"
+                               href="javascript:void(0)"
+                               ng-show="vm.isAuthenticated"
+                               ng-dialog="/static/templates/groups/group.html"
+                               ng-dialog-data="{{ group }}"><p class="group_button_text" align="left">{{ group.name }}</p></a>
+                        </li>
+                    </div>
+                </div>
                 <h5 ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
             </accordion-group>
         </accordion>
@@ -183,7 +187,7 @@
    ng-dialog-controller="DateController as vm"></a>
 
 <button class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
-        ng-show="vm.isAuthenticated"><span style="font-size: 14px">1</span></button>
+        ng-show="vm.isAuthenticated"><span style="font-size: 1px">1</span></button>
 
 <script>
     (function () {

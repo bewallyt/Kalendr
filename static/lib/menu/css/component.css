@@ -284,6 +284,15 @@
     width: 34px;
 }
 
+.groups_underline{
+	border-bottom: 1px solid #cdf0ed;
+}
+
+.group_button_text{
+	text-transform: none;
+	color: #cdf0ed;
+}
+
 
 /* Example media queries */
 
