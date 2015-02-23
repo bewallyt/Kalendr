@@ -370,3 +370,41 @@ user5 = Account.objects.get(username="user5")
 [<Post: post2>]
 >>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = False)
 []
+
+
+'''
+    Serialization: from model object to JSON
+'''
+serializer = PostSerializer(post)
+serializer.data # this contents Python native datatype, e.g. a list. For serialization, this is an intermediate step
+
+# Then with the Python native datatype, we can render it into JSON string.
+content = JSONRenderer().render(serializer.data)
+content
+
+# We can also serialize querysets instead of model instances.
+# To do so we simply add a many=True flag to the serializer arguments.
+'''
+    Deserialization: from JSON to model object
+'''
+#  Frist parse stream into Python native datatypes
+stream = BytesIO(content)
+data = JSONParser().parse(stream)
+
+# Then we can use our serializer to create django model instance(s) from the JSON
+serializer = SnippetSerializer(data=data)
+serializer.is_valid()
+# True
+serializer.validated_data # this contains Python native datatypes
+# OrderedDict([('title', ''), ('code', 'print "hello, world"\n'), ('linenos', False), ('language', 'python'), ('style', 'friendly')])
+serializer.save()
+# <Snippet: Snippet object>
+
+    '''
+        Deserialization with Request
+    '''
+    instance = serializer(request.data)
+    if serializer.is_valid:
+        serializer.save(author=self.request.user)
+
+

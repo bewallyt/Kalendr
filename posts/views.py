@@ -6,12 +6,13 @@ from posts.permissions import IsAuthorOfPost
 from posts.serializers import PostSerializer
 from posts.repeat import repeat_events
 from django.core.mail import send_mail
+from rest_framework import status
 
 import datetime
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.order_by('-created_at')
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
 
     def get_permissions(self):
@@ -20,13 +21,26 @@ class PostViewSet(viewsets.ModelViewSet):
             return (permissions.AllowAny(),)
         return (permissions.IsAuthenticated(), IsAuthorOfPost(),)
 
-    def perform_create(self, serializer):
-        print 'in perform create:'
-        instance = serializer.save(author=self.request.user)
+    def get_queryset(self):
+        user = self.request.user
+        return Post.objects.all()
 
-        return super(PostViewSet, self).perform_create(serializer)
+    def create(self, request):
+        print 'in post perform create:'
+        # what does serializer.save() do? What's the input argument?
+        # inject additional data at the point of saving the instance.
+        new_post = self.serializer_class(data=request.data)
+        if new_post.is_valid():
+            print "post info validated"
+            print new_post.validated_data
+            new_post.save(author=request.user)
+            print "save failed?"
+            return Response(new_post.data, status=status.HTTP_201_CREATED)
+
+        return Response(new_post.data, status=status.HTTP_400_BAD_REQUEST)
 
 
+# For list, create, update  and destroy posts of the logged in user
 class AccountPostsViewSet(viewsets.ViewSet):
     queryset = Post.objects.select_related('author')
     serializer_class = PostSerializer
