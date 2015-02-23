@@ -39,6 +39,8 @@ class AccessViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class()
         order = 0
         post = Post.objects.get(id=request.data['post'])
+        if post.is_holiday:
+            return Response(status=status.HTTP_204_NO_CONTENT)
         for rule in request.data['rules']:
             group = KGroup.objects.filter(owner=request.user).get(name=rule['group'])
             rule['order'] = order
