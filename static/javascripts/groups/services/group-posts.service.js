@@ -21,7 +21,8 @@
             get: get,
             create: create,
             getFollowing: getFollowing,
-            getSpecific: getSpecific
+            getSpecific: getSpecific,
+            getLatest: getLatest
         };
 
         return Groups;
@@ -82,6 +83,11 @@
         function getSpecific(id) {
             console.log('getting specific group');
             return $http.get('/api/v1/accounts/' + id + '/specific_group/');
+        }
+
+        function getLatest(id) {
+            console.log('getting latest created group');
+            return $http.get('/api/v1/accounts/' + id + '/latest_group/');
         }
     }
 })();

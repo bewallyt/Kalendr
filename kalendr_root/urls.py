@@ -6,7 +6,7 @@ from authentication.views import AccountViewSet, LoginView, LogoutView
 from posts.views import AccountPostsViewSet, PostViewSet
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
-    AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet
+    AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet
 
 from access.views import AccessViewSet, AccountAccessViewSet
 from puds.views import AccountPudsViewSet, PudViewSet
@@ -34,6 +34,7 @@ accounts_router.register(r'puds', AccountPudsViewSet)
 # all the groups that I'm a member of and do not own
 accounts_router.register(r'following', AccountFollowingViewSet)
 accounts_router.register(r'specific_group', AccountSpecificGroupViewSet)
+accounts_router.register(r'latest_group', AccountLatestGroupViewSet)
 
 week_router = routers.NestedSimpleRouter(
     accounts_router, r'posts', lookup='post'

@@ -8,9 +8,9 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
 
-    function AccountController($location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
+    function AccountController($timeout, $location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
 
         var vm = this;
         instantiateAccordian();
@@ -125,6 +125,10 @@
 
             function postsSuccessFn(data, status, headers, config) {
                 vm.posts = data.data;
+                //var i;
+                //for(i = 0; i < vm.posts.length; i++){
+                //    console.log(vm.posts[i]);
+                //}
             }
 
             function postsErrorFn(data, status, headers, config) {
@@ -152,23 +156,7 @@
             }
 
             function groupSuccessFn(data, status, headers, config) {
-                // Only adding groups that I am owner of here:
-                if (data.data.length > 0) vm.hasGroups = true;
 
-                var i;
-                for (i = 0; i < data.data.length; i++) {
-                    if (data.data[i].is_follow_group == false) {
-                        if ($.inArray(data.data[i], vm.groupList) == -1) {
-                            vm.groupList.unshift(data.data[i]);
-                        }
-                    }
-                    else {
-                        vm.followerList.unshift(data.data[i].name);
-                        vm.hasFollowers = true;
-                    }
-
-
-                }
             }
 
             function groupErrorFn(data, status, headers, config) {
@@ -176,23 +164,7 @@
             }
 
             function followingSuccessFn(data, status, headers, config) {
-
-                var i;
-                for (i = 0; i < data.data.length; i++) {
-                    if (data.data[i].is_follow_group) {
-                        vm.isFollowing = true;
-                        if ($.inArray(data.data[i].owner.username, vm.followingList) == -1) {
-                            vm.followingList.unshift(data.data[i].owner.username);
-                        }
-                    }
-                    else {
-                        vm.hasGroups = true;
-                        if ($.inArray(data.data[i].name, vm.groupList) == -1) {
-                            vm.groupList.unshift(data.data[i]);
-                        }
-                    }
-
-                }
+                vm.followingList = data.data;
             }
 
             function followingErrorFn(data, status, headers, config) {
@@ -269,7 +241,8 @@
         function addGroup() {
 
             Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
-            Groups.get(username).then(groupSuccessFnTwo);
+            $timeout(callAtTimeout, 3000);
+            Groups.getLatest(username).then(groupSuccessFnTwo);
             vm.hasGroups = true;
             vm.groupName = null;
             vm.groupMembers = [];
@@ -279,18 +252,8 @@
         }
 
         function groupSuccessFnTwo(data, status, headers, config) {
-            console.log('group added');
-            if (data.data.length > 0) vm.hasGroups = true;
-
-            var i;
-            for (i = 0; i < data.data.length; i++) {
-                if (data.data[i].is_follow_group == false) {
-                    if ($.inArray(data.data[i], vm.groupList) == -1) {
-                        console.log(data.data[i].name);
-                        vm.groupList.unshift(data.data[i]);
-                    }
-                }
-            }
+            console.log(data.data);
+            vm.groupList.unshift(data.data);
         }
 
         //function groupClick(group) {
@@ -348,6 +311,10 @@
 
         return dayOfWeek;
     }
+
+    function callAtTimeout() {
+    console.log("Waiting for get request...");
+}
 
 
 })

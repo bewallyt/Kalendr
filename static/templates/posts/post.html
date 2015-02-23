@@ -12,8 +12,10 @@
         <div class="corner_div">
             <center>
                 <button class="left-side hover-btn mdi-editor-border-color btn btn-default btn-xs"
-                        ng-dialog="/static/templates/groups/group.html"
-                        ng-dialog-data="{{ post }}">
+                        ng-hide="post.is_holiday"
+                        ng-dialog="/static/templates/posts/new-post.html"
+                        ng-dialog-data="{{ post }}"
+                        ng-dialog-controller="NewPostController as vm"
                 </button>
                 <button class="right-side hover-btn mdi-action-flip-to-front btn btn-default btn-xs"
                         ng-dialog="/static/templates/posts/post-description.html"

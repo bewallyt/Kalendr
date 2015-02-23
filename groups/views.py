@@ -129,3 +129,18 @@ class AccountSpecificGroupViewSet(viewsets.ViewSet):
 
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+class AccountLatestGroupViewSet(viewsets.ViewSet):
+    queryset = KGroup.objects.select_related('owner')
+    serializer_class = GroupSerializer
+
+    def list(self, request, account_username=None):
+        print 'in latest list'
+
+        queryset = self.queryset.filter(owner__username=account_username)
+        latest = queryset.latest('created_at')
+
+        serializer = self.serializer_class(latest)
+        print serializer.data
+
+        return Response(serializer.data)
