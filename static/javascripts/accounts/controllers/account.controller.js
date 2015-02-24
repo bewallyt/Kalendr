@@ -34,12 +34,9 @@
         vm.addMembers = addMembers;
         vm.addGroup = addGroup;
         vm.groupNum = 0;
-        //vm.groupClick = groupClick;
         var pud_post;
 
-
         vm.isAuthenticated = Authentication.isAuthenticated();
-
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
@@ -56,11 +53,8 @@
             var date = new Date();
             var num_month = date.getMonth();
             var month = findMonth(num_month);
-
-
             var num_day = date.getDay();
             var dayOfWeek = findDay(num_day);
-
             var homeDate = date;
             var homeWeek = date.getWeekNum();
             var homeDayOfWeek = dayOfWeek;
@@ -78,7 +72,7 @@
             Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
 
             $scope.$on('post.created', function (event, post) {
-                console.log('post.created: scope get week: ' + post.weekNum);
+                console.log('post.created: root broadcast get week: ' + post.weekNum);
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
@@ -87,7 +81,6 @@
                 vm.weekNum = post.weekNum;
 
                 if (post.pud_time) {
-                    console.log('this event is for a pud!');
                     Posts.getWeek(username, post.weekNum).then(postIdSuccessFn, postIdErrorFn);
                 } else {
                     Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
@@ -140,47 +133,73 @@
                 Snackbar.error(data.data.error);
             }
 
+            /**
+             * @name postIdSuccessFn
+             * @desc Assign var post_pud as the Post with highest value unique id
+             * @param data, status, headers, config
+             * @calls Puds.get
+             */
+
             function postIdSuccessFn(data, status, headers, config) {
-                console.log('this is the returned data length: ' + data.data.length);
-                console.log('this is the data head: ' + data.data[0].duration);
-                console.log('this is the data tail: ' + data.data[data.data.length - 1].duration);
-                console.log('this is the data tail id: ' + data.data[data.data.length - 1].id);
-                pud_post = data.data[data.data.length - 1];
-                Puds.get(username).then(pudTimeSuccessFn, pudTimeErrorFn);
+                data.data.sort(function (a, b) {
+                    return b.id - a.id;
+                });
+                for (var s = 0; s < data.data.length; s++) {
+                    console.log(data.data[s].id + ' id');
+                }
+                pud_post = data.data[0];
+                console.log(pud_post.id + ' post_pud id');
+                Posts.savePost(username, pud_post.id, pud_post.week_num);
             }
 
             function postIdErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
-            function pudTimeSuccessFn(data, status, headers, config) {
-                var time_prune = [];
-                console.log("pud_post duration: " + pud_post.duration);
-                console.log('pud_post id: ' + pud_post.id);
-                data.data.sort(function (a, b) {
-                    return b.duration - a.duration;
-                });
-                for (var s = 0; s < data.data.length; s++) {
-                    console.log(data.data[s].content + " " + data.data[s].duration);
-                    if (data.data[s].duration <= pud_post.duration) {
-                        time_prune.push(data.data[s]);
-                    }
-                }
-                time_prune.sort(function (a, b) {
-                    return b.priority_int - a.priority_int;
-                });
-                //for (var i = 0; i < time_prune.length; i++) {
-                //    console.log(time_prune[i].content + " " + time_prune[i].priority_int);
-                //}
-                if (time_prune.length != 0) {
-                    Posts.savePost(username, pud_post.id, time_prune[0].content);
-                } else {
-                    Posts.savePost(username, pud_post.id, 'No Task Available');
-                }
-                //Posts.savePost(username, pud_post.id, time_prune[0].content);
+            /**
+             * @name pudTimeSuccessFn
+             * @desc Find the highest priority pud that fits within pud_post duration amount
+             * @param data, status, headers, config
+             * @calls Posts.savePost, Posts.getWeek
+             */
 
-                //Posts.getWeek(username, pud_post.weekNum).then(postsSuccessFn, postsErrorFn);
-                //Posts.getWeek(username, pud_post.weekNum).then(postsSuccessFn, postsErrorFn);
+            function pudTimeSuccessFn(data, status, headers, config) {
+                //console.log('this is the recent post id: ' + pud_post.id);
+                //if (data.data.length == 0) {
+                //    console.log('data length is 0');
+                //    Posts.savePost(username, pud_post.id, 'No Task Available').then(Posts.getWeek(username, pud_post.week_num));
+                    //console.log('there are no puds, now continue to display on screen');
+                    //Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
+                //}
+                //Posts.savePost(username, pud_post.id, 'No Task Available');
+                //if (data.data.length == 0) {
+                //    Posts.savePost(username, pud_post.id, 'No Task Available');
+                //    console.log('there are no puds, now continue displaying on screen');
+                //    Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
+                //} else {
+                //    var time_prune = [];
+                //    data.data.sort(function (a, b) {
+                //        return b.duration - a.duration;
+                //    });
+                //    for (var s = 0; s < data.data.length; s++) {
+                //        if (data.data[s].duration <= pud_post.duration) {
+                //            time_prune.push(data.data[s]);
+                //        }
+                //    }
+                //    time_prune.sort(function (a, b) {
+                //        return b.priority_int - a.priority_int;
+                //    });
+                //    if (time_prune.length > 0) {
+                //        Posts.savePost(username, pud_post.id, time_prune[0].content);
+                //        Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
+                //
+                //    } else {
+                //        Posts.savePost(username, pud_post.id, 'No Task Available');
+                //        Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
+                //
+                //    }
+                //}
+                //}
             }
 
             function pudTimeErrorFn(data, status, headers, config) {
