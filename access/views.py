@@ -8,6 +8,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
+#
 class AccessViewSet(viewsets.ModelViewSet):
     queryset = AccessRule.objects.order_by('order')
     serializer_class = AccessRuleSerializer
@@ -35,16 +36,36 @@ class AccessViewSet(viewsets.ModelViewSet):
     # order of rule determined from position in list
     # set all rules at once
     '''
+
+    '''
+        The format of data that the front-end passed to us is:
+         post: post_id
+         rule:
+            {"group_name1" : "vis_1",
+             "group_name2" : "vis_2",
+             "group_name3" : "vis_3"}
+    '''
     def create(self, request):
         serializer = self.serializer_class()
         order = 0
-        post = Post.objects.get(id=request.data['post'])
+        post = Post.objects.get(pk=request.data['post'])
+        user = Account.objects.get(email = request.user.email)
+        group_rule_dict = request.data['rules'] #keys are group names, values are vis strings
+
         if post.is_holiday:
             return Response(status=status.HTTP_204_NO_CONTENT)
-        for rule in request.data['rules']:
-            group = KGroup.objects.filter(owner=request.user).get(name=rule['group'])
+
+        for group_name in request.data['rules']:
+
+            rule = {}
+
+            group = user.mygroups.get(name=group_name)
+
             rule['order'] = order
-            serializer = self.serializer_class(data=rule)
+            rule['visibility'] = group_rule_dict.get(group_name)
+
+            #need partial=True for the serializer to parse it
+            serializer = self.serializer_class(data=rule, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save(post=post, group=group)
             order += 1

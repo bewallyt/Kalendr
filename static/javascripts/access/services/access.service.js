@@ -32,9 +32,9 @@
                 else if (groupRuleDict[groupName] == "Busy") groupRuleDict[groupName] = 'BUS';
                 else groupRuleDict[groupName] = 'ALL';
             }
-            return $http.post('/api/v1/access', {
+            return $http.post('/api/v1/access/', {
                 post: post,
-                groupRuleDict: groupRuleDict
+                rules: groupRuleDict
             });
         }
     }

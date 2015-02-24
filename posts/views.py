@@ -34,7 +34,7 @@ class PostViewSet(viewsets.ModelViewSet):
             new_post.save(author=request.user)
             return Response(new_post.data, status=status.HTTP_201_CREATED)
         return Response(new_post.data, status=status.HTTP_400_BAD_REQUEST)
-
+    # HTTP .patch
     def partial_update(self, request, pk, **kwargs):
         post = self.get_queryset().filter(pk=pk)
         updated_post = self.serializer_class(post, data = request.data, partial=True)
@@ -61,7 +61,7 @@ class NotificationPostView(viewsets.ModelViewSet):
 
         serializer = self.serializer_class(noresponse_posts, many=True)
 
-        Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # For list, create, update  and destroy posts of the logged in user
