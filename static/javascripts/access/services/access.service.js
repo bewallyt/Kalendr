@@ -20,7 +20,8 @@
          * @memberOf kalendr.access.services.Access
          */
         var Access = {
-            createShareable: createShareable
+            createShareable: createShareable,
+            reply: reply
         };
 
         return Access;
@@ -35,6 +36,16 @@
             return $http.post('/api/v1/access/', {
                 post: post,
                 rules: groupRuleDict
+            });
+        }
+
+        function reply(postId, response, emailNotification, emailNotifyWhen){
+            emailNotification = false;
+            return $http.patch('/api/v1/access/',{
+                post: postId,
+                response: response,
+                emailNotification: emailNotification
+                //emailNotifyWhen: emailNotifyWhen
             });
         }
     }
