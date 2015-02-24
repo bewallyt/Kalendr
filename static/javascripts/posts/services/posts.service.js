@@ -25,7 +25,6 @@
 
         return Posts;
 
-        ////////////////////
 
         /**
          * @name all
@@ -48,7 +47,6 @@
                         end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set, pud_time, pud, duration) {
 
             if (end_repeat === null) end_repeat = start_time;
-            //console.log('duration of calendar event: ' + duration);
             return $http.post('/api/v1/posts/', {
                 content: content,
                 start_time: start_time,
@@ -73,8 +71,8 @@
 
         /**
          * @name get
-         * @desc Get the Posts of a given user
-         * @returns {Promise}
+         * @desc Get the Posts of a given user for a certain week
+         * @returns An array of post objects
          * @memberOf kalendr.posts.services.Posts
          */
 
@@ -82,8 +80,15 @@
             return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
         }
 
-        function savePost(id, post_id, pud_content) {
-            return $http.get('/api/v1/accounts/' + id + '/posts/' + post_id + '/savePostPud/' + pud_content + '/pudContent/');
+        /**
+         * @name get
+         * @desc Get the Posts of a given user for a certain week, after assigning a specific pud to the id'ed post
+         * @returns An array of post objects
+         * @memberOf kalendr.posts.services.Posts
+         */
+
+        function savePost(id, post_id, weekNum) {
+            return $http.get('/api/v1/accounts/' + id + '/posts/' + post_id + '/savePostPud/' + weekNum + '/pudContent/');
         }
     }
 })();

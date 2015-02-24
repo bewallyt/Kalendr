@@ -82,6 +82,7 @@
 
                 if (post.pud_time) {
                     Posts.getWeek(username, post.weekNum).then(postIdSuccessFn, postIdErrorFn);
+                    Posts.getWeek(username, post.weekNum).then(postIdSuccessFn, postIdErrorFn);
                 } else {
                     Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
                     Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
@@ -111,6 +112,7 @@
 
             $scope.$on('pud.created', function (event, pud) {
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+                Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
             });
 
             $scope.$on('pud.created.error', function () {
@@ -135,7 +137,8 @@
 
             /**
              * @name postIdSuccessFn
-             * @desc Assign var post_pud as the Post with highest value unique id
+             * @desc Assign the pud with highest priority fitting into the post duration, if the highest priority is
+             * shared amongst multiple puds, then the oldest pud is assigned
              * @param data, status, headers, config
              * @calls Puds.get
              */
@@ -149,65 +152,14 @@
                 }
                 pud_post = data.data[0];
                 console.log(pud_post.id + ' post_pud id');
-                Posts.savePost(username, pud_post.id, pud_post.week_num);
+                Posts.savePost(username, pud_post.id, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
             }
 
             function postIdErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
-            /**
-             * @name pudTimeSuccessFn
-             * @desc Find the highest priority pud that fits within pud_post duration amount
-             * @param data, status, headers, config
-             * @calls Posts.savePost, Posts.getWeek
-             */
-
-            function pudTimeSuccessFn(data, status, headers, config) {
-                //console.log('this is the recent post id: ' + pud_post.id);
-                //if (data.data.length == 0) {
-                //    console.log('data length is 0');
-                //    Posts.savePost(username, pud_post.id, 'No Task Available').then(Posts.getWeek(username, pud_post.week_num));
-                    //console.log('there are no puds, now continue to display on screen');
-                    //Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
-                //}
-                //Posts.savePost(username, pud_post.id, 'No Task Available');
-                //if (data.data.length == 0) {
-                //    Posts.savePost(username, pud_post.id, 'No Task Available');
-                //    console.log('there are no puds, now continue displaying on screen');
-                //    Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
-                //} else {
-                //    var time_prune = [];
-                //    data.data.sort(function (a, b) {
-                //        return b.duration - a.duration;
-                //    });
-                //    for (var s = 0; s < data.data.length; s++) {
-                //        if (data.data[s].duration <= pud_post.duration) {
-                //            time_prune.push(data.data[s]);
-                //        }
-                //    }
-                //    time_prune.sort(function (a, b) {
-                //        return b.priority_int - a.priority_int;
-                //    });
-                //    if (time_prune.length > 0) {
-                //        Posts.savePost(username, pud_post.id, time_prune[0].content);
-                //        Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
-                //
-                //    } else {
-                //        Posts.savePost(username, pud_post.id, 'No Task Available');
-                //        Posts.getWeek(username, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
-                //
-                //    }
-                //}
-                //}
-            }
-
-            function pudTimeErrorFn(data, status, headers, config) {
-                Snackbar.error(data.data.error);
-            }
-
             function pudsSuccessFn(data, status, headers, config) {
-                // Not getting the newest pud.
                 vm.puds = data.data;
             }
 

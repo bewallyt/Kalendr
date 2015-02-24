@@ -28,7 +28,7 @@ week_router = routers.NestedSimpleRouter(accounts_router, r'posts', lookup='post
 week_router.register(r'week', AccountPostsViewSet)
 week_router.register(r'savePostPud', AccountPostsViewSet)
 
-save_router = routers.NestedSimpleRouter(week_router, r'savePostPud', lookup='pud')
+save_router = routers.NestedSimpleRouter(week_router, r'savePostPud', lookup='week')
 save_router.register(r'pudContent', AccountSavePostViewSet)
 
 group_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')

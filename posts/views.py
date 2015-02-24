@@ -2,6 +2,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
 from posts.models import Post
+from puds.models import Pud
 from posts.permissions import IsAuthorOfPost
 from posts.serializers import PostSerializer
 from posts.repeat import repeat_events
@@ -78,18 +79,30 @@ class AccountPostsViewSet(viewsets.ViewSet):
 
 class AccountSavePostViewSet(viewsets.ViewSet):
     queryset = Post.objects.all()
+    pud_queryset = Pud.objects.all()
     serializer_class = PostSerializer
 
-    def list(self, request, account_username=None, post_pk=None, pud_pk=None):
+    def list(self, request, account_username=None, post_pk=None, week_pk=None):
         print "ABOUT TO SAVE!!!"
-        print "author username: " + account_username
-        print "post id: " + post_pk
-        print "pud content: " + pud_pk
-        post = self.queryset.filter(author__username=account_username).get(id=post_pk)
-        print post.content
-        post.pud = pud_pk
+        filtered_week = self.queryset.filter(author__username=account_username).filter(week_num=week_pk)
+        incomplete_puds = self.pud_queryset.filter(author__username=account_username).filter(is_completed=False)
+        duration_order = incomplete_puds.order_by('-duration')
+        post = filtered_week.get(id=post_pk)
+        fits_in_slot = duration_order.exclude(duration__gt=post.duration)
+
+        if fits_in_slot.exists():
+            reorder_priority = fits_in_slot.order_by('-priority_int')
+            fit_pud = reorder_priority.first()
+            print fit_pud.content
+            post.pud = fit_pud.content
+        else:
+            post.pud = 'No Task Available'
+
         post.save()
+        print post.content
         print post.pud
-        serializer = self.serializer_class(post, many=False)
-        print "serialization finished"
+        return_week = self.queryset.filter(author__username=account_username).filter(week_num=week_pk)
+        queryset = return_week.order_by('-start_time')
+        queryset = queryset.reverse()
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
