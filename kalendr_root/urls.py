@@ -12,6 +12,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
 from access.views import AccessViewSet, AccountAccessViewSet
 from puds.views import AccountPudsViewSet, PudViewSet
 
+# Base router
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
 router.register(r'posts', PostViewSet)
@@ -33,7 +34,7 @@ accounts_router.register(r'mynonfollowergroups', AccountNonFollowerGroupsViewSet
 accounts_router.register(r'mymembergroups', AccountFollowingGroupViewSet)
 # all non-groups im following
 accounts_router.register(r'following', AccountFollowingPersonViewSet)
-
+# all posts shared with me
 accounts_router.register(r'access', AccountAccessViewSet)
 accounts_router.register(r'puds', AccountPudsViewSet)
 # all the groups that I'm a member of and do not own

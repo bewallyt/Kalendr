@@ -8,6 +8,13 @@ from groups.models import  KGroup
 from authentication.models import Account
 from access.models import AccessRule
 
+user0 = Account.objects.get(username="user0")
+user1 = Account.objects.get(username="user1")
+user2 = Account.objects.get(username="user2")
+user3 = Account.objects.get(username="user3")
+user4 = Account.objects.get(username="user4")
+user5 = Account.objects.get(username="user5")
+
 
 # On django model manager: https://docs.djangoproject.com/en/1.7/topics/db/managers/
 # django doc on making queries is also helpful:
@@ -364,3 +371,59 @@ user5 = Account.objects.get(username="user5")
 '''
     Get all the posts that are shared with me
 '''
+>>> Post.objects.filter(shared_with__name="user5")
+[<Post: post2>]
+>>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = True)
+[<Post: post2>]
+>>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = False)
+[]
+
+
+
+
+'''
+    Get all the posts that are shared with me that I haven't reply to yet
+'''
+>>> Post.objects.filter(shared_with__name="user5", shared_with__is_follow_group = True, accessrule__receiver_response='NO_RESP')
+[<Post: post2>]
+
+
+
+
+
+'''
+    Serialization: from model object to JSON
+'''
+serializer = PostSerializer(post)
+serializer.data # this contents Python native datatype, e.g. a list. For serialization, this is an intermediate step
+
+# Then with the Python native datatype, we can render it into JSON string.
+content = JSONRenderer().render(serializer.data)
+content
+
+# We can also serialize querysets instead of model instances.
+# To do so we simply add a many=True flag to the serializer arguments.
+'''
+    Deserialization: from JSON to model object
+'''
+#  Frist parse stream into Python native datatypes
+stream = BytesIO(content)
+data = JSONParser().parse(stream)
+
+# Then we can use our serializer to create django model instance(s) from the JSON
+serializer = SnippetSerializer(data=data)
+serializer.is_valid()
+# True
+serializer.validated_data # this contains Python native datatypes
+# OrderedDict([('title', ''), ('code', 'print "hello, world"\n'), ('linenos', False), ('language', 'python'), ('style', 'friendly')])
+serializer.save()
+# <Snippet: Snippet object>
+
+    '''
+        Deserialization with Request
+    '''
+    instance = serializer(request.data)
+    if serializer.is_valid:
+        serializer.save(author=self.request.user)
+
+

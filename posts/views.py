@@ -6,12 +6,13 @@ from posts.permissions import IsAuthorOfPost
 from posts.serializers import PostSerializer
 from posts.repeat import repeat_events
 from django.core.mail import send_mail
+from rest_framework import status
 
 import datetime
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.order_by('-created_at')
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
 
     def get_permissions(self):
@@ -20,13 +21,50 @@ class PostViewSet(viewsets.ModelViewSet):
             return (permissions.AllowAny(),)
         return (permissions.IsAuthenticated(), IsAuthorOfPost(),)
 
-    def perform_create(self, serializer):
-        print 'in perform create:'
-        instance = serializer.save(author=self.request.user)
+    # get the default queryset to work with. This function should be
+    # called instead of the
+    def get_queryset(self):
+        user = self.request.user
+        return Post.objects.all()
 
-        return super(PostViewSet, self).perform_create(serializer)
+    # Create a single new post
+    def create(self, request):
+        new_post = self.serializer_class(data=request.data)
+        if new_post.is_valid():
+            new_post.save(author=request.user)
+            return Response(new_post.data, status=status.HTTP_201_CREATED)
+        return Response(new_post.data, status=status.HTTP_400_BAD_REQUEST)
+
+    def partial_update(self, request, pk, **kwargs):
+        post = self.get_queryset().filter(pk=pk)
+        updated_post = self.serializer_class(post, data = request.data, partial=True)
+        if updated_post.is_valid():
+            updated_post.save()
+            return Response(updated_post.data, status=status.HTTP_200_OK)
+        return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
 
 
+# Used to get the list of posts that are shared with the user but the user hasn't responded yet
+class NotificationPostView(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        return Post.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        print type(request.user)
+
+        noresponse_posts = queryset.filter(shared_with__name=request.user.username, shared_with__is_follow_group = True,
+                                            accessrule__receiver_response='NO_RESP')
+
+        serializer = self.serializer_class(noresponse_posts, many=True)
+
+        Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# For list, create, update  and destroy posts of the logged in user
 class AccountPostsViewSet(viewsets.ViewSet):
     queryset = Post.objects.select_related('author')
     serializer_class = PostSerializer
@@ -76,5 +114,3 @@ class AccountPostsViewSet(viewsets.ViewSet):
 
 
         return Response(serializer.data)
-
-
