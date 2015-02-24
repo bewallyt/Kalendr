@@ -41,9 +41,9 @@
 
         function reply(postId, response, emailNotification, emailNotifyWhen){
             emailNotification = false;
-            return $http.patch('/api/v1/access/',{
+            return $http.post('/api/v1/access/',{
                 post: postId,
-                response: response,
+                receiver_response: response,
                 emailNotification: emailNotification
                 //emailNotifyWhen: emailNotifyWhen
             });

@@ -8,6 +8,37 @@ from access.serializers import AccessRuleSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import api_view
+
+
+'''
+    Used to update AccessRule instanced. Could not use partial_update in AccessViewSet because apparently
+    django_rest_framework does not support HTTP PATCH requests: https://gist.github.com/ahankinson/4282606
+    So we had to create this PartialUpdateView in order to handle HTTP POST request in a different way.
+    This is more like a hack
+'''
+class PartialUpdateView(viewsets.ModelViewSet):
+    queryset = AccessRule.objects.order_by('order')
+    serializer_class = AccessRuleSerializer
+    '''
+        post
+        response
+        emailNotification
+
+        update the AccessRule link between post and the follower group of request.user
+    '''
+    def create(self, request, *args, **kwargs):
+        post = Post.objects.get(pk=request.data['post'])
+        ar = post.accessrule_set.get(group__name=request.user.username)
+
+        updated_ar = self.serializer_class(ar, data = request.data, partial=True)
+        if updated_ar.is_valid():
+            updated_ar.save()
+            return Response(updated_ar.data, status=status.HTTP_200_OK)
+        return Response(updated_ar.errors, status=status.HTTP_304_NOT_MODIFIED)
+
+
+
 
 # Handles creating a single AccessRule
 class AccessViewSet(viewsets.ModelViewSet):
@@ -28,21 +59,7 @@ class AccessViewSet(viewsets.ModelViewSet):
 
 
 
-    '''
-        post
-        response
-        emailNotification
 
-
-    '''
-    def partial_update(self, request, *args, **kwargs):
-        post = Post.objects.get(pk=request.data['post'])
-
-        updated_post = self.serializer_class(post, data = request.data, partial=True)
-        if updated_post.is_valid():
-            updated_post.save()
-            return Response(updated_post.data, status=status.HTTP_200_OK)
-        return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
 
     '''
     # expecting:
@@ -165,7 +182,7 @@ class AccountAccessViewSet(viewsets.ViewSet):
 
 
 '''
-    Return a list of users who
+    Return a list of users who has given a certain response to post
     Expect
     {post:      post_id,
      response:  response}

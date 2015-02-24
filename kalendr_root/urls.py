@@ -9,7 +9,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
     AccountFollowingPersonViewSet, AccountFollowingGroupViewSet
 
-from access.views import AccessViewSet, AccountAccessViewSet
+from access.views import AccessViewSet, AccountAccessViewSet, PartialUpdateView
 from puds.views import AccountPudsViewSet, PudViewSet
 
 # Base router
@@ -17,9 +17,12 @@ router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
 router.register(r'posts', PostViewSet)
 router.register(r'groups', GroupViewSet)
-router.register(r'access', AccessViewSet)
+# This initially gives base_name not specified error. But added serializer in PartialUpdateViewSet fixed the
+# problem
+# This is for updating an AccessRule instance. Partial update.
+router.register(r'access', PartialUpdateView)
 router.register(r'puds', PudViewSet)
-router.register(r'notification_posts', NotificationPostView);
+router.register(r'notification_posts', NotificationPostView)
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'
