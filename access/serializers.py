@@ -13,3 +13,4 @@ class AccessRuleSerializer(serializers.ModelSerializer):
         model = AccessRule
 
         fields = ('post', 'group', 'visibility', 'order', 'receiver_response', 'notification_email')
+
