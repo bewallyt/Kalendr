@@ -20,16 +20,17 @@ class AccessRule(models.Model):
         ('NO_RESP', 'No response'),
     )
 
-    # If just setting the precedence, the owner of the event may not want whoever the event is shared with to
-    # get a notification of the sharing.
-    # But the current implementation is that we notify whoever we shared with whenever we share
-    notify_receiver = models.BooleanField(default=True)
-
     # receiver_response is set to NO_RESP when an AccessRule is created/ when an event is shared.
     # NO_RESP requires the receiver of the event to respond to the creation request.
     # receiver_response needs to be set to NO_RESP when ever the owner of the event modifies the
     # specs of the event
     receiver_response = models.CharField(max_length=7, choices=RESPONSE_CHOICES, default='NO_RESP')
+
+    # If just setting the precedence, the owner of the event may not want whoever the event is shared with to
+    # get a notification of the sharing.
+    # But the current implementation is that we notify whoever we shared with whenever we share
+    notify_receiver = models.BooleanField(default=True)
+
 
     # When a receiver of the event modifies it, this field should be
     notify_owner = models.BooleanField(default=False)

@@ -427,3 +427,28 @@ serializer.save()
         serializer.save(author=self.request.user)
 
 
+
+'''
+    Get through field (i.e., AccessRule for a post)
+'''
+
+>>> post.accessrule_set
+<django.db.models.fields.related.RelatedManager object at 0x1026ebf10>
+>>> post.accessrule_set.all()
+[<AccessRule: sharing test,user2>, <AccessRule: sharing test,family>, <AccessRule: sharing test,user4>, <AccessRule: sharing test,user5>]
+>>> post.accessrule_set.all()[0].visibility
+u'MOD'
+>>> post.accessrule_set.all()[1].visibility
+u'BUS'
+>>> post.accessrule_set.all()[2].visibility
+u'BUS'
+>>> post.accessrule_set.all()[3].visibility
+u'BUS'
+>>> post.accessrule_set.all()[4].visibility
+
+
+'''
+    Get all the groups that a post is shared with
+'''
+>>> post.shared_with.all()
+[<KGroup: user2>, <KGroup: family>, <KGroup: user4>, <KGroup: user5>]

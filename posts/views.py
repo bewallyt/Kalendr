@@ -34,9 +34,12 @@ class PostViewSet(viewsets.ModelViewSet):
             new_post.save(author=request.user)
             return Response(new_post.data, status=status.HTTP_201_CREATED)
         return Response(new_post.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+
     # HTTP .patch
     def partial_update(self, request, pk, **kwargs):
-        post = self.get_queryset().filter(pk=pk)
+        post = Post.objects.get(pk=pk)
         updated_post = self.serializer_class(post, data = request.data, partial=True)
         if updated_post.is_valid():
             updated_post.save()
@@ -59,6 +62,8 @@ class NotificationPostView(viewsets.ModelViewSet):
         noresponse_posts = queryset.filter(shared_with__name=request.user.username, shared_with__is_follow_group = True,
                                             accessrule__receiver_response='NO_RESP')
 
+        #updated_posts = queryset.filter(share_with__name = request.user.username, )
+
         serializer = self.serializer_class(noresponse_posts, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -74,17 +79,19 @@ class AccountPostsViewSet(viewsets.ViewSet):
         queryset = self.queryset.filter(author__username=account_username)
 
         for e in queryset:
-
+            # based on need_repeat, create actual repeated events in the db
             if e.need_repeat:
                 e.need_repeat = False
                 e.save()
                 repeat_events(e)
+            # Parse start_time(date),begin_time(clock time, optional field), end_time(clock, optional)
             if e.is_date_set == False:
                 e.is_date_set = True
                 e.show_date = str(e.start_time)[5:7] + "/" + str(e.start_time)[8:10] + "/" + str(e.start_time)[0:4]
                 e.show_begin_time = str(e.begin_time)[11:16]
-                e.show_end_time = str(e.begin_time)[11:16]
+                e.show_end_time = str(e.end_time)[11:16]
                 e.save()
+            # day_of_week is calculated in the front-end, but not for repeated events.
             if e.is_week_set == False:
                 e.is_week_set = True
                 if e.day_of_week == 'Sunday':
@@ -94,6 +101,8 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 print 'day of week: ' + str(e.week_num)
                 e.save()
 
+
+        # if the date is not provided, set the week number to
         if post_pk == None or post_pk == 0:
             print 'post_pk dne'
             post_pk = datetime.datetime.today().isocalendar()[1]

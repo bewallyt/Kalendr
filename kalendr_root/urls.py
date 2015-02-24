@@ -23,6 +23,7 @@ router.register(r'puds', PudViewSet)
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'
 )
+# /api/v1/accounts/"user_id/name"/posts/
 accounts_router.register(r'posts', AccountPostsViewSet)
 # all the groups that I own
 accounts_router.register(r'groups', AccountGroupsViewSet)
@@ -45,6 +46,8 @@ accounts_router.register(r'latest_group', AccountLatestGroupViewSet)
 week_router = routers.NestedSimpleRouter(
     accounts_router, r'posts', lookup='post'
 )
+
+# api/v1/accounts/"user_name/id"/posts/"post_id|week_num"/week/
 week_router.register(r'week', AccountPostsViewSet)
 
 group_router = routers.NestedSimpleRouter(
