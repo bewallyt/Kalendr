@@ -19,7 +19,8 @@
         var Posts = {
             all: all,
             create: create,
-            getWeek: getWeek
+            getWeek: getWeek,
+            getNotificationPosts: getNotificationPosts
         };
 
         return Posts;
@@ -84,6 +85,10 @@
         function getWeek(id, weekNum) {
             console.log('in get week');
             return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
+        }
+
+        function getNotificationPosts(){
+            return $http.get('/api/v1/notification_posts/');
         }
     }
 })();
