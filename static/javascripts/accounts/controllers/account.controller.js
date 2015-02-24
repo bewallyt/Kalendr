@@ -115,6 +115,13 @@
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
             });
 
+            $scope.$on('pud.completed', function (event, pud) {
+                console.log('received pud broadcast');
+                console.log('account username: ' + pud.username);
+                console.log('pud id after broadcast: ' + pud.id);
+                console.log('pud completed?: ' + pud.is_completed);
+            });
+
             $scope.$on('pud.created.error', function () {
             });
 

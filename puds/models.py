@@ -18,6 +18,9 @@ class Pud(models.Model):
 
     notify_when = models.IntegerField(blank=True, default=0)
 
+    assignedToPost = models.BooleanField(default=False)
+    firstAssignedWeek = models.IntegerField(blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -64,18 +64,27 @@
         /**
          * @name get
          * @desc Get the Puds of a given user
-         * @param {string} id The username to get Puds for
+         * @param {string} username The username to get Puds for
          * @returns {Promise}
          * @memberOf kalendr.puds.services.Puds
          */
 
-        function get(id) {
-            return $http.get('/api/v1/accounts/' + id + '/puds/');
+        function get(username) {
+            return $http.get('/api/v1/accounts/' + username + '/puds/');
         }
 
+        /**
+         * @name saveComplete
+         * @desc Set the id'ed pud as complete
+         * @param {string} username The username to get Puds for
+         * @param {int} pud_id The specific pud
+         * @param {boolean} complete The pud completion value to assign
+         * @returns {Promise}
+         * @memberOf kalendr.puds.services.Puds
+         */
+
         function saveComplete(username, pud_id, complete) {
-            return $http.get('/api/v1/accounts/' + username + '/puds/' + pud_id
-            + '/savePud/' + complete + '/pudComplete/');
+            return $http.get('/api/v1/accounts/' + username + '/puds/' + pud_id + '/savePud/' + complete + '/pudComplete/');
         }
     }
 })();
