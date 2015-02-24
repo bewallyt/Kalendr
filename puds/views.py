@@ -22,6 +22,9 @@ class PudViewSet(viewsets.ModelViewSet):
 
         return super(PudViewSet, self).perform_create(serializer)
 
+    def partial_update(self, request, *args, **kwargs):
+        print 'in partial update'
+
 
 class AccountPudsViewSet(viewsets.ViewSet):
     queryset = Pud.objects.select_related('author')

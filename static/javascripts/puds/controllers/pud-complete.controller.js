@@ -20,36 +20,26 @@
 
         function change() {
 
+            console.log('pud author username is: ' + vm.pud_author.username);
+            console.log('pud id is: ' + vm.pud_id);
             console.log('checkbox value: ' + vm.complete);
 
-            //Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
-            //    vm.need_repeat, notifyWhen).then(completePudSuccessFn, completePudErrorFn);
-            //
-            //$rootScope.$broadcast('pud.created', {
-            //    content: content,
-            //    notification: notification,
-            //    priority: priority,
-            //    priority_int: priority_int,
-            //    duration: duration,
-            //    repeat: repeatType,
-            //    repeat_int: repeat_int,
-            //    need_repeat: vm.need_repeat,
-            //    notify_when: notifyWhen,
-            //    author: {
-            //        username: Authentication.getAuthenticatedAccount().username
-            //    }
+            Puds.saveComplete(vm.pud_author, vm.pud_id, vm.complete);
+
+            //$rootScope.$broadcast('pud.completed', {
+            //    id: vm.pud_id
             //});
-
-            $scope.closeThisDialog();
-
-            function completePudSuccessFn(data, status, headers, config) {
-                Snackbar.show('Success! PUD completed');
-            }
-
-            function completePudErrorFn(data, status, headers, config) {
-                $rootScope.$broadcast('pud.completed.error');
-                Snackbar.error(data.error);
-            }
+            //
+            //$scope.closeThisDialog();
+            //
+            //function completePudSuccessFn(data, status, headers, config) {
+            //    Snackbar.show('Success! PUD completed');
+            //}
+            //
+            //function completePudErrorFn(data, status, headers, config) {
+            //    $rootScope.$broadcast('pud.completed.error');
+            //    Snackbar.error(data.error);
+            //}
 
 
         }

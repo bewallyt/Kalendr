@@ -19,12 +19,12 @@
         var Puds = {
             all: all,
             create: create,
-            get: get
+            get: get,
+            saveComplete: saveComplete
         };
 
         return Puds;
 
-        ////////////////////
 
         /**
          * @name all
@@ -71,6 +71,15 @@
 
         function get(id) {
             return $http.get('/api/v1/accounts/' + id + '/puds/');
+        }
+
+        function saveComplete(author, pud_id, complete) {
+            console.log('patching pud')
+            return $http.patch('/api/v1/puds/' + pud_id + '/pudUpdate/', {
+                author: author,
+                id: pud_id,
+                is_completed: complete
+            })
         }
     }
 })();
