@@ -12,4 +12,4 @@ class AccessRuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccessRule
 
-        fields = ('post', 'group', 'visibility', 'order',)
+        fields = ('post', 'post_id', 'group', 'visibility', 'order',)

@@ -9,16 +9,25 @@
         .module('kalendr.posts.controllers')
         .controller('NewPostController', NewPostController);
 
-    NewPostController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Posts'];
+    NewPostController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Posts', 'Access'];
 
 
     /**
      * @namespace NewPostController
      */
-    function NewPostController($rootScope, $scope, $routeParams, Authentication, Snackbar, Posts) {
+    function NewPostController($rootScope, $scope, $routeParams, Authentication, Snackbar, Posts, Access) {
         var vm = this;
         vm.submit = submit;
         vm.need_repeat = false;
+
+        // Share Variables
+        vm.is_shared = false;
+        vm.selectedGroup;
+        vm.users;
+        vm.addGroups = addGroups;
+
+        vm.rule;
+        vm.groupRuleDict = new Object();
 
 
         /**
@@ -99,6 +108,17 @@
              */
             function createPostSuccessFn(data, status, headers, config) {
                 Snackbar.show('Success! Event added to Kalendr');
+
+                // Benson to David: Access Rule API call here
+                // Post is created by now.
+                // Passing back whole post
+
+                // To get latest group make create API get call that filters for latest group
+                // e.g. filter queryset via .latest('created_at')
+                // returned group will be data.data not data.data[0] because single item (not array)
+                Access.createShareable()
+
+
             }
 
 
@@ -110,6 +130,11 @@
                 $rootScope.$broadcast('post.created.error');
                 Snackbar.error(data.error);
             }
+        }
+
+        function addGroups() {
+            vm.groupRuleDict[vm.selectedGroup.originalObject.name] = vm.rule;
+
         }
     }
 

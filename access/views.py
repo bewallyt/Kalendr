@@ -39,6 +39,8 @@ class AccessViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class()
         order = 0
         post = Post.objects.get(id=request.data['post'])
+        if post.is_holiday:
+            return Response(status=status.HTTP_204_NO_CONTENT)
         for rule in request.data['rules']:
             group = KGroup.objects.filter(owner=request.user).get(name=rule['group'])
             rule['order'] = order
@@ -51,6 +53,7 @@ class AccessViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
+# see shared posts
 class AccountAccessViewSet(viewsets.ViewSet):
     queryset = AccessRule.objects.select_related('group')
     serializer_class = AccessRuleSerializer

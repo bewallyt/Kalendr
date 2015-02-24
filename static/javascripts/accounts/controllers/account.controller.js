@@ -8,33 +8,13 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
 
-    function AccountController($location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
+    function AccountController($timeout, $location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
 
         var vm = this;
         instantiateAccordian();
         var username;
-
-        vm.addFollower = addFollower;
-        vm.followerList = [];
-        vm.hasFollowers = false;
-
-        vm.followingList = [];
-        vm.isFollowing = false;
-
-        vm.groupList = [];
-        vm.hasGroups = false;
-
-        vm.groupName = null;
-        vm.groupMembers = [];
-        var groupAccounts = [];
-        vm.selectedMember = null;
-        vm.rule = null;
-        vm.addMembers = addMembers;
-        vm.addGroup = addGroup;
-        vm.groupNum = 0;
-        //vm.groupClick = groupClick;
 
 
         vm.isAuthenticated = Authentication.isAuthenticated();
@@ -48,8 +28,32 @@
 
         function activate() {
 
+            vm.addFollower = addFollower;
+            vm.followerList = [];
+            vm.hasFollowers = false;
+
+            vm.followingList = [];
+            vm.isFollowing = false;
+
+
+            vm.hasGroups = false;
+            vm.hasOwnedGroups = false;
+            vm.hasMemberOfGroups = false;
+
+            vm.groupName = null;
+            vm.groupMembers = [];
+            var groupAccounts = [];
+            vm.selectedMember = null;
+            vm.rule = null;
+            vm.addMembers = addMembers;
+            vm.addGroup = addGroup;
+
+            vm.ownedGroups = [];
+            vm.memberOfGroups = [];
+
+            vm.shareable = [];
+
             username = Authentication.getAuthenticatedAccount().username;
-            console.log('current user: ' + username);
             vm.myUsername = username;
 
             var date = new Date();
@@ -72,11 +76,18 @@
             Account.get(username).then(accountSuccessFn, accountErrorFn);
             Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             Authentication.getUsers().then(usersSuccessFn);
-            Groups.get(username).then(groupSuccessFn, groupErrorFn);
+
+            // Groups I own
+            Groups.getNonFollowerOwnedGroups(username).then(groupOwnerSuccessFn, groupOwnerErrorFn);
+            Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
+            // Groups I don't own
+            Groups.getMemberGroups(username).then(groupMemberSuccessFn, groupMemberErrorFn);
             Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
 
+            // To update shareable list
+            Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
+
             $scope.$on('post.created', function (event, post) {
-                console.log('post.created: scope get week: ' + post.weekNum);
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
@@ -93,7 +104,6 @@
             });
 
             $scope.$on('post.getWeek', function (event, post) {
-                console.log('scope get week: ' + post.weekNum);
 
                 vm.weekNum = post.weekNum;
                 num_month = post.date.getMonth();
@@ -127,7 +137,6 @@
             }
 
             function postsSuccessFn(data, status, headers, config) {
-                console.log('post success: ');
                 vm.posts = data.data;
             }
 
@@ -136,7 +145,6 @@
             }
 
             function pudsSuccessFn(data, status, headers, config) {
-                console.log("puds success");
                 // Not getting the newest pud.
                 vm.puds = data.data;
             }
@@ -156,57 +164,103 @@
 
             }
 
-            function groupSuccessFn(data, status, headers, config) {
-                // Only adding groups that I am owner of here:
-                if (data.data.length > 0) vm.hasGroups = true;
-
-                var i;
-                for (i = 0; i < data.data.length; i++) {
-                    if (data.data[i].is_follow_group == false) {
-                        if ($.inArray(data.data[i], vm.groupList) == -1) {
-                            console.log('Groups I own: ' + data.data[i]);
-                            vm.groupList.unshift(data.data[i]);
-                            console.log(data.data[i]);
-                        }
-                    }
-                    else {
-                        vm.followerList.unshift(data.data[i].name);
-                        vm.hasFollowers = true;
-                    }
-
-
+            function groupOwnerSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0){
+                  vm.hasGroups = true;
+                  vm.hasOwnedGroups = true;
                 }
+                vm.ownedGroups = data.data;
+                Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
+
             }
 
-            function groupErrorFn(data, status, headers, config) {
+            function groupOwnerErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function groupMemberSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0){
+                    vm.hasMemberOfGroups = true;
+                    vm.hasGroups = true;
+                }
+                vm.memberOfGroups = data.data;
+            }
+
+            function groupMemberErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
             function followingSuccessFn(data, status, headers, config) {
-
-                var i;
-                for (i = 0; i < data.data.length; i++) {
-                    console.log('is following group: ' + data.data[i].is_follow_group);
-                    if (data.data[i].is_follow_group) {
-                        vm.isFollowing = true;
-                        if ($.inArray(data.data[i].owner.username, vm.followingList) == -1) {
-                            vm.followingList.unshift(data.data[i].owner.username);
-                        }
-                    }
-                    else {
-                        vm.hasGroups = true;
-                        console.log('Groups Im a member of: ' + data.data[i].name);
-                        if ($.inArray(data.data[i].name, vm.groupList) == -1) {
-                            vm.groupList.unshift(data.data[i]);
-                        }
-                    }
-
-                }
+                vm.followingList = data.data;
+                if (data.data.length > 0) vm.isFollowing = true;
             }
 
             function followingErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
+
+            function followerSuccessFn(data, status, headers, config) {
+                vm.followerList = data.data;
+                if (data.data.length > 0) vm.hasFollowers = true;
+                Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
+            }
+
+            function followerErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function addFollower() {
+                vm.hasFollowers = true;
+                vm.followerList.unshift(vm.selectedUser.originalObject);
+                Groups.create(vm.selectedUser.originalObject.username, [vm.selectedUser.originalObject], Authentication.getAuthenticatedAccount(), true).then(FollowerCreateSuccessFn, FollowerCreateErrorFn);
+            }
+
+            function addMembers() {
+                vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
+                groupAccounts.unshift(vm.selectedMember.originalObject);
+            }
+
+            function addGroup() {
+
+                Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false).then(groupCreateSuccessFn, groupCreateErrorFn);
+                $timeout(callAtTimeout, 3000);
+            }
+
+            function groupCreateSuccessFn() {
+                Snackbar.show('Group Created!');
+                Groups.getNonFollowerOwnedGroups(username).then(groupOwnerSuccessFn, groupOwnerErrorFn);
+
+                // Reset Group Field data
+                vm.hasGroups = true;
+                vm.groupName = null;
+                vm.groupMembers = [];
+                groupAccounts = [];
+                vm.selectedMember = null;
+                vm.rule = null;
+            }
+
+            function groupCreateErrorFn() {
+                Snackbar.error('Group Creation Error');
+            }
+
+            function FollowerCreateSuccessFn() {
+                Snackbar.show('Follower Added!');
+                Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
+
+            }
+
+            function FollowerCreateErrorFn() {
+                Snackbar.error('Follower Addition Error');
+            }
+
+            function groupsSuccessFn(data, status, headers, config){
+                vm.shareable = data.data;
+            }
+
+            function groupsErrorFn(data, status, headers, config){
+                Snackbar.error(data.data.error);
+            }
+
 
             vm.activate = function () {
                 date = homeDate;
@@ -258,57 +312,7 @@
                 isFirstOpen: true,
                 isFirstDisabled: false
             };
-
-
         }
-
-        function addFollower() {
-            vm.hasFollowers = true;
-            vm.followerList.unshift(vm.selectedUser.originalObject.username);
-            var userAccount = [];
-            userAccount.unshift(vm.selectedUser.originalObject);
-            Groups.create(vm.selectedUser.originalObject.username, userAccount, Authentication.getAuthenticatedAccount(), true);
-        }
-
-        function addMembers() {
-            vm.groupMembers.unshift(vm.selectedMember.originalObject.username);
-            groupAccounts.unshift(vm.selectedMember.originalObject);
-        }
-
-        function addGroup() {
-
-            Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false);
-            Groups.get(username).then(groupSuccessFnTwo);
-            vm.hasGroups = true;
-            vm.groupName = null;
-            vm.groupMembers = [];
-            groupAccounts = [];
-            vm.selectedMember = null;
-            vm.rule = null;
-        }
-
-        function groupSuccessFnTwo(data, status, headers, config) {
-            // Only adding groups that I am owner of here:
-            if (data.data.length > 0) vm.hasGroups = true;
-            vm.groupList = [];
-
-            var i;
-            for (i = 0; i < data.data.length; i++) {
-                if (data.data[i].is_follow_group == false) {
-                    if ($.inArray(data.data[i], vm.groupList) == -1) {
-                        console.log('Groups I own: ' + data.data[i]);
-                        vm.groupList.unshift(data.data[i]);
-                        console.log(data.data[i]);
-                    }
-                }
-            }
-        }
-
-        //function groupClick(group) {
-        //    $rootScope.$broadcast('group.clicked', {
-        //        created_at: group.created_at
-        //    });
-        //}
 
 
     }
@@ -358,6 +362,10 @@
         else dayOfWeek = 'Saturday';
 
         return dayOfWeek;
+    }
+
+    function callAtTimeout() {
+        console.log("Waiting for get request...");
     }
 
 
