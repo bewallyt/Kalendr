@@ -21,19 +21,20 @@ class PartialUpdateView(viewsets.ModelViewSet):
     queryset = AccessRule.objects.order_by('order')
     serializer_class = AccessRuleSerializer
     '''
-        post
+        post_id
         response
         emailNotification
 
         update the AccessRule link between post and the follower group of request.user
     '''
     def create(self, request, *args, **kwargs):
-        post = Post.objects.get(pk=request.data['post'])
+        post = Post.objects.get(pk=request.data['post_id'])
         ar = post.accessrule_set.get(group__name=request.user.username)
 
         updated_ar = self.serializer_class(ar, data = request.data, partial=True)
         if updated_ar.is_valid():
             updated_ar.save()
+            print ar.receiver_response
             return Response(updated_ar.data, status=status.HTTP_200_OK)
         return Response(updated_ar.errors, status=status.HTTP_304_NOT_MODIFIED)
 
@@ -184,7 +185,7 @@ class AccountAccessViewSet(viewsets.ViewSet):
 '''
     Return a list of users who has given a certain response to post
     Expect
-    {post:      post_id,
+    {post_id:      post_id,
      response:  response}
 '''
 class NotificationResponseView(viewsets.ModelViewSet):
