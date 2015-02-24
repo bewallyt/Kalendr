@@ -68,15 +68,15 @@
             // For Displaying Notifications
 
             vm.hasNotifications = false;
-            vm.newNotifications;
-            vm.numNotifications;
+            vm.newNotifications = null;
+            vm.numNotifications = 0;
             vm.showNotificationsTab = showNotificationsTab;
 
             // For Responding to Notifications
 
-            vm.response;
+            vm.response = null;
             vm.emailNotification = false;
-            vm.emailNotifyWhen;
+            vm.emailNotifyWhen = null;
             vm.replyNotification = replyNotification;
 
             // Closing Accords
@@ -297,6 +297,12 @@
                 if (data.data.length > 0) vm.hasNotifications = true;
                 vm.newNotifications = data.data;
                 vm.numNotifications = data.data.length;
+
+                var i;
+                console.log('notifications: ');
+                for(i = 0; i < vm.numNotifications; i++){
+                    console.log(vm.newNotifications[i]);
+                }
             }
 
             function notificationErrorFn(data, status, headers, config) {

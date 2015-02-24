@@ -29,7 +29,7 @@
                            href="javascript:void(0)"
                            ng-show="vm.isAuthenticated"
                            ng-dialog="/static/templates/posts/notifications.html"
-                           ng-dialog-data="notification"><p class="group_button_text"
+                           ng-dialog-data="{{ notification }}"><p class="group_button_text"
                                                 align="left">{{ notification.content }}</p></a>
                     </li>
                 </div>
@@ -216,7 +216,7 @@
 <a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
         id="showLeftPush2"
         ng-click="vm.showNotificationsTab()"
-        ng-show="vm.isAuthenticated"><span style="font-size: 12px">{{vm.numNotifications}}</span></a>
+        ng-show="vm.hasNotifications"><span style="font-size: 12px">{{vm.numNotifications}}</span></a>
 
 <script>
     (function () {
