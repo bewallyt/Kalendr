@@ -34,6 +34,8 @@
         </div>
         Date of Event:
         <br>
+
+
         <input type="date" id="event__date" name="date" value="{{ ngDialogData.start_time | date: 'yyyy-MM-dd' }}"
                ng-init="vm.start_time = ngDialogData.start_time"
                ng-model="vm.start_time">

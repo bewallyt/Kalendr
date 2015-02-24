@@ -8,9 +8,9 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups'];
+    AccountController.$inject = ['$timeout', '$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups', 'Access'];
 
-    function AccountController($timeout, $location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups) {
+    function AccountController($timeout, $location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups, Access) {
 
         var vm = this;
         instantiateAccordian();
@@ -78,9 +78,12 @@
             vm.emailNotification = false;
             vm.emailNotifyWhen = null;
             vm.replyNotification = replyNotification;
+            vm.currentNotificationPostId = 0;
 
             // Closing Accords
             vm.closeAccords = closeAccords;
+
+
 
             username = Authentication.getAuthenticatedAccount().username;
             vm.myUsername = username;
@@ -295,6 +298,8 @@
 
             function notificationSuccessFn(data, status, headers, config) {
                 if (data.data.length > 0) vm.hasNotifications = true;
+                else vm.hasNotifications = false;
+
                 vm.newNotifications = data.data;
                 vm.numNotifications = data.data.length;
 
@@ -309,8 +314,19 @@
                 Snackbar.error(data.data.error);
             }
 
-            function replyNotification(){
+            function replyEventSuccessFn(){
+                Snackbar.show('Replied Event Invitation!');
+                Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
 
+            }
+
+            function replyEventErrorFn(){
+                Snackbar.error('Event Reply Error');
+            }
+
+            function replyNotification(){
+                Access.reply(vm.currentNotificationPostId, vm.response, vm.emailNotification, vm.emailNotifyWhen).then(replyEventSuccessFn, replyEventErrorFn);
+                $scope.closeThisDialog();
             }
 
             function showNotificationsTab(){
@@ -424,10 +440,6 @@
         else dayOfWeek = 'Saturday';
 
         return dayOfWeek;
-    }
-
-    function callAtTimeout() {
-        console.log("Waiting for get request...");
     }
 
 

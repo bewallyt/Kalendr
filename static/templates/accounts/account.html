@@ -29,6 +29,7 @@
                            href="javascript:void(0)"
                            ng-show="vm.isAuthenticated"
                            ng-dialog="/static/templates/posts/notifications.html"
+                           ng-dialog-controller="AccountController as vm"
                            ng-dialog-data="{{ notification }}"><p class="group_button_text"
                                                 align="left">{{ notification.content }}</p></a>
                     </li>
