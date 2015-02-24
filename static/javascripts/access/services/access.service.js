@@ -42,7 +42,7 @@
         function reply(postId, response, emailNotification, emailNotifyWhen){
             emailNotification = false;
             return $http.post('/api/v1/access/',{
-                post: postId,
+                post_id: postId,
                 receiver_response: response,
                 emailNotification: emailNotification
                 //emailNotifyWhen: emailNotifyWhen
