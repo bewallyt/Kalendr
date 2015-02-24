@@ -26,6 +26,24 @@ class AccessViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
+
+
+    '''
+        post
+        response
+        emailNotification
+
+
+    '''
+    def partial_update(self, request, *args, **kwargs):
+        post = Post.objects.get(pk=request.data['post'])
+
+        updated_post = self.serializer_class(post, data = request.data, partial=True)
+        if updated_post.is_valid():
+            updated_post.save()
+            return Response(updated_post.data, status=status.HTTP_200_OK)
+        return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
+
     '''
     # expecting:
     post: post_id
@@ -144,6 +162,8 @@ class AccountAccessViewSet(viewsets.ViewSet):
 
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
 '''
     Return a list of users who
     Expect

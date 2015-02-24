@@ -7,6 +7,7 @@ from posts.serializers import PostSerializer
 from posts.repeat import repeat_events
 from django.core.mail import send_mail
 from rest_framework import status
+from authentication.models import Account
 
 import datetime
 
@@ -123,3 +124,26 @@ class AccountPostsViewSet(viewsets.ViewSet):
 
 
         return Response(serializer.data)
+
+
+
+'''
+    Input: a username string
+    output: all the posts that the user has shared with me
+'''
+class SharedPostView(viewsets.ModelViewSet):
+
+
+    def list(self, request, *args, **kwargs):
+        follower = Account.objects.get(email=request.user.email)
+        owner = Account.objects.get(username=request.data['owner'])
+
+        owner_posts = owner.myevents.all()
+        shared_posts = owner_posts.filter(shared_with__name=follower.username)
+
+
+
+
+
+
+
