@@ -28,17 +28,30 @@
 
         function activate() {
 
+            /**
+             * Social Bar Variables Instantiated Below
+             */
+
+            // For Displaying Followers
+
             vm.addFollower = addFollower;
             vm.followerList = [];
             vm.hasFollowers = false;
 
+            // For Displaying Following
+
             vm.followingList = [];
             vm.isFollowing = false;
 
+            // For Displaying Groups
 
             vm.hasGroups = false;
             vm.hasOwnedGroups = false;
             vm.hasMemberOfGroups = false;
+            vm.ownedGroups = [];
+            vm.memberOfGroups = [];
+
+            // For Creating Groups
 
             vm.groupName = null;
             vm.groupMembers = [];
@@ -48,10 +61,26 @@
             vm.addMembers = addMembers;
             vm.addGroup = addGroup;
 
-            vm.ownedGroups = [];
-            vm.memberOfGroups = [];
+            // For Passing Shareable into Event Creation
 
             vm.shareable = [];
+
+            // For Displaying Notifications
+
+            vm.hasNotifications = false;
+            vm.newNotifications = null;
+            vm.numNotifications = 0;
+            vm.showNotificationsTab = showNotificationsTab;
+
+            // For Responding to Notifications
+
+            vm.response = null;
+            vm.emailNotification = false;
+            vm.emailNotifyWhen = null;
+            vm.replyNotification = replyNotification;
+
+            // Closing Accords
+            vm.closeAccords = closeAccords;
 
             username = Authentication.getAuthenticatedAccount().username;
             vm.myUsername = username;
@@ -86,6 +115,9 @@
 
             // To update shareable list
             Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
+
+            // Fetch Notifications
+            Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
 
             $scope.$on('post.created', function (event, post) {
 
@@ -165,9 +197,9 @@
             }
 
             function groupOwnerSuccessFn(data, status, headers, config) {
-                if (data.data.length > 0){
-                  vm.hasGroups = true;
-                  vm.hasOwnedGroups = true;
+                if (data.data.length > 0) {
+                    vm.hasGroups = true;
+                    vm.hasOwnedGroups = true;
                 }
                 vm.ownedGroups = data.data;
                 Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
@@ -179,7 +211,7 @@
             }
 
             function groupMemberSuccessFn(data, status, headers, config) {
-                if (data.data.length > 0){
+                if (data.data.length > 0) {
                     vm.hasMemberOfGroups = true;
                     vm.hasGroups = true;
                 }
@@ -253,14 +285,44 @@
                 Snackbar.error('Follower Addition Error');
             }
 
-            function groupsSuccessFn(data, status, headers, config){
+            function groupsSuccessFn(data, status, headers, config) {
                 vm.shareable = data.data;
             }
 
-            function groupsErrorFn(data, status, headers, config){
+            function groupsErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
+            function notificationSuccessFn(data, status, headers, config) {
+                if (data.data.length > 0) vm.hasNotifications = true;
+                vm.newNotifications = data.data;
+                vm.numNotifications = data.data.length;
+
+                var i;
+                console.log('notifications: ');
+                for(i = 0; i < vm.numNotifications; i++){
+                    console.log(vm.newNotifications[i]);
+                }
+            }
+
+            function notificationErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function replyNotification(){
+
+            }
+
+            function showNotificationsTab(){
+                vm.isThirdOpen = true;
+            }
+
+            function closeAccords(){
+                vm.open = false;
+                vm.isFirstOpen = false;
+                vm.isSecondOpen = false;
+                vm.isThirdOpen = false;
+            }
 
             vm.activate = function () {
                 date = homeDate;
