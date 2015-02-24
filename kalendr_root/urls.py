@@ -9,8 +9,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
     AccountFollowingPersonViewSet, AccountFollowingGroupViewSet
 
-from access.views import AccessViewSet, AccountAccessViewSet, PartialUpdateView
-from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView
+from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView,PartialUpdateView
 from puds.views import AccountPudsViewSet, PudViewSet
 
 # Base router
@@ -21,7 +20,8 @@ router.register(r'groups', GroupViewSet)
 # This initially gives base_name not specified error. But added serializer in PartialUpdateViewSet fixed the
 # problem
 # This is for updating an AccessRule instance. Partial update.
-router.register(r'access', PartialUpdateView)
+router.register(r'access', AccessViewSet)
+router.register(r'access_update', PartialUpdateView)
 router.register(r'puds', PudViewSet)
 router.register(r'notification_posts', NotificationPostView)
 router.register(r'notification_response', NotificationResponseView)

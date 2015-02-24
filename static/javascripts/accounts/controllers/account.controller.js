@@ -317,6 +317,7 @@
             function replyEventSuccessFn(){
                 Snackbar.show('Replied Event Invitation!');
                 Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
+                Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
 
             }
 

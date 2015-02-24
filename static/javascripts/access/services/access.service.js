@@ -45,8 +45,8 @@
 
         function reply(postId, response, emailNotification, emailNotifyWhen){
             emailNotification = false;
-            return $http.post('/api/v1/access/',{
-                post_id: postId,
+            return $http.post('/api/v1/access_update/',{
+                post: postId,
                 receiver_response: response,
                 emailNotification: emailNotification
                 //emailNotifyWhen: emailNotifyWhen
@@ -54,7 +54,7 @@
         }
 
         function getConfirmedResponses(postId){
-            return $http.patch('/api/v1/notification_response/',{
+            return $http.get('/api/v1/notification_response/',{
                 post: postId,
                 response: 'CONFIRM'
 
@@ -62,7 +62,7 @@
         }
 
         function getRemovedResponses(postId){
-            return $http.patch('/api/v1/notification_response/',{
+            return $http.get('/api/v1/notification_response/',{
                 post: postId,
                 response: 'REMOVED'
 
@@ -70,7 +70,7 @@
         }
 
         function getDeclinedResponses(postId){
-            return $http.patch('/api/v1/notification_response/',{
+            return $http.get('/api/v1/notification_response/',{
                 post: postId,
                 response: 'DECLINE'
 
@@ -78,7 +78,7 @@
         }
 
         function getNoResponses(postId){
-            return $http.patch('/api/v1/notification_response/',{
+            return $http.get('/api/v1/notification_response/',{
                 post: postId,
                 response: 'NO_RESP'
 
