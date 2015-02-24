@@ -21,7 +21,11 @@
          */
         var Access = {
             createShareable: createShareable,
-            reply: reply
+            reply: reply,
+            getConfirmedResponses: getConfirmedResponses,
+            getRemovedResponses: getRemovedResponses,
+            getDeclinedResponses: getDeclinedResponses,
+            getNoResponses: getNoResponses
         };
 
         return Access;
@@ -48,5 +52,38 @@
                 //emailNotifyWhen: emailNotifyWhen
             });
         }
+
+        function getConfirmedResponses(postId){
+            return $http.patch('/api/v1/notification_response/',{
+                post: postId,
+                response: 'CONFIRM'
+
+            });
+        }
+
+        function getRemovedResponses(postId){
+            return $http.patch('/api/v1/notification_response/',{
+                post: postId,
+                response: 'REMOVED'
+
+            });
+        }
+
+        function getDeclinedResponses(postId){
+            return $http.patch('/api/v1/notification_response/',{
+                post: postId,
+                response: 'DECLINE'
+
+            });
+        }
+
+        function getNoResponses(postId){
+            return $http.patch('/api/v1/notification_response/',{
+                post: postId,
+                response: 'NO_RESP'
+
+            });
+        }
+
     }
 })();

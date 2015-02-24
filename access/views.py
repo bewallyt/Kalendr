@@ -189,6 +189,7 @@ class AccountAccessViewSet(viewsets.ViewSet):
      response:  response}
 '''
 class NotificationResponseView(viewsets.ModelViewSet):
+    queryset = AccessRule.objects.all()
     serializer_class = GroupSerializer
 
     def list(self, request):

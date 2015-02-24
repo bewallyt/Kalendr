@@ -1,4 +1,4 @@
-<div class="top_corner_div">
+<div class="top_corner_div" ng-init="vm.postId = ngDialogData.id">
     <center><h5>{{ ngDialogData.day_of_week }}, {{ ngDialogData.show_date }}</h5></center>
 </div>
 <br>
@@ -8,7 +8,37 @@
 <br>
 <h5>Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
 <h5>Event Created by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
-<h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event}}</h5>
-<h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.start_time | date:'h:mma' }} - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
+<h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
+<h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.start_time | date:'h:mma' }}
+    - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
 <h5 ng-show="ngDialogData.need_repeat">Repeats {{ ngDialogData.repeat }} until {{ ngDialogData.end_repeat }}</h5>
 <h5 ng-show="ngDialogData.notification">Email Notification Set</h5>
+
+<br>
+<div ng-show="vm.hasResponses">
+    Invitation Responses:
+    <div ng-show="vm.hasConfirmedGroups">
+        Confirmed:
+        <li ng-repeat="user in vm.confirmedGroups">
+
+        </li>
+    </div>
+    <div ng-show="vm.hasDeclinedGroups">
+        Declined:
+        <li ng-repeat="user in vm.declinedGroups">
+
+        </li>
+    </div>
+    <div ng-show="vm.hasRemovedGroups">
+        Removed:
+        <li ng-repeat="user in vm.removedGroups">
+
+        </li>
+    </div>
+    <div ng-show="vm.hasNoRespGroups">
+        No Response:
+        <li ng-repeat="user in vm.noRespGroups">
+
+        </li>
+    </div>
+</div>
