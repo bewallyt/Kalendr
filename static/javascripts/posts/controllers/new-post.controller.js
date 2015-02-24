@@ -116,6 +116,8 @@
                 // To get latest group make create API get call that filters for latest group
                 // e.g. filter queryset via .latest('created_at')
                 // returned group will be data.data not data.data[0] because single item (not array)
+
+                //  vm.groupRuleDict is the 2nd argument
                 Access.createShareable()
 
 

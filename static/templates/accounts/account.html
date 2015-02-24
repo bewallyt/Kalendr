@@ -14,6 +14,16 @@
 
     <div>
         <accordion close-others="vm.oneAtATime">
+            <accordion-group is-open="status.isThirdOpen"
+                             is-disabled="status.isThirdDisabled">
+                <accordion-heading>
+                    Notifications <i class="pull-right glyphicon"
+                                 ng-class="{'glyphicon-chevron-down': status.isThirdOpen, 'glyphicon-chevron-right': !status.isThirdOpen}"></i>
+                </accordion-heading>
+                <br>
+
+                <h5 ng-hide="vm.hasNotifications"> {{ vm.myUsername }} has no new notifications</h5>
+            </accordion-group>
             <accordion-group is-open="status.isSecondOpen"
                              is-disabled="status.isSecondDisabled">
                 <accordion-heading>
@@ -116,18 +126,21 @@
                                href="javascript:void(0)"
                                ng-show="vm.isAuthenticated"
                                ng-dialog="/static/templates/groups/group.html"
-                               ng-dialog-data="{{ group }}"><p class="group_button_text" align="left">{{ group.name }}</p></a>
+                               ng-dialog-data="{{ group }}"><p class="group_button_text"
+                                                               align="left">{{ group.name }}</p></a>
                         </li>
                         <br>
                     </div>
-                    <div ng-show="vm.hasMemberOfGroups"><p class="groups_underline" align="left">Groups I'm a member of</p>
+                    <div ng-show="vm.hasMemberOfGroups"><p class="groups_underline" align="left">Groups I'm a member
+                        of</p>
                         <li ng-repeat="group in vm.memberOfGroups">
                             <a class="btn btn-flat btn-default btn-nopadding"
                                ng-click="vm.groupClick(group)"
                                href="javascript:void(0)"
                                ng-show="vm.isAuthenticated"
                                ng-dialog="/static/templates/groups/group.html"
-                               ng-dialog-data="{{ group }}"><p class="group_button_text" align="left">{{ group.name }}</p></a>
+                               ng-dialog-data="{{ group }}"><p class="group_button_text"
+                                                               align="left">{{ group.name }}</p></a>
                         </li>
                     </div>
                 </div>
@@ -189,7 +202,7 @@
    ng-dialog-controller="DateController as vm"></a>
 
 <button class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
-        ng-show="vm.isAuthenticated"><span style="font-size: 1px">1</span></button>
+        ng-show="vm.isAuthenticated"><span style="font-size: 14px">1</span></button>
 
 <script>
     (function () {

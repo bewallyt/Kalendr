@@ -53,6 +53,8 @@
 
             vm.shareable = [];
 
+            vm.hasNotifications = false;
+
             username = Authentication.getAuthenticatedAccount().username;
             vm.myUsername = username;
 
