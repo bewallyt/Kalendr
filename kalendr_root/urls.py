@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
-from posts.views import AccountPostsViewSet, PostViewSet
+from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
@@ -19,6 +19,7 @@ router.register(r'posts', PostViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'access', AccessViewSet)
 router.register(r'puds', PudViewSet)
+router.register(r'notification_posts', NotificationPostView);
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'

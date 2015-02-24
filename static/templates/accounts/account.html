@@ -14,21 +14,33 @@
 
     <div>
         <accordion close-others="vm.oneAtATime">
-            <accordion-group is-open="status.isThirdOpen"
+            <accordion-group is-open="vm.isThirdOpen"
                              is-disabled="status.isThirdDisabled">
                 <accordion-heading>
                     Notifications <i class="pull-right glyphicon"
-                                 ng-class="{'glyphicon-chevron-down': status.isThirdOpen, 'glyphicon-chevron-right': !status.isThirdOpen}"></i>
+                                     ng-class="{'glyphicon-chevron-down': vm.isThirdOpen, 'glyphicon-chevron-right': !vm.isThirdOpen}"></i>
                 </accordion-heading>
                 <br>
 
-                <h5 ng-hide="vm.hasNotifications"> {{ vm.myUsername }} has no new notifications</h5>
+                <div ng-show="vm.hasNotifications"><p class="groups_underline" align="left">New Notifications</p>
+                    <li ng-repeat="notification in vm.newNotifications">
+                        <a class="btn btn-flat btn-default btn-nopadding"
+                           ng-click="vm.groupClick(group)"
+                           href="javascript:void(0)"
+                           ng-show="vm.isAuthenticated"
+                           ng-dialog="/static/templates/posts/notifications.html"
+                           ng-dialog-data="notification"><p class="group_button_text"
+                                                align="left">{{ notification.content }}</p></a>
+                    </li>
+                </div>
+
+                <h5 ng-hide="vm.hasNotifications"> {{ vm.myUsername }} has no notifications</h5>
             </accordion-group>
-            <accordion-group is-open="status.isSecondOpen"
+            <accordion-group is-open="vm.isSecondOpen"
                              is-disabled="status.isSecondDisabled">
                 <accordion-heading>
                     Following <i class="pull-right glyphicon"
-                                 ng-class="{'glyphicon-chevron-down': status.isSecondOpen, 'glyphicon-chevron-right': !status.isSecondOpen}"></i>
+                                 ng-class="{'glyphicon-chevron-down': vm.isSecondOpen, 'glyphicon-chevron-right': !vm.isSecondOpen}"></i>
                 </accordion-heading>
                 <br>
 
@@ -37,11 +49,11 @@
                 </li>
                 <h5 ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
             </accordion-group>
-            <accordion-group is-open="status.isFirstOpen"
-                             is-disabled="status.isFirstDisabled">
+            <accordion-group is-open="vm.isFirstOpen"
+                             is-disabled="vm.isFirstDisabled">
                 <accordion-heading>
                     Followers <i class="pull-right glyphicon"
-                                 ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
+                                 ng-class="{'glyphicon-chevron-down': vm.isFirstOpen, 'glyphicon-chevron-right': !vm.isFirstOpen}"></i>
                 </accordion-heading>
 
                 <button type="button" class="mdi-social-person-add btn btn-primary btn-lg" data-toggle="collapse"
@@ -66,10 +78,10 @@
                 <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
 
-            <accordion-group is-open="status.open">
+            <accordion-group is-open="vm.open">
                 <accordion-heading>
                     Groups<i class="pull-right glyphicon"
-                             ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                             ng-class="{'glyphicon-chevron-down': vm.open, 'glyphicon-chevron-right': !vm.open}"></i>
                 </accordion-heading>
                 <center>
 
@@ -167,8 +179,8 @@
 
 <a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend"
    id="showLeftPush"
-   ng-show="vm.isAuthenticated"
-   ng-dialog-controller="NewPostController as vm"></a><!--redundant controller??!!! -->
+   ng-click="vm.closeAccords()"
+   ng-show="vm.isAuthenticated"></a>
 
 <button class="mdi-image-navigate-before btn btn-primary btn-fab btn-raised btn-before"
         ng-show="vm.isAuthenticated"
@@ -201,8 +213,10 @@
    ng-dialog="/static/templates/posts/change-calendar.html"
    ng-dialog-controller="DateController as vm"></a>
 
-<button class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
-        ng-show="vm.isAuthenticated"><span style="font-size: 14px">1</span></button>
+<a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
+        id="showLeftPush2"
+        ng-click="vm.showNotificationsTab()"
+        ng-show="vm.isAuthenticated"><span style="font-size: 12px">{{vm.numNotifications}}</span></a>
 
 <script>
     (function () {
@@ -242,10 +256,17 @@
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
             showLeftPush = document.getElementById('showLeftPush'),
+            showLeftPush1 = document.getElementById('showLeftPush2'),
             body = document.body;
 
 
     showLeftPush.onclick = function () {
+        classie.toggle(this, 'active');
+        classie.toggle(body, 'cbp-spmenu-push-toright');
+        classie.toggle(menuLeft, 'cbp-spmenu-open');
+    };
+
+    showLeftPush2.onclick = function () {
         classie.toggle(this, 'active');
         classie.toggle(body, 'cbp-spmenu-push-toright');
         classie.toggle(menuLeft, 'cbp-spmenu-open');
