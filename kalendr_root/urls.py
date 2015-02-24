@@ -9,11 +9,8 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
     AccountFollowingPersonViewSet, AccountFollowingGroupViewSet
 
-<<<<<<< HEAD
 from access.views import AccessViewSet, AccountAccessViewSet, PartialUpdateView
-=======
 from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView
->>>>>>> 3436b878031c8acd4e23024d98004b1a1fd76c91
 from puds.views import AccountPudsViewSet, PudViewSet
 
 # Base router
