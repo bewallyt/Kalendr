@@ -9,7 +9,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
     AccountFollowingPersonViewSet, AccountFollowingGroupViewSet
 
-from access.views import AccessViewSet, AccountAccessViewSet
+from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView
 from puds.views import AccountPudsViewSet, PudViewSet
 
 # Base router
@@ -19,7 +19,8 @@ router.register(r'posts', PostViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'access', AccessViewSet)
 router.register(r'puds', PudViewSet)
-router.register(r'notification_posts', NotificationPostView);
+router.register(r'notification_posts', NotificationPostView)
+router.register(r'notification_response', NotificationResponseView)
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'
