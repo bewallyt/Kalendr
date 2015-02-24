@@ -11,9 +11,10 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
 from access.views import AccessViewSet, AccountAccessViewSet
 from puds.views import AccountPudsViewSet, PudViewSet
 
+# Base router
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
-router.register(r'ModelViewSet', PostViewSet)
+router.register(r'posts', PostViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'access', AccessViewSet)
 router.register(r'puds', PudViewSet)
