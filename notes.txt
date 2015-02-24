@@ -1,0 +1,45 @@
+Create a post:
+    posts.service.js:
+        Get functions:
+            all(): return $http.get('/api/v1/posts/');
+            getWeek(id, weekNum): return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
+        Post functions:
+            create(): pass a list of parameters. Do these parameters have to match the fields in PostSerializer?
+                        Or is PostSerializer smart enough to figure out which field are present which are not?
+
+
+    new-post.controller.js:
+        submit(): function calls Posts.create(). Posts refers to the create() function in posts.service.js.
+                    input parameters are all from vm., except weekNum, dayOfWeek, isWeekSet. The latter 3 parameters
+                    are calculated at the front-end.
+
+                    Posts.create() will make an HTTP call. when the HTTP request returns with a HTTP response,
+                    Posts.create() will either call createPostSuccessFn, or createPostErrorFn.
+                    createPostErrorFn and createPostSuccessFn basically just show a message on the Snackbar.
+
+Local in a user. [Let's trace this because the front-end only passes to back end the email and username]
+    authentication.service.js: All functions defined in this service can be accessed through Authentication.foo
+        getAuthenticatedAccount: Check $cookies. return nothing if there is no authenticated account. If there is
+            a logged-in user, return the JSON.parse($cookies.authenticatedAccount)
+
+        login(email, username): HTTP post email and username
+             And then it calls loginSuccessFn or loginErrorFn. Inputs for all those handlers for HTTP responses (I'm
+             talking about loginSuccessFn or loginErrorFn and createPostSuccessFn, or createPostErrorFn) take 4 input
+             parameters: (data, status, headers, config) data is should be a Django REST Response, because the actual
+             "data" is data.data.
+
+             When loginSuccessFn, we do window.location = "/" to go back to the index. And when we go back to the index,
+             the AccountController is activated (see kalendr.routes.js for controller and html page binding). And
+             AccountController calls:
+
+
+    login.controller.js:
+
+
+DO MORE WORK ON ACCOUNTCONTROLLER BECAUSE ALL FUNCTIONALITIES ON THE INDEX PAGE ARE PRETTY MUCH DEFINED HERE
+
+account.service.js:
+    get(username): HTTP $http.get('/api/v1/accounts/' + username + '/'): how does the backend pick up the username.
+                This is no data passed through the HTTP request.
+
+    update(username, account): HTTP PUT:  $http.put('/api/v1/accounts/' + username + '/', account);
