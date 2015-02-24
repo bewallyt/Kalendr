@@ -73,13 +73,9 @@
             return $http.get('/api/v1/accounts/' + id + '/puds/');
         }
 
-        function saveComplete(author, pud_id, complete) {
-            console.log('patching pud')
-            return $http.patch('/api/v1/puds/' + pud_id + '/pudUpdate/', {
-                author: author,
-                id: pud_id,
-                is_completed: complete
-            })
+        function saveComplete(username, pud_id, complete) {
+            return $http.get('/api/v1/accounts/' + username + '/puds/' + pud_id
+            + '/savePud/' + complete + '/pudComplete/');
         }
     }
 })();

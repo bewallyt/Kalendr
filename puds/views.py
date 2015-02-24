@@ -34,7 +34,26 @@ class AccountPudsViewSet(viewsets.ViewSet):
     def list(self, request, account_username=None):
         print 'in list of accountpudsview'
 
-        queryset = self.queryset.filter(author__username=account_username)
+        queryset = self.queryset.filter(author__username=account_username).filter(is_completed=False)
         serializer = self.serializer_class(queryset, many=True)
 
+        return Response(serializer.data)
+
+
+class AccountCompletePudViewSet(viewsets.ViewSet):
+    print 'in complete pud view set'
+    queryset = Pud.objects.all()
+    serializer_class = PudSerializer
+
+    def list(self, request, account_username=None, pud_pk=None, complete_pk=None):
+        print "ABOUT TO COMPLETE!!"
+        print 'account username: ' + account_username
+        print 'pud id: ' + pud_pk
+        print 'pud completed: ' + complete_pk
+        queryset = self.queryset.filter(author__username=account_username).filter(is_completed=False)
+        spec_pud = queryset.get(id=pud_pk)
+        spec_pud.is_completed = True
+        spec_pud.save()
+        incomplete_puds = self.queryset.filter(author__username=account_username).filter(is_completed=False)
+        serializer = self.serializer_class(incomplete_puds, many=True)
         return Response(serializer.data)
