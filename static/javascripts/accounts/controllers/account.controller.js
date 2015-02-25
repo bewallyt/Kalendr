@@ -16,28 +16,6 @@
         instantiateAccordian();
         var username;
 
-        vm.addFollower = addFollower;
-        vm.followerList = [];
-        vm.hasFollowers = false;
-
-        vm.followingList = [];
-        vm.isFollowing = false;
-
-        vm.groupList = [];
-        vm.hasGroups = false;
-
-        vm.groupName = null;
-        vm.groupMembers = [];
-        var groupAccounts = [];
-        vm.selectedMember = null;
-        vm.rule = null;
-        vm.addMembers = addMembers;
-        vm.addGroup = addGroup;
-        vm.groupNum = 0;
-        var pud_post;
-
-        vm.isAuthenticated = Authentication.isAuthenticated();
-        console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
         vm.puds = [];
