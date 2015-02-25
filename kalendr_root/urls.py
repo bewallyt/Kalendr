@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
-from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView, GetSharedPostView
+from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView, GetSharedPostView, PostUpdateView
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
@@ -25,6 +25,7 @@ router.register(r'access_update', PartialUpdateView)
 router.register(r'puds', PudViewSet)
 router.register(r'notification_posts', NotificationPostView)
 router.register(r'notification_response', NotificationResponseView)
+router.register(r'post_update', PostUpdateView)
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'

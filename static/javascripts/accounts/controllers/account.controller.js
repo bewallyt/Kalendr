@@ -291,7 +291,7 @@
                     if (!followerDict[groupAccounts[i].username]) {
                         followerDict[groupAccounts[i].username] = true;
                         vm.followerList.unshift(groupAccounts[i]);
-                        Groups.create(groupAccounts[i].username, [groupAccounts[i]], Authentication.getAuthenticatedAccount(), true).then(FollowerCreateSuccessFn2, FollowerCreateErrorFn);
+                        Groups.create(groupAccounts[i].username, [groupAccounts[i]], Authentication.getAuthenticatedAccount(), true).then(FollowerCreateSuccessFn, FollowerCreateErrorFn);
                     }
                 }
                 Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false).then(groupCreateSuccessFn, groupCreateErrorFn);

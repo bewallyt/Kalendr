@@ -16,30 +16,49 @@
 
 <br>
 
+<accordion ng-hide="ngDialogData.is_holiday" close-others="vm.post_description_close">
+    <accordion-group is-open="vm.isThirdOpenPost"
+                     is-disabled="status.isPostDisabled">
+        <accordion-heading>
+            Invitation Responses <i class="pull-right glyphicon"
+                                    ng-class="{'glyphicon-chevron-down': vm.isThirdOpenPost, 'glyphicon-chevron-right': !vm.isThirdOpenPost}"></i>
+        </accordion-heading>
+        <br>
 
-<center>Invitation Responses</center>
+        <div ng-show="vm.hasConfirmedGroups">
+            <p align="left">
+            Confirmed:</p>
+            <li ng-repeat="user in vm.confirmedGroups">
+                <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+        <div ng-show="vm.hasDeclinedGroups">
+            <p align="left">
+            Declined:</p>
+            <li ng-repeat="user in vm.declinedGroups">
+            <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+        <div ng-show="vm.hasRemovedGroups">
+            <p align="left">
+            Removed:</p>
+            <li ng-repeat="user in vm.removedGroups">
+            <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+        <div ng-show="vm.hasNoRespGroups">
+            <p align="left">
+            No Response:</p>
+            <li ng-repeat="user in vm.noRespGroups">
+            <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+
+    </accordion-group>
+
+</accordion>
 <br>
-<div ng-show="vm.hasConfirmedGroups">
-    Confirmed:
-    <li ng-repeat="user in vm.confirmedGroups">
-        {{ user.name }}
-    </li>
-</div>
-<div ng-show="vm.hasDeclinedGroups">
-    Declined:
-    <li ng-repeat="user in vm.declinedGroups">
-        {{ user.name }}
-    </li>
-</div>
-<div ng-show="vm.hasRemovedGroups">
-    Removed:
-    <li ng-repeat="user in vm.removedGroups">
-        {{ user.name }}
-    </li>
-</div>
-<div ng-show="vm.hasNoRespGroups">
-    No Response:
-    <li ng-repeat="user in vm.noRespGroups">
-        {{ user.name }}
-    </li>
-</div>
