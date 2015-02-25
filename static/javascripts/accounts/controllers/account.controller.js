@@ -88,6 +88,7 @@
             // Show Follower Events on Kalendr
             vm.appendFollowingEvents = appendFollowingEvents;
             clickedFollowingArray = [];
+            clickedFollowingPosts = [];
             followerDict = new Object();
 
 
@@ -182,6 +183,11 @@
 
             function postsSuccessFn(data, status, headers, config) {
                 vm.posts = data.data;
+            }
+
+            function postsSuccessFn2(data, status, headers, config) {
+                vm.posts = data.data.concat(clickedFollowingPosts);
+
             }
 
             function postsErrorFn(data, status, headers, config) {
@@ -307,10 +313,6 @@
 
             }
 
-            function FollowerCreateSuccessFn2() {
-                Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
-
-            }
 
             function FollowerCreateErrorFn() {
                 Snackbar.error('Follower Addition Error');
@@ -356,11 +358,9 @@
 
             function sharedFollowingSuccessFn(data, status, headers, config) {
                 console.log('in shared following success');
-                console.log(data.data);
-                var i;
-                for (i = 0; i < data.data.length; i++) {
-                    console.log(data.data[i]);
-                }
+                clickedFollowingPosts = clickedFollowingPosts.concat(data.data);
+
+                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn2, postsErrorFn);
             }
 
             function sharedFollowingErrorFn(data, status, headers, config) {
@@ -390,6 +390,7 @@
                 if (isClicked == 0) {
                     console.log('adding user');
                     clickedFollowingArray.push(followingUsername);
+                    Posts.getSharedFollowing(followingUsername).then(sharedFollowingSuccessFn, sharedFollowingErrorFn);
                 }
                 // Remove Users
                 else {
@@ -398,17 +399,24 @@
                     for (i = 0; i < clickedFollowingArray.length; i++) {
                         if (clickedFollowingArray[i] == followingUsername) {
                             clickedFollowingArray.splice(i, 1);
+                            var j;
+                            for (j = 0; j < vm.posts.length; j++) {
+                                if (vm.posts[j].author.username == followingUsername) {
+                                    vm.posts.splice(j, 1);
+                                    j--;
+                                }
+                            }
+                            for (j = 0; j < clickedFollowingPosts.length; j++) {
+                                if (clickedFollowingPosts[j].author.username == followingUsername) {
+                                    console.log('removing user');
+                                    clickedFollowingPosts.splice(j, 1);
+                                    j--;
+                                }
+                            }
                             break;
                         }
                     }
                 }
-                console.log('arrayUsers: ');
-                var i;
-                for (i = 0; i < clickedFollowingArray.length; i++) {
-                    console.log(clickedFollowingArray[i]);
-                    Posts.getSharedFollowing(clickedFollowingArray[i]).then(sharedFollowingSuccessFn, sharedFollowingErrorFn);
-                }
-
 
             }
 
