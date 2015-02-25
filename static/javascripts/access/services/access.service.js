@@ -65,6 +65,7 @@
 
         function getDeclinedResponses(postId, resp_type){
             return $http.get('/api/v1/notification_response/'+ postId +'/response/' + resp_type + '/list/');
+
         }
 
         function getNoResponses(postId, resp_type){
