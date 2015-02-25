@@ -54,7 +54,7 @@
 
             if (vm.begin_time === null) vm.begin_time = '';
             if (vm.end_time === null) vm.end_time = '';
-            if (vm.notify_when === null) vm.notify_when = '';
+            if (vm.notify_when === null) vm.notify_when = vm.start_time;
 
             if (vm.notification === undefined) vm.notification = false;
 

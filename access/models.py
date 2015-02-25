@@ -1,6 +1,7 @@
 from django.db import models
 from posts.models import Post
 from groups.models import KGroup
+from django.utils.datetime_safe import datetime
 
 class AccessRule(models.Model):
     post = models.ForeignKey(Post, blank=True)
@@ -38,6 +39,7 @@ class AccessRule(models.Model):
 
     # The receiver of the post can set notification for this event that is shared with her/him
     notification_email = models.BooleanField(default=False)
+    notify_when = models.DateTimeField(default=datetime.now())
 
     # For the originator to approve or reject
     approve_change = models.BooleanField(default=False)

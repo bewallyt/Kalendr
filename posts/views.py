@@ -5,7 +5,6 @@ from posts.models import Post
 from posts.permissions import IsAuthorOfPost
 from posts.serializers import PostSerializer, SharedPostSerializer
 from posts.repeat import repeat_events
-from django.core.mail import send_mail
 from rest_framework import status
 from authentication.models import Account
 from access.models import AccessRule
