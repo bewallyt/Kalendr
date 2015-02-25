@@ -48,8 +48,11 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(updated_post.data, status=status.HTTP_200_OK)
         return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
 
-
-# Used to get the list of posts that are shared with the user but the user hasn't responded yet
+'''
+ Used to get the list of posts that are shared with the user but the user hasn't responded yet
+ Or the originator of the post changed the post's content
+ This viewset is linked to the notification bar under social bar at the front-end
+'''
 class NotificationPostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -63,10 +66,13 @@ class NotificationPostView(viewsets.ModelViewSet):
 
         noresponse_posts = queryset.filter(shared_with__name=request.user.username, shared_with__is_follow_group = True,
                                             accessrule__receiver_response='NO_RESP')
+        updated_posts = queryset.filter(shared_with__name=request.user.username, shared_with__is_follow_group = True,
+                                            accessrule__notify_receiver=True)
 
         #updated_posts = queryset.filter(share_with__name = request.user.username, )
+        posts = noresponse_posts | updated_posts
 
-        serializer = self.serializer_class(noresponse_posts, many=True)
+        serializer = self.serializer_class(posts, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -129,20 +135,48 @@ class AccountPostsViewSet(viewsets.ViewSet):
 
 
 '''
-    Update post fields for a single post
+    Update post fields for a single post.
+    And flag to notify receivers
+
+    expected input data format:
+    post_id: post_id
 '''
+
 #TODO: Check permission
 class PostUpdateView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request):
         post = Post.objects.get(pk=request.data['post_id'])
+        post_owner = post.author
 
-        updated_post = self.serializer_class(post, data = request.data, partial=True)
-        if updated_post.is_valid():
-            updated_post.save()
-            return Response(updated_post.data, status=status.HTTP_200_OK)
+        if post_owner.email == request.user.email:
+            # It is the author that's updating the post
+
+            # updating the notify_receiver field in order to notify receiver of this update
+            ar_set = post.accessrule_set.all()
+            for ar in ar_set:
+                ar.notify_receiver = False
+                if ar.receiver_response != 'REMOVED':
+                    ar.notify_receiver = True
+                ar.save()
+
+            updated_post = self.serializer_class(post, data = request.data, partial=True)
+            if updated_post.is_valid():
+                updated_post.save()
+                return Response(updated_post.data, status=status.HTTP_200_OK)
+
+        #else:
+            '''
+             it is not the owner who's updating the post
+             create a copy of the post in receiver's db, share that with the originator for originator's approval
+             this "local" copy has temp_post set to True
+             front end should only give "approve" and "reject" two option when pop up a view for notification.
+             When the originator replies,
+             access/views/PartialUpdateView will be triggered. In PartialUpdateView, it should copy the temp post
+             to the originator's post, delete the temp post and all accessrule associated
+            '''
         return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
 
 

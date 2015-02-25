@@ -483,3 +483,11 @@ u'BUS'
 []
 
 # this shows that post.filter(shared_with__) is accessing the field of a KGroup.
+
+'''
+    Get all the follower groups that a post is shared with. And get all the AccessRules
+'''
+>>> post.shared_with.all()
+[<KGroup: user5>, <KGroup: user1>]
+>>> post.accessrule_set.all()
+[<AccessRule: sharing test2,user5>, <AccessRule: sharing test2,user1>]

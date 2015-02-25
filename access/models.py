@@ -29,7 +29,8 @@ class AccessRule(models.Model):
     # If just setting the precedence, the owner of the event may not want whoever the event is shared with to
     # get a notification of the sharing.
     # But the current implementation is that we notify whoever we shared with whenever we share
-    notify_receiver = models.BooleanField(default=True)
+    # Also used when the originator updates the post content
+    notify_receiver = models.BooleanField(default=False)
 
 
     # When a receiver of the event modifies it, this field should be
@@ -37,6 +38,9 @@ class AccessRule(models.Model):
 
     # The receiver of the post can set notification for this event that is shared with her/him
     notification_email = models.BooleanField(default=False)
+
+    # For the originator to approve or reject
+    approve_change = models.BooleanField(default=False)
 
 
     def __unicode__(self):

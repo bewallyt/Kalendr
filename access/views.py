@@ -30,6 +30,8 @@ class PartialUpdateView(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         post = Post.objects.get(pk=request.data['post_id'])
         ar = post.accessrule_set.get(group__name=request.user.username)
+        ar.notify_receiver = False
+        ar.save()
 
         updated_ar = self.serializer_class(ar, data = request.data, partial=True)
         if updated_ar.is_valid():
