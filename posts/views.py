@@ -219,7 +219,7 @@ class GetSharedPostView(viewsets.ModelViewSet):
             elif ac.visibility == "MOD" and not post.pud:
                 post.can_modifty=True
 
-            if post.pud:
+            if post.pud_time:
                 post.content = owner.username + "Reserved for PUD"
                 post.location_event = ' '
                 post.description_event = ' '
