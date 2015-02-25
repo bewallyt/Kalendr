@@ -2,6 +2,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
 from posts.models import Post
+from puds.models import Pud
 from posts.permissions import IsAuthorOfPost
 from posts.serializers import PostSerializer, SharedPostSerializer
 from posts.repeat import repeat_events
@@ -53,6 +54,8 @@ class PostViewSet(viewsets.ModelViewSet):
  Or the originator of the post changed the post's content
  This viewset is linked to the notification bar under social bar at the front-end
 '''
+
+
 class NotificationPostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -69,7 +72,7 @@ class NotificationPostView(viewsets.ModelViewSet):
         updated_posts = queryset.filter(shared_with__name=request.user.username, shared_with__is_follow_group = True,
                                             accessrule__notify_receiver=True)
 
-        #updated_posts = queryset.filter(share_with__name = request.user.username, )
+        # updated_posts = queryset.filter(share_with__name = request.user.username, )
         posts = noresponse_posts | updated_posts
 
         serializer = self.serializer_class(posts, many=True)
@@ -83,7 +86,8 @@ class AccountPostsViewSet(viewsets.ViewSet):
     serializer_class = SharedPostSerializer
 
     def list(self, request, account_username=None, post_pk=None):
-
+        print "is this the id passed " + account_username
+        print "is this the week number " + post_pk
         queryset = self.queryset.filter(author__username=account_username)
 
         for e in queryset:
@@ -133,7 +137,6 @@ class AccountPostsViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-
 '''
     Update post fields for a single post.
     And flag to notify receivers
@@ -142,7 +145,7 @@ class AccountPostsViewSet(viewsets.ViewSet):
     post_id: post_id
 '''
 
-#TODO: Check permission
+# TODO: Check permission
 class PostUpdateView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -178,9 +181,6 @@ class PostUpdateView(viewsets.ModelViewSet):
              to the originator's post, delete the temp post and all accessrule associated
             '''
         return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
-
-
-
 
 
 '''
@@ -230,10 +230,65 @@ class GetSharedPostView(viewsets.ModelViewSet):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
+class AccountSavePudPostViewSet(viewsets.ViewSet):
+    queryset = Post.objects.all()
+    pud_queryset = Pud.objects.all()
+    serializer_class = PostSerializer
+
+    def list(self, request, account_username=None, post_pk=None, week_pk=None):
+        print "ABOUT TO SAVE!!!"
+        filtered_week = self.queryset.filter(author__username=account_username).filter(week_num=week_pk)
+        incomplete_puds = self.pud_queryset.filter(author__username=account_username).filter(is_completed=False)
+        duration_order = incomplete_puds.order_by('-duration')
+        post = filtered_week.get(id=post_pk)
+        fits_in_slot = duration_order.exclude(duration__gt=post.duration)
+
+        if fits_in_slot.exists():
+            reorder_priority = fits_in_slot.order_by('-priority_int')
+            fit_pud = reorder_priority.first()
+            # fit_pud.assignedToPost = True
+            # fit_pud.firstAssignedWeek = week_pk
+            # fit_pud.save()
+            print fit_pud.content
+            post.pud = fit_pud.content
+        else:
+            post.pud = 'No Task Available'
+
+        post.save()
+        print post.content
+        print post.pud
+        return_week = self.queryset.filter(author__username=account_username).filter(week_num=week_pk)
+        queryset = return_week.order_by('-start_time')
+        queryset = queryset.reverse()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
 
 
+class AccountUpdatePudPostViewSet(viewsets.ViewSet):
+    queryset = Post.objects.all()
+    pud_queryset = Pud.objects.all()
+    serializer_class = PostSerializer
+    print 'in acc update pud post view set'
 
-
-
-
-
+    def list(self, request, account_username=None, post_pk=None):
+        print "ABOUT TO UPDATE in post views!!!"
+        print 'the account username: ' + account_username
+        print 'the pud id: ' + post_pk
+        filtered_by_user = self.queryset.filter(author__username=account_username)
+        spec_pud = self.pud_queryset.get(id=post_pk)
+        filtered_by_post = filtered_by_user.filter(pud=spec_pud.content)
+        if filtered_by_post.exists():  # is the pud actually assigned to any post
+            ascend_duration = filtered_by_post.order_by('duration')
+            for post in ascend_duration:
+                incomplete = self.pud_queryset.filter(author__username=account_username).filter(is_completed=False)
+                fits = incomplete.order_by('-duration').exclude(duration__gt=post.duration)
+                if fits.exists():
+                    prior = fits.order_by('-priority_int')
+                    fit_pud = prior.first()
+                    post.pud = fit_pud.content
+                else:
+                    post.pud = 'No Task Available'
+                post.save()
+        return_posts = self.queryset.filter(author__username=account_username).order_by('-start_time').reverse()
+        serializer = self.serializer_class(return_posts, many=True)
+        return Response(serializer.data)

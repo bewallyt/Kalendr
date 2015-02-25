@@ -19,12 +19,12 @@
         var Puds = {
             all: all,
             create: create,
-            get: get
+            get: get,
+            saveComplete: saveComplete
         };
 
         return Puds;
 
-        ////////////////////
 
         /**
          * @name all
@@ -69,9 +69,22 @@
          * @memberOf kalendr.puds.services.Puds
          */
 
-        function get(id) {
-            console.log('in get puds');
-            return $http.get('/api/v1/accounts/' + id + '/puds/');
+        function get(username) {
+            return $http.get('/api/v1/accounts/' + username + '/puds/');
+        }
+
+        /**
+         * @name saveComplete
+         * @desc Set the id'ed pud as complete
+         * @param {string} username The username to get Puds for
+         * @param {int} pud_id The specific pud
+         * @param {boolean} complete The pud completion value to assign
+         * @returns {Promise}
+         * @memberOf kalendr.puds.services.Puds
+         */
+
+        function saveComplete(username, pud_id, complete) {
+            return $http.get('/api/v1/accounts/' + username + '/puds/' + pud_id + '/savePud/' + complete + '/pudComplete/');
         }
     }
 })();

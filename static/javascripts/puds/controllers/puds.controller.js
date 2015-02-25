@@ -60,20 +60,15 @@
                     if (current[i].repeat_int == 0 || current[i].repeat_int == 1 ||
                         current[i].repeat_int == 2) {
                         vm.columns[0].push(current[i]);
+                        vm.columns[2].push(current[i]);
                     } else {
                         vm.columns[1].push(current[i]);
+                        vm.columns[2].push(current[i]);
                     }
-                    vm.pr_sort.push(current[i]);
                 }
-                console.log('length of: ' + vm.pr_sort.length);
-
-                vm.pr_sort.sort(function (a, b) {
+                vm.columns[2].sort(function (a, b) {
                     return b.priority_int - a.priority_int;
-                });
-
-                for (var s = 0; s < vm.pr_sort.length; s++) {
-                    vm.columns[2].push(vm.pr_sort[s]);
-                }
+                })
 
 
             }

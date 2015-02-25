@@ -16,9 +16,27 @@
         instantiateAccordian();
         var username;
 
+        vm.addFollower = addFollower;
+        vm.followerList = [];
+        vm.hasFollowers = false;
+
+        vm.followingList = [];
+        vm.isFollowing = false;
+
+        vm.groupList = [];
+        vm.hasGroups = false;
+
+        vm.groupName = null;
+        vm.groupMembers = [];
+        var groupAccounts = [];
+        vm.selectedMember = null;
+        vm.rule = null;
+        vm.addMembers = addMembers;
+        vm.addGroup = addGroup;
+        vm.groupNum = 0;
+        var pud_post;
 
         vm.isAuthenticated = Authentication.isAuthenticated();
-
         console.log('vm.isAuthenticated: ' + vm.isAuthenticated);
         vm.account = undefined;
         vm.posts = [];
@@ -98,11 +116,8 @@
             var date = new Date();
             var num_month = date.getMonth();
             var month = findMonth(num_month);
-
-
             var num_day = date.getDay();
             var dayOfWeek = findDay(num_day);
-
             var homeDate = date;
             var homeWeek = date.getWeekNum();
             var homeDayOfWeek = dayOfWeek;
@@ -122,6 +137,7 @@
             // Groups I don't own
             Groups.getMemberGroups(username).then(groupMemberSuccessFn, groupMemberErrorFn);
             Groups.getFollowing(username).then(followingSuccessFn, followingErrorFn);
+            Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
 
             // To update shareable list
             Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
@@ -131,7 +147,6 @@
 
 
             $scope.$on('post.created', function (event, post) {
-                // Hack fetched shared following posts in here
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
@@ -139,8 +154,13 @@
                 vm.date = post.dayOfWeek + ', ' + month + ' ' + post.start_time.getDate();
                 vm.weekNum = post.weekNum;
 
-                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
-                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                if (post.pud_time) {
+                    Posts.getWeek(username, post.weekNum).then(postIdSuccessFn, postIdErrorFn);
+                    Posts.getWeek(username, post.weekNum).then(postIdSuccessFn, postIdErrorFn);
+                } else {
+                    Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                    Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                }
             });
 
             $scope.$on('post.created.error', function () {
@@ -163,10 +183,18 @@
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
                 Snackbar.show('Carried to week ' + vm.weekNum + ': ' + vm.date + '!');
             });
-
+            //fix double get call
             $scope.$on('pud.created', function (event, pud) {
-                console.log('printing content from account controller: ' + pud.content);
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+                Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+            });
+
+            $scope.$on('pud.completed', function (event, pud) {
+                console.log('received pud broadcast');
+                console.log('account username: ' + pud.username);
+                console.log('pud id after broadcast: ' + pud.id);
+                console.log('pud completed?: ' + pud.is_completed);
+                Posts.pudPostUpdate(pud.username, pud.id).then(pudCompleteSuccessFn, pudCompleteErrorFn);
             });
 
             $scope.$on('pud.created.error', function () {
@@ -182,6 +210,7 @@
             }
 
             function postsSuccessFn(data, status, headers, config) {
+                vm.posts = data.data;
                 var i;
                 sharedWeeksPosts = [];
                 for(i = 0; i < clickedFollowingPosts.length; i++){
@@ -194,15 +223,47 @@
 
             function postsSuccessFn2(data, status, headers, config) {
                 vm.posts = data.data.concat(clickedFollowingPosts);
-
             }
 
             function postsErrorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
+            /**
+             * @name postIdSuccessFn
+             * @desc Assign the pud with highest priority fitting into the post duration, if the highest priority is
+             * shared amongst multiple puds, then the oldest pud is assigned
+             * @param data, status, headers, config
+             * @calls Puds.get
+             */
+
+            function postIdSuccessFn(data, status, headers, config) {
+                data.data.sort(function (a, b) {
+                    return b.id - a.id;
+                });
+                for (var s = 0; s < data.data.length; s++) {
+                    console.log(data.data[s].id + ' id');
+                }
+                pud_post = data.data[0];
+                console.log(pud_post.id + ' post_pud id');
+                Posts.savePost(username, pud_post.id, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
+                Posts.savePost(username, pud_post.id, pud_post.week_num).then(postsSuccessFn, postsErrorFn).then(Puds.get(username).then(pudsSuccessFn, pudsErrorFn));
+                //Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+            }
+
+            function pudCompleteSuccessFn(data, status, headers, config) {
+                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn).then(Puds.get(username).then(pudsSuccessFn, pudsErrorFn));
+            }
+
+            function pudCompleteErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
+            function postIdErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
             function pudsSuccessFn(data, status, headers, config) {
-                // Not getting the newest pud.
                 vm.puds = data.data;
             }
 

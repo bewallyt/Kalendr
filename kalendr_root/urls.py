@@ -3,14 +3,15 @@ from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
-from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView, GetSharedPostView, PostUpdateView
+from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView, GetSharedPostView, PostUpdateView, \
+    AccountUpdatePudPostViewSet, AccountSavePudPostViewSet
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
     AccountFollowingPersonViewSet, AccountFollowingGroupViewSet
 
 from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView,PartialUpdateView
-from puds.views import AccountPudsViewSet, PudViewSet
+from puds.views import AccountPudsViewSet, PudViewSet, AccountCompletePudViewSet
 
 # Base router
 router = routers.SimpleRouter()
@@ -27,9 +28,7 @@ router.register(r'notification_posts', NotificationPostView)
 router.register(r'notification_response', NotificationResponseView)
 router.register(r'post_update', PostUpdateView)
 
-accounts_router = routers.NestedSimpleRouter(
-    router, r'accounts', lookup='account'
-)
+accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/
 accounts_router.register(r'posts', AccountPostsViewSet)
 # all the groups that I own
@@ -53,20 +52,27 @@ accounts_router.register(r'latest_group', AccountLatestGroupViewSet)
 # /api/v1/accounts/"owner_name"/get_shared/
 accounts_router.register(r'get_shared', GetSharedPostView)
 
-week_router = routers.NestedSimpleRouter(
-    accounts_router, r'posts', lookup='post'
-)
+week_router = routers.NestedSimpleRouter(accounts_router, r'posts', lookup='post')
 
 # api/v1/accounts/"user_name/id"/posts/"post_id|week_num"/week/
 week_router.register(r'week', AccountPostsViewSet)
+week_router.register(r'savePostPud', AccountPostsViewSet)
+week_router.register(r'updatePostPud', AccountUpdatePudPostViewSet)
 
-group_router = routers.NestedSimpleRouter(
-    router, r'accounts', lookup='account'
-)
+save_router = routers.NestedSimpleRouter(week_router, r'savePostPud', lookup='week')
+save_router.register(r'pudContent', AccountSavePudPostViewSet)
+
+pud_save_router = routers.NestedSimpleRouter(accounts_router, r'puds', lookup='pud')
+pud_save_router.register(r'savePud', AccountPudsViewSet)
+
+pud_complete_router = routers.NestedSimpleRouter(pud_save_router, r'savePud', lookup='complete')
+pud_complete_router.register(r'pudComplete', AccountCompletePudViewSet)
+
+group_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 group_router.register(r'groups', AccountGroupsViewSet)
 
 
-#/api/v1/notification_response/"post"/response/
+# /api/v1/notification_response/"post"/response/
 notification_router = routers.NestedSimpleRouter(router, r'notification_response', lookup='post')
 notification_router.register(r'response', NotificationResponseView)
 
@@ -80,6 +86,9 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(accounts_router.urls)),
     url(r'^api/v1/', include(group_router.urls)),
     url(r'^api/v1/', include(week_router.urls)),
+    url(r'^api/v1/', include(save_router.urls)),
+    url(r'^api/v1/', include(pud_save_router.urls)),
+    url(r'^api/v1/', include(pud_complete_router.urls)),
     url(r'^api/v1/', include(notification_router.urls)),
     url(r'^api/v1/', include(notification_response_router.urls)),
     url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
