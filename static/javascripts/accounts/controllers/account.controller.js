@@ -32,7 +32,7 @@
              * Social Bar Variables Instantiated Below
              */
 
-            // For Displaying Followers
+                // For Displaying Followers
 
             vm.addFollower = addFollower;
             vm.followerList = [];
@@ -82,7 +82,6 @@
 
             // Closing Accords
             vm.closeAccords = closeAccords;
-
 
 
             username = Authentication.getAuthenticatedAccount().username;
@@ -300,12 +299,14 @@
                 if (data.data.length > 0) vm.hasNotifications = true;
                 else vm.hasNotifications = false;
 
+
                 vm.newNotifications = data.data;
                 vm.numNotifications = data.data.length;
 
                 var i;
                 console.log('notifications: ');
-                for(i = 0; i < vm.numNotifications; i++){
+                console.log(vm.numNotifications);
+                for (i = 0; i < vm.numNotifications; i++) {
                     console.log(vm.newNotifications[i]);
                 }
             }
@@ -314,27 +315,26 @@
                 Snackbar.error(data.data.error);
             }
 
-            function replyEventSuccessFn(){
+            function replyEventSuccessFn() {
                 Snackbar.show('Replied Event Invitation!');
-                Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
                 Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
 
             }
 
-            function replyEventErrorFn(){
+            function replyEventErrorFn() {
                 Snackbar.error('Event Reply Error');
             }
 
-            function replyNotification(){
+            function replyNotification() {
                 Access.reply(vm.currentNotificationPostId, vm.response, vm.emailNotification, vm.emailNotifyWhen).then(replyEventSuccessFn, replyEventErrorFn);
                 $scope.closeThisDialog();
             }
 
-            function showNotificationsTab(){
+            function showNotificationsTab() {
                 vm.isThirdOpen = true;
             }
 
-            function closeAccords(){
+            function closeAccords() {
                 vm.open = false;
                 vm.isFirstOpen = false;
                 vm.isSecondOpen = false;

@@ -9,25 +9,27 @@
         .module('kalendr.posts.controllers')
         .controller('PostDescriptionController', PostDescriptionController);
 
-    PostDescriptionController.$inject = ['$scope', 'Access'];
+    PostDescriptionController.$inject = ['$timeout', '$scope', 'Access'];
 
     /**
      * @namespace PostDescriptionController
      */
-    function PostDescriptionController($scope, Access) {
+    function PostDescriptionController($timeout, $scope, Access) {
         var vm = this;
 
         vm.columns = [];
 
-        activate();
+        vm.init = init;
 
-        function activate() {
+        function init(id) {
 
             vm.hasReponses = false;
             vm.hasConfirmedGroups = false;
             vm.hasRemovedGroups = false;
             vm.hasDeclinedGroups = false;
             vm.hasNoRespGroups = false;
+            vm.postId = id;
+            console.log(vm.postId);
 
             Access.getConfirmedResponses(vm.postId).then(successConfirmedFn, errorFn);
             Access.getRemovedResponses(vm.postId).then(successRemovedFn, errorFn);
