@@ -26,6 +26,8 @@
 
         if (vm.isAuthenticated) activate();
 
+        // Benson: remove error fn
+
         function activate() {
 
             /**
@@ -82,6 +84,10 @@
 
             // Closing Accords
             vm.closeAccords = closeAccords;
+
+            // Show Follower Events on Kalendr
+            vm.appendFollowingEvents = appendFollowingEvents;
+            clickedFollowingArray = [];
 
 
             username = Authentication.getAuthenticatedAccount().username;
@@ -338,6 +344,33 @@
                 vm.isFirstOpen = false;
                 vm.isSecondOpen = false;
                 vm.isThirdOpen = false;
+            }
+
+            function appendFollowingEvents(isClicked, followingUsername){
+                console.log('in appendfollowingevents()');
+                console.log(followingUsername);
+                console.log(isClicked);
+                if(isClicked == 0){
+                    console.log('adding user');
+                    clickedFollowingArray.push(followingUsername);
+                }
+                // Remove Users
+                else{
+                    console.log('removing user');
+                    var i;
+                    for(i = 0; i < clickedFollowingArray.length; i++){
+                        if(clickedFollowingArray[i] == followingUsername){
+                            clickedFollowingArray.splice(i,1);
+                            break;
+                        }
+                    }
+                }
+                console.log('arrayUsers: ');
+                var i;
+                for(i = 0; i < clickedFollowingArray.length; i++){
+                    console.log(clickedFollowingArray[i]);
+                }
+
             }
 
             vm.activate = function () {

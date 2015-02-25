@@ -31,7 +31,7 @@
                            ng-dialog="/static/templates/posts/notifications.html"
                            ng-dialog-controller="AccountController as vm"
                            ng-dialog-data="{{ notification }}"><p class="group_button_text"
-                                                align="left">{{ notification.content }}</p></a>
+                                                                  align="left">{{ notification.content }}</p></a>
                     </li>
                 </div>
 
@@ -46,7 +46,12 @@
                 <br>
 
                 <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
-                    {{ following.owner.username }}
+                    <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0" ng-model="singleModel" btn-checkbox
+                       btn-checkbox-true="1" btn-checkbox-false="0"
+                       ng-click="vm.appendFollowingEvents(singleModel, following.name)">
+                        <p class="group_button_text" align="left">{{ following.owner.username }}{{ singleModel }}</p>
+                    </a>
+
                 </li>
                 <h5 ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
             </accordion-group>
@@ -74,7 +79,8 @@
                 <br>
 
                 <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
-                    {{ follower.name }}
+                    <a class="btn btn-flat btn-default btn-nopadding">
+                        <p class="group_button_text" align="left"> {{ follower.name }}</p></a>
                 </li>
                 <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
@@ -117,6 +123,7 @@
                                 <li ng-repeat="member in vm.groupMembers">
                                     {{ member }}
                                 </li>
+
 
                             </div>
 
@@ -215,9 +222,9 @@
    ng-dialog-controller="DateController as vm"></a>
 
 <a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
-        id="showLeftPush2"
-        ng-click="vm.showNotificationsTab()"
-        ng-show="vm.hasNotifications"><span style="font-size: 12px">{{vm.numNotifications}}</span></a>
+   id="showLeftPush2"
+   ng-click="vm.showNotificationsTab()"
+   ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
 
 <script>
     (function () {
