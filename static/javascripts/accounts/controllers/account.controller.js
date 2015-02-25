@@ -20,6 +20,8 @@
         vm.posts = [];
         vm.puds = [];
 
+        vm.isAuthenticated = Authentication.isAuthenticated();
+
         if (vm.isAuthenticated) activate();
 
         // Benson: remove error fn
@@ -55,9 +57,11 @@
             vm.groupMembers = [];
             var groupAccounts = [];
             vm.selectedMember = null;
+            var pud_post;
             vm.rule = null;
             vm.addMembers = addMembers;
             vm.addGroup = addGroup;
+            var groupNum = 0;
 
             // For Passing Shareable into Event Creation
 

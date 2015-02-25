@@ -32,7 +32,7 @@ class SharedPostSerializer(serializers.ModelSerializer):
         fields = ('id', 'author', 'content', 'created_at', 'updated_at', 'start_time', 'repeat',
                   'location_event', 'description_event', 'begin_time', 'end_time', 'end_repeat', 'show_date',
                   'show_begin_time', 'show_end_time', 'not_all_day', 'day_of_week', 'need_repeat', 'is_week_set',
-                  'week_num')
+                  'week_num', 'duration', 'pud', 'pud_time', 'is_holiday')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
 

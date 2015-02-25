@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'rest_framework',
     'compressor',
-    'djrill',
     'authentication',
     'posts',
     'groups',
