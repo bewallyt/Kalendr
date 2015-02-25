@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
-from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView
+from posts.views import AccountPostsViewSet, PostViewSet, NotificationPostView, GetSharedPostView
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountFollowerGroupsViewSet, \
     AccountNonFollowerGroupsViewSet, AccountSpecificGroupViewSet, AccountLatestGroupViewSet, \
@@ -48,6 +48,9 @@ accounts_router.register(r'puds', AccountPudsViewSet)
 accounts_router.register(r'following_all', AccountFollowingViewSet)
 accounts_router.register(r'specific_group', AccountSpecificGroupViewSet)
 accounts_router.register(r'latest_group', AccountLatestGroupViewSet)
+# API endpoint for getting posts that a user shared with me
+# /api/v1/accounts/"owner_name"/get_shared/
+accounts_router.register(r'get_shared', GetSharedPostView)
 
 week_router = routers.NestedSimpleRouter(
     accounts_router, r'posts', lookup='post'

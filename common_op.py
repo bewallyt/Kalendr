@@ -457,3 +457,21 @@ u'BUS'
 '''
     For a specific post and a specific user, get the AccessRule between them
 '''
+>>> post
+<Post: sharing test>
+>>> AccessRule.objects.get(post = post, group__name=user4.username)
+<AccessRule: sharing test,user4>
+# if i have the post and user instance
+
+
+'''
+
+'''
+>>> posts.filter(shared_with__name = "user4")
+[<Post: gs>, <Post: sharing test>, <Post: asdf>]
+>>> posts.filter(shared_with__name = "user4", shared_with__is_follow_group=True)
+[<Post: gs>, <Post: sharing test>, <Post: asdf>]
+>>> posts.filter(shared_with__name = "user4", shared_with__is_follow_group=False)
+[]
+
+# this shows that post.filter(shared_with__) is accessing the field of a KGroup.

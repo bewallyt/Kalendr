@@ -41,5 +41,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    can_modifty = models.BooleanField(default=False)
+
     def __unicode__(self):
         return '{0}'.format(self.content)

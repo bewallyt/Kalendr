@@ -3,11 +3,12 @@ from rest_framework.response import Response
 
 from posts.models import Post
 from posts.permissions import IsAuthorOfPost
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, SharedPostSerializer
 from posts.repeat import repeat_events
 from django.core.mail import send_mail
 from rest_framework import status
 from authentication.models import Account
+from access.models import AccessRule
 
 import datetime
 
@@ -73,7 +74,7 @@ class NotificationPostView(viewsets.ModelViewSet):
 # For list, create, update  and destroy posts of the logged in user
 class AccountPostsViewSet(viewsets.ViewSet):
     queryset = Post.objects.select_related('author')
-    serializer_class = PostSerializer
+    serializer_class = SharedPostSerializer
 
     def list(self, request, account_username=None, post_pk=None):
 
@@ -152,15 +153,40 @@ class PostUpdateView(viewsets.ModelViewSet):
     Input: a username string
     output: all the posts that the user has shared with me in the correct format
 '''
-class SharedPostView(viewsets.ModelViewSet):
+class GetSharedPostView(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = SharedPostSerializer
 
 
-    def list(self, request, *args, **kwargs):
+    '''
+        input is the owner's username. This should be easiest for the front end because it can pull
+        the follower group name off of the web page.
+    '''
+    def list(self, request, account_username):
         follower = Account.objects.get(email=request.user.email)
-        owner = Account.objects.get(username=request.data['owner'])
+        owner = Account.objects.get(username=account_username)
 
         owner_posts = owner.myevents.all()
-        shared_posts = owner_posts.filter(shared_with__name=follower.username)
+        shared_posts = owner_posts.filter(is_holiday=False, shared_with__name=follower.username)
+
+        # Hide information for BUSY ONLY posts
+        for post in shared_posts:
+            ac = AccessRule.objects.get(post=post, group__name=follower.username)
+            if ac.visibility == 'BUS':
+                post.content= owner.username + 'Busy'
+                post.location_event = ' '
+                post.description_event = ' '
+            elif ac.visibility == "MOD" and not post.pud:
+                post.can_modifty=True
+
+            if post.pud:
+                post.content = owner.username + "Reserved for PUD"
+                post.location_event = ' '
+                post.description_event = ' '
+
+        serializer = self.serializer_class(shared_posts, many=True)
+
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 
