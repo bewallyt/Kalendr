@@ -45,7 +45,7 @@
          * @returns {Promise}
          * @memberOf kalendr.posts.services.Posts
          */
-        function create(content, start_time, notification, repeat, location_event, description_event, begin_time, end_time,
+        function create(content, start_time, notification, notify_when, repeat, location_event, description_event, begin_time, end_time,
                         end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set, pud_time, pud, duration) {
 
             if (end_repeat === null) end_repeat = start_time;
@@ -54,6 +54,7 @@
                 content: content,
                 start_time: start_time,
                 notification: notification,
+                notify_when: notify_when,
                 location_event: location_event,
                 repeat: repeat,
                 description_event: description_event,
