@@ -167,11 +167,17 @@ class GetSharedPostView(viewsets.ModelViewSet):
         owner = Account.objects.get(username=account_username)
 
         owner_posts = owner.myevents.all()
-        shared_posts = owner_posts.filter(is_holiday=False, shared_with__name=follower.username)
+
+        # Get rid of the posts that I have not responded, declined or removed. Because we don't want to display posts
+        # that are shared with me but that I haven't replied or declined or removed
+        shared_posts = owner_posts.filter(is_holiday=False, shared_with__name=follower.username, accessrule__receiver_response='CONFIRM')
+
 
         # Hide information for BUSY ONLY posts
         for post in shared_posts:
+            post.content = owner.username + post.content
             ac = AccessRule.objects.get(post=post, group__name=follower.username)
+
             if ac.visibility == 'BUS':
                 post.content= owner.username + 'Busy'
                 post.location_event = ' '
@@ -185,6 +191,7 @@ class GetSharedPostView(viewsets.ModelViewSet):
                 post.description_event = ' '
 
         serializer = self.serializer_class(shared_posts, many=True)
+        print serializer.data
 
         return Response(serializer.data,status=status.HTTP_200_OK)
 

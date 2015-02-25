@@ -447,6 +447,14 @@ u'BUS'
 >>> post.accessrule_set.all()[4].visibility
 
 
+
+>>> post = user0.myevents.filter(shared_with__name="user5")
+>>> post
+[<Post: post2>, <Post: gs>, <Post: sharing test>, <Post: sharing test2>]
+>>> post.exclude(accessrule__receiver_response='NO_RESP')
+[]
+
+
 '''
     Get all the groups that a post is shared with
 '''
