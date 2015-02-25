@@ -20,7 +20,8 @@
             all: all,
             create: create,
             getWeek: getWeek,
-            savePost: savePost
+            savePost: savePost,
+            pudPostUpdate: pudPostUpdate
         };
 
         return Posts;
@@ -89,6 +90,10 @@
 
         function savePost(id, post_id, weekNum) {
             return $http.get('/api/v1/accounts/' + id + '/posts/' + post_id + '/savePostPud/' + weekNum + '/pudContent/');
+        }
+
+        function pudPostUpdate(username, pud_id) {
+            return $http.get('/api/v1/accounts/' + username + '/posts/' + pud_id + '/updatePostPud/');
         }
     }
 })();

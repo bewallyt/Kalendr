@@ -77,7 +77,7 @@ class AccountPostsViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-class AccountSavePostViewSet(viewsets.ViewSet):
+class AccountSavePudPostViewSet(viewsets.ViewSet):
     queryset = Post.objects.all()
     pud_queryset = Pud.objects.all()
     serializer_class = PostSerializer
@@ -108,4 +108,34 @@ class AccountSavePostViewSet(viewsets.ViewSet):
         queryset = return_week.order_by('-start_time')
         queryset = queryset.reverse()
         serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class AccountUpdatePudPostViewSet(viewsets.ViewSet):
+    queryset = Post.objects.all()
+    pud_queryset = Pud.objects.all()
+    serializer_class = PostSerializer
+    print 'in acc update pud post view set'
+
+    def list(self, request, account_username=None, post_pk=None):
+        print "ABOUT TO UPDATE in post views!!!"
+        print 'the account username: ' + account_username
+        print 'the pud id: ' + post_pk
+        filtered_by_user = self.queryset.filter(author__username=account_username)
+        spec_pud = self.pud_queryset.get(id=post_pk)
+        filtered_by_post = filtered_by_user.filter(pud=spec_pud.content)
+        if filtered_by_post.exists():  # is the pud actually assigned to any post
+            ascend_duration = filtered_by_post.order_by('duration')
+            for post in ascend_duration:
+                incomplete = self.pud_queryset.filter(author__username=account_username).filter(is_completed=False)
+                fits = incomplete.order_by('-duration').exclude(duration__gt=post.duration)
+                if fits.exists():
+                    prior = fits.order_by('-priority_int')
+                    fit_pud = prior.first()
+                    post.pud = fit_pud.content
+                else:
+                    post.pud = 'No Task Available'
+                post.save()
+        return_posts = self.queryset.filter(author__username=account_username).order_by('-start_time').reverse()
+        serializer = self.serializer_class(return_posts, many=True)
         return Response(serializer.data)

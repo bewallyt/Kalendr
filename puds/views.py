@@ -46,7 +46,7 @@ class AccountCompletePudViewSet(viewsets.ViewSet):
     serializer_class = PudSerializer
 
     def list(self, request, account_username=None, pud_pk=None, complete_pk=None):
-        print "ABOUT TO COMPLETE!!"
+        print "ABOUT TO COMPLETE!! puds views"
         print 'account username: ' + account_username
         print 'pud id: ' + pud_pk
         print 'pud completed: ' + complete_pk

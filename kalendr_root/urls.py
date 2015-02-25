@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
-from posts.views import AccountPostsViewSet, PostViewSet, AccountSavePostViewSet
+from posts.views import AccountPostsViewSet, PostViewSet, AccountSavePudPostViewSet, AccountUpdatePudPostViewSet
 from kalendr_root.views import IndexView
 from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingViewSet, AccountSpecificGroupViewSet
 from access.views import AccessViewSet, AccountAccessViewSet
@@ -27,9 +27,10 @@ accounts_router.register(r'specific_group', AccountSpecificGroupViewSet)
 week_router = routers.NestedSimpleRouter(accounts_router, r'posts', lookup='post')
 week_router.register(r'week', AccountPostsViewSet)
 week_router.register(r'savePostPud', AccountPostsViewSet)
+week_router.register(r'updatePostPud', AccountUpdatePudPostViewSet)
 
 save_router = routers.NestedSimpleRouter(week_router, r'savePostPud', lookup='week')
-save_router.register(r'pudContent', AccountSavePostViewSet)
+save_router.register(r'pudContent', AccountSavePudPostViewSet)
 
 pud_save_router = routers.NestedSimpleRouter(accounts_router, r'puds', lookup='pud')
 pud_save_router.register(r'savePud', AccountPudsViewSet)

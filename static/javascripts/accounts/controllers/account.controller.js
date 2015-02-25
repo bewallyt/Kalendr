@@ -109,7 +109,7 @@
                 Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
                 Snackbar.show('Carried to week ' + vm.weekNum + ': ' + vm.date + '!');
             });
-
+            //fix double get call
             $scope.$on('pud.created', function (event, pud) {
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
                 Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
@@ -120,6 +120,7 @@
                 console.log('account username: ' + pud.username);
                 console.log('pud id after broadcast: ' + pud.id);
                 console.log('pud completed?: ' + pud.is_completed);
+                Posts.pudPostUpdate(pud.username, pud.id).then(pudCompleteSuccessFn, pudCompleteErrorFn);
             });
 
             $scope.$on('pud.created.error', function () {
@@ -160,6 +161,16 @@
                 pud_post = data.data[0];
                 console.log(pud_post.id + ' post_pud id');
                 Posts.savePost(username, pud_post.id, pud_post.week_num).then(postsSuccessFn, postsErrorFn);
+                Posts.savePost(username, pud_post.id, pud_post.week_num).then(postsSuccessFn, postsErrorFn).then(Puds.get(username).then(pudsSuccessFn, pudsErrorFn));
+                //Puds.get(username).then(pudsSuccessFn, pudsErrorFn);
+            }
+
+            function pudCompleteSuccessFn(data, status, headers, config) {
+                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn).then(Puds.get(username).then(pudsSuccessFn, pudsErrorFn));
+            }
+
+            function pudCompleteErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
             }
 
             function postIdErrorFn(data, status, headers, config) {
