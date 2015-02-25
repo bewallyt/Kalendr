@@ -59,28 +59,16 @@
             return $http.get('/api/v1/notification_response/'+ postId +'/response/' + resp_type + '/list/');
         }
 
-        function getRemovedResponses(postId){
-            return $http.get('/api/v1/notification_response/',{
-                post_id: postId,
-                response: 'REMOVED'
-
-            });
+        function getRemovedResponses(postId, resp_type){
+            return $http.get('/api/v1/notification_response/'+ postId +'/response/' + resp_type + '/list/');
         }
 
-        function getDeclinedResponses(postId){
-            return $http.get('/api/v1/notification_response/',{
-                post_id: postId,
-                response: 'DECLINE'
-
-            });
+        function getDeclinedResponses(postId, resp_type){
+            return $http.get('/api/v1/notification_response/'+ postId +'/response/' + resp_type + '/list/');
         }
 
-        function getNoResponses(postId){
-            return $http.get('/api/v1/notification_response/',{
-                post_id: postId,
-                response: 'NO_RESP'
-
-            });
+        function getNoResponses(postId, resp_type){
+            return $http.get('/api/v1/notification_response/'+ postId +'/response/' + resp_type + '/list/');
         }
 
     }

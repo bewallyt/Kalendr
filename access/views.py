@@ -192,18 +192,26 @@ class NotificationResponseView(viewsets.ModelViewSet):
     queryset = AccessRule.objects.all()
     serializer_class = GroupSerializer
 
-    def list(self, request, post_pk, res_str):
+    # Here the input parameters have to be named post_pk and res_pk, because when the front-end
+    # call this function, it expects the variable names to be *_pk.
+    # For example, when it is not call post_pk, this is the error:
+    # list() got an unexpected keyword argument 'post_pk'
+    def list(self, request, post_pk, res_pk):
+        '''
         print "NotificationResponse View"
-        print request.data
-        print type(request.data)
         print post_pk
-        print res_str
+        print res_pk
+        '''
 
         post = Post.objects.get(pk=post_pk)
-        response_type = res_str
+        response_type = res_pk
 
         follower_groups = post.shared_with.filter(is_follow_group = True, accessrule__receiver_response=response_type)
-
+        '''
+        for ag in follower_groups:
+            print ag.name
+            print response_type
+        '''
         serializer = self.serializer_class(follower_groups, many=True)
 
         return Response(serializer.data)
