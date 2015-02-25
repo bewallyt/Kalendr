@@ -21,7 +21,10 @@
             create: create,
             getWeek: getWeek,
             savePost: savePost,
-            pudPostUpdate: pudPostUpdate
+            pudPostUpdate: pudPostUpdate,
+            getNotificationPosts: getNotificationPosts,
+            getSharedFollowing: getSharedFollowing,
+            updateEvent: updateEvent
         };
 
         return Posts;
@@ -44,7 +47,7 @@
          * @returns {Promise}
          * @memberOf kalendr.posts.services.Posts
          */
-        function create(content, start_time, notification, repeat, location_event, description_event, begin_time, end_time,
+        function create(content, start_time, notification, notify_when, repeat, location_event, description_event, begin_time, end_time,
                         end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set, pud_time, pud, duration) {
 
             if (end_repeat === null) end_repeat = start_time;
@@ -52,6 +55,7 @@
                 content: content,
                 start_time: start_time,
                 notification: notification,
+                notify_when: notify_when,
                 location_event: location_event,
                 repeat: repeat,
                 description_event: description_event,
@@ -68,6 +72,35 @@
                 duration: duration
             });
         }
+
+        function updateEvent(content, start_time, notification, notify_when, repeat, location_event, description_event, begin_time, end_time,
+                        end_repeat, not_all_day, day_of_week, need_repeat, week_num, is_week_set, pud_time, pud, duration, postId) {
+
+            if (end_repeat === null) end_repeat = start_time;
+            //console.log('duration of calendar event: ' + duration);
+            return $http.post('/api/v1/post_update/', {
+                content: content,
+                start_time: start_time,
+                notification: notification,
+                notify_when: notify_when,
+                location_event: location_event,
+                repeat: repeat,
+                description_event: description_event,
+                begin_time: begin_time,
+                end_time: end_time,
+                end_repeat: end_repeat,
+                not_all_day: not_all_day,
+                day_of_week: day_of_week,
+                need_repeat: need_repeat,
+                week_num: week_num,
+                is_week_set: is_week_set,
+                pud_time: pud_time,
+                pud: pud,
+                duration: duration,
+                post_id: postId
+            });
+        }
+
 
 
         /**
@@ -94,6 +127,15 @@
 
         function pudPostUpdate(username, pud_id) {
             return $http.get('/api/v1/accounts/' + username + '/posts/' + pud_id + '/updatePostPud/');
+        }
+
+        function getSharedFollowing(id) {
+            console.log('in get week');
+            return $http.get('/api/v1/accounts/' + id + '/get_shared/');
+        }
+
+        function getNotificationPosts(){
+            return $http.get('/api/v1/notification_posts/');
         }
     }
 })();

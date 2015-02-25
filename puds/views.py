@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from puds.models import Pud
 from puds.permissions import IsAuthorOfPud
 from puds.serializers import PudSerializer
+from mail.mail import send_pud
 
 
 class PudViewSet(viewsets.ModelViewSet):
@@ -36,6 +37,11 @@ class AccountPudsViewSet(viewsets.ViewSet):
 
         queryset = self.queryset.filter(author__username=account_username).filter(is_completed=False)
         serializer = self.serializer_class(queryset, many=True)
+
+        for pud in queryset.filter(is_completed=False).filter(send_email=True):
+            pud.send_email = False
+            pud.save()
+            send_pud(pud)
 
         return Response(serializer.data)
 

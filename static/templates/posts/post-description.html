@@ -1,0 +1,64 @@
+<div class="top_corner_div" ng-init="vm.init(ngDialogData.id)">
+    <center><h5>{{ ngDialogData.day_of_week }}, {{ ngDialogData.show_date }}</h5></center>
+</div>
+<br>
+<center><h2>{{ ngDialogData.content }}</h2></center>
+<center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }}</h4></center>
+
+<br>
+<h5>Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
+<h5>Event Created by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
+<h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
+<h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.start_time | date:'h:mma' }}
+    - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
+<h5 ng-show="ngDialogData.need_repeat">Repeats {{ ngDialogData.repeat }} until {{ ngDialogData.end_repeat }}</h5>
+<h5 ng-show="ngDialogData.notification">Email Notification Set</h5>
+
+<br>
+
+<accordion ng-hide="ngDialogData.is_holiday" close-others="vm.post_description_close">
+    <accordion-group is-open="vm.isThirdOpenPost"
+                     is-disabled="status.isPostDisabled">
+        <accordion-heading>
+            Invitation Responses <i class="pull-right glyphicon"
+                                    ng-class="{'glyphicon-chevron-down': vm.isThirdOpenPost, 'glyphicon-chevron-right': !vm.isThirdOpenPost}"></i>
+        </accordion-heading>
+        <br>
+
+        <div ng-show="vm.hasConfirmedGroups">
+            <p align="left">
+            Confirmed:</p>
+            <li ng-repeat="user in vm.confirmedGroups">
+                <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+        <div ng-show="vm.hasDeclinedGroups">
+            <p align="left">
+            Declined:</p>
+            <li ng-repeat="user in vm.declinedGroups">
+            <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+        <div ng-show="vm.hasRemovedGroups">
+            <p align="left">
+            Removed:</p>
+            <li ng-repeat="user in vm.removedGroups">
+            <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+        <div ng-show="vm.hasNoRespGroups">
+            <p align="left">
+            No Response:</p>
+            <li ng-repeat="user in vm.noRespGroups">
+            <p align="left">
+                {{ user.name }}</p>
+            </li>
+        </div>
+
+    </accordion-group>
+
+</accordion>
+<br>

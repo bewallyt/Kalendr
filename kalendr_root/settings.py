@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'rest_framework',
     'compressor',
+    'djrill',
     'authentication',
     'posts',
     'groups',
@@ -128,10 +129,9 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'authentication.Account'
 
+MANDRILL_API_KEY = '0gf1iJRrVJsa5i7Iehfr3A'
+
 MAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'kalendr458@gmail.com'
-EMAIL_HOST_PASSWORD = 'petecarrol'
+DEFAULT_FROM_EMAIL = 'kalendr458@gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"

@@ -7,11 +7,13 @@ from puds.models import Pud
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Account)
+    author = models.ForeignKey(Account, related_name='myevents', blank=True)
     shared_with = models.ManyToManyField(KGroup, blank=True, through='access.AccessRule')
+
     content = models.CharField(max_length=40)
     start_time = models.DateTimeField(default=datetime.now())
     notification = models.BooleanField(default=False)
+    notify_when = models.DateTimeField(default=datetime.now())
     repeat = models.CharField(max_length=10, blank=True)
     location_event = models.CharField(max_length=40, blank=True, default='none')
     description_event = models.CharField(max_length=100, blank=True, default='none')
@@ -39,6 +41,8 @@ class Post(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    can_modifty = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '{0}'.format(self.content)

@@ -14,24 +14,52 @@
 
     <div>
         <accordion close-others="vm.oneAtATime">
-            <accordion-group is-open="status.isSecondOpen"
+            <accordion-group is-open="vm.isThirdOpen"
+                             is-disabled="status.isThirdDisabled">
+                <accordion-heading>
+                    Notifications <i class="pull-right glyphicon"
+                                     ng-class="{'glyphicon-chevron-down': vm.isThirdOpen, 'glyphicon-chevron-right': !vm.isThirdOpen}"></i>
+                </accordion-heading>
+                <br>
+
+                <div ng-show="vm.hasNotifications"><p class="groups_underline" align="left">New Notifications</p>
+                    <li ng-repeat="notification in vm.newNotifications">
+                        <a class="btn btn-flat btn-default btn-nopadding"
+                           ng-click="vm.groupClick(group)"
+                           href="javascript:void(0)"
+                           ng-show="vm.isAuthenticated"
+                           ng-dialog="/static/templates/posts/notifications.html"
+                           ng-dialog-controller="AccountController as vm"
+                           ng-dialog-data="{{ notification }}"><p class="group_button_text"
+                                                                  align="left">{{ notification.content }}</p></a>
+                    </li>
+                </div>
+
+                <h5 ng-hide="vm.hasNotifications"> {{ vm.myUsername }} has no notifications</h5>
+            </accordion-group>
+            <accordion-group is-open="vm.isSecondOpen"
                              is-disabled="status.isSecondDisabled">
                 <accordion-heading>
                     Following <i class="pull-right glyphicon"
-                                 ng-class="{'glyphicon-chevron-down': status.isSecondOpen, 'glyphicon-chevron-right': !status.isSecondOpen}"></i>
+                                 ng-class="{'glyphicon-chevron-down': vm.isSecondOpen, 'glyphicon-chevron-right': !vm.isSecondOpen}"></i>
                 </accordion-heading>
                 <br>
 
                 <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
-                    {{ following }}
+                    <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0" ng-model="singleModel" btn-checkbox
+                       btn-checkbox-true="1" btn-checkbox-false="0"
+                       ng-click="vm.appendFollowingEvents(singleModel, following.owner.username)">
+                        <p class="group_button_text" align="left">{{ following.owner.username }}</p>
+                    </a>
+
                 </li>
                 <h5 ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
             </accordion-group>
-            <accordion-group is-open="status.isFirstOpen"
-                             is-disabled="status.isFirstDisabled">
+            <accordion-group is-open="vm.isFirstOpen"
+                             is-disabled="vm.isFirstDisabled">
                 <accordion-heading>
                     Followers <i class="pull-right glyphicon"
-                                 ng-class="{'glyphicon-chevron-down': status.isFirstOpen, 'glyphicon-chevron-right': !status.isFirstOpen}"></i>
+                                 ng-class="{'glyphicon-chevron-down': vm.isFirstOpen, 'glyphicon-chevron-right': !vm.isFirstOpen}"></i>
                 </accordion-heading>
 
                 <button type="button" class="mdi-social-person-add btn btn-primary btn-lg" data-toggle="collapse"
@@ -51,15 +79,16 @@
                 <br>
 
                 <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
-                    {{ follower }}
+                    <a class="btn btn-flat btn-default btn-nopadding">
+                        <p class="group_button_text" align="left"> {{ follower.name }}</p></a>
                 </li>
                 <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
 
-            <accordion-group is-open="status.open">
+            <accordion-group is-open="vm.open">
                 <accordion-heading>
                     Groups<i class="pull-right glyphicon"
-                             ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                             ng-class="{'glyphicon-chevron-down': vm.open, 'glyphicon-chevron-right': !vm.open}"></i>
                 </accordion-heading>
                 <center>
 
@@ -80,6 +109,8 @@
 
                                 </div>
 
+
+
                                 <angucomplete id="search__members" pause="100" selectedobject="vm.selectedMember"
                                               localdata="vm.users" titlefield="username" searchfields="username"
                                               minlength="1"
@@ -96,18 +127,7 @@
                                 </li>
 
 
-                                <div class="form-group">
-                                    Group Rules:
-                                    <select class="form-control" ng-model="vm.rule" id="group__rules">
-                                        <option value='Daily'>Busy Only</option>
-                                        <option value='Weekly'>See All</option>
-                                        <option value='Monthly'>Modify</option>
-                                    </select>
-
-                                </div>
-
                             </div>
-
 
                             <div class="form-group">
                                 <button data-toggle="collapse" data-target="#add_group" type="submit"
@@ -119,14 +139,33 @@
                     </div>
                 </center>
                 <br>
-                <li ng-repeat="group in vm.groupList">
-                    <a class="btn btn-flat btn-default btn-nopadding"
-                       ng-click="vm.groupClick(group)"
-                       href="javascript:void(0)"
-                       ng-show="vm.isAuthenticated"
-                       ng-dialog="/static/templates/groups/group.html"
-                       ng-dialog-data="{{ group }}">{{ group.name }}</a>
-                </li>
+
+                <div ng-show="vm.hasGroups">
+                    <div ng-show="vm.hasOwnedGroups"><p class="groups_underline" align="left">Groups I own</p>
+                        <li ng-repeat="group in vm.ownedGroups">
+                            <a class="btn btn-flat btn-default btn-nopadding"
+                               ng-click="vm.groupClick(group)"
+                               href="javascript:void(0)"
+                               ng-show="vm.isAuthenticated"
+                               ng-dialog="/static/templates/groups/group.html"
+                               ng-dialog-data="{{ group }}"><p class="group_button_text"
+                                                               align="left">{{ group.name }}</p></a>
+                        </li>
+                        <br>
+                    </div>
+                    <div ng-show="vm.hasMemberOfGroups"><p class="groups_underline" align="left">Groups I'm a member
+                        of</p>
+                        <li ng-repeat="group in vm.memberOfGroups">
+                            <a class="btn btn-flat btn-default btn-nopadding"
+                               ng-click="vm.groupClick(group)"
+                               href="javascript:void(0)"
+                               ng-show="vm.isAuthenticated"
+                               ng-dialog="/static/templates/groups/group.html"
+                               ng-dialog-data="{{ group }}"><p class="group_button_text"
+                                                               align="left">{{ group.name }}</p></a>
+                        </li>
+                    </div>
+                </div>
                 <h5 ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
             </accordion-group>
         </accordion>
@@ -145,12 +184,13 @@
    href="javascript:void(0)"
    ng-show="vm.isAuthenticated"
    ng-dialog="/static/templates/posts/new-post.html"
+   ng-dialog-data="{{ vm.shareable }}"
    ng-dialog-controller="NewPostController as vm"></a>
 
 <a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend"
    id="showLeftPush"
-   ng-show="vm.isAuthenticated"
-   ng-dialog-controller="NewPostController as vm"></a><!--redundant controller??!!! -->
+   ng-click="vm.closeAccords()"
+   ng-show="vm.isAuthenticated"></a>
 
 <button class="mdi-image-navigate-before btn btn-primary btn-fab btn-raised btn-before"
         ng-show="vm.isAuthenticated"
@@ -159,6 +199,7 @@
 <button class="mdi-image-navigate-next btn btn-primary btn-fab btn-raised btn-next"
         ng-show="vm.isAuthenticated"
         ng-click="vm.next()"></button>
+
 
 <button class="mdi-action-store btn btn-primary btn-fab btn-raised btn-home"
         type="submit"
@@ -181,6 +222,11 @@
    ng-show="vm.isAuthenticated"
    ng-dialog="/static/templates/posts/change-calendar.html"
    ng-dialog-controller="DateController as vm"></a>
+
+<a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications"
+   id="showLeftPush2"
+   ng-click="vm.showNotificationsTab()"
+   ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
 
 <script>
     (function () {
@@ -220,10 +266,17 @@
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
             showLeftPush = document.getElementById('showLeftPush'),
+            showLeftPush1 = document.getElementById('showLeftPush2'),
             body = document.body;
 
 
     showLeftPush.onclick = function () {
+        classie.toggle(this, 'active');
+        classie.toggle(body, 'cbp-spmenu-push-toright');
+        classie.toggle(menuLeft, 'cbp-spmenu-open');
+    };
+
+    showLeftPush2.onclick = function () {
         classie.toggle(this, 'active');
         classie.toggle(body, 'cbp-spmenu-push-toright');
         classie.toggle(menuLeft, 'cbp-spmenu-open');

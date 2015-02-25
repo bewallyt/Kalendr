@@ -11,6 +11,7 @@
             'kalendr.layout',
             'kalendr.posts',
             'kalendr.puds',
+            'kalendr.access',
             'kalendr.utils',
             'ui.bootstrap',
             'angucomplete'

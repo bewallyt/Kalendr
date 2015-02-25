@@ -52,12 +52,41 @@
     right: 20px;
 }
 
+.btn-notifications {
+    position: fixed;
+    bottom: 540px;
+    right: 20px;
+}
+
 .btn-nopadding {
-    width: 15em;  height: 3em;
+    width: 15em;
+    height: 3em;
     margin-top: 0px;
     margin-bottom: 0px;
     padding-right: 20px;
     padding-left: 20px;
+}
+
+.btn-bottom-right {
+    padding: 14px 10px;
+    position: absolute;
+}
+
+.left-side {
+    text-align: left;
+    margin-left: -15px;
+    margin-top: -15px;
+    position: absolute;
+}
+
+.left-side-btn {
+    text-align: left;
+    margin-left: -100px;
+    margin-top: -10px;
+}
+
+.repeat {
+    position: absolute;
 }
 
 .no-posts-here {
@@ -65,12 +94,18 @@
 }
 
 .post {
-    height: 200px;
+    height: 150px;
 }
 
 .post .post__meta {
     font-weight: bold;
     text-align: right;
+    padding-bottom: 30px;
+}
+
+.post .post__meta2 {
+    font-weight: bold;
+    text-align: left;
     padding-bottom: 19px;
 }
 
@@ -80,6 +115,46 @@
 
 .account {
 }
+
+.left-side{
+    margin-left: -23px;
+    margin-top: 10px;
+    position: absolute;
+    padding-left:5px;
+    padding-right:5px;
+}
+.right-side{
+    margin-left: -2px;
+    /*margin-top: 10px;*/
+    padding-left:5px;
+    padding-right:5px;
+    position: absolute;
+}
+
+.corner_div{
+    float:right;
+    margin-top: 55%;
+}
+
+.top_corner_div{
+    float:left;
+    margin-top: -4%;
+    margin-left: -1%;
+}
+
+#visible_well button{
+    display: none;
+}
+
+
+#visible_well:hover .left-side{
+    display: inline;
+}
+#visible_well:hover .right-side{
+    display: inline;
+}
+
+
 
 .account .account__header {
     margin-bottom: 20px;
@@ -95,11 +170,20 @@
 }
 
 .post__notify__false {
-    display: none;
+    visibility: hidden;
+}
+
+.post__notify__true {
+    margin-top: -55px;
+    margin-left: -15px;
 }
 
 .post__repeat__none {
-    display: none;
+    visibility: hidden;
+}
+
+.post__repeat__Weekly {
+    margin-top: -50px;
 }
 
 .all_day {
@@ -107,17 +191,17 @@
 }
 
 .post__repeatnone {
-    display: none;
+    visibility: hidden;
 }
 
 .post__time {
-    display: none;
+    visibility: hidden;
 }
 
 .post .post__beta__true {
     text-align: right;
-    padding-bottom: 19px;
     font-size: 70%;
+    margin-bottom: 5px;
 }
 
 .post .day_of_week {
@@ -125,11 +209,12 @@
 }
 
 .post .post__beta__false {
-    display: none;
+    visibility: hidden;
+    margin-bottom: 19px;
 }
 
 .post .post__location__none {
-    display: none;
+    visibility: hidden;
 }
 
 .post .post__location__inline {
@@ -138,14 +223,15 @@
 
 .post .post__content {
     display: inline;
+    text-align: center;
 }
 
 .post .post__description__none {
-    display: none;
+    visibility: hidden;
 }
 
 .post__pud__false {
-    display: none;
+    visibility: hidden;
 }
 
 .form-control:focus {
@@ -198,39 +284,55 @@
 .detailspud {
     margin-right: 100px;
 }
-input[type="radio"]{
-  margin: 0 20px 0 20px;
+
+input[type="radio"] {
+    margin: 0 20px 0 20px;
 }
 
-.radio_btn_label{
+.radio_btn_left {
+    margin: 0 0px 0 10px;
+}
+
+.radio_btn_label {
     margin: 0 0px 0 15px;
 }
 
-.radio_btn_middle{
+.radio_btn_middle {
     margin: 0 0px 0 5px;
 }
 
-.form-group .center{
+
+.radio_btn_left_post {
+    margin: 0 0px 0 -24px;
+}
+
+.radio_btn_label {
+    margin: 0 0px 0 15px;
+}
+
+.radio_btn_middle_post {
+    margin: 0 0px 0 0px;
+}
+.form-group .center {
     margin-left: auto;
     margin-right: auto;
     width: 70%;
 
 }
 
-#absolute{
+#absolute {
     position: absolute;
 
 }
 
-.panel-title{
+.panel-title {
     padding: 6px;
     text-align: center;
     font-size: 16px;
     color: #009587;
 }
 
-
-.panel-collapse{
+.panel-collapse {
     background-color: #009587;
     text-align: center;
     font-size: 14px;
@@ -238,18 +340,19 @@ input[type="radio"]{
 }
 
 /*.panel-body{*/
-    /*outline: 0;*/
-    /*background-color: #009587;*/
-    /*padding: 6px;*/
-    /*margin-bottom: 5px;*/
-    /*text-align: center;*/
-    /*font-size: 14px;*/
-    /*color: #cdf0ed;*/
+/*outline: 0;*/
+/*background-color: #009587;*/
+/*padding: 6px;*/
+/*margin-bottom: 5px;*/
+/*text-align: center;*/
+/*font-size: 14px;*/
+/*color: #cdf0ed;*/
 /*}*/
 
-#green{
+#green {
 
 }
+
 
 .weekday h5{
     margin-right: 11%;
@@ -270,3 +373,6 @@ input[type="radio"]{
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}

@@ -1,6 +1,6 @@
-<form role="form" ng-submit="vm.submit()">
+<form role="form" ng-submit="vm.updateEvent()" ng-init="vm.init(ngDialogData.id)">
     <div class="form-group">
-        <center><h2>New Event</h2></center>
+        <center><h2>Update Event</h2></center>
         <div class="form-group">
 
             <input type="text" class="form-control" id="event__name" ng-init="vm.content = ngDialogData.content"

@@ -1,0 +1,59 @@
+
+<center><h2 ng-init="vm.currentNotificationPostId = ngDialogData.id">{{ ngDialogData.content }}</h2></center>
+<center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }}</h4></center>
+
+<br>
+<h5>Event Shared on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
+<h5>Event Shared by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
+<h5>Date of Event: {{ ngDialogData.day_of_week }}, {{ ngDialogData.show_date }}</h5>
+<h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.start_time | date:'h:mma' }}
+    - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
+<h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
+<h5 ng-show="ngDialogData.need_repeat">Repeats {{ ngDialogData.repeat }} until {{ ngDialogData.end_repeat }}</h5>
+
+<br>
+<accordion close-others="vm.oneAtATime">
+    <accordion-group is-open="vm.isFourthOpen"
+                     is-disabled="status.isFourthDisabled">
+        <accordion-heading>
+            Reply to Event Request<i class="pull-right glyphicon"
+                                     ng-class="{'glyphicon-chevron-down': vm.isFourthOpen, 'glyphicon-chevron-right': !vm.isFourthOpen}"></i>
+        </accordion-heading>
+        <br>
+
+        <form role="form" ng-submit="vm.replyNotification()">
+            <div class="form-group">
+                <center><h4>Event Invitation Status</h4></center>
+                <center>
+                    <div class="form-group">
+                        <label class="radio_btn_middle" for="confirm" style="color: #cdf0ed">Confirm</label>
+                        <input type="radio" name="response" id="confirm" value='CONFIRM' ng-model="vm.response">
+                        <label class="radio_btn_middle" for="decline" style="color: #cdf0ed">Decline</label>
+                        <input type="radio" name="response" id="decline" value='DECLINE' ng-model="vm.response">
+                        <label class="radio_btn_middle" for="remove" style="color: #cdf0ed">Remove</label>
+                        <input type="radio" name="response" id="remove" value='REMOVED' ng-model="vm.response">
+
+                    </div>
+                </center>
+
+                <div ng-show="vm.response == 'Confirm' || vm.response == 'Decline'">
+                    Receive email notifications:
+                    <input type="checkbox" name="notification" ng-model="vm.emailNotification "/>
+                    <br>
+                    <input type="datetime-local" name="notify_when" style="color: #000000" ng-model="vm.emailNotifyWhen"
+                           ng-show="vm.emailNotification == true"/>
+                    <br ng-show="vm.emailNotification == true">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <button ng-show="vm.response" type="submit" class="btn btn-primary">
+                    Reply
+                </button>
+            </div>
+        </form>
+    </accordion-group>
+</accordion>
+
+

@@ -198,3 +198,6 @@ posts/migrations/
 groups/migrations/
 puds/migrations/
 access/migrations
+
+# Mac cache
+.DS_Store
