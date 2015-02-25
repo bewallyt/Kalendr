@@ -15,30 +15,31 @@
 <h5 ng-show="ngDialogData.notification">Email Notification Set</h5>
 
 <br>
-<div ng-show="vm.hasResponses">
-    Invitation Responses:
-    <div ng-show="vm.hasConfirmedGroups">
-        Confirmed:
-        <li ng-repeat="user in vm.confirmedGroups">
-            {{ user.name }}
-        </li>
-    </div>
-    <div ng-show="vm.hasDeclinedGroups">
-        Declined:
-        <li ng-repeat="user in vm.declinedGroups">
-            {{ user.name }}
-        </li>
-    </div>
-    <div ng-show="vm.hasRemovedGroups">
-        Removed:
-        <li ng-repeat="user in vm.removedGroups">
-            {{ user.name }}
-        </li>
-    </div>
-    <div ng-show="vm.hasNoRespGroups">
-        No Response:
-        <li ng-repeat="user in vm.noRespGroups">
-            {{ user.name }}
-        </li>
-    </div>
+
+
+<center>Invitation Responses</center>
+<br>
+<div ng-show="vm.hasConfirmedGroups">
+    Confirmed:
+    <li ng-repeat="user in vm.confirmedGroups">
+        {{ user.name }}
+    </li>
+</div>
+<div ng-show="vm.hasDeclinedGroups">
+    Declined:
+    <li ng-repeat="user in vm.declinedGroups">
+        {{ user.name }}
+    </li>
+</div>
+<div ng-show="vm.hasRemovedGroups">
+    Removed:
+    <li ng-repeat="user in vm.removedGroups">
+        {{ user.name }}
+    </li>
+</div>
+<div ng-show="vm.hasNoRespGroups">
+    No Response:
+    <li ng-repeat="user in vm.noRespGroups">
+        {{ user.name }}
+    </li>
 </div>

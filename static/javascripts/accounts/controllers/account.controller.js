@@ -257,7 +257,6 @@
             function addGroup() {
 
                 Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false).then(groupCreateSuccessFn, groupCreateErrorFn);
-                $timeout(callAtTimeout, 3000);
             }
 
             function groupCreateSuccessFn() {
