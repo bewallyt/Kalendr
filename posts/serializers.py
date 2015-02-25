@@ -13,7 +13,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
 
         fields = ('id', 'author', 'shared_with', 'content', 'created_at', 'updated_at', 'start_time', 'notification',
-                  'repeat',
+                  'notify_when', 'repeat',
                   'location_event', 'description_event', 'begin_time', 'end_time', 'end_repeat', 'show_date',
                   'show_begin_time', 'show_end_time', 'not_all_day', 'day_of_week', 'need_repeat', 'is_week_set',
                   'week_num', 'duration', 'pud', 'pud_time', 'is_holiday')

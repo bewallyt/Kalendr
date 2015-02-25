@@ -13,6 +13,7 @@ class Post(models.Model):
     content = models.CharField(max_length=40)
     start_time = models.DateTimeField(default=datetime.now())
     notification = models.BooleanField(default=False)
+    notify_when = models.DateTimeField(default=datetime.now())
     repeat = models.CharField(max_length=10, blank=True)
     location_event = models.CharField(max_length=40, blank=True, default='none')
     description_event = models.CharField(max_length=100, blank=True, default='none')

@@ -8,6 +8,7 @@ from posts.repeat import repeat_events
 from django.core.mail import send_mail
 from rest_framework import status
 from authentication.models import Account
+from mail.mail import send_post
 
 import datetime
 
@@ -108,20 +109,19 @@ class AccountPostsViewSet(viewsets.ViewSet):
             print 'post_pk dne'
             post_pk = datetime.datetime.today().isocalendar()[1]
 
-        filtered_set = queryset.filter(notification='True')
         filtered_week = queryset.filter(week_num = post_pk)
         queryset = filtered_week.order_by('-start_time')
         queryset = queryset.reverse()
 
-
         serializer = self.serializer_class(queryset, many=True)
 
-
-        for notify_post in filtered_set:
-            send_mail(notify_post.content, 'Kalendr reminder - event at: ' + notify_post.show_begin_time,
-                      'kalendr458@gmail.com', [notify_post.author.email],
-                      fail_silently=False)
-
+        for notify_post in Post.objects.all().filter(notification=True):
+            print notify_post.is_date_set
+            print notify_post.show_date
+            print notify_post.show_begin_time
+            notify_post.notification = False
+            notify_post.save()
+            send_post(notify_post)
 
         return Response(serializer.data)
 
