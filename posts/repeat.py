@@ -16,6 +16,7 @@ def repeat_events(event):
         temp_event.author = event.author
         temp_event.content = event.content
         temp_event.notification = event.notification
+        temp_event.notify_when = event.notify_when
         temp_event.location_event = event.location_event
         temp_event.description_event = event.description_event
         temp_event.begin_time = event.begin_time
@@ -29,11 +30,14 @@ def repeat_events(event):
 
         if repeat_type == 'Daily':
             temp_event.start_time = temp_event.start_time + datetime.timedelta(days=x)
+            temp_event.notify_when = temp_event.notify_when + datetime.timedelta(days=x)
             print 'datetime.timedelta' + str(datetime.timedelta(days=x))
         elif repeat_type == 'Monthly':
             temp_event.start_time = temp_event.start_time + relativedelta( months = +x )
+            temp_event.notify_when = temp_event.notify_when + relativedelta( months = +x )
         elif repeat_type == 'Weekly':
             temp_event.start_time = temp_event.start_time + datetime.timedelta(days=7) * x
+            temp_event.notify_when = temp_event.notify_when + datetime.timedelta(days=7) * x
 
         if temp_event.start_time.weekday() == 0:
             temp_event.day_of_week = 'Monday'

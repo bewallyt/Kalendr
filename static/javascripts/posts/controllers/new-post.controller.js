@@ -54,6 +54,7 @@
 
             if (vm.begin_time === null) vm.begin_time = '';
             if (vm.end_time === null) vm.end_time = '';
+            if (vm.notify_when === null) vm.notify_when = '';
 
             if (vm.notification === undefined) vm.notification = false;
 
@@ -73,7 +74,7 @@
                 vm.description_event = 'Work on: ';
             }
 
-            Posts.create(vm.content, vm.start_time, vm.notification, vm.repeat, vm.location_event,
+            Posts.create(vm.content, vm.start_time, vm.notification, vm.notify_when, vm.repeat, vm.location_event,
                 vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
                 vm.need_repeat, weekNum, isWeekSet, vm.pud_time, pud, vm.duration).then(createPostSuccessFn, createPostErrorFn);
 
@@ -82,6 +83,7 @@
                 repeat: vm.repeat,
                 start_time: vm.start_time,
                 notification: vm.notification,
+                notify_when: vm.notify_when,
                 location_event: vm.location_event,
                 description_event: vm.description_event,
                 begin_time: vm.begin_time,
