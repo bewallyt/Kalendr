@@ -182,7 +182,14 @@
             }
 
             function postsSuccessFn(data, status, headers, config) {
-                vm.posts = data.data;
+                var i;
+                sharedWeeksPosts = [];
+                for(i = 0; i < clickedFollowingPosts.length; i++){
+                    if(clickedFollowingPosts[i].week_num == vm.weekNum){
+                        sharedWeeksPosts.push(clickedFollowingPosts[i]);
+                    }
+                }
+                vm.posts = data.data.concat(sharedWeeksPosts);
             }
 
             function postsSuccessFn2(data, status, headers, config) {
@@ -360,7 +367,7 @@
                 console.log('in shared following success');
                 clickedFollowingPosts = clickedFollowingPosts.concat(data.data);
 
-                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn2, postsErrorFn);
+                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
             }
 
             function sharedFollowingErrorFn(data, status, headers, config) {
@@ -426,6 +433,7 @@
 
                 vm.date = homeDayOfWeek + ', ' + homeMonth + ' ' + homeGetDate;
                 vm.weekNum = homeWeek;
+
                 Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
                 Snackbar.show('Back to Today!');
             };
