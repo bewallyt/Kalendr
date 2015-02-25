@@ -35,8 +35,8 @@ class AccountPudsViewSet(viewsets.ViewSet):
         queryset = self.queryset.filter(author__username=account_username)
         serializer = self.serializer_class(queryset, many=True)
 
-        for pud in queryset.filter(is_completed=False).filter(send_email=True):
-            pud.send_email = False
+        for pud in queryset.filter(is_completed=False).filter(notification=True):
+            pud.notification = False
             pud.save()
             send_pud(pud)
 
