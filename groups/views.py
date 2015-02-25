@@ -70,7 +70,7 @@ class AccountFollowerGroupsViewSet(viewsets.ViewSet):
     '''
 
     def list(self, request, account_username=None):
-        print 'in list'
+        print 'my follower in list'
 
         queryset = self.queryset.filter(owner__username=account_username, is_follow_group=True)
 
@@ -84,7 +84,7 @@ class AccountFollowerGroupsViewSet(viewsets.ViewSet):
                 print 'group members: ' + m.username
         '''
         serializer = self.serializer_class(queryset, many=True)
-
+        print serializer.data
         return Response(serializer.data)
 
 

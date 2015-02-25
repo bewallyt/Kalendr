@@ -88,6 +88,7 @@
             // Show Follower Events on Kalendr
             vm.appendFollowingEvents = appendFollowingEvents;
             clickedFollowingArray = [];
+            followerDict = new Object();
 
 
             username = Authentication.getAuthenticatedAccount().username;
@@ -127,7 +128,9 @@
             // Fetch Notifications
             Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
 
+
             $scope.$on('post.created', function (event, post) {
+                // Hack fetched shared following posts in here
 
                 num_month = post.start_time.getMonth();
                 month = findMonth(num_month);
@@ -144,6 +147,7 @@
             });
 
             $scope.$on('post.getWeek', function (event, post) {
+                // Hack fetched shared following posts in here
 
                 vm.weekNum = post.weekNum;
                 num_month = post.date.getMonth();
@@ -200,6 +204,7 @@
                 var i;
                 for (i = 0; i < vm.users.length; i++) {
                     vm.userArray[i] = vm.users[i];
+                    followerDict[vm.users[i].username] = false;
                 }
 
             }
@@ -242,6 +247,12 @@
             function followerSuccessFn(data, status, headers, config) {
                 vm.followerList = data.data;
                 if (data.data.length > 0) vm.hasFollowers = true;
+
+                var i;
+                for (i = 0; i < data.data.length; i++) {
+                    console.log('follower ' + i + ': ' + data.data[i].name);
+                    followerDict[data.data[i].name] = true;
+                }
                 Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
             }
 
@@ -252,6 +263,7 @@
             function addFollower() {
                 vm.hasFollowers = true;
                 vm.followerList.unshift(vm.selectedUser.originalObject);
+                followerDict[vm.selectedUser.originalObject.username] = true;
                 Groups.create(vm.selectedUser.originalObject.username, [vm.selectedUser.originalObject], Authentication.getAuthenticatedAccount(), true).then(FollowerCreateSuccessFn, FollowerCreateErrorFn);
             }
 
@@ -261,7 +273,14 @@
             }
 
             function addGroup() {
-
+                var i;
+                for (i = 0; i < groupAccounts.length; i++) {
+                    if (!followerDict[groupAccounts[i].username]) {
+                        followerDict[groupAccounts[i].username] = true;
+                        vm.followerList.unshift(groupAccounts[i]);
+                        Groups.create(groupAccounts[i].username, [groupAccounts[i]], Authentication.getAuthenticatedAccount(), true).then(FollowerCreateSuccessFn2, FollowerCreateErrorFn);
+                    }
+                }
                 Groups.create(vm.groupName, groupAccounts, Authentication.getAuthenticatedAccount(), false).then(groupCreateSuccessFn, groupCreateErrorFn);
             }
 
@@ -284,6 +303,11 @@
 
             function FollowerCreateSuccessFn() {
                 Snackbar.show('Follower Added!');
+                Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
+
+            }
+
+            function FollowerCreateSuccessFn2() {
                 Groups.getFollowers(username).then(followerSuccessFn, followerErrorFn);
 
             }
@@ -330,6 +354,19 @@
                 Snackbar.error('Event Reply Error');
             }
 
+            function sharedFollowingSuccessFn(data, status, headers, config) {
+                console.log('in shared following success');
+                console.log(data.data);
+                var i;
+                for (i = 0; i < data.data.length; i++) {
+                    console.log(data.data[i]);
+                }
+            }
+
+            function sharedFollowingErrorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
             function replyNotification() {
                 Access.reply(vm.currentNotificationPostId, vm.response, vm.emailNotification, vm.emailNotifyWhen).then(replyEventSuccessFn, replyEventErrorFn);
                 $scope.closeThisDialog();
@@ -346,34 +383,37 @@
                 vm.isThirdOpen = false;
             }
 
-            function appendFollowingEvents(isClicked, followingUsername){
+            function appendFollowingEvents(isClicked, followingUsername) {
                 console.log('in appendfollowingevents()');
                 console.log(followingUsername);
                 console.log(isClicked);
-                if(isClicked == 0){
+                if (isClicked == 0) {
                     console.log('adding user');
                     clickedFollowingArray.push(followingUsername);
                 }
                 // Remove Users
-                else{
+                else {
                     console.log('removing user');
                     var i;
-                    for(i = 0; i < clickedFollowingArray.length; i++){
-                        if(clickedFollowingArray[i] == followingUsername){
-                            clickedFollowingArray.splice(i,1);
+                    for (i = 0; i < clickedFollowingArray.length; i++) {
+                        if (clickedFollowingArray[i] == followingUsername) {
+                            clickedFollowingArray.splice(i, 1);
                             break;
                         }
                     }
                 }
                 console.log('arrayUsers: ');
                 var i;
-                for(i = 0; i < clickedFollowingArray.length; i++){
+                for (i = 0; i < clickedFollowingArray.length; i++) {
                     console.log(clickedFollowingArray[i]);
+                    Posts.getSharedFollowing(clickedFollowingArray[i]).then(sharedFollowingSuccessFn, sharedFollowingErrorFn);
                 }
+
 
             }
 
             vm.activate = function () {
+                // Hack fetched shared following posts in here
                 date = homeDate;
 
                 vm.date = homeDayOfWeek + ', ' + homeMonth + ' ' + homeGetDate;
@@ -383,6 +423,7 @@
             };
 
             vm.next = function () {
+                // Hack fetched shared following posts in here
                 if (vm.weekNum < 53) {
                     vm.weekNum = vm.weekNum + 1;
                     date.setDate(date.getDate() + 7);
@@ -400,6 +441,7 @@
             };
 
             vm.before = function () {
+                // Hack fetched shared following posts in here
                 if (vm.weekNum > 1) {
                     vm.weekNum = vm.weekNum - 1;
                     date.setDate(date.getDate() - 7);

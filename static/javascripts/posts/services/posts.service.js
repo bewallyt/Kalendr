@@ -20,7 +20,8 @@
             all: all,
             create: create,
             getWeek: getWeek,
-            getNotificationPosts: getNotificationPosts
+            getNotificationPosts: getNotificationPosts,
+            getSharedFollowing: getSharedFollowing
         };
 
         return Posts;
@@ -85,6 +86,11 @@
         function getWeek(id, weekNum) {
             console.log('in get week');
             return $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
+        }
+
+        function getSharedFollowing(id) {
+            console.log('in get week');
+            return $http.get('/api/v1/accounts/' + id + '/get_shared/');
         }
 
         function getNotificationPosts(){

@@ -48,8 +48,8 @@
                 <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
                     <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0" ng-model="singleModel" btn-checkbox
                        btn-checkbox-true="1" btn-checkbox-false="0"
-                       ng-click="vm.appendFollowingEvents(singleModel, following.name)">
-                        <p class="group_button_text" align="left">{{ following.owner.username }}{{ singleModel }}</p>
+                       ng-click="vm.appendFollowingEvents(singleModel, following.owner.username)">
+                        <p class="group_button_text" align="left">{{ following.owner.username }}</p>
                     </a>
 
                 </li>
@@ -108,6 +108,8 @@
                                     <label id="green" class="float-label-center" for="group__name">Group Name</label>
 
                                 </div>
+
+
 
                                 <angucomplete id="search__members" pause="100" selectedobject="vm.selectedMember"
                                               localdata="vm.users" titlefield="username" searchfields="username"
