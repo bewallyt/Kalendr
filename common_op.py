@@ -452,3 +452,8 @@ u'BUS'
 '''
 >>> post.shared_with.all()
 [<KGroup: user2>, <KGroup: family>, <KGroup: user4>, <KGroup: user5>]
+
+
+'''
+    For a specific post and a specific user, get the AccessRule between them
+'''

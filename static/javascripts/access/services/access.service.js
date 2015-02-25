@@ -46,24 +46,22 @@
         function reply(postId, response, emailNotification, emailNotifyWhen){
             emailNotification = false;
             return $http.post('/api/v1/access_update/',{
-                post: postId,
+                post_id: postId,
                 receiver_response: response,
                 emailNotification: emailNotification
                 //emailNotifyWhen: emailNotifyWhen
             });
         }
 
-        function getConfirmedResponses(postId){
-            return $http.get('/api/v1/notification_response/',{
-                post: postId,
-                response: 'CONFIRM'
-
-            });
+        // We cannot pass in data through HTTP get requests
+        // reference: $http.get('/api/v1/accounts/' + id + '/posts/' + weekNum + '/week/');
+        function getConfirmedResponses(postId, resp_type){
+            return $http.get('/api/v1/notification_response/'+ postId +'/response/' + resp_type + '/list/');
         }
 
         function getRemovedResponses(postId){
             return $http.get('/api/v1/notification_response/',{
-                post: postId,
+                post_id: postId,
                 response: 'REMOVED'
 
             });
@@ -71,7 +69,7 @@
 
         function getDeclinedResponses(postId){
             return $http.get('/api/v1/notification_response/',{
-                post: postId,
+                post_id: postId,
                 response: 'DECLINE'
 
             });
@@ -79,7 +77,7 @@
 
         function getNoResponses(postId){
             return $http.get('/api/v1/notification_response/',{
-                post: postId,
+                post_id: postId,
                 response: 'NO_RESP'
 
             });

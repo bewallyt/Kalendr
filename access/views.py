@@ -192,10 +192,15 @@ class NotificationResponseView(viewsets.ModelViewSet):
     queryset = AccessRule.objects.all()
     serializer_class = GroupSerializer
 
-    def list(self, request):
+    def list(self, request, post_pk, res_str):
+        print "NotificationResponse View"
+        print request.data
+        print type(request.data)
+        print post_pk
+        print res_str
 
-        post = Post.objects.get(pk=request.data['post'])
-        response_type = request.data['response']
+        post = Post.objects.get(pk=post_pk)
+        response_type = res_str
 
         follower_groups = post.shared_with.filter(is_follow_group = True, accessrule__receiver_response=response_type)
 

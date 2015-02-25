@@ -19,25 +19,32 @@
 
         vm.columns = [];
 
-        activate();
+        vm.init = init;
 
-        function activate() {
+        function init(id) {
 
             vm.hasReponses = false;
             vm.hasConfirmedGroups = false;
             vm.hasRemovedGroups = false;
             vm.hasDeclinedGroups = false;
             vm.hasNoRespGroups = false;
-
-            Access.getConfirmedResponses(vm.postId).then(successConfirmedFn, errorFn);
-            Access.getRemovedResponses(vm.postId).then(successRemovedFn, errorFn);
-            Access.getDeclinedResponses(vm.postId).then(successDeclinedFn, errorFn);
-            Access.getNoResponses(vm.postId).then(successNoFn, errorFn);
+            vm.postId = id;
+            console.log("vm.postId")
+            console.log(vm.postId)
+            Access.getConfirmedResponses(vm.postId, 'CONFIRM').then(successConfirmedFn, errorFn);
+            Access.getRemovedResponses(vm.postId, 'REMOVED').then(successRemovedFn, errorFn);
+            Access.getDeclinedResponses(vm.postId, 'DECLINE').then(successDeclinedFn, errorFn);
+            Access.getNoResponses(vm.postId, 'NO_RESP').then(successNoFn, errorFn);
 
             function successConfirmedFn(data, status, headers, config) {
                 if (data.data.length > 0) {
                     vm.hasConfirmedGroups = true;
                     vm.hasReponses = true;
+                }
+                console.log(data.data);
+                var i;
+                for(i = 0; i < data.data.length; i++){
+                    console.log(data.data[i].name);
                 }
                 vm.confirmedGroups = data.data;
             }

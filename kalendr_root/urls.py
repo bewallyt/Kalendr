@@ -61,6 +61,14 @@ group_router = routers.NestedSimpleRouter(
 )
 group_router.register(r'groups', AccountGroupsViewSet)
 
+
+#/api/v1/notification_response/"post"/response/
+notification_router = routers.NestedSimpleRouter(router, r'notification_response', lookup='post')
+notification_router.register(r'response', NotificationResponseView)
+
+notification_response_router = routers.NestedSimpleRouter(notification_router, r'response', lookup='res')
+notification_response_router.register(r'list', NotificationResponseView)
+
 urlpatterns = patterns(
     '',
 
@@ -68,6 +76,8 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(accounts_router.urls)),
     url(r'^api/v1/', include(group_router.urls)),
     url(r'^api/v1/', include(week_router.urls)),
+    url(r'^api/v1/', include(notification_router.urls)),
+    url(r'^api/v1/', include(notification_response_router.urls)),
     url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
     url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
     url(r'^.*$', IndexView.as_view(), name='index'),

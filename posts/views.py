@@ -128,8 +128,29 @@ class AccountPostsViewSet(viewsets.ViewSet):
 
 
 '''
+    Update post fields for a single post
+'''
+#TODO: Check permission
+class PostUpdateView(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def create(self, request, *args, **kwargs):
+        post = Post.objects.get(pk=request.data['post_id'])
+
+        updated_post = self.serializer_class(post, data = request.data, partial=True)
+        if updated_post.is_valid():
+            updated_post.save()
+            return Response(updated_post.data, status=status.HTTP_200_OK)
+        return Response(updated_post.errors, status=status.HTTP_304_NOT_MODIFIED)
+
+
+
+
+
+'''
     Input: a username string
-    output: all the posts that the user has shared with me
+    output: all the posts that the user has shared with me in the correct format
 '''
 class SharedPostView(viewsets.ModelViewSet):
 
@@ -140,6 +161,8 @@ class SharedPostView(viewsets.ModelViewSet):
 
         owner_posts = owner.myevents.all()
         shared_posts = owner_posts.filter(shared_with__name=follower.username)
+
+
 
 
 
