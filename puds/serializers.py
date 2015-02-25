@@ -10,8 +10,9 @@ class PudSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pud
 
-        fields = ('id', 'author', 'content', 'created_at', 'updated_at', 'priority',
-                  'repeat', 'need_repeat', 'is_completed', 'duration', 'notification', 'priority_int', 'repeat_int')
+        fields = ('id', 'author', 'content', 'notification', 'priority', 'priority_int', 'duration', 'is_completed',
+                  'repeat', 'repeat_int', 'need_repeat', 'notify_when', 'assignedToPost', 'firstAssignedWeek',
+                  'created_at', 'updated_at')
         read_only_fields = ('id', 'created_at', 'updated_at')
 
     def get_validation_exclusions(self, *args, **kwargs):

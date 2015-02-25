@@ -1,9 +1,9 @@
 <div class="well">
-    <div class="pud" ng-init="vm.pud_author=pud.author" ng-hide="vm.complete">
+    <div class="pud" ng-hide="vm.complete">
         <div class='namepud detailspud'>{{ pud.content }}</div>
         <div class='durationpud detailspud'>{{ pud.duration }}</div>
         <input type='checkbox' class='completepud detailspud' ng-change="vm.change(vm.complete)"
-               ng-model="vm.complete" ng-init="vm.pud_id=pud.id"/>
+               ng-model="vm.complete" />
         <br/>
         <br/>
 

@@ -93,6 +93,9 @@ class AccountSavePostViewSet(viewsets.ViewSet):
         if fits_in_slot.exists():
             reorder_priority = fits_in_slot.order_by('-priority_int')
             fit_pud = reorder_priority.first()
+            # fit_pud.assignedToPost = True
+            # fit_pud.firstAssignedWeek = week_pk
+            # fit_pud.save()
             print fit_pud.content
             post.pud = fit_pud.content
         else:
