@@ -45,7 +45,6 @@ def send_shared_post(post, email_address, send_time):
     return response
 
 
-'''TODO: recurring reminders'''
 def send_pud(pud):
     email = EmailMessage(to=[pud.author.email])
     email.template_name = 'pud'
@@ -59,6 +58,13 @@ def send_pud(pud):
     email.use_template_subject = True
     email.use_template_from = False
     email.send(fail_silently=False)
+
+    if pud.need_repeat:
+        if pud.repeat == 'Daily':
+            email.send_at = email.send_at + datetime.timedelta(days=1)
+        elif pud.repeat == 'Weekly':
+            email.send_at = email.send_at + datetime.timedelta(weeks=1)
+        email.send(fail_silently=False)
 
     response = email.mandrill_response[0]
     print response
