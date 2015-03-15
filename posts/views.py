@@ -9,7 +9,7 @@ from posts.repeat import repeat_events
 from rest_framework import status
 from authentication.models import Account
 from access.models import AccessRule
-from mail.mail import send_post
+from mail.mail import send_post, send_shared_post
 
 import datetime
 
@@ -133,6 +133,14 @@ class AccountPostsViewSet(viewsets.ViewSet):
             notify_post.notification = False
             notify_post.save()
             send_post(notify_post)
+
+        for rule in AccessRule.objects.all().filter(notification_email=True):
+            if rule.group.is_follow_group:
+                email_address = rule.group.members.all()[0].email
+                rule.notification_email = False
+                rule.save()
+                send_shared_post(rule.post, email_address, rule.notify_when)
+
 
         return Response(serializer.data)
 

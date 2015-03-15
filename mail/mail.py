@@ -23,6 +23,27 @@ def send_post(post):
     print response
     return response
 
+def send_shared_post(post, email_address, send_time):
+    when = post.day_of_week + ', ' + post.show_date
+    if post.not_all_day:
+        when = when + ' at ' + post.show_begin_time
+    email = EmailMessage(to=[email_address])
+    email.template_name = 'post'
+    email.global_merge_vars = {
+        'content': post.content,
+        'description': post.description_event,
+        'location': post.location_event,
+        'when': when
+    }
+    email.send_at = send_time
+    email.use_template_subject = True
+    email.use_template_from = False
+    email.send(fail_silently=False)
+
+    response = email.mandrill_response[0]
+    print response
+    return response
+
 
 '''TODO: recurring reminders'''
 def send_pud(pud):
