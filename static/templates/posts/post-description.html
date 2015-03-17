@@ -3,8 +3,7 @@
 </div>
 <br>
 <center><h2>{{ ngDialogData.content }}</h2></center>
-<center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }}</h4></center>
-
+<center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }} {{ ngDialogData.pud }}</h4></center>
 <br>
 <h5>Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
 <h5>Event Created by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
