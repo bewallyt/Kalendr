@@ -1,0 +1,150 @@
+.post {
+    height: 150px;
+}
+
+.post .post__meta {
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 30px;
+}
+
+.post .post__meta2 {
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 19px;
+}
+
+.post .post__meta a:hover {
+    text-decoration: none;
+}
+
+.left-side{
+    margin-left: -23px;
+    margin-top: 10px;
+    position: absolute;
+    padding-left:5px;
+    padding-right:5px;
+}
+.right-side{
+    margin-left: -2px;
+    /*margin-top: 10px;*/
+    padding-left:5px;
+    padding-right:5px;
+    position: absolute;
+}
+
+.corner_div{
+    float:right;
+    margin-top: 55%;
+}
+
+.top_corner_div{
+    float:left;
+    margin-top: -4%;
+    margin-left: -1%;
+}
+
+#visible_well button{
+    display: none;
+}
+
+
+#visible_well:hover .left-side{
+    display: inline;
+}
+#visible_well:hover .right-side{
+    display: inline;
+}
+
+.post__notify__false {
+    visibility: hidden;
+}
+
+.post__notify__true {
+    margin-top: -55px;
+    margin-left: -15px;
+}
+
+.post__repeat__none {
+    visibility: hidden;
+}
+
+.post__repeat__Weekly {
+    margin-top: -50px;
+}
+
+.all_day {
+    margin-left: 50em;
+}
+
+.post__repeatnone {
+    visibility: hidden;
+}
+
+.post__time {
+    visibility: hidden;
+}
+
+.post .post__beta__true {
+    text-align: right;
+    font-size: 70%;
+    margin-bottom: 5px;
+}
+
+.post .day_of_week {
+    font-size: 70%;
+}
+
+.post .post__beta__false {
+    visibility: hidden;
+    margin-bottom: 19px;
+}
+
+.post .post__location__none {
+    visibility: hidden;
+}
+
+.post .post__location__inline {
+    display: inline;
+}
+
+.post .post__content {
+    display: inline;
+    text-align: center;
+}
+
+.post .post__description__none {
+    visibility: hidden;
+}
+
+.post__pud__false {
+    visibility: hidden;
+}
+
+input[type="radio"] {
+    margin: 0 20px 0 20px;
+}
+
+.radio_btn_left {
+    margin: 0 0px 0 10px;
+}
+
+.radio_btn_label {
+    margin: 0 0px 0 15px;
+}
+
+.radio_btn_middle {
+    margin: 0 0px 0 5px;
+}
+
+.radio_btn_left_post {
+    margin: 0 0px 0 -24px;
+}
+
+.radio_btn_label {
+    margin: 0 0px 0 15px;
+}
+
+.radio_btn_middle_post {
+    margin: 0 0px 0 0px;
+}

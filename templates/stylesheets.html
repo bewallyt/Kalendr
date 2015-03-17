@@ -2,24 +2,35 @@
 {% load staticfiles %}
 
 {% compress css %}
-<link rel="stylesheet" type="text/css" href="{% static 'lib/menu/css/component.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'lib/default.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'lib/pud-screen/css/component.css' %}" />
 
+    <!-- 3rd Party UI Features -->
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/menu/css/component.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/default.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/pud-screen/css/component.css' %}"/>
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'bower_components/bootstrap-material-design/dist/css/ripples.min.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'bower_components/bootstrap-material-design/dist/css/material-wfont.min.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'bower_components/bootstrap-material-design/dist/css/material.min.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'bower_components/bootstrap-material-design/dist/css/test.css' %}"/>
 
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/ripples.min.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/material-wfont.min.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/material.min.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap-material-design/dist/css/test.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog-theme-default.css' %}" />
+    <!-- Ngdialog -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bower_components/ngDialog/css/ngDialog.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'bower_components/ngDialog/css/ngDialog-theme-default.css' %}"/>
 
-<link rel="stylesheet" type="text/css" href="{% static 'lib/snackbarjs/snackbar.min.css' %}" />
+    <!-- Snackbar -->
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/snackbarjs/snackbar.min.css' %}"/>
 
+    <!-- Custom -->
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/buttons.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/posts.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/puds.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/styles.css' %}"/>
 
-
-
-<link rel="stylesheet" type="text/css" href="{% static 'stylesheets/styles.css' %}" />
 {% endcompress %}
