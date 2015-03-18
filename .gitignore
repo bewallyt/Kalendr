@@ -197,7 +197,8 @@ authentication/migrations/
 posts/migrations/
 groups/migrations/
 puds/migrations/
-access/migrations
+access/migrations/
+freetime/migrations/
 
 # Mac cache
 .DS_Store
