@@ -1,16 +1,12 @@
 <div id="visible_well" class="well">
     <div class="post">
-        <div class="post__meta">
-            <a class="post__date" {{ post.show_date }}>
-                {{ post.show_date }}
-            </a>
+        <div class="post__header">
+            <div class="post__meta">
+                <a class="post__date">{{ post.show_date }}</a>
 
-            <div class="day_of_week">
-                {{ post.day_of_week }}
+                <div class="day_of_week">{{ post.day_of_week }}</div>
             </div>
-        </div>
-        <div class="corner_div">
-            <center>
+            <div class="post_attr">
                 <button class="left-side hover-btn mdi-editor-border-color btn btn-default btn-xs"
                         ng-hide="post.is_holiday"
                         ng-dialog="/static/templates/posts/update-post.html"
@@ -23,8 +19,8 @@
                         ng-click=""
                         ng-dialog-data="{{ post }}">
                 </button>
-            </center>
+            </div>
         </div>
-        <center><span class="post__content">{{ post.content }} </span></center>
+        <div class="post__content">{{ post.content }}</div>
     </div>
 </div>

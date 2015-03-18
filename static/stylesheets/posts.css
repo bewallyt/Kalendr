@@ -1,11 +1,22 @@
 .post {
-    height: 150px;
+    height: 6em;
 }
 
 .post .post__meta {
     font-weight: bold;
     text-align: right;
-    padding-bottom: 30px;
+    float:right;
+}
+
+.post .post__meta a:hover {
+    text-decoration: none;
+}
+
+.post .post__content {
+    margin-top: 25%;
+    display: block;
+    float: left;
+    position: absolute;
 }
 
 .post .post__meta2 {
@@ -14,46 +25,39 @@
     padding-bottom: 19px;
 }
 
-.post .post__meta a:hover {
-    text-decoration: none;
+.left-side {
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.left-side{
-    margin-left: -23px;
-    margin-top: 10px;
-    position: absolute;
-    padding-left:5px;
-    padding-right:5px;
-}
-.right-side{
-    margin-left: -2px;
-    /*margin-top: 10px;*/
-    padding-left:5px;
-    padding-right:5px;
-    position: absolute;
+.right-side {
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.corner_div{
-    float:right;
-    margin-top: 55%;
+.post_attr {
+    float: left;
 }
 
-.top_corner_div{
-    float:left;
-    margin-top: -4%;
-    margin-left: -1%;
-}
-
-#visible_well button{
+#visible_well button {
     display: none;
 }
 
-
-#visible_well:hover .left-side{
+#visible_well:hover .left-side {
     display: inline;
 }
-#visible_well:hover .right-side{
+
+#visible_well:hover .right-side {
     display: inline;
+}
+
+/* post description */
+.top_corner_div {
+    float: left;
+    margin-top: -4%;
+    margin-left: -1%;
 }
 
 .post__notify__false {
@@ -108,11 +112,6 @@
     display: inline;
 }
 
-.post .post__content {
-    display: inline;
-    text-align: center;
-}
-
 .post .post__description__none {
     visibility: hidden;
 }
@@ -121,6 +120,7 @@
     visibility: hidden;
 }
 
+/* post invite */
 input[type="radio"] {
     margin: 0 20px 0 20px;
 }
