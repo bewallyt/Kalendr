@@ -1,24 +1,23 @@
-.namepud {
-    float: left;
+.outblock {
+	padding: 10px;
+    height: 100%;
+	float: left;
+	display: inline;
+    margin-right: 10%;
 }
 
-.durationpud {
-    float: left;
+.intblock {
+	display: block;
+	padding: 5px;
+    margin-bottom: 15px;
+    margin-top: -10px;
 }
 
-.completepud {
-    float: left;
+.intblock_num {
+	display: block;
+	padding: 5px;
 }
 
-.repeatpud {
-    float: left;
-    margin-right: 200px;
-}
-
-.prioritypud {
-    float: left;
-}
-
-.detailspud {
-    margin-right: 100px;
+.pud {
+    height: 5em;
 }

@@ -1,4 +1,4 @@
-<div class="well">
+<!-- <div class="well">
     <div class="pud" ng-hide="vm.complete">
         <div class='namepud detailspud'>{{ pud.content }}</div>
         <div class='durationpud detailspud'>{{ pud.duration }}</div>
@@ -20,4 +20,31 @@
         <li ng-init="vm.pud_author=pud.author"></li>
         <li ng-init="vm.pud_id=pud.id"></li>
     </div>
+</div> -->
+
+<div class="well">
+
+    <div class="pud">
+        <div class="outblock">
+            <div class="pud_content intblock">{{ pud.content }}</div>
+            <div class="pud_repeat intblock">{{ pud.repeat }}</div>
+        </div>
+        <div class="outblock">
+            <div class="pud_duration intblock_num"><h4>{{ pud.duration }} hrs</h4></div>
+        </div>
+        <div class="outblock">
+            <div class="intblock">
+                <input type="checkbox" class="complete_pud" ng-change="vm.change(vm.complete)" ng-model="vm.complete"/>
+            </div>
+            <div class="pud_priority intblock">{{ pud.priority }}</div>
+        </div>
+    </div>
+
+
+    <div style="display: none">
+        <li ng-init="vm.pud_author=pud.author"></li>
+        <li ng-init="vm.pud_id=pud.id"></li>
+    </div>
+
 </div>
+
