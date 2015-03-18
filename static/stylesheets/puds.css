@@ -1,0 +1,24 @@
+.namepud {
+    float: left;
+}
+
+.durationpud {
+    float: left;
+}
+
+.completepud {
+    float: left;
+}
+
+.repeatpud {
+    float: left;
+    margin-right: 200px;
+}
+
+.prioritypud {
+    float: left;
+}
+
+.detailspud {
+    margin-right: 100px;
+}
