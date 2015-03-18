@@ -97,8 +97,10 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 e.save()
                 repeat_events(e)
             # Parse start_time(date),begin_time(clock time, optional field), end_time(clock, optional)
-            if e.is_date_set == False:
+            print e.content + 'is updated ' + str(e.is_updated)
+            if e.is_date_set == False or e.is_updated == True:
                 e.is_date_set = True
+                e.is_updated = False
                 e.show_date = str(e.start_time)[5:7] + "/" + str(e.start_time)[8:10] + "/" + str(e.start_time)[0:4]
                 e.show_begin_time = str(e.begin_time)[11:16]
                 e.show_end_time = str(e.end_time)[11:16]
@@ -166,7 +168,9 @@ class PostUpdateView(viewsets.ModelViewSet):
                 ar.save()
 
             updated_post = self.serializer_class(post, data = request.data, partial=True)
+            print updated_post
             if updated_post.is_valid():
+                print 'updated post is_updated: ' + str(updated_post.data['is_updated'])
                 updated_post.save()
                 return Response(updated_post.data, status=status.HTTP_200_OK)
 

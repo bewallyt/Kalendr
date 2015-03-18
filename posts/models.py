@@ -44,5 +44,7 @@ class Post(models.Model):
 
     can_modifty = models.BooleanField(default=False)
 
+    is_updated = models.BooleanField(default=False)
+
     def __unicode__(self):
         return '{0}'.format(self.content)

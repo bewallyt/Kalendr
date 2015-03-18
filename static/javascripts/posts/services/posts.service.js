@@ -97,7 +97,8 @@
                 pud_time: pud_time,
                 pud: pud,
                 duration: duration,
-                post_id: postId
+                post_id: postId,
+                is_updated: true
             });
         }
 
