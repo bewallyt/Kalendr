@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'groups',
     'puds',
     'access',
+    'freetime',
 )
 
 TEMPLATE_LOADERS = (
