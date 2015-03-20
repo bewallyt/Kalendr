@@ -14,7 +14,8 @@
             'kalendr.access',
             'kalendr.utils',
             'ui.bootstrap',
-            'angucomplete'
+            'angucomplete',
+            'ngMaterial'
         ]);
 
     angular
