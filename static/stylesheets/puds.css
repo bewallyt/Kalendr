@@ -1,23 +1,28 @@
+/* 1680 x 1050 pixel screen */
 .outblock {
-	padding: 10px;
+	padding: 1%;
     height: 100%;
 	float: left;
 	display: inline;
-    margin-right: 10%;
+    margin-right: 12%;
+    margin-top: -2.5%;
 }
 
 .intblock {
 	display: block;
 	padding: 5px;
-    margin-bottom: 15px;
-    margin-top: -10px;
-}
-
-.intblock_num {
-	display: block;
-	padding: 5px;
+    margin-bottom: 10%;
 }
 
 .pud {
-    height: 5em;
+    height: 4em;
+}
+
+.outblock_l {
+	padding: 1%;
+    height: 100%;
+	float: left;
+	display: inline;
+    margin-left: 11%;
+    margin-top: -2.5%;
 }

@@ -1,27 +1,3 @@
-<!-- <div class="well">
-    <div class="pud" ng-hide="vm.complete">
-        <div class='namepud detailspud'>{{ pud.content }}</div>
-        <div class='durationpud detailspud'>{{ pud.duration }}</div>
-        <input type='checkbox' class='completepud detailspud' ng-change="vm.change(vm.complete)"
-               ng-model="vm.complete" />
-        <br/>
-        <br/>
-
-        <div class='second-row'>
-            <div class='repeatpud detailspud'>{{ pud.repeat }}</div>
-            <div class='prioritypud detailspud'>{{ pud.priority }}</div>
-        </div>
-    </div>
-    <div ng-show="vm.complete">
-        <div class='namepud detailspud'>{{ pud.content }}</div>
-        <h6>Completed</h6>
-    </div>
-    <div style="display: none">
-        <li ng-init="vm.pud_author=pud.author"></li>
-        <li ng-init="vm.pud_id=pud.id"></li>
-    </div>
-</div> -->
-
 <div class="well">
 
     <div class="pud">
@@ -30,13 +6,14 @@
             <div class="pud_repeat intblock">{{ pud.repeat }}</div>
         </div>
         <div class="outblock">
-            <div class="pud_duration intblock_num"><h4>{{ pud.duration }} hrs</h4></div>
-        </div>
-        <div class="outblock">
-            <div class="intblock">
-                <input type="checkbox" class="complete_pud" ng-change="vm.change(vm.complete)" ng-model="vm.complete"/>
-            </div>
+            <div class="pud_duration intblock">{{ pud.duration }} hrs</div>
             <div class="pud_priority intblock">{{ pud.priority }}</div>
+        </div>
+        <div class="outblock_l">
+            <div class="intblock">
+                <md-checkbox aria-label="complete_pud" class="complete_pud" ng-change="vm.change(vm.complete)"
+                             ng-model="vm.complete"></md-checkbox>
+            </div>
         </div>
     </div>
 
@@ -47,4 +24,3 @@
     </div>
 
 </div>
-
