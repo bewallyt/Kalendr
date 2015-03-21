@@ -8,9 +8,9 @@
         .module('kalendr.accounts.controllers')
         .controller('AccountController', AccountController);
 
-    AccountController.$inject = ['$timeout', '$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups', 'Access'];
+    AccountController.$inject = ['$location', 'Authentication', 'Posts', 'Puds', 'Account', 'Snackbar', '$scope', 'Groups', 'Access'];
 
-    function AccountController($timeout, $location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups, Access) {
+    function AccountController($location, Authentication, Posts, Puds, Account, Snackbar, $scope, Groups, Access) {
 
         var vm = this;
         instantiateAccordian();
