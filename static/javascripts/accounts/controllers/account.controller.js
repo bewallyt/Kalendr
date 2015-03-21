@@ -66,6 +66,7 @@
             // For Passing Shareable into Event Creation
 
             vm.shareable = [];
+            vm.share_following = [];
 
             // For Displaying Notifications
 
@@ -123,6 +124,7 @@
 
             // To update shareable list
             Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
+            Groups.getFollowing(username).then(shareFollowingSFn, followingErrorFn);
 
             // Fetch Notifications
             Posts.getNotificationPosts().then(notificationSuccessFn, notificationErrorFn);
@@ -294,6 +296,10 @@
             function followingSuccessFn(data, status, headers, config) {
                 vm.followingList = data.data;
                 if (data.data.length > 0) vm.isFollowing = true;
+            }
+
+            function shareFollowingSFn(data, status, headers, config) {
+                vm.share_following = data.data;
             }
 
             function followingErrorFn(data, status, headers, config) {

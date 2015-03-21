@@ -37,15 +37,23 @@
         </div>
 
         Days:
-        <md-checkbox aria-label="sunday" class="days_checkbox">Sunday</md-checkbox>
-        <md-checkbox aria-label="monday" class="days_checkbox">Monday</md-checkbox>
-        <md-checkbox aria-label="tuesday" class="days_checkbox">Tuesday</md-checkbox>
-        <md-checkbox aria-label="wednesday" class="days_checkbox">Wednesday</md-checkbox>
-        <md-checkbox aria-label="thursday" class="days_checkbox">Thursday</md-checkbox>
-        <md-checkbox aria-label="friday" class="days_checkbox">Friday</md-checkbox>
-        <md-checkbox aria-label="saturday" class="days_checkbox">Saturday</md-checkbox>
+        <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.su">Sunday</md-checkbox>
+        <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.mo">Monday</md-checkbox>
+        <md-checkbox aria-label="tuesday" class="days_checkbox" ng-model="vm.tu">Tuesday</md-checkbox>
+        <md-checkbox aria-label="wednesday" class="days_checkbox" ng.model="vm.we">Wednesday</md-checkbox>
+        <md-checkbox aria-label="thursday" class="days_checkbox" ng-model="vm.th">Thursday</md-checkbox>
+        <md-checkbox aria-label="friday" class="days_checkbox" ng-model="vm.fr">Friday</md-checkbox>
+        <md-checkbox aria-label="saturday" class="days_checkbox" ng-model="vm.sa">Saturday</md-checkbox>
 
-         <div class="form-group">
+        <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedGroup"
+                      localdata="ngDialogData" titlefield="name" searchfields="email"
+                      minlength="1"
+                      inputclass="form-control2" matchclass="highlight"
+                      placeholder="Search Following"/>
+
+        {{ ngDialogData }}
+
+        <div class="form-group">
             <button type="submit" class="btn btn-primary">
                 Submit
             </button>

@@ -46,7 +46,8 @@
                 <br>
 
                 <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
-                    <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0" ng-model="singleModel" btn-checkbox
+                    <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0"
+                       ng-model="singleModel" btn-checkbox
                        btn-checkbox-true="1" btn-checkbox-false="0"
                        ng-click="vm.appendFollowingEvents(singleModel, following.owner.username)">
                         <p class="group_button_text" align="left">{{ following.owner.username }}</p>
@@ -108,7 +109,6 @@
                                     <label id="green" class="float-label-center" for="group__name">Group Name</label>
 
                                 </div>
-
 
 
                                 <angucomplete id="search__members" pause="100" selectedobject="vm.selectedMember"
@@ -219,7 +219,9 @@
 <a class="mdi-content-filter-list btn btn-primary btn-fab btn-raised btn-free-time"
    href="javascript:void(0)"
    ng-show="vm.isAuthenticated"
-   ng-dialog="/static/templates/freetime/find-freetime.html"></a>
+   ng-dialog="/static/templates/freetime/find-freetime.html"
+   ng-dialog-data="{{ vm.share_following }}"
+   ng-dialog-controller="FreeTimeController as vm"></a>
 
 <a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
    id="showLeftPush"
