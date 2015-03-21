@@ -1,24 +1,28 @@
-.namepud {
-    float: left;
+/* 1680 x 1050 pixel screen */
+.outblock {
+	padding: 1%;
+    height: 100%;
+	float: left;
+	display: inline;
+    margin-right: 12%;
+    margin-top: -2.5%;
 }
 
-.durationpud {
-    float: left;
+.intblock {
+	display: block;
+	padding: 5px;
+    margin-bottom: 10%;
 }
 
-.completepud {
-    float: left;
+.pud {
+    height: 4em;
 }
 
-.repeatpud {
-    float: left;
-    margin-right: 200px;
-}
-
-.prioritypud {
-    float: left;
-}
-
-.detailspud {
-    margin-right: 100px;
+.outblock_l {
+	padding: 1%;
+    height: 100%;
+	float: left;
+	display: inline;
+    margin-left: 11%;
+    margin-top: -2.5%;
 }

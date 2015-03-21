@@ -1,9 +1,24 @@
 <div class="row pudview-content" ng-cloak>
-    <div ng-repeat="column in vm.columns">
+    <!-- <div ng-repeat="column in vm.columns">
         <div class="col-md-4">
             <div ng-repeat="pud in column">
                 <pud pud="pud"></pud>
             </div>
+        </div>
+    </div> -->
+    <div class="col-md-4">
+        <div ng-repeat="pud in vm.columns[0]">
+            <pud pud="pud"></pud>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div ng-repeat="pud in vm.columns[1]">
+            <pud pud="pud"></pud>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div ng-repeat="pud in vm.columns[2]">
+            <pud pud="pud"></pud>
         </div>
     </div>
 </div><!-- /pudview-content -->

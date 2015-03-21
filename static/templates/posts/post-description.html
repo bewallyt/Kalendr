@@ -3,7 +3,7 @@
 </div>
 <br>
 <center><h2>{{ ngDialogData.content }}</h2></center>
-<center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }} {{ ngDialogData.pud }}</h4></center>
+<center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }} <div ng-show="ngDialogData.pud != 'none'">{{ ngDialogData.pud }}</div></h4></center>
 <br>
 <h5>Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
 <h5>Event Created by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
@@ -15,7 +15,11 @@
 
 <br>
 
-<accordion ng-hide="ngDialogData.is_holiday" close-others="vm.post_description_close">
+<accordion ng-hide="ngDialogData.is_holiday
+|| (vm.hasConfirmedGroups == false
+    && vm.hasDeclinedGroups == false
+    && vm.hasRemovedGroups == false
+    && vm.hasNoRespGroups == false)" close-others="vm.post_description_close">
     <accordion-group is-open="vm.isThirdOpenPost"
                      is-disabled="status.isPostDisabled">
         <accordion-heading>
