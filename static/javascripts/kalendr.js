@@ -11,6 +11,7 @@
             'kalendr.layout',
             'kalendr.posts',
             'kalendr.puds',
+            'kalendr.signup',
             'kalendr.access',
             'kalendr.utils',
             'kalendr.freetime',

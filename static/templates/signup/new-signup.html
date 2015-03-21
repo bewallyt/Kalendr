@@ -1,0 +1,85 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <center><h2>New Appointment</h2></center>
+        <div class="form-group">
+
+            <input type="text" class="form-control" id="event__name" ng-model="vm.content" required>
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label class="float-label" for="event__name">Name of Appointment</label>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <input type="text" class="form-control" id="event__location" ng-model="vm.location" required>
+            <span class="form-highlight"></span>
+            <span class="form-bar"></span>
+            <label class="float-label" for="event__location">Location of Appointment</label>
+
+        </div>
+
+        <div class="form-group">
+            Number of Signup Blocks:
+            <input id="blocks" type="number" name="quantity" min="1" max="7" ng-model="vm.numBlocks">
+        </div>
+
+
+        <div ng-repeat="i in vm.getNumber(vm.numBlocks) track by $index">
+            <br>
+            <center><b>Slot {{ $index + 1 }} </b></center>
+            <br>
+            Date <input type="date" id="event__date" name="date" ng-model="vm.dates[$index]"/>
+            <br>
+            <br>
+            Start time:
+            <input type="time" name="starttime" ng-model="vm.beginTimes[$index]"/>
+            End time:
+            <input type="time" name="endtime" ng-model="vm.endTimes[$index]"/>
+
+            <div layout>
+                <div flex="10" layout layout-align="center center">
+                    <span>Min Time {{ vm.minTimes[$index] }}</span>
+                </div>
+                <md-slider flex class="md-primary" md-discrete ng-model="vm.minTimes[$index]" step="5" min="5" max="30"
+                           aria-label="minTimes">
+                </md-slider>
+            </div>
+
+            <div layout>
+                <div flex="10" layout layout-align="center center">
+                    <span>Max Time </span>
+                </div>
+                <md-slider flex class="md-primary" md-discrete ng-disabled="vm.minTimes[$index] == null"
+                           ng-model="vm.maxTimes[$index]" step="5" min="{{ vm.minTimes[$index] }}" max="{{ vm.minTimes[$index] * 5 }}"
+                           aria-label="maxTimes">
+                </md-slider>
+            </div>
+        </div>
+        <br>
+
+        <center>Share with whom?</center>
+
+        <div>
+            <br>
+            <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedGroup"
+                          localdata="ngDialogData" titlefield="name" searchfields="name"
+                          minlength="1"
+                          inputclass="form-control2" matchclass="highlight"
+                          placeholder="Search Groups and Followers"/>
+
+            <center><a class="absolute mdi-social-plus-one btn btn-default "
+                       ng-click="vm.addGroups()"></a></center>
+
+            <li ng-repeat="group in vm.groups">{{ group }}</li>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+        </div>
+    </div>
+
+</form>

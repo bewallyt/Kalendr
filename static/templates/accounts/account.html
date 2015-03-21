@@ -235,6 +235,13 @@
    ng-click="vm.showNotificationsTab()"
    ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
 
+<a class="mdi-editor-border-color btn btn-primary btn-fab btn-raised btn-new-signup"
+   href="javascript:void(0)"
+   ng-show="vm.isAuthenticated"
+   ng-dialog-data="{{ vm.shareable }}"
+   ng-dialog="/static/templates/signup/new-signup.html"
+   ng-dialog-controller="NewSignupController as vm"></a>
+
 <script>
     (function () {
         var pudScreen = document.getElementById('pudview');
