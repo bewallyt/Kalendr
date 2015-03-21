@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.response import Response
+from freetime.serializers import *
 
-# Create your views here.
+
+class FreeTimeViewSet(viewsets.ModelViewSet):
+    serializer_class = FreeTimeRequestSerializer
+
+    def create(self, request):
+        return None

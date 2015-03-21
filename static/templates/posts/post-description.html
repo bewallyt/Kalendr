@@ -8,7 +8,7 @@
 <h5>Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
 <h5>Event Created by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
 <h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
-<h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.start_time | date:'h:mma' }}
+<h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.begin_time | date:'h:mma' }}
     - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
 <h5 ng-show="ngDialogData.need_repeat">Repeats {{ ngDialogData.repeat }} until {{ ngDialogData.end_repeat }}</h5>
 <h5 ng-show="ngDialogData.notification">Email Notification Set</h5>
