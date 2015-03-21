@@ -1,0 +1,56 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <center><h2>Free Times</h2></center>
+
+        <center><h4>Event Type</h4></center>
+        <center>
+            <div class="form-group">
+                <label class="radio_btn_label" for="one_time">OT</label>
+                <input type="radio" name="priority" id="one_time" value="0" ng-model="vm.event_type">
+                <label class="radio_btn_middle" for="recurring">RC</label>
+                <input type="radio" name="priority" id="recurring" value="1" ng-model="vm.event_type">
+            </div>
+        </center>
+
+        <div ng-show="vm.event_type==1">
+            Search from:
+            <input type="date" name="startsearch" ng-model="vm.start_search">
+            <br>
+            Search until:
+            <input type="date" name="endsearch" ng-model="vm.end_search">
+        </div>
+
+        <div class="form-group">
+            Duration
+            (in hours):
+            <input id="dur_hour" type="number" name="quant_hr" min="0" max="24" ng-model="vm.dur_hr">
+            (in minutes):
+            <input id="dur_minu" type="number" name="quant_mi" min="0" max="59" ng-model="vm.dur_mi"
+                   ng-show="vm.dur_hr!=24">
+        </div>
+
+        <div>
+            Start time:
+            <input type="time" name="starttime" ng-model="vm.begin_time">
+            End time:
+            <input type="time" name="endtime" ng-model="vm.end_time">
+        </div>
+
+        Days:
+        <md-checkbox aria-label="sunday" class="days_checkbox">Sunday</md-checkbox>
+        <md-checkbox aria-label="monday" class="days_checkbox">Monday</md-checkbox>
+        <md-checkbox aria-label="tuesday" class="days_checkbox">Tuesday</md-checkbox>
+        <md-checkbox aria-label="wednesday" class="days_checkbox">Wednesday</md-checkbox>
+        <md-checkbox aria-label="thursday" class="days_checkbox">Thursday</md-checkbox>
+        <md-checkbox aria-label="friday" class="days_checkbox">Friday</md-checkbox>
+        <md-checkbox aria-label="saturday" class="days_checkbox">Saturday</md-checkbox>
+
+         <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                Submit
+            </button>
+        </div>
+
+    </div>
+
+</form>

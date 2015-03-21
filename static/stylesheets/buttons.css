@@ -58,6 +58,12 @@
     right: 20px;
 }
 
+.btn-free-time {
+    position: fixed;
+    bottom: 606px;
+    right: 20px;
+}
+
 .btn-nopadding {
     width: 15em;
     height: 3em;

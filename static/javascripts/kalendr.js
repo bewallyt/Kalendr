@@ -13,6 +13,7 @@
             'kalendr.puds',
             'kalendr.access',
             'kalendr.utils',
+            'kalendr.freetime',
             'ui.bootstrap',
             'angucomplete',
             'ngMaterial'

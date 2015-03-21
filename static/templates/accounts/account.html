@@ -216,6 +216,11 @@
    ng-dialog="/static/templates/puds/new-pud.html"
    ng-dialog-controller="NewPudController as vm"></a>
 
+<a class="mdi-content-filter-list btn btn-primary btn-fab btn-raised btn-free-time"
+   href="javascript:void(0)"
+   ng-show="vm.isAuthenticated"
+   ng-dialog="/static/templates/freetime/find-freetime.html"></a>
+
 <a class="mdi-action-today btn btn-primary btn-fab btn-raised btn-change-date"
    id="showLeftPush"
    href="javascript:void(0)"
