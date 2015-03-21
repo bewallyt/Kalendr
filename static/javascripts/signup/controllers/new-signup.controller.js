@@ -22,12 +22,17 @@
         vm.content;
         vm.location;
         vm.numBlocks = 0;
-        vm.date;
-        vm.beginTime;
-        vm.endTime;
+
+        // Benson: Date array and Begin/End time arrays exists for the possibility of multiple slots
+        vm.dates = [];
+        vm.beginTimes = [];
+        vm.endTimes = [];
+
+        vm.minTimes = [];
+        vm.maxTimes = [];
 
         vm.selectedGroup;
-        vm.users;
+        vm.groups = [];
         vm.addGroups = addGroups;
 
         vm.getNumber = getNumber;
@@ -39,11 +44,9 @@
          */
         function submit() {
 
-            var num_day = vm.start_time.getDay();
+            var num_day = vm.dates.getDay();
             var dayOfWeek;
-            var weekNum = vm.start_time.getWeekNum();
-            var isWeekSet = true;
-            var pud;
+            var weekNum = vm.dates.getWeekNum();
 
             if (num_day == 0) dayOfWeek = 'Sunday';
             else if (num_day == 1) dayOfWeek = 'Monday';
@@ -54,49 +57,18 @@
             else dayOfWeek = 'Saturday';
 
 
-            if (vm.begin_time === null) vm.begin_time = '';
-            if (vm.end_time === null) vm.end_time = '';
-            if (vm.notify_when === null) vm.notify_when = vm.start_time;
 
-            if (vm.notification === undefined) vm.notification = false;
-
-
-            if (vm.repeat == 'Weekly' ||
-                vm.repeat == 'Monthly' ||
-                vm.repeat == 'Daily') vm.need_repeat = true;
-
-            if (vm.pud_time == undefined) {
-                vm.pud_time = false;
-                pud = 'none';
-                vm.duration = 0;
-            } else {
-                pud = 'mutable';
-                vm.duration = timeDiff(vm.begin_time, vm.end_time);
-                vm.content = "Complete Task";
-                vm.description_event = 'Work on: ';
-            }
-
-            Signup.create(vm.content, vm.date, vm.location, vm.begin_time, vm.end_time, dayOfWeek,
-                vm.need_repeat, weekNum).then(createPostSuccessFn, createPostErrorFn);
+            Signup.create(vm.content, vm.dates, vm.location, vm.beginTimes, vm.endTimes, dayOfWeek,
+                 weekNum).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
-                repeat: vm.repeat,
-                start_time: vm.start_time,
-                notification: vm.notification,
-                notify_when: vm.notify_when,
-                location_event: vm.location_event,
-                description_event: vm.description_event,
-                begin_time: vm.begin_time,
-                end_time: vm.end_time,
-                end_repeat: vm.end_repeat,
-                not_all_day: vm.not_all_day,
+                dates: vm.dates,
+                location: vm.location,
+                beginTimes: vm.beginTimes,
+                endTimes: vm.endTimes,
                 dayOfWeek: dayOfWeek,
                 weekNum: weekNum,
-                isWeekSet: isWeekSet,
-                pud_time: vm.pud_time,
-                pud: pud,
-                duration: vm.duration,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }
@@ -141,7 +113,7 @@
         }
 
         function addGroups() {
-            vm.groupRuleDict[vm.selectedGroup.originalObject.name] = vm.rule;
+            vm.groups.push(vm.selectedGroup.originalObject.name);
 
         }
 
@@ -151,8 +123,8 @@
         }
     }
 
-    function timeDiff(begin_time, end_time) {
-        return Math.ceil(end_time.getHours() - begin_time.getHours());
+    function timeDiff(beginTime, endTime) {
+        return Math.ceil(endTime.getHours() - beginTime.getHours());
     }
 
     Date.prototype.getWeekNum = function () {

@@ -24,18 +24,42 @@
             Number of Signup Blocks:
             <input id="blocks" type="number" name="quantity" min="1" max="7" ng-model="vm.numBlocks">
         </div>
-        <br>
+
 
         <div ng-repeat="i in vm.getNumber(vm.numBlocks) track by $index">
-            <input type="date" id="event__date" name="date" ng-model="vm.date"/>
+            <br>
+            <center><b>Slot {{ $index + 1 }} </b></center>
+            <br>
+            Date <input type="date" id="event__date" name="date" ng-model="vm.dates[$index]"/>
+            <br>
             <br>
             Start time:
-            <input type="time" name="starttime" ng-model="vm.beginTime"/>
+            <input type="time" name="starttime" ng-model="vm.beginTimes[$index]"/>
             End time:
-            <input type="time" name="endtime" ng-model="vm.endTime"/>
-        </div>
+            <input type="time" name="endtime" ng-model="vm.endTimes[$index]"/>
 
-        Share with whom?
+            <div layout>
+                <div flex="10" layout layout-align="center center">
+                    <span>Min Time {{ vm.minTimes[$index] }}</span>
+                </div>
+                <md-slider flex class="md-primary" md-discrete ng-model="vm.minTimes[$index]" step="5" min="5" max="30"
+                           aria-label="minTimes">
+                </md-slider>
+            </div>
+
+            <div layout>
+                <div flex="10" layout layout-align="center center">
+                    <span>Max Time </span>
+                </div>
+                <md-slider flex class="md-primary" md-discrete ng-disabled="vm.minTimes[$index] == null"
+                           ng-model="vm.maxTimes[$index]" step="5" min="{{ vm.minTimes[$index] }}" max="{{ vm.minTimes[$index] * 5 }}"
+                           aria-label="maxTimes">
+                </md-slider>
+            </div>
+        </div>
+        <br>
+
+        <center>Share with whom?</center>
 
         <div>
             <br>
@@ -48,7 +72,7 @@
             <center><a class="absolute mdi-social-plus-one btn btn-default "
                        ng-click="vm.addGroups()"></a></center>
 
-            <li ng-repeat="(group, rule) in vm.groupRuleDict">{{ group }}</li>
+            <li ng-repeat="group in vm.groups">{{ group }}</li>
         </div>
 
         <div class="form-group">
