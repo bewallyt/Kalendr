@@ -15,13 +15,22 @@
     /**
      * @namespace NewSignupController
      */
-    function NewSignupController($rootScope, $scope,Authentication, Snackbar, Signup, Access) {
+    function NewSignupController($rootScope, $scope, Authentication, Snackbar, Signup, Access) {
         var vm = this;
+
         vm.submit = submit;
+        vm.content;
+        vm.location;
+        vm.numBlocks = 0;
+        vm.date;
+        vm.beginTime;
+        vm.endTime;
 
         vm.selectedGroup;
         vm.users;
         vm.addGroups = addGroups;
+
+        vm.getNumber = getNumber;
 
         /**
          * @name submit
@@ -67,9 +76,8 @@
                 vm.description_event = 'Work on: ';
             }
 
-            Signup.create(vm.content, vm.start_time, vm.notification, vm.notify_when, vm.repeat, vm.location_event,
-                vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
-                vm.need_repeat, weekNum, isWeekSet, vm.pud_time, pud, vm.duration).then(createPostSuccessFn, createPostErrorFn);
+            Signup.create(vm.content, vm.date, vm.location, vm.begin_time, vm.end_time, dayOfWeek,
+                vm.need_repeat, weekNum).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
@@ -135,6 +143,11 @@
         function addGroups() {
             vm.groupRuleDict[vm.selectedGroup.originalObject.name] = vm.rule;
 
+        }
+
+        function getNumber(num) {
+            console.log('num: ' + num);
+            return new Array(num);
         }
     }
 

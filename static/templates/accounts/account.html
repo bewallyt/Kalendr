@@ -231,6 +231,7 @@
 <a class="mdi-editor-border-color btn btn-primary btn-fab btn-raised btn-new-signup"
    href="javascript:void(0)"
    ng-show="vm.isAuthenticated"
+   ng-dialog-data="{{ vm.shareable }}"
    ng-dialog="/static/templates/signup/new-signup.html"
    ng-dialog-controller="NewSignupController as vm"></a>
 
