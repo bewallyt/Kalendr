@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from freetime.serializers import *
+from freetime.models import FreeTimeRequest, Conflict
+from freetime.serializers import FreeTimeRequestSerializer, ConflictSerializer
+from rest_framework import status
 
 
 class FreeTimeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -32,4 +34,4 @@ class FreeTimeViewSet(viewsets.ReadOnlyModelViewSet):
     ]
     '''
     def list(self, request):
-        return None
+        return Response(status=status.HTTP_204_NO_CONTENT)

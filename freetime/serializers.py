@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from freetime.models import *
+from freetime.models import FreeTimeRequest, Conflict
 from authentication.serializers import AccountSerializer
 from posts.serializers import PostSerializer
 
