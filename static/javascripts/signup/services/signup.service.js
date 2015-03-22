@@ -30,7 +30,7 @@
          * @memberOf kalendr.signup.services.Signup
          */
         function create(content, dates, location, beginTimes, endTimes, dayOfWeek,
-                 weekNum, minTimes, maxTimes) {
+                 weekNum, minTimes, maxTimes, numSlotsPerUser) {
 
             return $http.post('/api/v1/signup/', {
                 content: content,
@@ -41,7 +41,8 @@
                 dayOfWeek: dayOfWeek,
                 weekNum: weekNum,
                 minTimes: minTimes,
-                maxTimes: maxTimes
+                maxTimes: maxTimes,
+                numSlotsPerUser: numSlotsPerUser
             });
         }
 

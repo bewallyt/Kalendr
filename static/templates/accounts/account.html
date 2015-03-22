@@ -22,7 +22,7 @@
                 </accordion-heading>
                 <br>
 
-                <div ng-show="vm.hasNotifications"><p class="groups_underline" align="left">New Notifications</p>
+                <div ng-show="vm.hasNotifications == false"><p class="groups_underline" align="left">New Notifications</p>
                     <li ng-repeat="notification in vm.newNotifications">
                         <a class="btn btn-flat btn-default btn-nopadding"
                            ng-click="vm.groupClick(group)"
@@ -33,9 +33,19 @@
                            ng-dialog-data="{{ notification }}"><p class="group_button_text"
                                                                   align="left">{{ notification.content }}</p></a>
                     </li>
+                    <li>
+                        <a class="btn btn-flat btn-default btn-nopadding"
+                           ng-click="vm.groupClick(group)"
+                           href="javascript:void(0)"
+                           ng-show="vm.isAuthenticated"
+                           ng-dialog="/static/templates/posts/appointment-notifications.html"
+                           ng-dialog-controller="AccountController as vm"
+                                ><p class="group_button_text"
+                                    align="left">Hardcoded Appt Notification</p></a>
+                    </li>
                 </div>
 
-                <h5 ng-hide="vm.hasNotifications"> {{ vm.myUsername }} has no notifications</h5>
+                <h5 ng-hide=""> {{ vm.myUsername }} has no notifications</h5>
             </accordion-group>
             <accordion-group is-open="vm.isSecondOpen"
                              is-disabled="status.isSecondDisabled">
@@ -46,7 +56,8 @@
                 <br>
 
                 <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
-                    <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0" ng-model="singleModel" btn-checkbox
+                    <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0"
+                       ng-model="singleModel" btn-checkbox
                        btn-checkbox-true="1" btn-checkbox-false="0"
                        ng-click="vm.appendFollowingEvents(singleModel, following.owner.username)">
                         <p class="group_button_text" align="left">{{ following.owner.username }}</p>
@@ -108,7 +119,6 @@
                                     <label id="green" class="float-label-center" for="group__name">Group Name</label>
 
                                 </div>
-
 
 
                                 <angucomplete id="search__members" pause="100" selectedobject="vm.selectedMember"
