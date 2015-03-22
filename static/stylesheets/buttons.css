@@ -62,7 +62,7 @@
 .btn-free-time {
     position: fixed;
     bottom: 606px;
-    right: 60px; /* temporary positioning do not change for now - prit */
+    right: 100px; /* temporary positioning do not change for now - prit */
 }
 
 .btn-nopadding {
