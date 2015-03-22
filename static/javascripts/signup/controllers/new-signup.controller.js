@@ -56,10 +56,8 @@
             else if (num_day == 5) dayOfWeek = 'Friday';
             else dayOfWeek = 'Saturday';
 
-
-
             Signup.create(vm.content, vm.dates, vm.location, vm.beginTimes, vm.endTimes, dayOfWeek,
-                 weekNum).then(createPostSuccessFn, createPostErrorFn);
+                 weekNum, vm.minTimes, vm.maxTimes).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
@@ -69,6 +67,8 @@
                 endTimes: vm.endTimes,
                 dayOfWeek: dayOfWeek,
                 weekNum: weekNum,
+                minTimes: vm.minTimes,
+                maxTimes: vm.maxTimes,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }
@@ -96,7 +96,7 @@
                 //console.log(data.data.id);
                 //console.log("This is the group rule:");
                 //console.log(vm.groupRuleDict);
-                Access.createShareable(data.data.id, vm.groupRuleDict);
+                //Access.createShareable(data.data.id, vm.groupRuleDict);
 
 
             }
@@ -114,11 +114,9 @@
 
         function addGroups() {
             vm.groups.push(vm.selectedGroup.originalObject.name);
-
         }
 
         function getNumber(num) {
-            console.log('num: ' + num);
             return new Array(num);
         }
     }
