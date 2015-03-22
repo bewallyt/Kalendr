@@ -93,7 +93,7 @@
             followerDict = new Object();
 
             // Benson to Prit:
-            vm.followingListOwners = []
+            vm.followingListOwners = [];
 
 
             username = Authentication.getAuthenticatedAccount().username;
@@ -300,8 +300,7 @@
                 vm.followingList = data.data;
                 var i;
                 for(i = 0; i < data.data.length; i++){
-                    vm.followingListOwners.push(vm.followingList[i].owner.username);
-                    console.log(vm.followingListOwners[i]);
+                    vm.followingListOwners.push(vm.followingList[i].owner);
                 }
                 if (data.data.length > 0) vm.isFollowing = true;
             }
