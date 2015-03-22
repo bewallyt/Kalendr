@@ -27,6 +27,8 @@
         // Benson: remove error fn
 
         function activate() {
+            var date = new Date();
+            console.log('current day' + date.getDay());
 
             /**
              * Social Bar Variables Instantiated Below
@@ -92,7 +94,7 @@
             followerDict = new Object();
 
             // Benson to Prit:
-            vm.followingListOwners = []
+            vm.followingListOwners = [];
 
 
             username = Authentication.getAuthenticatedAccount().username;
@@ -104,7 +106,15 @@
             var num_day = date.getDay();
             var dayOfWeek = findDay(num_day);
             var homeDate = date;
-            var homeWeek = date.getWeekNum();
+            var homeWeek;
+
+            // Ugly Sunday Bug Fix
+            var addForSunday = 0;
+            if (dayOfWeek == 'Sunday')  addForSunday = 1;
+            var date = new Date();
+            console.log('calculate week: ' + date.getWeekNum() + addForSunday);
+            homeWeek = date.getWeekNum() + addForSunday;
+
             var homeDayOfWeek = dayOfWeek;
             var homeMonth = month;
             var homeGetDate = date.getDate();
@@ -162,10 +172,12 @@
                 num_day = post.date.getDay();
                 dayOfWeek = findDay(num_day);
 
+                if(dayOfWeek == 'Sunday') vm.weekNum++;
+
                 date = post.date;
 
                 vm.date = dayOfWeek + ', ' + month + ' ' + post.date.getDate();
-                Posts.getWeek(username, post.weekNum).then(postsSuccessFn, postsErrorFn);
+                Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
                 Snackbar.show('Carried to week ' + vm.weekNum + ': ' + vm.date + '!');
             });
             //fix double get call
@@ -198,8 +210,8 @@
                 vm.posts = data.data;
                 var i;
                 sharedWeeksPosts = [];
-                for(i = 0; i < clickedFollowingPosts.length; i++){
-                    if(clickedFollowingPosts[i].week_num == vm.weekNum){
+                for (i = 0; i < clickedFollowingPosts.length; i++) {
+                    if (clickedFollowingPosts[i].week_num == vm.weekNum) {
                         sharedWeeksPosts.push(clickedFollowingPosts[i]);
                     }
                 }
@@ -257,7 +269,6 @@
             }
 
             function usersSuccessFn(data, status, headers, config) {
-                console.log('users success: ' + data.data);
                 vm.users = data.data;
                 vm.userArray = new Object();
                 var i;
@@ -297,7 +308,7 @@
             function followingSuccessFn(data, status, headers, config) {
                 vm.followingList = data.data;
                 var i;
-                for(i = 0; i < data.data.length; i++){
+                for (i = 0; i < data.data.length; i++) {
                     vm.followingListOwners.push(vm.followingList[i].owner.username);
                     console.log(vm.followingListOwners[i]);
                 }
@@ -314,7 +325,6 @@
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
-                    console.log('follower ' + i + ': ' + data.data[i].name);
                     followerDict[data.data[i].name] = true;
                 }
                 Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
@@ -415,7 +425,6 @@
             }
 
             function sharedFollowingSuccessFn(data, status, headers, config) {
-                console.log('in shared following success');
                 clickedFollowingPosts = clickedFollowingPosts.concat(data.data);
 
                 Posts.getWeek(username, vm.weekNum).then(postsSuccessFn, postsErrorFn);
@@ -442,17 +451,13 @@
             }
 
             function appendFollowingEvents(isClicked, followingUsername) {
-                console.log('in appendfollowingevents()');
-                console.log(followingUsername);
-                console.log(isClicked);
+
                 if (isClicked == 0) {
-                    console.log('adding user');
                     clickedFollowingArray.push(followingUsername);
                     Posts.getSharedFollowing(followingUsername).then(sharedFollowingSuccessFn, sharedFollowingErrorFn);
                 }
                 // Remove Users
                 else {
-                    console.log('removing user');
                     var i;
                     for (i = 0; i < clickedFollowingArray.length; i++) {
                         if (clickedFollowingArray[i] == followingUsername) {
@@ -466,7 +471,6 @@
                             }
                             for (j = 0; j < clickedFollowingPosts.length; j++) {
                                 if (clickedFollowingPosts[j].author.username == followingUsername) {
-                                    console.log('removing user');
                                     clickedFollowingPosts.splice(j, 1);
                                     j--;
                                 }
@@ -544,7 +548,7 @@
         var addForSunday = 0;
         if (D == 0) {
             D = 7;
-            addForSunday = 1
+            addForSunday = 1;
         }
         determinedate.setDate(determinedate.getDate() + (4 - D));
         var YN = determinedate.getFullYear();

@@ -97,7 +97,7 @@ def initialize_calendar(data):
     post_daylight.author = Account.objects.get(username = data['username'])
     post_daylight.content = 'Daylight Saving\'s Time'
     post_daylight.start_time = datetime.date(2015, 3, 6)
-    post_daylight.day_of_week = 'Sunday'
+    post_daylight.day_of_week = 'Friday'
     post_daylight.is_holiday = True
     post_daylight.save()
 

@@ -97,7 +97,6 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 e.save()
                 repeat_events(e)
             # Parse start_time(date),begin_time(clock time, optional field), end_time(clock, optional)
-            print e.content + 'is updated ' + str(e.is_updated)
             if e.is_date_set == False or e.is_updated == True:
                 e.is_date_set = True
                 e.is_updated = False
@@ -109,6 +108,7 @@ class AccountPostsViewSet(viewsets.ViewSet):
             if e.is_week_set == False:
                 e.is_week_set = True
                 if e.day_of_week == 'Sunday':
+                    print 'its sunday'
                     e.week_num = e.start_time.isocalendar()[1] + 1
                 else:
                     e.week_num = e.start_time.isocalendar()[1]
