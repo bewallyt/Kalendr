@@ -12,6 +12,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
 
 from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView,PartialUpdateView
 from puds.views import AccountPudsViewSet, PudViewSet, AccountCompletePudViewSet
+from freetime.views import FreeTimeViewSet
 
 # Base router
 router = routers.SimpleRouter()
@@ -27,6 +28,7 @@ router.register(r'puds', PudViewSet)
 router.register(r'notification_posts', NotificationPostView)
 router.register(r'notification_response', NotificationResponseView)
 router.register(r'post_update', PostUpdateView)
+router.register(r'freetime', FreeTimeViewSet)
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/
