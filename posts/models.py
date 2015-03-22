@@ -18,8 +18,8 @@ class Post(models.Model):
     location_event = models.CharField(max_length=40, blank=True, default='none')
     description_event = models.CharField(max_length=100, blank=True, default='none')
 
-    begin_time = models.CharField(max_length=50, blank=True, default='none')
-    end_time = models.CharField(max_length=50, blank=True, default='none')
+    begin_time = models.CharField(max_length=50, blank=True, default='')
+    end_time = models.CharField(max_length=50, blank=True, default='')
     end_repeat = models.DateTimeField(default=datetime.now(), blank=True)
     need_repeat = models.BooleanField(default=False)
 

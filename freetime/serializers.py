@@ -4,10 +4,11 @@ from freetime.models import *
 from authentication.serializers import AccountSerializer
 from posts.serializers import PostSerializer
 
+
 class FreeTimeRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreeTimeRequest
-        fields = ('duration', 'start_time', 'end_time', 'is_recurring')
+        fields = ('duration', 'start_time', 'end_time', 'is_recurring', 'end_date')
 
 
 class ConflictSerializer(serializers.ModelSerializer):
@@ -16,4 +17,4 @@ class ConflictSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Conflict
-        fields = ('user', 'post', 'is_one_off')
+        fields = ('user', 'post', 'is_conflict', 'is_one_off')
