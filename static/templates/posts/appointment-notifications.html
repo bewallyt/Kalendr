@@ -1,0 +1,18 @@
+<center><h2 ng-init="vm.currentNotificationPostId = ngDialogData.id">{{ ngDialogData.content }}</h2></center>
+<center><h5>Meeting With {{ ngDialogData.author.username }}
+    on {{ ngDialogData.day_of_week }}, {{ ngDialogData.show_date }}</h5></center>
+<center><h4>Location: {{ ngDialogData.location_event }}</h4></center>
+
+<br>
+
+<center>Meeting Duration (in Minutes)</center>
+<div layout>
+    <div flex="10" layout layout-align="center center">
+    </div>
+    <md-slider flex class="md-primary" md-discrete ng-model="vm.meetingDuration" step="vm.minTime" min="vm.minTime" max="vm.maxTime"
+               aria-label="duration">
+    </md-slider>
+</div>
+
+
+

@@ -22,6 +22,7 @@
         vm.content;
         vm.location;
         vm.numBlocks = 0;
+        vm.numSlotsPerUser = 0;
 
         // Benson: Date array and Begin/End time arrays exists for the possibility of multiple slots
         vm.dates = [];
@@ -57,7 +58,7 @@
             else dayOfWeek = 'Saturday';
 
             Signup.create(vm.content, vm.dates, vm.location, vm.beginTimes, vm.endTimes, dayOfWeek,
-                 weekNum, vm.minTimes, vm.maxTimes).then(createPostSuccessFn, createPostErrorFn);
+                 weekNum, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
@@ -69,6 +70,7 @@
                 weekNum: weekNum,
                 minTimes: vm.minTimes,
                 maxTimes: vm.maxTimes,
+                numSlotsPerUser: vm.numSlotsPerUser,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }
