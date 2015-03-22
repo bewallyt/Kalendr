@@ -55,8 +55,14 @@
 
 .btn-notifications {
     position: fixed;
-    bottom: 604px;
+    bottom: 606px;
     right: 20px;
+}
+
+.btn-free-time {
+    position: fixed;
+    bottom: 606px;
+    right: 60px; /* temporary positioning do not change for now - prit */
 }
 
 .btn-nopadding {
