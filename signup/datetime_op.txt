@@ -1,0 +1,81 @@
+Create a timedelta object:
+    >>> from datetime import timedelta, date, datetime
+    >>> delta = timedelta(minutes = 15)
+    >>> delta
+    datetime.timedelta(0, 900)
+
+Create datetime object:
+    >>> dt1 = datetime(year = 2015, month = 2, day = 1, hour = 15, minute = 30)
+    >>> dt1
+    datetime.datetime(2015, 2, 1, 15, 30)
+
+    >>> dt2 = datetime(year = 2015, month = 2, day = 1, hour = 16, minute = 30)
+    >>> dt2
+    datetime.datetime(2015, 2, 1, 16, 30)
+
+Diff between two datetime:
+    >>> dt2 - dt1;
+    datetime.timedelta(0, 3600) // One hour = 3600 seconds
+    >>> dt1-dt2
+    datetime.timedelta(-1, 82800)
+
+Add datetime with timedelta:
+    >>> dt1+delta
+    datetime.datetime(2015, 2, 1, 16, 0)
+    >>> dt1+delta*2
+    datetime.datetime(2015, 2, 1, 16, 30)
+Comparsion:
+    datetime:
+        >>> dt2
+        datetime.datetime(2015, 2, 1, 16, 30)
+        >>> dt1
+        datetime.datetime(2015, 2, 1, 15, 30)
+        >>> dt1< dt2
+        True
+        >>> dt2<dt1
+        False
+
+    timedelta:
+        >>> diff
+        datetime.timedelta(0, 3600)
+        >>> diff <delta
+        False
+        >>> delta<diff
+        True
+
+
+
+
+
+>>> list = [0,1,2,3,4,5]
+>>> len(list)
+6
+>>> for i in range(0, len(list)-1):
+...     print list[i]
+...
+0
+1
+2
+3
+4
+
+
+
+
+
+Implementation:
+from signup.models import SignUp
+from posts.models import Post
+
+p = Post(content = "signup")
+
+
+    Create a SignUp sheet
+
+
+    Share it with others
+
+    Allow others to actually sign up
+
+    Allow others to delete or change their signups
+
