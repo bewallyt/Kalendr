@@ -4,6 +4,7 @@ from freetime.models import FreeTimeRequest, Conflict
 from freetime.serializers import FreeTimeRequestSerializer, ConflictSerializer
 from authentication.models import Account
 
+
 class FreeTimeViewSet(viewsets.ModelViewSet):
     queryset = FreeTimeRequest.objects.all()
     serializer_class = FreeTimeRequestSerializer
@@ -34,20 +35,18 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
     where the list is ordered by the user, and then chronologically by post time
     '''
     def create(self, request):
-        print 'in_create'
-
         # validate data, but don't store in db
         data = request.data
         request_serializer = FreeTimeRequestSerializer(data=data)
         request_serializer.is_valid(raise_exception=True)
         validated_data = request_serializer.validated_data
 
-        is_recurring = data['event_type'] == 1
+        is_recurring = validated_data['event_type'] == 1
         start_date = validated_data['start_date']
         end_date = validated_data['end_date']
         start_time = validated_data['start_time']
         end_time = validated_data['end_time']
-        print data['which_days']
+        weekdays = data['which_days']
         users = [Account.objects.get(username=username) for username in data['users_following']]
 
         conflicts = [Conflict(user=user, is_conflict=False) for user in users]
