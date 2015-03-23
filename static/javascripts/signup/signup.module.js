@@ -8,7 +8,7 @@
     ]);
 
   angular
-    .module('kalendr.signup.controllers', []);
+    .module('kalendr.signup.controllers', ['ngDialog']);
 
   angular
     .module('kalendr.signup.services', []);
