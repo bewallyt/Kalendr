@@ -33,16 +33,15 @@
                  weekNum, minTimes, maxTimes, numSlotsPerUser) {
 
             return $http.post('/api/v1/signup/', {
-                content: content,
-                dates: dates,
+                content: content, // name of the sheet
                 location: location,
-                beginDateTimes: beginDateTimes,
-                endDateTimes: endDateTimes,
+                beginDateTimes: beginDateTimes,//list
+                endDateTimes: endDateTimes,//list
                 dayOfWeek: dayOfWeek,
                 weekNum: weekNum,
-                minTimes: minTimes,
-                maxTimes: maxTimes,
-                numSlotsPerUser: numSlotsPerUser
+                minTimes: minTimes,// min_duration (int)
+                maxTimes: maxTimes,// max_duration (int)
+                numSlotsPerUser: numSlotsPerUser //int
             });
         }
 

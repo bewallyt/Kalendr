@@ -30,7 +30,7 @@ from datetime import timedelta, datetime, time, date
     Manager methods can access self.model to get the model class to which they're attached.
 '''
 class SignUpManager(models.Manager):
-    def create_signup(self, post, name, max_durantion, min_durantion, max_slots_per_user,
+    def create_signup(self, post, name, location, max_durantion, min_durantion, max_slots_per_user,
                       begin_time_list, end_time_list):
         if max_durantion < min_durantion:
             raise ValueError('Max duration is smaller than min duration.')
@@ -38,8 +38,10 @@ class SignUpManager(models.Manager):
         if len(begin_time_list) != len(end_time_list):
             raise ValueError('Begin time list and end time list do not match')
 
-        sheet = self.model(post = post, name = name, max_durantion = min_durantion,
-                           min_durantion = min_durantion, max_slots = max_slots_per_user)
+        sheet = self.model(post = post, name = name, location = location,
+                           max_durantion = min_durantion,
+                           min_durantion = min_durantion,
+                           max_slots = max_slots_per_user)
 
         sheet.save()
         min_delta = timedelta(minutes = min_durantion)
@@ -59,6 +61,7 @@ class SignUp(models.Model):
     # field defined to a SignUp object. And
     post = models.OneToOneField(Post, primary_key=True)
     name = models.CharField(max_length=50, null=True, blank=True)
+    location = models.CharField(max_length=100, null=True, blank=True)
     max_slots = models.IntegerField()
     '''
     Best Field to represent time? The operations that we will do with minimum duration:
