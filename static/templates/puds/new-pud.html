@@ -9,16 +9,16 @@
 
         <h4 layout="column" layout-align="center center">Priority</h4>
 
-        <div class="form-group" layout="row" layout-align="center center">
-            <label class="radio_btn_label" for="low">Low</label>
-            <input type="radio" name="priority" id="low" value="low" ng-model="vm.priority">
-            <label class="radio_btn_middle" for="normal">Normal</label>
-            <input type="radio" name="priority" id="normal" value="normal" ng-model="vm.priority">
-            <label class="radio_btn_label" for="high">High</label>
-            <input type="radio" name="priority" id="high" value="high" ng-model="vm.priority">
-            <label for="urgent">Urgent</label>
-            <input type="radio" name="priority" id="urgent" value="urgent" ng-model="vm.priority">
-        </div>
+        <center>
+            <md-radio-group ng-model="vm.priority">
+                <div layout layout-sm="column" layout-align="center center">
+                    <md-radio-button value='low'>Low</md-radio-button>
+                    <md-radio-button value='normal'>Normal</md-radio-button>
+                    <md-radio-button value='high'>High</md-radio-button>
+                    <md-radio-button value='urgent'>Urgent</md-radio-button>
+                </div>
+            </md-radio-group>
+        </center>
 
         <md-input-container>
             <label>Duration (in hours):</label>
@@ -29,11 +29,13 @@
 
         <!-- change this to md-select, but seems to have trouble working, options pop-up not showing -->
         <div ng-show="vm.is_repeating">
-            <select class="form-control" ng-model="vm.repeat">
-                <option value='Daily'>Daily</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Monthly'>Monthly</option>
-            </select>
+            <md-radio-group ng-model="vm.repeat">
+                <div layout layout-sm="column" layout-align="center center">
+                    <md-radio-button value='Daily'>Daily</md-radio-button>
+                    <md-radio-button value='Weekly'>Weekly</md-radio-button>
+                    <md-radio-button value='Monthly'>Monthly</md-radio-button>
+                </div>
+            </md-radio-group>
         </div>
 
         <md-checkbox aria-label="notifications" class="notifications" ng-model="vm.notification">Notifications

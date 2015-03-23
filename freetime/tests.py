@@ -1,6 +1,4 @@
 from django.test import TestCase
-#from rest_framework.test import APITestCase
-#from rest_framework.test import APIRequestFactory
 from freetime.serializers import *
 
 
@@ -10,7 +8,14 @@ class FreeTimeTest(TestCase):
         # Animal.objects.create(name="cat", sound="meow")
         return
 
-    def test_make_request(self):
+    # def test_animals_can_speak(self):
+    #     """Animals that can speak are correctly identified"""
+    #     lion = Animal.objects.get(name="lion")
+    #     cat = Animal.objects.get(name="cat")
+    #     self.assertEqual(lion.speak(), 'The lion says "roar"')
+    #     self.assertEqual(cat.speak(), 'The cat says "meow"')
+
+    def test_deserialize_request(self):
         data = \
             {
                 'users_following': ['alice', 'bob'],
@@ -23,22 +28,22 @@ class FreeTimeTest(TestCase):
                 'duration_hrs': 1,
                 'duration_min': 0
             }
-        #request_data = APIRequestFactory().get('/freetime/', data, format='json')
 
         serializer = FreeTimeRequestSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        request = serializer.save()
-        print request.event_type
-        print request.start_date
-        print request.end_date
-        print request.start_time
-        print request.end_time
-        print request.duration_hrs
-        print request.duration_min
+        validated_data = serializer.validated_data
 
-    # def test_animals_can_speak(self):
-    #     """Animals that can speak are correctly identified"""
-    #     lion = Animal.objects.get(name="lion")
-    #     cat = Animal.objects.get(name="cat")
-    #     self.assertEqual(lion.speak(), 'The lion says "roar"')
-    #     self.assertEqual(cat.speak(), 'The cat says "meow"')
+        self.assertEqual(validated_data['event_type'], 1)
+        self.assertEqual(validated_data['duration_hrs'], 1)
+        self.assertEqual(validated_data['duration_min'], 0)
+        self.assertEqual(validated_data['event_type'], 1)
+        self.assertEqual(validated_data['start_date'].month, 3)
+        self.assertEqual(validated_data['end_date'].day, 29)
+        self.assertEqual(validated_data['start_time'].hour, 5)
+        self.assertEqual(validated_data['end_time'].minute, 0)
+
+    def test_calculate_search_times(self):
+        return
+
+    def test_find_conflicts(self):
+        return
