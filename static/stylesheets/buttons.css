@@ -77,3 +77,9 @@
 .btn-submit {
     width: 7em;
 }
+
+.btn-dashboard {
+    position: fixed;
+    bottom: 606px;
+    right: 200px; /* temporary positioning do not change for now - prit */
+}

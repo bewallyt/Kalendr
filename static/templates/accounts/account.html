@@ -22,7 +22,8 @@
                 </accordion-heading>
                 <br>
 
-                <div ng-show="vm.hasNotifications == false"><p class="groups_underline" align="left">New Notifications</p>
+                <div ng-show="vm.hasNotifications == false"><p class="groups_underline" align="left">New
+                    Notifications</p>
                     <li ng-repeat="notification in vm.newNotifications">
                         <a class="btn btn-flat btn-default btn-nopadding"
                            ng-click="vm.groupClick(group)"
@@ -255,6 +256,10 @@
    ng-dialog-data="{{ vm.shareable }}"
    ng-dialog="/static/templates/signup/new-signup.html"
    ng-dialog-controller="NewSignupController as vm"></a>
+
+<md-button class="md-fab btn-dashboard md-primary" aria-label="Dashboard" ng-show="vm.isAuthenticated">
+    <md-icon md-svg-src="/static/lib/img/dashboard.svg"></md-icon>
+</md-button>
 
 <script>
     (function () {
