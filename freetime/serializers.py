@@ -8,7 +8,7 @@ from posts.serializers import PostSerializer
 class FreeTimeRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FreeTimeRequest
-        fields = ('duration', 'start_time', 'end_time', 'is_recurring', 'end_date')
+        fields = ('event_type', 'start_date', 'end_date', 'start_time', 'end_time', 'duration_hrs', 'duration_min')
 
 
 class ConflictSerializer(serializers.ModelSerializer):
