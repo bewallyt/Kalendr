@@ -17,7 +17,8 @@
     "bootstrap": "~3.3.2",
     "bootstrap-material-design": "~0.2.2",
     "jquery": "~2.1.1",
-    "ngDialog": "~0.3.11"
+    "ngDialog": "~0.3.11",
+    "moment": "~2.9.0"
   },
   "resolutions": {
     "angular": "~1"

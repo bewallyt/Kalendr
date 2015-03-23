@@ -34,30 +34,37 @@
         <div ng-repeat="i in vm.getNumber(vm.numBlocks) track by $index">
             <br>
             <center><b>Block {{ $index + 1 }} </b></center>
-            <br>
-            Date <input type="date" id="event__date" name="date" ng-model="vm.dates[$index]"/>
-            <br>
-            <br>
-            Start time:
-            <input type="time" step="3600" name="starttime" ng-model="vm.beginTimes[$index]"/>
-            End time:
-            <input type="time" step="3600" name="endtime" ng-model="vm.endTimes[$index]"/>
-            <br>
-            <br>
+
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label style="color:#545454">Date</label>
+                    <input type="date" ng-model="vm.dates[$index]">
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label style="color:#545454">Start time</label>
+                    <input style="padding-top: 15px" type="time" step="3600" ng-model="vm.beginTimes[$index]">
+                </md-input-container>
+
+                <md-input-container flex>
+                    <label style="color:#545454">End time</label>
+                    <input style="padding-top: 15px" type="time" step="3600" ng-model="vm.endTimes[$index]">
+                </md-input-container>
+            </div>
+
             <center>Slot Time (in minutes)</center>
-            <div layout>
-                <div flex="10" layout layout-align="center center">
-                    <span>Min Time</span>
-                </div>
+            <br>
+            <div layout layout-sm="column">
+
+                <span>Min Time</span>
+
                 <md-slider flex class="md-primary" md-discrete ng-model="vm.minTimes[$index]" step="5" min="5" max="30"
                            aria-label="minTimes">
                 </md-slider>
-            </div>
 
-            <div layout>
-                <div flex="10" layout layout-align="center center">
-                    <span>Max Time</span>
-                </div>
+
+                <span>Max Time</span>
+
                 <md-slider flex class="md-primary" md-discrete ng-disabled="vm.minTimes[$index] == null"
                            ng-model="vm.maxTimes[$index]" step="{{ vm.minTimes[$index] * 1 }}"
                            min="{{ vm.minTimes[$index] * 1 }}" max="{{ vm.minTimes[$index] * 6 }}"

@@ -49,8 +49,8 @@
             users_following.forEach(function (entry) {
                 console.log(entry + " following");
             });
-            /**
-             return $http.post('correct url goes here', {
+            //users_following = ['alice', 'bob'];
+            return $http.post('/api/v1/freetime/', {
                 event_type: event_type,
                 start_date: start_date,
                 end_date: end_date,
@@ -61,7 +61,6 @@
                 which_days: which_days,
                 users_following: users_following
             });
-             */
         }
     }
 })();
