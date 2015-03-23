@@ -32,8 +32,8 @@
         var beginDateTimes = [];
         var endDateTimes = [];
 
-        vm.minTimes = [];
-        vm.maxTimes = [];
+        vm.minTimes;
+        vm.maxTimes;
 
         vm.selectedGroup;
         vm.groups = [];
