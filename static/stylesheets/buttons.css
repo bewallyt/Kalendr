@@ -2,67 +2,77 @@
     position: fixed;
     bottom: 12px;
     right: 20px;
+    z-index: 20;
 }
 
-.btn-new-signup{
+.btn-new-signup {
     position: fixed;
     bottom: 78px;
     right: 20px;
+    z-index: 19;
 }
 
 .btn-create-pud {
     position: fixed;
     bottom: 144px;
     right: 20px;
+    z-index: 18;
 }
 
 .btn-pudview {
     position: fixed;
     bottom: 210px;
     right: 20px;
+    z-index: 17;
 }
 
 .btn-add-new-friend {
     position: fixed;
     bottom: 276px;
     right: 20px;
+    z-index: 16;
 }
 
 .btn-home {
     position: fixed;
     bottom: 342px;
     right: 20px;
+    z-index: 15;
 }
 
 .btn-change-date {
     position: fixed;
     bottom: 408px;
     right: 20px;
+    z-index: 14;
 }
-
 
 .btn-before {
     position: fixed;
     bottom: 474px;
     right: 20px;
+    z-index: 13;
 }
 
 .btn-next {
     position: fixed;
     bottom: 540px;
     right: 20px;
-}
-
-.btn-notifications {
-    position: fixed;
-    bottom: 606px;
-    right: 20px;
+    z-index: 12;
 }
 
 .btn-free-time {
     position: fixed;
     bottom: 606px;
-    right: 100px; /* temporary positioning do not change for now - prit */
+    right: 20px;
+    z-index: 11;
+}
+
+.btn-notifications {
+    position: fixed;
+    bottom: 672px;
+    right: 20px;
+    z-index: 10;
 }
 
 .btn-nopadding {
@@ -78,8 +88,52 @@
     width: 7em;
 }
 
-.btn-dashboard {
-    position: fixed;
+/*.btn-hover {*/
+    /*position: fixed;*/
+    /*right: 20px;*/
+    /*bottom: 12px;*/
+    /*-webkit-transition: all 2.0s linear;*/
+    /*-moz-transition: all 2.0s linear;*/
+    /*-ms-transition: all 2.0s linear;*/
+    /*transition: all 2.0s linear;*/
+/*}*/
+
+.btn-over:hover .btn-new-signup {
+    bottom: 78px;
+}
+
+.btn-over:hover .btn-create-pud {
+    bottom: 144px;
+}
+
+.btn-over:hover .btn-pudview {
+    bottom: 210px;
+}
+
+.btn-over:hover .btn-add-new-friend {
+    bottom: 276px;
+}
+
+.btn-over:hover .btn-home {
+    bottom: 342px;
+}
+
+.btn-over:hover .btn-change-date {
+    bottom: 408px;
+}
+
+.btn-over:hover .btn-before {
+    bottom: 474px;
+}
+
+.btn-over:hover .btn-next {
+    bottom: 540px;
+}
+
+.btn-over:hover .btn-free-time {
     bottom: 606px;
-    right: 200px; /* temporary positioning do not change for now - prit */
+}
+
+.btn-over:hover .btn-notifications {
+    bottom: 672px;
 }
