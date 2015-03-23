@@ -5,10 +5,10 @@
         .module('kalendr.freetime.controllers')
         .controller('FreeTimeController', FreeTimeController);
 
-    FreeTimeController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar'];
+    FreeTimeController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'FreeTimes'];
 
 
-    function FreeTimeController($rootScope, $scope, $routeParams, Authentication, Snackbar) {
+    function FreeTimeController($rootScope, $scope, $routeParams, Authentication, Snackbar, FreeTimes) {
         var vm = this;
         vm.submit = submit;
         vm.day_array = [];
@@ -50,9 +50,7 @@
             }
 
             passVal(event_type, vm.start_search, vm.end_search, vm.dur_hr, vm.dur_mi,
-                    vm.begin_time, vm.end_time, vm.day_array, vm.followingDict);
-
-            $scope.closeThisDialog();
+                vm.begin_time, vm.end_time, vm.day_array, vm.followingDict);
 
         }
 
@@ -65,19 +63,21 @@
         //}
 
         function passVal(type, s_date, e_date, hrs, min, s_time, e_time, days, following) {
-            console.log(type + " event type");
-            console.log(s_date + " start date");
-            console.log(e_date + " end date");
-            console.log(hrs + " hours");
-            console.log(min + " minutes");
-            console.log(s_time + " start time");
-            console.log(e_time + " end time");
-            days.forEach(function (entry) {
-                console.log(entry + " day");
-            });
-            following.forEach(function (entry) {
-                console.log(entry + " following");
-            });
+
+            FreeTimes.create(type, s_date, e_date, hrs, min, s_time, e_time, days,
+                following);
+
+            $scope.closeThisDialog();
+
+            function freeTimeSuccessFn(data, status, headers, config) {
+                Snackbar.show('Success! Free time request processed');
+            }
+
+            function freeTimeErrorFn(data, status, headers, config) {
+                $rootScope.$broadcast('freetime.requested.error');
+                Snackbar.error(data.error);
+            }
+
         }
 
 

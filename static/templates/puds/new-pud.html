@@ -1,16 +1,14 @@
 <form role="form" ng-submit="vm.submit()">
     <div class="form-group">
-        <center><h2>New PUD</h2></center>
+        <h2 layout="column" layout-align="center center">New Task</h2>
 
-        <div class="form-group">
+        <md-input-container>
+            <label>Name of Task</label>
+            <input required type="text" name="task_name" ng-model="vm.content">
+        </md-input-container>
 
-            <input type="text" class="form-control" id="event__name" ng-model="vm.content" required>
-            <span class="form-highlight"></span>
-            <span class="form-bar"></span>
-            <label class="float-label" for="event__name">Name of PUD Task</label>
+        <h4 layout="column" layout-align="center center">Priority</h4>
 
-        </div>
-        <center><h4>Priority</h4></center>
         <center>
             <md-radio-group ng-model="vm.priority">
                 <div layout layout-sm="column" layout-align="center center">
@@ -22,13 +20,15 @@
             </md-radio-group>
         </center>
 
-            Duration (in hours):
-            <input id="duration" type="number" name="quantity" min="1" max="24" ng-model="vm.duration">
+        <md-input-container>
+            <label>Duration (in hours):</label>
+            <input required type="number" step="any" name="quantity" ng-model="vm.duration" min="1" max="24">
+        </md-input-container>
 
+        <md-checkbox aria-label="is_repeating" class="is_repeating" ng-model="vm.is_repeating">Recurring</md-checkbox>
 
-        <md-checkbox ng-model="vm.is_repeating">Repeat</md-checkbox>
-
-        <div ng-show="vm.is_repeating == true">
+        <!-- change this to md-select, but seems to have trouble working, options pop-up not showing -->
+        <div ng-show="vm.is_repeating">
             <md-radio-group ng-model="vm.repeat">
                 <div layout layout-sm="column" layout-align="center center">
                     <md-radio-button value='Daily'>Daily</md-radio-button>
@@ -38,18 +38,23 @@
             </md-radio-group>
         </div>
 
-        <md-checkbox ng-model="vm.notification">Notifications (day interval, 0 indicates no notifications)</md-checkbox>
+        <md-checkbox aria-label="notifications" class="notifications" ng-model="vm.notification">Notifications
+        </md-checkbox>
 
-        <div layout="column" layout-align="center center"><input type="number" name="notify_when" min="1" max="7"
-                                                                 value='0' ng-model="vm.notify_when"
-                                                                 ng-show="vm.notification == true"/></div>
+        <md-input-container ng-show="vm.notification">
+            <label>Notification interval</label>
+            <input type="number" step="any" name="notify_when" ng-model="vm.notify_when" min="0" max="7">
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">
-                Submit
-            </button>
+            <div ng-messages="vm.notify_when.$error">
+                <div ng-message="vm.notify_when">You will be notified every {{ vm.notify_when }} day(s) (0 indicates no
+                    notifications)
+                </div>
+            </div>
+        </md-input-container>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
         </div>
-
 
     </div>
 

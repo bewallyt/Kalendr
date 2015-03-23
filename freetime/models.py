@@ -4,11 +4,13 @@ from posts.models import Post
 
 
 class FreeTimeRequest(models.Model):
-    duration = models.PositiveIntegerField()
-    start_time = models.CharField(max_length=50)
-    end_time = models.CharField(max_length=50)
-    is_recurring = models.BooleanField(default=False)
+    event_type = models.IntegerField(default=0)
+    start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    duration_hrs = models.PositiveIntegerField()
+    duration_min = models.PositiveIntegerField()
 
     def __unicode__(self):
         return '{0}--{1}'.format(self.start_time, self.end_time)

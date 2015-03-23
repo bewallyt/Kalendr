@@ -62,7 +62,7 @@
 .btn-free-time {
     position: fixed;
     bottom: 606px;
-    right: 60px; /* temporary positioning do not change for now - prit */
+    right: 100px; /* temporary positioning do not change for now - prit */
 }
 
 .btn-nopadding {
@@ -72,4 +72,8 @@
     margin-bottom: 0px;
     padding-right: 20px;
     padding-left: 20px;
+}
+
+.btn-submit {
+    width: 7em;
 }
