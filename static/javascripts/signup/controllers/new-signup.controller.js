@@ -9,20 +9,20 @@
         .module('kalendr.signup.controllers')
         .controller('NewSignupController', NewSignupController);
 
-    NewSignupController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Signup', 'Access'];
+    NewSignupController.$inject = ['$rootScope', '$scope','Authentication', 'Snackbar', 'Signup'];
 
 
     /**
      * @namespace NewSignupController
      */
-    function NewSignupController($rootScope, $scope, Authentication, Snackbar, Signup, Access) {
+    function NewSignupController($rootScope, $scope, Authentication, Snackbar, Signup) {
         var vm = this;
 
         vm.submit = submit;
         vm.content;
         vm.location;
-        vm.numBlocks = 0;
-        vm.numSlotsPerUser = 0;
+        vm.numBlocks;
+        vm.numSlotsPerUser;
 
         // Benson: Date array and Begin/End time arrays exists for the possibility of multiple slots
         vm.dates = [];
@@ -41,6 +41,7 @@
 
         vm.getNumber = getNumber;
 
+
         /**
          * @name submit
          * @desc Create a new Signup
@@ -51,28 +52,13 @@
             createDateTime();
 
 
-            var num_day = vm.dates.getDay();
-            var dayOfWeek;
-            var weekNum = vm.dates.getWeekNum();
-
-            if (num_day == 0) dayOfWeek = 'Sunday';
-            else if (num_day == 1) dayOfWeek = 'Monday';
-            else if (num_day == 2) dayOfWeek = 'Tuesday';
-            else if (num_day == 3) dayOfWeek = 'Wednesday';
-            else if (num_day == 4) dayOfWeek = 'Thursday';
-            else if (num_day == 5) dayOfWeek = 'Friday';
-            else dayOfWeek = 'Saturday';
-
-            Signup.create(vm.content, vm.location, vm.beginDateTimes, vm.endDateTimes, dayOfWeek,
-                weekNum, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
+            Signup.create(vm.content, vm.location, vm.beginDateTimes, vm.endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
                 location: vm.location,
                 beginDateTimes: vm.beginDateTimes,
                 endDateTimes: vm.endDateTimes,
-                dayOfWeek: dayOfWeek,
-                weekNum: weekNum,
                 minTimes: vm.minTimes,
                 maxTimes: vm.maxTimes,
                 numSlotsPerUser: vm.numSlotsPerUser,
@@ -132,16 +118,16 @@
         function createDateTime() {
 
             var i;
-            for(i = 0; i < vm.dates.length; i++){
-                var day = vm.dates[i].getUTCDate();
+            for (i = 0; i < vm.dates.length; i++) {
+                var day = vm.dates[i].getDate();
                 console.log('day: ' + day);
-                var month = vm.dates[i].getUTCMonth() + 1;
+                var month = vm.dates[i].getMonth() + 1;
                 console.log('month: ' + month);
-                var year = vm.dates[i].getUTCFullYear();
+                var year = vm.dates[i].getFullYear();
                 console.log('year: ' + year);
 
-                var beginHour = vm.beginTimes[i].getUTCHours();
-                var endHour = vm.endTimes[i].getUTCHours();
+                var beginHour = vm.beginTimes[i].getHours();
+                var endHour = vm.endTimes[i].getHours();
 
                 beginDateTimes[i] = new Date(year, month, day, beginHour, 0, 0);
                 endDateTimes[i] = new Date(year, month, day, endHour, 0, 0);

@@ -3,7 +3,7 @@
         <h2 layout="column" layout-align="center center">New Task</h2>
 
         <md-input-container>
-            <label>Name of Task</label>
+            <label style="color:#545454">Name of Task</label>
             <input required type="text" name="task_name" ng-model="vm.content">
         </md-input-container>
 
@@ -21,7 +21,7 @@
         </center>
 
         <md-input-container>
-            <label>Duration (in hours):</label>
+            <label style="color:#545454">Duration (in hours):</label>
             <input required type="number" step="any" name="quantity" ng-model="vm.duration" min="1" max="24">
         </md-input-container>
 
@@ -42,7 +42,7 @@
         </md-checkbox>
 
         <md-input-container ng-show="vm.notification">
-            <label>Notification interval</label>
+            <label style="color:#545454">Notification interval</label>
             <input type="number" step="any" name="notify_when" ng-model="vm.notify_when" min="0" max="7">
 
             <div ng-messages="vm.notify_when.$error">

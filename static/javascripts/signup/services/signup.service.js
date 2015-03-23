@@ -17,7 +17,7 @@
      */
     function Signup($http) {
         var Signup = {
-        create: create
+            create: create
         };
 
         return Signup;
@@ -29,19 +29,16 @@
          * @returns {Promise}
          * @memberOf kalendr.signup.services.Signup
          */
-        function create(content, location, beginDateTimes, endDateTimes, dayOfWeek,
-                 weekNum, minTimes, maxTimes, numSlotsPerUser) {
+        function create(content, location, beginDateTimes, endDateTimes, minTimes, maxTimes, numSlotsPerUser) {
 
             return $http.post('/api/v1/signup/', {
-                content: content, // name of the sheet
+                content: content,
                 location: location,
-                beginDateTimes: beginDateTimes,//list
-                endDateTimes: endDateTimes,//list
-                dayOfWeek: dayOfWeek,
-                weekNum: weekNum,
-                minTimes: minTimes,// min_duration (int)
-                maxTimes: maxTimes,// max_duration (int)
-                numSlotsPerUser: numSlotsPerUser //int
+                beginDateTimes: beginDateTimes,
+                endDateTimes: endDateTimes,
+                minTimes: minTimes,
+                maxTimes: maxTimes,
+                numSlotsPerUser: numSlotsPerUser
             });
         }
 
