@@ -9,47 +9,62 @@
         </md-switch>
 
         <div ng-show="vm.event_type=='Recurring'">
-            Search from:
-            <input type="date" name="startsearch" ng-model="vm.start_search">
-            <br>
-            Search until:
-            <input type="date" name="endsearch" ng-model="vm.end_search">
+
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label style="color:#545454">Search From</label>
+                    <input type="date" ng-model="vm.start_search">
+                </md-input-container>
+                <md-input-container flex>
+                    <label style="color:#545454">Search Until</label>
+                    <input type="date" ng-model="vm.end_search">
+                </md-input-container>
+            </div>
+
         </div>
 
-        <md-input-container>
-            <label>Duration (in hours):</label>
-            <input required type="number" step="any" name="quant_hr" ng-model="vm.dur_hr" min="0" max="24">
+        <div layout layout-sm="column" layout-align="center center">
+            <md-input-container flex>
+                <label style="color:#545454">Duration</label>
+                <input required type=" number" step="any" name="quant_hr" ng-model="vm.dur_hr" min="0" max="24">
 
-            <div ng-messages="vm.dur_hr.$error">
-                <div ng-message="vm.dur_hr">hrs</div>
-            </div>
-        </md-input-container>
+                <div ng-messages="vm.dur_hr.$error">
+                    <div ng-message="vm.dur_hr">hrs</div>
+                </div>
+            </md-input-container>
 
-        <md-input-container ng-show="vm.dur_hr!=24">
-            <label>Duration (in minutes):</label>
-            <input required type="number" step="any" name="quant_mi" ng-model="vm.dur_mi" min="0" max="59">
+            <md-input-container flex ng-show="vm.dur_hr!=24">
+                <label style="color:#545454">Duration</label>
+                <input required type="number" step="any" name="quant_mi" ng-model="vm.dur_mi" min="0" max="59">
 
-            <div ng-messages="vm.dur_mi.$error">
-                <div ng-message="vm.dur_mi">minutes</div>
-            </div>
-        </md-input-container>
+                <div ng-messages="vm.dur_mi.$error">
+                    <div ng-message="vm.dur_mi">minutes</div>
+                </div>
+            </md-input-container>
+        </div>
         <br>
 
-        <div>
-            Start time:
-            <input type="time" name="starttime" ng-model="vm.begin_time">
-            End time:
-            <input type="time" name="endtime" ng-model="vm.end_time">
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label style="color:#545454">Start time</label>
+                <input type="time" name="starttime" ng-model="vm.begin_time">
+            </md-input-container>
+            <md-input-container flex>
+                <label style="color:#545454">End time</label>
+                <input type="time" name="endtime" ng-model="vm.end_time">
+            </md-input-container>
         </div>
 
         Days:
-        <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.su">Sunday</md-checkbox>
-        <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.mo">Monday</md-checkbox>
-        <md-checkbox aria-label="tuesday" class="days_checkbox" ng-model="vm.tu">Tuesday</md-checkbox>
-        <md-checkbox aria-label="wednesday" class="days_checkbox" ng-model="vm.we">Wednesday</md-checkbox>
-        <md-checkbox aria-label="thursday" class="days_checkbox" ng-model="vm.th">Thursday</md-checkbox>
-        <md-checkbox aria-label="friday" class="days_checkbox" ng-model="vm.fr">Friday</md-checkbox>
-        <md-checkbox aria-label="saturday" class="days_checkbox" ng-model="vm.sa">Saturday</md-checkbox>
+        <div layout layout-sm="column" layout-align="center center">
+            <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.su">S</md-checkbox>
+            <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.mo">M</md-checkbox>
+            <md-checkbox aria-label="tuesday" class="days_checkbox" ng-model="vm.tu">T</md-checkbox>
+            <md-checkbox aria-label="wednesday" class="days_checkbox" ng-model="vm.we">W</md-checkbox>
+            <md-checkbox aria-label="thursday" class="days_checkbox" ng-model="vm.th">Th</md-checkbox>
+            <md-checkbox aria-label="friday" class="days_checkbox" ng-model="vm.fr">F</md-checkbox>
+            <md-checkbox aria-label="saturday" class="days_checkbox" ng-model="vm.sa">S</md-checkbox>
+        </div>
 
         <!-- <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.mo" ng-click="vm.addDay()" ng-true-value="0">Sunday</md-checkbox>
         <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="1">Monday</md-checkbox>
@@ -71,10 +86,8 @@
 
         <li ng-repeat="user in vm.followingDict">{{ user }}</li>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">
-                Submit
-            </button>
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
         </div>
 
     </div>

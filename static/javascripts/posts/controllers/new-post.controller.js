@@ -173,6 +173,8 @@
                 vm.description_event = 'Work on: ';
             }
 
+            console.log(vm.start_time);
+
             Posts.create(vm.content, vm.start_time, vm.notification, vm.notify_when, vm.repeat, vm.location_event,
                 vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
                 vm.need_repeat, weekNum, isWeekSet, vm.pud_time, pud, vm.duration).then(createPostSuccessFn, createPostErrorFn);
