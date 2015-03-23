@@ -1,56 +1,58 @@
 <form role="form" ng-submit="vm.submit()">
     <div class="form-group">
-        <center><h2>New PUD</h2></center>
+        <h2 layout="column" layout-align="center center">New Task</h2>
 
-        <div class="form-group">
+        <md-input-container>
+            <label>Name of Task</label>
+            <input required type="text" name="task_name" ng-model="vm.content">
+        </md-input-container>
 
-            <input type="text" class="form-control" id="event__name" ng-model="vm.content" required>
-            <span class="form-highlight"></span>
-            <span class="form-bar"></span>
-            <label class="float-label" for="event__name">Name of PUD Task</label>
+        <h4 layout="column" layout-align="center center">Priority</h4>
 
-        </div>
-        <center><h4>Priority</h4></center>
-        <center><div class="form-group">
-                <label class="radio_btn_label" for="low">Low</label>
-                <input type="radio" name="priority" id="low" value="low" ng-model="vm.priority">
-                <label class="radio_btn_middle" for="normal">Normal</label>
-                <input type="radio" name="priority" id="normal" value="normal" ng-model="vm.priority">
-                <label class="radio_btn_label" for="high">High</label>
-                <input type="radio" name="priority" id="high" value="high" ng-model="vm.priority">
-                <label for="urgent">Urgent</label>
-                <input type="radio" name="priority" id="urgent" value="urgent" ng-model="vm.priority">
-        </div>
-        </center>
-
-        <div class="form-group">
-            Duration (in hours):
-            <input id="duration" type="number" name="quantity" min="1" max="24" ng-model="vm.duration">
+        <div class="form-group" layout="row" layout-align="center center">
+            <label class="radio_btn_label" for="low">Low</label>
+            <input type="radio" name="priority" id="low" value="low" ng-model="vm.priority">
+            <label class="radio_btn_middle" for="normal">Normal</label>
+            <input type="radio" name="priority" id="normal" value="normal" ng-model="vm.priority">
+            <label class="radio_btn_label" for="high">High</label>
+            <input type="radio" name="priority" id="high" value="high" ng-model="vm.priority">
+            <label for="urgent">Urgent</label>
+            <input type="radio" name="priority" id="urgent" value="urgent" ng-model="vm.priority">
         </div>
 
+        <md-input-container>
+            <label>Duration (in hours):</label>
+            <input required type="number" step="any" name="quantity" ng-model="vm.duration" min="1" max="24">
+        </md-input-container>
 
-        Repeat:
-        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating"/>
+        <md-checkbox aria-label="is_repeating" class="is_repeating" ng-model="vm.is_repeating">Recurring</md-checkbox>
 
-        <div ng-show="vm.is_repeating == true">
-            <br>
+        <!-- change this to md-select, but seems to have trouble working, options pop-up not showing -->
+        <div ng-show="vm.is_repeating">
             <select class="form-control" ng-model="vm.repeat">
                 <option value='Daily'>Daily</option>
                 <option value='Weekly'>Weekly</option>
                 <option value='Monthly'>Monthly</option>
             </select>
         </div>
-        <br>
-        Notifications (day interval, 0 indicates no notifications):
-        <input type="checkbox" name="notification" ng-model="vm.notification"/>
-        <br>
-        <input type="number" name="notify_when" min="1" max="7" value='0' ng-model="vm.notify_when" ng-show="vm.notification == true"/>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">
-                Submit
-            </button>
-        </div>
 
+        <md-checkbox aria-label="notifications" class="notifications" ng-model="vm.notification">Notifications
+        </md-checkbox>
+
+        <md-input-container ng-show="vm.notification">
+            <label>Notification interval</label>
+            <input type="number" step="any" name="notify_when" ng-model="vm.notify_when" min="0" max="7">
+
+            <div ng-messages="vm.notify_when.$error">
+                <div ng-message="vm.notify_when">You will be notified every {{ vm.notify_when }} day(s) (0 indicates no
+                    notifications)
+                </div>
+            </div>
+        </md-input-container>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
+        </div>
 
     </div>
 
