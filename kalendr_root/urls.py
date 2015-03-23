@@ -30,7 +30,9 @@ router.register(r'notification_posts', NotificationPostView)
 router.register(r'notification_response', NotificationResponseView)
 router.register(r'post_update', PostUpdateView)
 router.register(r'freetime', FreeTimeViewSet)
-router.register(r'signup', SignUpCreateView, base_name='signup-create')
+# Initially used APIView. Didn't make it to make, keep getting 405. Switched to
+# ModelViewSet and worked at once. Experience: 
+router.register(r'signup', SignUpCreateView)
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/

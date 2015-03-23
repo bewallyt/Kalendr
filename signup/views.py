@@ -5,10 +5,13 @@ from datetime import datetime, time, date, timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from signup.serializers import SignUpSheetSerializer
 
 
 # Create your views here.
-class SignUpCreateView(APIView):
+class SignUpCreateView(viewsets.ModelViewSet):
+    serializer_class = SignUpSheetSerializer
+    queryset = SignUp.objects.all()
 
     '''
         Expect data format:
@@ -20,24 +23,37 @@ class SignUpCreateView(APIView):
             end_time_list: 'a list
 
     '''
-    def post(self, request):
+    def create(self, request):
+        print 'In Signup Create'
+        print request.data
+
         name = request.data['content']
-        loc = request.date['location']
-        begin_time_list = request.data['beginDateTimes']
-        end_time_list = request.data['endDateTimes']
-        min_duration = request.data['minTimes']
-        max_duration = request.data['maxTimes']
-        max_slot = request.data['numSlotsPerUser']
         print name
         print type(name)
 
+        max_slot = request.data['numSlotsPerUser']
+        print max_slot
+        print type(max_slot)
+        min_duration = request.data['minTimes']
         print min_duration
         print type(min_duration)
 
-        print max_slot
-        print type(max_slot)
-
+        loc = request.data['location']
+        begin_time_list = request.data['beginDateTimes']
         print begin_time_list
         print type(begin_time_list)
+        end_time_list = request.data['endDateTimes']
+
+
+
+        max_duration = request.data['maxTimes']
+
+
+
+
+
+
+
+
 
         return Response(request.data, status=status.HTTP_200_OK)
