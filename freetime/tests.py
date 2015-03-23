@@ -8,6 +8,13 @@ class FreeTimeTest(TestCase):
         # Animal.objects.create(name="cat", sound="meow")
         return
 
+    # def test_animals_can_speak(self):
+    #     """Animals that can speak are correctly identified"""
+    #     lion = Animal.objects.get(name="lion")
+    #     cat = Animal.objects.get(name="cat")
+    #     self.assertEqual(lion.speak(), 'The lion says "roar"')
+    #     self.assertEqual(cat.speak(), 'The cat says "meow"')
+
     def test_deserialize_request(self):
         data = \
             {
@@ -35,9 +42,8 @@ class FreeTimeTest(TestCase):
         self.assertEqual(validated_data['start_time'].hour, 5)
         self.assertEqual(validated_data['end_time'].minute, 0)
 
-    # def test_animals_can_speak(self):
-    #     """Animals that can speak are correctly identified"""
-    #     lion = Animal.objects.get(name="lion")
-    #     cat = Animal.objects.get(name="cat")
-    #     self.assertEqual(lion.speak(), 'The lion says "roar"')
-    #     self.assertEqual(cat.speak(), 'The cat says "meow"')
+    def test_calculate_search_times(self):
+        return
+
+    def test_find_conflicts(self):
+        return
