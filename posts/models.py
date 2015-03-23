@@ -46,5 +46,15 @@ class Post(models.Model):
 
     is_updated = models.BooleanField(default=False)
 
+
+
+    '''
+        Fields for sign-up sheet.
+        Using OneToOne Field as a way to do inheritance.
+        Ideally, we do not repreat any information that's already in post,
+        but that might introduce problems in the serialization stage. So
+        for the sake of simplicity, sign up sheet will be a self-contained model
+    '''
+
     def __unicode__(self):
         return '{0}'.format(self.content)
