@@ -3,31 +3,114 @@ from rest_framework.response import Response
 from freetime.models import FreeTimeRequest, Conflict
 from freetime.serializers import FreeTimeRequestSerializer, ConflictSerializer
 from authentication.models import Account
+from posts.models import Post
+from access.models import AccessRule
+from django.utils.timezone import utc
+import datetime
+import dateutil.parser
 
 '''
 Returns a list of datetime ranges, where each element in the list is a 2-tuple (begin, end)
 '''
-def calculate_search_times(weekdays, start_time, end_time, is_recurring, start_date, end_date):
-    return []
+def calculate_search_times(weekdays, start_time, end_time, is_recurring, start_date, end_date):  
+    if not is_recurring:
+        start_date = datetime.datetime.now()
+
+    start_date = datetime.datetime(year=start_date.year, month=start_date.month, day=start_date.day, tzinfo=utc)
+    ref = datetime.datetime(1970, 1, 1, tzinfo=utc)
+    
+    search_times = []
+    
+    if not is_recurring:
+        for day in weekdays:
+            day_offset = (day - start_date.weekday()) % 7
+            begin = start_date + datetime.timedelta(days=day_offset)
+            end = begin
+            begin = begin + (start_time - ref)
+            end = end + (end_time - ref)
+            search_times.append((begin, end))    
+    else:
+        for day in weekdays:
+            n = 0
+            while True:
+                day_offset = (day - start_date.weekday()) % 7 + (n * 7)
+                begin = start_date + datetime.timedelta(days=day_offset)
+                end = begin
+                begin = begin + (start_time - ref)
+                end = end + (end_time - ref)
+                if end > end_date + datetime.timedelta(days=1):
+                    break
+                search_times.append((begin, end))
+                n += 1
+                
+    search_times.sort()
+    return search_times
 
 
 '''
 Returns a list of conflict objects
 for each user, for each post visible to requesting_user, during the time_ranges
 '''
-def find_conflicts(users, time_ranges, requesting_user):
-    conflicts = [Conflict(user=user, is_conflict=False) for user in users]
-    return conflicts
+def find_conflicts(users, time_ranges, requesting_user, is_recurring):
+    conflicts = []
+    for user in users:
+        conflict_found = False
+        
+        for post in visible_posts(requesting_user, user):
+            post_range = get_post_range(post)
 
-    # for user in users:
-    #     for (start, end) in time_ranges:
-    #         for #see AccountAccessViewSet.list
-    #
-    # for each user:
-    #     for each date in request.dates:
-    #         for each post user shared with me on that date:
-    #             if all day || post.begin_time or post.end_time in the request.range (begintime to endtime)
-    #                 add conflict to list
+            for freetime_range in time_ranges:
+                if times_overlap(freetime_range, post_range):
+                    conflict_found = True
+                    conflicts.append(Conflict(user=user, post=post, is_conflict=True, is_one_off=is_recurring and post.repeat == ''))
+                    break
+        
+        if not conflict_found:
+            conflicts.append(Conflict(user=user, is_conflict=False))
+        
+    return sorted(conflicts, Conflict.cmp)
+
+
+'''
+Returns all posts that requested_user owns and has shared with the requesting_user,
+and also all posts that the requested_user has 'CONFIRMED' that are visible to the requesting_user
+'''
+def visible_posts(requesting_user, requested_user):
+    owner_posts = requested_user.myevents.filter(shared_with__name=requesting_user.username)
+    all_visible_posts = Post.objects.filter(shared_with__name=requesting_user.username)
+    confirmed_posts = Post.objects.filter(shared_with__name=requested_user.username, accessrule__receiver_response='CONFIRM')
+
+    posts = owner_posts | (all_visible_posts & confirmed_posts)
+
+    for post in posts:
+        ac = AccessRule.objects.get(post=post, group__name=requesting_user.username)
+        if ac.visibility == 'BUS':
+            post.content = 'Busy'
+            post.location_event = ''
+            post.description_event = ''
+
+    return posts
+
+
+def get_post_range(post):
+    if post.not_all_day:
+        date = post.start_time
+        begin = datetime.datetime(year=date.year, month=date.month, day=date.day, tzinfo=utc)
+        end = begin
+
+        ref = datetime.datetime(1970, 1, 1, tzinfo=utc)
+        begin = begin + (dateutil.parser.parse(post.begin_time) - ref)
+        end = end + (dateutil.parser.parse(post.end_time) - ref)
+
+        return begin, end
+    else:
+        return post.start_time, post.start_time + datetime.timedelta(days=1)
+    
+
+def times_overlap(range_a, range_b):
+    latest_start = max(range_a[0], range_b[0])
+    earliest_end = min(range_a[1], range_b[1])
+    return latest_start < earliest_end
 
 
 class FreeTimeViewSet(viewsets.ModelViewSet):
@@ -77,7 +160,7 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
 
         # calculation
         time_ranges = calculate_search_times(weekdays, start_time, end_time, is_recurring, start_date, end_date)
-        conflicts = find_conflicts(users, time_ranges, request.user)
+        conflicts = find_conflicts(users, time_ranges, request.user, is_recurring)
 
         # serialize output
         serializer = ConflictSerializer(conflicts, many=True)

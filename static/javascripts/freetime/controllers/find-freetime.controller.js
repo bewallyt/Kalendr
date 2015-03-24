@@ -26,26 +26,25 @@
             } else {
                 event_type = 1;
             }
-
-            if (vm.su) {
+            if (vm.mo) {
                 vm.day_array.push(0);
             }
-            if (vm.mo) {
+            if (vm.tu) {
                 vm.day_array.push(1);
             }
-            if (vm.tu) {
+            if (vm.we) {
                 vm.day_array.push(2);
             }
-            if (vm.we) {
+            if (vm.th) {
                 vm.day_array.push(3);
             }
-            if (vm.th) {
+            if (vm.fr) {
                 vm.day_array.push(4);
             }
-            if (vm.fr) {
+            if (vm.sa) {
                 vm.day_array.push(5);
             }
-            if (vm.sa) {
+            if (vm.su) {
                 vm.day_array.push(6);
             }
 
