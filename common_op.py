@@ -7,6 +7,8 @@ from posts.models import Post
 from groups.models import  KGroup
 from authentication.models import Account
 from access.models import AccessRule
+from signup.models import SignUp, TimeBlock, SignUpSlot
+from posts.models import Post
 
 user0 = Account.objects.get(username="user0")
 user1 = Account.objects.get(username="user1")

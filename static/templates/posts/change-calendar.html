@@ -1,13 +1,14 @@
 <form role="form" ng-submit="vm.submit()">
     <div class="form-group">
         <center><h3>Change Week</h3></center>
-        <div layout layout-sm="column">
-            <md-input-container flex>
+        <div layout layout-align="center">
+            <md-input-container>
                 <label style="color:#545454">Set Date</label>
                 <input type="date" ng-model="vm.changed_week">
             </md-input-container>
-
-            <button id="button__padding" type="submit" class="btn btn-primary"> Go</button>
+        </div>
+        <div layout layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Go</md-button>
         </div>
     </div>
 </form>

@@ -60,7 +60,13 @@ Comparsion:
 4
 
 
+begin_time_list = request.data['beginDateTimes']
+this is a list
 
+datetime object acquired from the front end:
+[u'2015-03-22T18:00:00.000Z']
+<type 'unicode'>
+year-month-day
 
 
 Implementation:

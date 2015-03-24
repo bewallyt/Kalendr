@@ -32,8 +32,8 @@
         var beginDateTimes = [];
         var endDateTimes = [];
 
-        vm.minTimes = [];
-        vm.maxTimes = [];
+        vm.minTimes;
+        vm.maxTimes;
 
         vm.selectedGroup;
         vm.groups = [];
@@ -52,7 +52,7 @@
             createDateTime();
 
 
-            Signup.create(vm.content, vm.location, vm.beginDateTimes, vm.endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
+            Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
