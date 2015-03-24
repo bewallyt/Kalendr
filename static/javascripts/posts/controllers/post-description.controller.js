@@ -9,12 +9,12 @@
         .module('kalendr.posts.controllers')
         .controller('PostDescriptionController', PostDescriptionController);
 
-    PostDescriptionController.$inject = ['$timeout', '$scope', 'Access'];
+    PostDescriptionController.$inject = ['Access', 'Signup'];
 
     /**
      * @namespace PostDescriptionController
      */
-    function PostDescriptionController($timeout, $scope, Access) {
+    function PostDescriptionController(Access, Signup) {
         var vm = this;
 
         vm.columns = [];
@@ -31,16 +31,13 @@
 
             vm.postId = id;
 
-            console.log("vm.postId");
-            console.log(vm.postId);
+            console.log("vm.postId: " + vm.postId);
             Access.getConfirmedResponses(vm.postId, 'CONFIRM').then(successConfirmedFn, errorFn);
             Access.getRemovedResponses(vm.postId, 'REMOVED').then(successRemovedFn, errorFn);
             Access.getDeclinedResponses(vm.postId, 'DECLINE').then(successDeclinedFn, errorFn);
             Access.getNoResponses(vm.postId, 'NO_RESP').then(successNoFn, errorFn);
 
-            console.log('after get calls');
-            console.log('has response: ' + vm.hasResponse);
-            console.log(vm.noRespGroups);
+            Signup.get(vm.postId).then(successSignupFn, errorFn);
 
 
             function successConfirmedFn(data, status, headers, config) {
@@ -84,6 +81,10 @@
                 }
                 console.log('no response:' + data.data);
                 vm.noRespGroups = data.data;
+            }
+
+            function successSignupFn(data, status, headers, config) {
+                console.log('Signup data: ' + data.data);
             }
 
             function errorFn(data, status, headers, config) {

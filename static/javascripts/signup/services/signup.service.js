@@ -17,7 +17,8 @@
      */
     function Signup($http) {
         var Signup = {
-            create: create
+            create: create,
+            get: get
         };
 
         return Signup;
@@ -42,6 +43,10 @@
                 dayOfWeek: dayOfWeek,
                 weekNum: weekNum
             });
+        }
+
+        function get(postId){
+            return $http.get('/api/v1/signup/' + postId + '');
         }
 
     }
