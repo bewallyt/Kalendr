@@ -30,25 +30,26 @@ from datetime import timedelta, datetime, time, date
     Manager methods can access self.model to get the model class to which they're attached.
 '''
 class SignUpManager(models.Manager):
-    def create_signup(self, post, name, location, max_durantion, min_durantion, max_slots_per_user,
+    def create_signup(self, post, name, location, max_duration, min_duration, max_slots_per_user,
                       begin_time_list, end_time_list):
-        if max_durantion < min_durantion:
+        if max_duration < min_duration:
             raise ValueError('Max duration is smaller than min duration.')
 
         if len(begin_time_list) != len(end_time_list):
             raise ValueError('Begin time list and end time list do not match')
 
         sheet = self.model(post = post, name = name, location = location,
-                           max_durantion = min_durantion,
-                           min_durantion = min_durantion,
+                           max_duration = max_duration,
+                           min_duration = min_duration,
                            max_slots = max_slots_per_user)
-
         sheet.save()
-        min_delta = timedelta(minutes = min_durantion)
+
+        min_delta = timedelta(minutes = min_duration)
+
 
         for i in range(0,len(begin_time_list)):
-            begin_time = datetime(begin_time_list[i])
-            end_time = datetime(end_time_list[i])
+            begin_time = begin_time_list[i]
+            end_time = end_time_list[i]
             TimeBlock.objects.create_timeblock(sheet, begin_time, end_time, min_delta)
 
 
