@@ -78,7 +78,7 @@ input[type="search"] {
     width: 36px;
     height: 36px;
     position: absolute;
-    right: 1em;
+    left: 1em;
     top: 1em;
     overflow: hidden;
     text-indent: 100%;
