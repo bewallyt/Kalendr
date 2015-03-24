@@ -60,7 +60,7 @@
             console.log('week num: ' + firstMeetingWeek);
 
 
-            Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
+            Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser, dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,

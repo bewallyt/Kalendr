@@ -29,7 +29,7 @@
          * @returns {Promise}
          * @memberOf kalendr.signup.services.Signup
          */
-        function create(content, location, beginDateTimes, endDateTimes, minTimes, maxTimes, numSlotsPerUser) {
+        function create(content, location, beginDateTimes, endDateTimes, minTimes, maxTimes, numSlotsPerUser, dayOfWeek, weekNum) {
 
             return $http.post('/api/v1/signup/', {
                 content: content,
@@ -38,7 +38,9 @@
                 endDateTimes: endDateTimes,
                 minTimes: minTimes,
                 maxTimes: maxTimes,
-                numSlotsPerUser: numSlotsPerUser
+                numSlotsPerUser: numSlotsPerUser,
+                dayOfWeek: dayOfWeek,
+                weekNum: weekNum
             });
         }
 
