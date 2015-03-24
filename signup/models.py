@@ -57,14 +57,7 @@ class SignUpManager(models.Manager):
 
 
 
-class SignUp(models.Model):
-    # Make sure this OnetoOne field can be empty. i.e., A post doesn't have to have a O2O
-    # field defined to a SignUp object. And
-    post = models.OneToOneField(Post, primary_key=True)
-    name = models.CharField(max_length=50, null=True, blank=True)
-    location = models.CharField(max_length=100, null=True, blank=True)
-    max_slots = models.IntegerField()
-    '''
+'''
     Best Field to represent time? The operations that we will do with minimum duration:
         1. Add minimum duration to staring time
     Options:
@@ -84,6 +77,14 @@ class SignUp(models.Model):
 
     Assumption: the unit for max/min_duration is minute.
     '''
+class SignUp(models.Model):
+    # Make sure this OnetoOne field can be empty. i.e., A post doesn't have to have a O2O
+    # field defined to a SignUp object. And
+    post = models.OneToOneField(Post, primary_key=True)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    location = models.CharField(max_length=100, null=True, blank=True)
+    max_slots = models.IntegerField()
+
     max_duration = models.IntegerField(default=120)
     min_duration = models.IntegerField(default=0)
 

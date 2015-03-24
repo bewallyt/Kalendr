@@ -11,7 +11,7 @@ from posts.models import Post
 
 
 # Create your views here.
-class SignUpCreateView(viewsets.ModelViewSet):
+class SignUpCreateAndListView(viewsets.ModelViewSet):
     serializer_class = SignUpSheetSerializer
     queryset = SignUp.objects.all()
 
@@ -36,51 +36,28 @@ class SignUpCreateView(viewsets.ModelViewSet):
             return datetime_obj
 
         owner = Account.objects.get(email = request.user.email)
-        print owner.email
-
-
-        print 'In Signup Create'
-        print request.data
         name = request.data['content']
-
-        post = Post.objects.create(author = owner, content= "SignUp: " + name)
-        print post.content
-        post.save()
+        week_num = request.data['weekNum']
+        day_of_week = request.data['dayOfWeek']
+        loc = request.data['location']
 
         max_slot = request.data['numSlotsPerUser']
         min_duration = request.data['minTimes']['undefined']
         max_duration = request.data['maxTimes']['undefined']
-        loc = request.data['location']
 
         begin_time_list_unicode = request.data['beginDateTimes']
         end_time_list_unicode = request.data['endDateTimes']
         begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
         end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
-        '''
-        print begin_time_list_datetime
-        print begin_time_list_datetime[0]
 
-        print type(post)
-        print type(name)
-        print type(loc)
-        print type(max_duration)
-        print type(min_duration)
-        print type(max_slot)
-        print begin_time_list_datetime
-        print end_time_list_datetime
-        '''
-        SignUp.objects.create_signup(post,
-                                     name,
-                                     loc,
-                                     max_duration,
-                                     min_duration,
-                                     max_slot,
-                                     begin_time_list_datetime,
-                                     end_time_list_datetime)
+        post = Post.objects.create(author = owner, content= "SignUp: " + name, description_event = "Sign up sheet",
+                                   week_num = week_num, day_of_week = day_of_week,
+                                   location_event = loc, start_time = begin_time_list_datetime[0],
+                                   need_repeat = False, is_date_set = False, is_week_set = True)
+        post.save()
 
-
-
-
+        SignUp.objects.create_signup(post, name, loc, max_duration, min_duration,
+                                     max_slot, begin_time_list_datetime, end_time_list_datetime)
 
         return Response(request.data, status=status.HTTP_200_OK)
 
