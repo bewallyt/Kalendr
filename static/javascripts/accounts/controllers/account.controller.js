@@ -160,6 +160,20 @@
                 }
             });
 
+            $scope.$on('signup.created', function (event, post) {
+
+                num_month = post.firstMeetingMonth;
+                month = findMonth(num_month);
+
+                vm.date = post.dayOfWeek + ', ' + month + ' ' + post.firstMeetingDate;
+                vm.weekNum = post.firstMeetingWeek;
+
+                console.log('weeknumber passed: ' + post.firstMeetingWeek);
+
+                Posts.getWeek(username, post.firstMeetingWeek).then(postsSuccessFn, postsErrorFn);
+                Posts.getWeek(username, post.firstMeetingWeek).then(postsSuccessFn, postsErrorFn);
+            });
+
             $scope.$on('post.created.error', function () {
                 vm.posts.shift();
             });
@@ -174,7 +188,7 @@
                 num_day = post.date.getDay();
                 dayOfWeek = findDay(num_day);
 
-                if(dayOfWeek == 'Sunday') vm.weekNum++;
+                if (dayOfWeek == 'Sunday') vm.weekNum++;
 
                 date = post.date;
 
@@ -311,7 +325,7 @@
                 vm.followingList = data.data;
                 var i;
 
-                for(i = 0; i < data.data.length; i++){
+                for (i = 0; i < data.data.length; i++) {
                     vm.followingListOwners.push(vm.followingList[i].owner);
                 }
                 if (data.data.length > 0) vm.isFollowing = true;
