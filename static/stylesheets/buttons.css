@@ -1,77 +1,77 @@
 .btn-add-new-post {
     position: fixed;
-    bottom: 12px;
-    right: 20px;
+    bottom: 1%;
+    right: 1%;
     z-index: 20;
 }
 
 .btn-new-signup {
     position: fixed;
-    bottom: 78px;
-    right: 20px;
+    bottom: 8%;
+    right: 1%;
     z-index: 19;
 }
 
 .btn-create-pud {
     position: fixed;
-    bottom: 144px;
-    right: 20px;
+    bottom: 15%;
+    right: 1%;
     z-index: 18;
 }
 
 .btn-pudview {
     position: fixed;
-    bottom: 210px;
-    right: 20px;
+    bottom: 22%;
+    right: 1%;
     z-index: 17;
 }
 
 .btn-add-new-friend {
     position: fixed;
-    bottom: 276px;
-    right: 20px;
+    bottom: 29%;
+    right: 1%;
     z-index: 16;
 }
 
 .btn-home {
     position: fixed;
-    bottom: 342px;
-    right: 20px;
+    bottom: 36%;
+    right: 1%;
     z-index: 15;
 }
 
 .btn-change-date {
     position: fixed;
-    bottom: 408px;
-    right: 20px;
+    bottom: 43%;
+    right: 1%;
     z-index: 14;
 }
 
 .btn-before {
     position: fixed;
-    bottom: 474px;
-    right: 20px;
+    bottom: 50%;
+    right: 1%;
     z-index: 13;
 }
 
 .btn-next {
     position: fixed;
-    bottom: 540px;
-    right: 20px;
+    bottom: 57%;
+    right: 1%;
     z-index: 12;
 }
 
 .btn-free-time {
     position: fixed;
-    bottom: 606px;
-    right: 20px;
+    bottom: 64%;
+    right: 1%;
     z-index: 11;
 }
 
 .btn-notifications {
     position: fixed;
-    bottom: 672px;
-    right: 20px;
+    bottom: 71%;
+    right: 1%;
     z-index: 10;
 }
 
@@ -80,8 +80,8 @@
     height: 3em;
     margin-top: 0px;
     margin-bottom: 0px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 1%;
+    padding-left: 1%;
 }
 
 .btn-submit {
@@ -89,13 +89,13 @@
 }
 
 /*.btn-hover {*/
-    /*position: fixed;*/
-    /*right: 20px;*/
-    /*bottom: 12px;*/
-    /*-webkit-transition: all 2.0s linear;*/
-    /*-moz-transition: all 2.0s linear;*/
-    /*-ms-transition: all 2.0s linear;*/
-    /*transition: all 2.0s linear;*/
+/*position: fixed;*/
+/*right: 1%;*/
+/*bottom: 12px;*/
+/*-webkit-transition: all 2.0s linear;*/
+/*-moz-transition: all 2.0s linear;*/
+/*-ms-transition: all 2.0s linear;*/
+/*transition: all 2.0s linear;*/
 /*}*/
 
 .btn-over:hover .btn-new-signup {
@@ -136,4 +136,52 @@
 
 .btn-over:hover .btn-notifications {
     bottom: 672px;
+}
+
+/* screens smaller than 1000px in height */
+@media (max-device-height: 999px) {
+
+    .btn-add-new-post {
+        bottom: 1%;
+    }
+
+    .btn-new-signup {
+        bottom: 10%;
+    }
+
+    .btn-create-pud {
+        bottom: 19%;
+    }
+
+    .btn-pudview {
+        bottom: 28%;
+    }
+
+    .btn-add-new-friend {
+        bottom: 37%;
+    }
+
+    .btn-home {
+        bottom: 46%;
+    }
+
+    .btn-change-date {
+        bottom: 55%;
+    }
+
+    .btn-before {
+        bottom: 64%;
+    }
+
+    .btn-next {
+        bottom: 73%;
+    }
+
+    .btn-free-time {
+        bottom: 82%;
+    }
+
+    .btn-notifications {
+        bottom: 91%;
+    }
 }

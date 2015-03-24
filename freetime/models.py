@@ -21,3 +21,21 @@ class Conflict(models.Model):
     post = models.ForeignKey(Post)
     is_conflict = models.BooleanField(default=False)
     is_one_off = models.BooleanField(default=False)
+    
+    def __unicode__(self):
+        return '{0}: {1}'.format(self.user, self.is_conflict)
+
+    @staticmethod
+    def cmp(x, y):
+        alphabetical = cmp(x.user.username, y.user.username)
+        if alphabetical != 0:
+            return alphabetical
+                
+        if not x.is_conflict or not y.is_conflict:
+            return 0
+            
+        date = cmp(x.post.start_time, y.post.start_time)
+        if date != 0:
+            return date
+            
+        return cmp(x.post.begin_time, y.post.begin_time)

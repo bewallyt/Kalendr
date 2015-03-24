@@ -47,17 +47,17 @@
         <div layout layout-sm="column">
             <md-input-container flex>
                 <label style="color:#545454">Start time</label>
-                <input type="time" name="starttime" ng-model="vm.begin_time">
+                <input required type="time" name="starttime" ng-model="vm.begin_time">
             </md-input-container>
             <md-input-container flex>
                 <label style="color:#545454">End time</label>
-                <input type="time" name="endtime" ng-model="vm.end_time">
+                <input required type="time" name="endtime" ng-model="vm.end_time">
             </md-input-container>
         </div>
 
         Days:
         <div layout layout-sm="column" layout-align="center center">
-            <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.su">S</md-checkbox>
+            <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.su">Su</md-checkbox>
             <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.mo">M</md-checkbox>
             <md-checkbox aria-label="tuesday" class="days_checkbox" ng-model="vm.tu">T</md-checkbox>
             <md-checkbox aria-label="wednesday" class="days_checkbox" ng-model="vm.we">W</md-checkbox>
@@ -65,14 +65,6 @@
             <md-checkbox aria-label="friday" class="days_checkbox" ng-model="vm.fr">F</md-checkbox>
             <md-checkbox aria-label="saturday" class="days_checkbox" ng-model="vm.sa">S</md-checkbox>
         </div>
-
-        <!-- <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.mo" ng-click="vm.addDay()" ng-true-value="0">Sunday</md-checkbox>
-        <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="1">Monday</md-checkbox>
-        <md-checkbox aria-label="tuesday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="2">Tuesday</md-checkbox>
-        <md-checkbox aria-label="wednesday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="3">Wednesday</md-checkbox>
-        <md-checkbox aria-label="thursday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="4">Thursday</md-checkbox>
-        <md-checkbox aria-label="friday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="5">Friday</md-checkbox>
-        <md-checkbox aria-label="saturday" class="days_checkbox" ng-model="vm.day" ng-click="vm.addDay()" ng-true-value="6">Saturday</md-checkbox> -->
 
         <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedUser"
                       localdata="ngDialogData" titlefield="username" searchfields="username"

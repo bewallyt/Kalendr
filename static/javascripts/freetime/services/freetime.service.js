@@ -49,7 +49,6 @@
             users_following.forEach(function (entry) {
                 console.log(entry + " following");
             });
-            //users_following = ['alice', 'bob'];
             return $http.post('/api/v1/freetime/', {
                 event_type: event_type,
                 start_date: start_date,
