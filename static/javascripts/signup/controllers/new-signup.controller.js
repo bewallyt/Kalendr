@@ -133,7 +133,7 @@
             for (i = 0; i < vm.dates.length; i++) {
                 var day = vm.dates[i].getDate();
                 console.log('day: ' + day);
-                var month = vm.dates[i].getMonth() + 1;
+                var month = vm.dates[i].getMonth();
                 console.log('month: ' + month);
                 var year = vm.dates[i].getFullYear();
                 console.log('year: ' + year);

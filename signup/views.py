@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from signup.serializers import SignUpSheetSerializer
+from posts.serializers import PostSerializer
 from authentication.models import Account
 from posts.models import Post
 
@@ -61,4 +62,17 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
 
         return Response(request.data, status=status.HTTP_200_OK)
 
+    '''
+        expect request.data to have :
+            id: post_id
+    '''
+    def list(self, request, *args, **kwargs):
+        post = Post.objects.get(pk = request.data['id'])
+        if hasattr(post, 'signup'):
+            print 'Post is a signup sheet'
+            serializer = SignUpSheetSerializer(post.signup)
+        else:
+            print 'Post is not a signup sheet'
+            serializer = PostSerializer(post)
 
+        return Response(serializer.data)
