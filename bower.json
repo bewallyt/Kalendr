@@ -18,7 +18,10 @@
     "bootstrap-material-design": "~0.2.2",
     "jquery": "~2.1.1",
     "ngDialog": "~0.3.11",
-    "moment": "~2.9.0"
+    "moment": "~2.9.0",
+    "underscore": "~1.8.2",
+    "angular-bootstrap": "~0.12.0",
+    "angular-material": "~0.6.0"
   },
   "resolutions": {
     "angular": "~1"
