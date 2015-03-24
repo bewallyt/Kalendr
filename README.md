@@ -1,9 +1,9 @@
 # kalendr
 Senior design project, Spring 2015.
 
-Check it out at https://kalendr458.herokuapp.com/
+This app is best displayed on screen with a minimum resolution of 1280px X 800px; it has not been optimized for mobile!
 
-If you create an new app using 'python manage.py startapp', always the add the migrations folder to the .gitignore, add and commit ONLY the .gitignore (but do not push), then add and commit the remaining files.
+Check it out at https://kalendr458.herokuapp.com/
 
 This rule applies to all files that should be ignored, ignore them first!
 
@@ -15,12 +15,12 @@ To run the application, clone the repository and navigate into it.
 
 3. $ npm install -g bower
 
-4. $ bower install
+4. $ bower install (if you are prompted to choose an angular.js version, we recommend choosing the latest release)
 
-5. $ bower install angular-bootstrap
+5. $ python manage.py makemigrations
 
-6. $ python manage.py makemigrations
+6. $ python manage.py migrate
 
-7. $ python manage.py migrate
+7. $ python manage.py runserver
 
-8. $ python manage.py runserver
+If you run into migration issues (circular dependencies etc.), please read below:
