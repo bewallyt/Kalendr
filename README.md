@@ -5,8 +5,6 @@ This app is best displayed on screen with a minimum resolution of 1280px X 800px
 
 Check it out at https://kalendr458.herokuapp.com/
 
-This rule applies to all files that should be ignored, ignore them first!
-
 To run the application, clone the repository and navigate into it.
 
 1. $ pip install -r requirements.txt (if access errors pop up, you can always sudo, but we recommened you fix the access errors instead of using sudo)
