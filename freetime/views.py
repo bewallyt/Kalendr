@@ -57,18 +57,7 @@ def find_conflicts(users, time_ranges, requesting_user, is_recurring):
         conflict_found = False
         
         for post in visible_posts(requesting_user, user):
-            if post.not_all_day:
-                date = post.start_time
-                begin = datetime.datetime(year=date.year, month=date.month, day=date.day, tzinfo=utc)
-                end = begin
-
-                ref = datetime.datetime(1970, 1, 1, tzinfo=utc)
-                begin = begin + (dateutil.parser.parse(post.begin_time) - ref)
-                end = end + (dateutil.parser.parse(post.end_time) - ref)
-
-                post_range = (begin, end)
-            else:
-                post_range = (post.start_time, post.start_time + datetime.timedelta(days=1))
+            post_range = get_post_range(post)
 
             for freetime_range in time_ranges:
                 if times_overlap(freetime_range, post_range):
@@ -80,15 +69,9 @@ def find_conflicts(users, time_ranges, requesting_user, is_recurring):
             conflicts.append(Conflict(user=user, is_conflict=False))
         
     return sorted(conflicts, Conflict.cmp)
-    
 
-def times_overlap(range_a, range_b):
-    latest_start = max(range_a[0], range_b[0])
-    earliest_end = min(range_a[1], range_b[1])
-    return latest_start < earliest_end
-    
-    
-'''    
+
+'''
 Returns all posts that requested_user owns and has shared with the requesting_user,
 and also all posts that the requested_user has 'CONFIRMED' that are visible to the requesting_user
 '''
@@ -96,17 +79,38 @@ def visible_posts(requesting_user, requested_user):
     owner_posts = requested_user.myevents.filter(shared_with__name=requesting_user.username)
     all_visible_posts = Post.objects.filter(shared_with__name=requesting_user.username)
     confirmed_posts = Post.objects.filter(shared_with__name=requested_user.username, accessrule__receiver_response='CONFIRM')
-    
+
     posts = owner_posts | (all_visible_posts & confirmed_posts)
-    
+
     for post in posts:
         ac = AccessRule.objects.get(post=post, group__name=requesting_user.username)
         if ac.visibility == 'BUS':
             post.content = 'Busy'
             post.location_event = ''
             post.description_event = ''
-    
+
     return posts
+
+
+def get_post_range(post):
+    if post.not_all_day:
+        date = post.start_time
+        begin = datetime.datetime(year=date.year, month=date.month, day=date.day, tzinfo=utc)
+        end = begin
+
+        ref = datetime.datetime(1970, 1, 1, tzinfo=utc)
+        begin = begin + (dateutil.parser.parse(post.begin_time) - ref)
+        end = end + (dateutil.parser.parse(post.end_time) - ref)
+
+        return begin, end
+    else:
+        return post.start_time, post.start_time + datetime.timedelta(days=1)
+    
+
+def times_overlap(range_a, range_b):
+    latest_start = max(range_a[0], range_b[0])
+    earliest_end = min(range_a[1], range_b[1])
+    return latest_start < earliest_end
 
 
 class FreeTimeViewSet(viewsets.ModelViewSet):
