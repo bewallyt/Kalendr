@@ -34,6 +34,9 @@ router.register(r'freetime', FreeTimeViewSet)
 # ModelViewSet and worked at once. Experience: 
 router.register(r'signup', SignUpCreateAndListView)
 
+signup_router = routers.NestedSimpleRouter(router, r'signup', lookup='post')
+signup_router.register(r'get_description', SignUpCreateAndListView)
+
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/
 accounts_router.register(r'posts', AccountPostsViewSet)
@@ -93,6 +96,7 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(group_router.urls)),
     url(r'^api/v1/', include(week_router.urls)),
     url(r'^api/v1/', include(save_router.urls)),
+    url(r'^api/v1/', include(signup_router.urls)),
     url(r'^api/v1/', include(pud_save_router.urls)),
     url(r'^api/v1/', include(pud_complete_router.urls)),
     url(r'^api/v1/', include(notification_router.urls)),

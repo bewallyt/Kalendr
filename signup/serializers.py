@@ -29,9 +29,14 @@ class TimeBlockSerializer(serializers.ModelSerializer):
 
 class SignUpSheetSerializer(serializers.ModelSerializer):
     myblocks = TimeBlockSerializer(many=True)
+    # This really should be part of the PostSerializer!! OH WELL
+    type = serializers.SerializerMethodField()
 
+    def get_type(self, obj):
+        return 'signup'
 
     class Meta:
         model = SignUp
-        field = ('id', 'name', 'location', 'max_slots', 'max_duration', 'min_duration',
+        field = ('id', 'type', 'name', 'location', 'max_slots', 'max_duration', 'min_duration',
                  'myblocks')
+

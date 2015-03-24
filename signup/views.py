@@ -63,16 +63,29 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
         return Response(request.data, status=status.HTTP_200_OK)
 
     '''
-        expect request.data to have :
-            id: post_id
+        This API is called when user click on the description
+        button on a post card.
+        If the post card is a regular post, this function uses PostSerializer.
+        If the post card is a signup object, this function uses SignUpSheetSerializer.
+
+        When the JSON string is created, the function adds a type key into the JSON.
+        So when the front end gets the JSON, the front end can check the data.data['type']
+        if the result is 'post' then it's a regular post. If the reuslt is 'signup', then
+        it's a signup.
     '''
-    def list(self, request, *args, **kwargs):
-        post = Post.objects.get(pk = request.data['id'])
+    def list(self, request, post_pk):
+        post = Post.objects.get(pk = post_pk)
         if hasattr(post, 'signup'):
             print 'Post is a signup sheet'
+            type = 'signup'
             serializer = SignUpSheetSerializer(post.signup)
         else:
             print 'Post is not a signup sheet'
+            type = 'post'
             serializer = PostSerializer(post)
+
+        #Now that I have a JSON, how do I inject a field into this JSON?
+        print serializer.data
+
 
         return Response(serializer.data)

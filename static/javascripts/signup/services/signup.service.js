@@ -46,7 +46,7 @@
         }
 
         function get(postId){
-            return $http.get('/api/v1/signup/' + postId + '');
+            return $http.get('/api/v1/signup/' + postId + '/get_description/');
         }
 
     }
