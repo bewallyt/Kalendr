@@ -9,7 +9,7 @@ from signup.serializers import SignUpSheetSerializer
 from posts.serializers import PostSerializer
 from authentication.models import Account
 from posts.models import Post
-from combine_slots import combine
+from combine_slots import combine, unicode_to_datetime
 
 # Create your views here.
 class SignUpCreateAndListView(viewsets.ModelViewSet):
@@ -32,9 +32,6 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
 
 
     def create(self, request):
-        def unicode_to_datetime(code):
-            datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%S.%fZ')
-            return datetime_obj
 
         owner = Account.objects.get(email = request.user.email)
         name = request.data['content']
@@ -90,11 +87,11 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
                 print 'requester is NOT post owner'
                 #TODO:
 
-                serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False})
+                serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester':requester.username})
 
             else:
                 print 'requester is post owner'
-                serializer = SignUpSheetSerializer(post.signup, context={'is_owner': True})
+                serializer = SignUpSheetSerializer(post.signup, context={'is_owner': True, 'requester': post_owner.username})
 
         else:
             print 'Post is not a signup sheet'
@@ -108,6 +105,11 @@ class SignUpView(viewsets.ModelViewSet):
     serializer_class = SignUpSheetSerializer
     queryset = SignUp.objects.all()
 
+
+    '''
+        This function is called when a requester is choosing the duration of slots.
+        Then this function sends back all slot of that particular duration.
+    '''
     def list(self, request, post_pk, duration_pk, *args, **kwargs):
         print 'SignUpViewList'
         post = Post.objects.get(pk = post_pk)
@@ -129,8 +131,51 @@ class SignUpView(viewsets.ModelViewSet):
             print data
             return Response(data)
         else:
-            serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False})
+            serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester': requester})
 
         print serializer.data
 
         return Response(serializer.data)
+
+
+    '''
+        Expecting a list of start_time and end_time. Or a list of
+        start_time and a list of end_time
+
+        Also, post id.
+    '''
+    def create(self, request, *args, **kwargs):
+        requester = Account.objects.get(email=request.user.email)
+        post = Post.objects.get(pk = request.data['postPk'])
+
+        begin_time_list_unicode = request.data['beginDateTimes']
+        end_time_list_unicode = request.data['endDateTimes']
+        begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
+        end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
+
+        num_requested_slot = len(begin_time_list_datetime)
+        max_slots = post.signup.max_slots
+        min_duration = timedelta(minutes=post.signup.min_duration)
+
+        if num_requested_slot > max_slots:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        for i in range(0, len(begin_time_list_datetime)):
+            start_slot = SignUpSlot.objects.get(start_time = begin_time_list_datetime[i])
+            end_slot = SignUpSlot.objects.get(end_time = end_time_list_datetime[i])
+            end_slot.owner = requester
+            end_slot.save()
+            while start_slot != end_slot:
+                start_slot.owner = requester
+                start_slot.save()
+                start_slot = SignUpSlot.objects.get(start_time = start_slot.start_time +  min_duration)
+
+
+
+
+
+
+
+
+
+

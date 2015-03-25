@@ -37,6 +37,7 @@ router.register(r'signup', SignUpCreateAndListView)
 # For return description of a specific signup post
 signup_router = routers.NestedSimpleRouter(router, r'signup', lookup='post')
 signup_router.register(r'get_description', SignUpCreateAndListView)
+signup_router.register(r'request', SignUpView)
 
 # For other users to select signup slots
 select_slot_router = routers.NestedSimpleRouter(signup_router, r'get_description', lookup='duration')

@@ -2,6 +2,7 @@ from posts.models import Post
 from signup.models import SignUp, SignUpSlot, TimeBlock
 from posts.serializers import PostSerializer
 from signup.serializers import SignUpSheetSerializer,SignUpSlotSerializer, TimeBlockSerializer
+from datetime import datetime
 
 def combine(requester, post, signup, num_slots_to_combine):
 
@@ -37,9 +38,13 @@ def combine(requester, post, signup, num_slots_to_combine):
             j = j + 1
 
 
-    data = SignUpSheetSerializer(new_sign)
+    data = SignUpSheetSerializer(new_sign, context={'is_owner': False, 'requester': requester})
 
     print data.data
     new_sign.delete()
     new_post.delete()
     return data.data
+
+def unicode_to_datetime(code):
+    datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%S.%fZ')
+    return datetime_obj
