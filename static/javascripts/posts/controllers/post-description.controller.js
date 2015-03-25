@@ -9,12 +9,12 @@
         .module('kalendr.posts.controllers')
         .controller('PostDescriptionController', PostDescriptionController);
 
-    PostDescriptionController.$inject = ['Access', 'Signup'];
+    PostDescriptionController.$inject = ['Access', 'Signup', '$scope'];
 
     /**
      * @namespace PostDescriptionController
      */
-    function PostDescriptionController(Access, Signup) {
+    function PostDescriptionController(Access, Signup, $scope) {
         var vm = this;
 
         vm.columns = [];
@@ -220,17 +220,19 @@
 
             function successConfirmFn(data, status, headers, config){
                 console.log('posted: ' + data.data);
+                $scope.closeThisDialog();
             }
 
             function errorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
+                $scope.closeThisDialog();
             }
         }
 
         function checkSlot(slotIndex, start_time, end_time) {
-            console.log('slot checked: ' + slotIndex);
             if (vm.selectedSlots[slotIndex] == false) {
                 console.log('selected start and end time: ' + start_time + ' ' + end_time);
+                console.log('numSelected: ' + vm.numSelected);
                 vm.selectedSlots[slotIndex] = true;
                 vm.numSelected++;
                 vm.selectedStart.push(start_time);
@@ -238,6 +240,7 @@
             }
             else {
                 console.log('deselected');
+                console.log('numSelected: ' + vm.numSelected);
                 vm.numSelected--;
                 vm.selectedStart.pop();
                 vm.selectedEnd.pop();

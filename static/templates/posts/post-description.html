@@ -40,7 +40,7 @@
                    max="{{ vm.maxDuration * 1 }}"
                    aria-label="duration">
         </md-slider>
-        <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.searchAvailableSlots()">Search
+        <md-button class="md-raised md-primary btn-submit" ng-click="vm.searchAvailableSlots()">Search
         </md-button>
 
     </div>
@@ -54,9 +54,7 @@
             <accordion close-others="vm.post_description_close1">
                 <accordion-group>
                     <accordion-heading>
-                        Block {{ $index + 1 }}: {{ vm.BlockDates[$index]}}
-                        ({{ vm.returnedNumFreeSlots[$index] }} Available
-                        Slots)
+                        Block {{ $index + 1 }} {{ vm.BlockDates[$index]}}
                         <i
                                 class="pull-right glyphicon""></i>
                     </accordion-heading>
@@ -87,17 +85,20 @@
         </div>
 
         <div layout="column" layout-align="center center">
-            <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.confirmSignUp()" ng-show="vm.numSelected > 0">Sign Up
+            <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                       ng-click="vm.confirmSignUp() && close()"
+                       ng-disabled="vm.selectedStart.length > vm.maxSlots || vm.selectedStart <= 0">Sign Up
             </md-button>
         </div>
     </div>
 
 
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
-        <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true" close-others="vm.post_description_close">
+        <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
+                   close-others="vm.post_description_close">
             <accordion-group>
                 <accordion-heading>
-                    Block {{ $index + 1 }}: {{ vm.blockDates[$index]}} ({{ vm.numFreeSlots[$index] }} Available Slots)
+                    Block {{ $index + 1 }} {{ vm.blockDates[$index]}}
                     <i
                             class="pull-right glyphicon""></i>
                 </accordion-heading>
@@ -126,7 +127,7 @@
     </div>
 
     <div layout="column" layout-align="center center" ng-show="!vm.isOwner">
-        <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.signUp()"
+        <md-button class="md-raised md-primary btn-submit" ng-click="vm.signUp()"
                    ng-show="vm.notSigningUp == true">Sign Up
         </md-button>
     </div>
