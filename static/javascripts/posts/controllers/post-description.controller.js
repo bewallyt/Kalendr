@@ -84,6 +84,7 @@
             }
 
             function successSignupFn(data, status, headers, config) {
+                console.log('Data Type: ' + data.data['type']);
                 console.log('Signup data: ' + data.data);
             }
 

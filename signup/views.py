@@ -72,20 +72,30 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
         So when the front end gets the JSON, the front end can check the data.data['type']
         if the result is 'post' then it's a regular post. If the reuslt is 'signup', then
         it's a signup.
+
+        And again, the parameter has to have name post_pk, otherwise: runtime error:
+            list() got an unexpected keyword argument 'post_pk'
     '''
     def list(self, request, post_pk):
         post = Post.objects.get(pk = post_pk)
+        post_owner = post.author
+        requester = Account.objects.get(email=request.user.email)
+
         if hasattr(post, 'signup'):
             print 'Post is a signup sheet'
-            type = 'signup'
-            serializer = SignUpSheetSerializer(post.signup)
+
+            if requester != post_owner:
+                print 'requester is NOT post owner'
+                serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False})
+
+            else:
+                print 'requester is post owner'
+                serializer = SignUpSheetSerializer(post.signup, context={'is_owner': True})
+
         else:
             print 'Post is not a signup sheet'
-            type = 'post'
             serializer = PostSerializer(post)
 
         #Now that I have a JSON, how do I inject a field into this JSON?
         print serializer.data
-
-
         return Response(serializer.data)
