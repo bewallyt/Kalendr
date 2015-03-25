@@ -34,7 +34,7 @@
         Minutes)
     </div>
 
-    <div layout layout-align="center center"  ng-show="vm.notSigningUp == false && vm.isOwner">
+    <div layout layout-align="center center" ng-show="vm.notSigningUp == false && vm.isOwner">
         <md-slider flex class="md-primary" md-discrete ng-model="vm.meetingDuration" step="{{ vm.minDuration * 1 }}"
                    min="{{ vm.minDuration * 1 }}"
                    max="{{ vm.maxDuration * 1 }}"
