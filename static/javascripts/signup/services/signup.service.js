@@ -18,7 +18,8 @@
     function Signup($http) {
         var Signup = {
             create: create,
-            get: get
+            get: get,
+            searchSlots: searchSlots
         };
 
         return Signup;
@@ -47,6 +48,10 @@
 
         function get(postId){
             return $http.get('/api/v1/signup/' + postId + '/get_description/');
+        }
+
+        function searchSlots(postId, duration){
+            return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration +'/request/')
         }
 
     }

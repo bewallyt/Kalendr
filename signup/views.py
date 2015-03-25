@@ -109,16 +109,23 @@ class SignUpView(viewsets.ModelViewSet):
     queryset = SignUp.objects.all()
 
     def list(self, request, post_pk, duration_pk, *args, **kwargs):
+        print 'SignUpViewList'
         post = Post.objects.get(pk = post_pk)
         post_owner = post.author
+        requester = Account.objects.get(email=request.user.email)
 
         signup_sheet = post.signup
         min_duration = signup_sheet.min_duration
-        num_slots_to_combine = duration_pk/min_duration
+        duration = int(duration_pk)
+        print duration
+        print type(duration)
+
+        num_slots_to_combine = duration/min_duration
         print num_slots_to_combine
 
         if num_slots_to_combine != 1:
-            data = combine(post, post.signup, num_slots_to_combine)
+            data = combine(requester,post, post.signup, num_slots_to_combine)
+            print 'Back to SignupView List'
             print data
             return Response(data)
         else:

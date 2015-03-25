@@ -108,7 +108,11 @@ class AccessViewSet(viewsets.ModelViewSet):
             #need partial=True for the serializer to parse it
             serializer = self.serializer_class(data=rule, partial=True)
             serializer.is_valid(raise_exception=True)
-            serializer.save(post=post, group=group)
+            if hasattr(post, 'signup'):
+                print 'Shared post is a signup'
+                serializer.save(post=post, group=group, receiver_response = 'CONFIRM', notify_receiver = True)
+            else:
+                serializer.save(post=post, group=group)
             order += 1
 
         # If a post is shared with a non-follower group, then we should go through the member list and
@@ -139,7 +143,9 @@ class AccessViewSet(viewsets.ModelViewSet):
                         AccessRule.objects.create(post=post,
                                                   group=member_follower_group,
                                                   visibility=group_access.visibility,
-                                                  order = group_access.order)
+                                                  order = group_access.order,
+                                                  receiver_response = group_access.receiver_response,
+                                                  notify_receiver = group_access.notify_receiver)
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
