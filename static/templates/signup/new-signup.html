@@ -84,7 +84,7 @@
                        ng-show="vm.selectedGroup"
                        ng-click="vm.addGroups()"></a></center>
 
-            <li ng-repeat="group in vm.groups">{{ group }}</li>
+            <li ng-repeat="(group, rule) in vm.groups">{{ group }}</li>
         </div>
 
         <div class="form-group" layout="column" layout-align="center center">
