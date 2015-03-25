@@ -220,10 +220,10 @@
                 // e.g. filter queryset via .latest('created_at')
                 // returned group will be data.data not data.data[0] because single item (not array)
 
-                //console.log("post creation successful and here is data.data: ");
-                //console.log(data.data.id);
-                //console.log("This is the group rule:");
-                //console.log(vm.groupRuleDict);
+                console.log("post creation successful and here is data.data: ");
+                console.log(data.data.id);
+                console.log("This is the group rule:");
+                console.log(vm.groupRuleDict);
                 Access.createShareable(data.data.id, vm.groupRuleDict);
 
 
