@@ -229,7 +229,7 @@
             }
         }
 
-        function checkSlot(slotIndex, start_time, end_time, pass) {
+        function checkSlot(start_time, end_time) {
             //if (pass == false) {
             //    console.log('selected start and end time: ' + start_time + ' ' + end_time);
             //    console.log('numSelected: ' + vm.numSelected);
