@@ -27,6 +27,21 @@
         vm.hasDeclinedGroups = false;
         vm.hasNoRespGroups = false;
 
+        // Signup Attributes
+
+        vm.isSignup;
+        vm.minDuration;
+        vm.maxDuration;
+        vm.blocks = [];
+        vm.numSlots = [];
+
+        vm.getNumber = getNumber;
+        vm.isLoading = true;
+
+        // Reformat Time
+        vm.blockDates = [];
+        vm.parseSlotTimes = parseSlotTimes;
+
         function init(id) {
 
             vm.postId = id;
@@ -84,14 +99,60 @@
             }
 
             function successSignupFn(data, status, headers, config) {
+                vm.isLoading = false;
                 console.log('Data Type: ' + data.data['type']);
-                console.log('Signup data: ' + data.data);
+                console.log('Min Duration: ' + data.data['min_duration']);
+                console.log('Signup Blocks: ' + data.data['myblocks']);
+
+                var i;
+                for (i = 0; i < data.data['myblocks'].length; i++) {
+                    console.log(data.data['myblocks'][i]);
+                    vm.blocks[i] = data.data['myblocks'][i];
+                    vm.numSlots[i] = vm.blocks[i].myslots.length;
+                    parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
+                }
+
+
+
+                if (data.data['type'] == 'signup') vm.isSignup = true;
+                vm.minDuration = data.data['min_duration'];
+                vm.maxDuration = data.data['max_duration'];
             }
 
             function errorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
 
+        }
+
+        function parseBlockDates(backendStartTime, backendEndTime, index) {
+            var startDateAndTime = backendStartTime.split('T');
+            var startYearMonthDate = startDateAndTime[0].split('-');
+            var startHourMinSec = startDateAndTime[1].split(':');
+
+            var endDateAndTime = backendEndTime.split('T');
+            var endHourMinSec = endDateAndTime[1].split(':');
+
+            var date = startYearMonthDate[1] + '/' + startYearMonthDate[2] + '/' + startYearMonthDate[0];
+            var startTime = startHourMinSec[0] + ':' + startHourMinSec[1];
+            var endTime = endHourMinSec[0] + ':' + endHourMinSec[1];
+
+            vm.blockDates[index] = date + ' ' + startTime + '-' + endTime;
+
+        }
+
+        function parseSlotTimes(slotTime) {
+            var slotDateAndTime = slotTime.split('T');
+            var hourMinSec = slotDateAndTime[1].split(':');
+
+
+            var parsedTime = hourMinSec[0] + ':' + hourMinSec[1];
+
+            return parsedTime;
+        }
+
+        function getNumber(num) {
+            return new Array(num);
         }
 
 
