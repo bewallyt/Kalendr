@@ -111,12 +111,13 @@
             function successSignupFn(data, status, headers, config) {
                 vm.isLoading = false;
                 if (data.data['type'] == 'signup') {
+                    vm.isSignup = true;
                     console.log('Data Type: ' + data.data['type']);
                     console.log('Min Duration: ' + data.data['min_duration']);
                     console.log('Signup Blocks: ' + data.data['myblocks']);
-                    console.log('is Owner: ' + data.data['context']['is_owner']);
+                    console.log('is Owner: ' + data.data['is_owner']['is_owner']);
 
-                    vm.isOwner = data.data['context']['is_owner'];
+                    vm.isOwner = data.data['is_owner']['is_owner'];
                     vm.maxSlots = data.data['max_slots'];
 
                     var i;
@@ -139,9 +140,12 @@
                 }
             }
 
+
             function errorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
+
+
 
         }
 
@@ -149,7 +153,18 @@
             vm.notSigningUp = false;
         }
 
+
         function searchAvailableSlots(){
+            Signup.searchSlots(vm.postId,vm.meetingDuration).then(successSearchFn, errorFn);
+
+            function successSearchFn(data, status, headers, config){
+                console.log('returned slots: ' + data.data);
+            }
+
+            function errorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+
 
         }
 

@@ -9,7 +9,7 @@ from signup.serializers import SignUpSheetSerializer
 from posts.serializers import PostSerializer
 from authentication.models import Account
 from posts.models import Post
-
+from combine_slots import combine
 
 # Create your views here.
 class SignUpCreateAndListView(viewsets.ModelViewSet):
@@ -88,6 +88,8 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
 
             if requester != post_owner:
                 print 'requester is NOT post owner'
+                #TODO:
+
                 serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False})
 
             else:
@@ -102,3 +104,33 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
         print serializer.data
         return Response(serializer.data)
 
+class SignUpView(viewsets.ModelViewSet):
+    serializer_class = SignUpSheetSerializer
+    queryset = SignUp.objects.all()
+
+    def list(self, request, post_pk, duration_pk, *args, **kwargs):
+        print 'SignUpViewList'
+        post = Post.objects.get(pk = post_pk)
+        post_owner = post.author
+        requester = Account.objects.get(email=request.user.email)
+
+        signup_sheet = post.signup
+        min_duration = signup_sheet.min_duration
+        duration = int(duration_pk)
+        print duration
+        print type(duration)
+
+        num_slots_to_combine = duration/min_duration
+        print num_slots_to_combine
+
+        if num_slots_to_combine != 1:
+            data = combine(requester,post, post.signup, num_slots_to_combine)
+            print 'Back to SignupView List'
+            print data
+            return Response(data)
+        else:
+            serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False})
+
+        print serializer.data
+
+        return Response(serializer.data)
