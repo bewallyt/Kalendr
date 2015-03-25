@@ -70,7 +70,7 @@ class FreeTimeTest(TestCase):
         self.assertEqual(validated_data['end_time'].minute, 0)
 
     def test_calculate_search_times_no_recurrence(self):
-        weekdays = [0, 1, 3, 4]
+        weekdays = [6, 0, 1, 3, 4]
         start_time = datetime.datetime(year=1970, month=1, day=1, hour=20, tzinfo=utc)
         end_time = datetime.datetime(year=1970, month=1, day=2, hour=3, minute=30, tzinfo=utc)
         is_recurring = False

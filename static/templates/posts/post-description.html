@@ -49,8 +49,9 @@
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true" close-others="vm.post_description_close">
             <accordion-group>
                 <accordion-heading>
-                    Block {{ $index + 1 }}: {{ vm.blockDates[$index]}} ({{ vm.numFreeSlots[$index] }} Available Slots) <i
-                        class="pull-right glyphicon""></i>
+                    Block {{ $index + 1 }}: {{ vm.blockDates[$index]}} ({{ vm.numFreeSlots[$index] }} Available Slots)
+                    <i
+                            class="pull-right glyphicon""></i>
                 </accordion-heading>
 
                 <md-content>
@@ -135,7 +136,7 @@
     </accordion>
 </div>
 
-<div ng-show="vm.isSignup">
+<div ng-show="vm.isSignup && vm.isOwner">
     <accordion ng-hide="(ngDialogData.is_holiday
 || (vm.hasConfirmedGroups == false
     && vm.hasDeclinedGroups == false
@@ -148,13 +149,14 @@
             </accordion-heading>
             <br>
 
-            <div ng-show="vm.hasConfirmedGroups">
+            <li ng-repeat="user in vm.confirmedGroups">
                 <p align="left">
-                <li ng-repeat="user in vm.confirmedGroups">
-                    <p align="left">
-                        {{ user.name }}</p>
-                </li>
-            </div>
+                    {{ user.name }}</p>
+            </li>
+            <li ng-repeat="user in vm.hasNoRespGroups">
+                <p align="left">
+                    {{ user.name }}</p>
+            </li>
 
         </accordion-group>
 

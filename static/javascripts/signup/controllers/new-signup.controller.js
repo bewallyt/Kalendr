@@ -59,6 +59,7 @@
             var firstMeetingWeek = vm.dates[0].getWeekNum();
             console.log('week num: ' + firstMeetingWeek);
 
+            if(dayOfWeek == 'Sunday') firstMeetingWeek ++;
 
             Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser, dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
 

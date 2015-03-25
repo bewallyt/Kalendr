@@ -124,7 +124,7 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
         event_type: {0,1} #1 if is_recurring
         start_date: datetime
         end_date: datetime
-        which_days: int array (0-6 inclusive, ordered)
+        which_days: int array (0-6 inclusive)
         start_time: datetime
         end_time: datetime
         duration_hrs: int
@@ -138,6 +138,17 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
             is_conflict: boolean
             post: Post
             is_one_off: boolean
+
+            freetime_recurring: boolean
+            start_date: string
+            end_date: string
+            which_days: string (comma separated)
+            start_time: string
+            end_time: string
+            duration_hrs: int
+            duration_min: int
+            post_begin_time: string
+            post_end_time: string
         }
     ]
     where the list is ordered by the user, and then chronologically by post time
@@ -155,6 +166,8 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
         end_date = validated_data['end_date']
         start_time = validated_data['start_time']
         end_time = validated_data['end_time']
+        duration_hrs = validated_data['duration_hrs']
+        duration_min = validated_data['duration_min']
         weekdays = data['which_days']
         users = [Account.objects.get(username=username) for username in data['users_following']]
 
@@ -163,7 +176,20 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
         conflicts = find_conflicts(users, time_ranges, request.user, is_recurring)
 
         # serialize output
+        day_name = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        for conflict in conflicts:
+            conflict.freetime_recurring = is_recurring
+            if is_recurring:
+                conflict.start_date = str(start_date)[5:7] + '/' + str(start_date)[8:10] + '/' + str(start_date)[0:4]
+                conflict.end_date = str(end_date)[5:7] + '/' + str(end_date)[8:10] + '/' + str(end_date)[0:4]
+            if conflict.is_conflict and conflict.post.not_all_day:
+                conflict.post_begin_time = (dateutil.parser.parse(conflict.post.begin_time)-datetime.timedelta(hours=5)).strftime('%I:%M %p')
+                conflict.post_end_time = (dateutil.parser.parse(conflict.post.end_time)-datetime.timedelta(hours=5)).strftime('%I:%M %p')
+            conflict.which_days = ', '.join(map(lambda x: day_name[x], weekdays))
+            conflict.start_time = (start_time-datetime.timedelta(hours=5)).strftime('%I:%M %p')
+            conflict.end_time = (end_time-datetime.timedelta(hours=5)).strftime('%I:%M %p')
+            conflict.duration_hrs = duration_hrs
+            conflict.duration_min = duration_min
         serializer = ConflictSerializer(conflicts, many=True)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, headers=headers)
-
