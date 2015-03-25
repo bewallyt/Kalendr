@@ -12,7 +12,7 @@ class SignUpSlotSerializer(serializers.ModelSerializer):
 
     def get_owner(self, obj):
         if obj.owner is None:
-            return 'null'
+            return 'Available'
         elif self.context['is_owner'] == False:
             if self.context['requester'] != obj.owner.username:
                 return ''

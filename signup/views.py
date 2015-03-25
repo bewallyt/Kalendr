@@ -154,6 +154,8 @@ class SignUpView(viewsets.ModelViewSet):
             datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%SZ')
             return datetime_obj
 
+        print 'Signup Slot create'
+
         requester = Account.objects.get(email=request.user.email)
         post = Post.objects.get(pk = request.data['postPk'])
 
@@ -180,6 +182,8 @@ class SignUpView(viewsets.ModelViewSet):
                 start_slot = SignUpSlot.objects.get(start_time = start_slot.start_time +  min_duration)
 
         data = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester': requester.username})
+        print 'Sign up sheet after sign up create'
+        print data.data
         return Response(data.data, status=status.HTTP_201_CREATED)
 
 

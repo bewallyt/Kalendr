@@ -87,7 +87,7 @@
         </div>
 
         <div layout="column" layout-align="center center">
-            <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.confirmSignUp()">Sign Up
+            <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.confirmSignUp()" ng-show="vm.numSelected > 0">Sign Up
             </md-button>
         </div>
     </div>
@@ -109,7 +109,7 @@
                                 <div class="md-tile-content" style="background-color:#019587; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                    <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
+                                    <h4>{{ slot.owner }}</h4>
 
                                     <p>
                                     </p>
