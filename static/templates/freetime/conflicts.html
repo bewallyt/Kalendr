@@ -1,10 +1,17 @@
 <div class="row pudview-content" ng-cloak>
 
-    <!-- <div class="col-md-4">
-        <div ng-repeat="conflict in vm.columns[0]">
-            <conflict conflict="conflict"></conflict>
+        <div class="well">
+            <h4>Search Parameters</h4>
+            <h6>Duration: {{ vm.dur_hrs }} hrs, {{ vm.dur_min }} min</h6>
+            <h6>Start Time: {{ vm.start_time }}</h6>
+            <h6>End Time: {{ vm.end_time }}</h6>
+            <h6>Days: {{ vm.days }}</h6>
+
         </div>
-    </div> -->
+    <div class="well" style="float: right; z-index: 25;">
+        <h6># of Conflicts</h6>
+        <h1 layout="column" layout-align="center center">{{ vm.length }}</h1>
+    </div>
 
     <div ng-repeat="column in vm.columns">
         <div class="col-md-1">

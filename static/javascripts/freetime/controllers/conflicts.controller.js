@@ -18,6 +18,12 @@
         var vm = this;
 
         vm.columns = [];
+        vm.dur_hrs;
+        vm.dur_min;
+        vm.start_time;
+        vm.end_time;
+        vm.days;
+        vm.length;
 
         activate();
 
@@ -53,6 +59,13 @@
                 }
 
             }
+
+            vm.dur_hrs = current[0].duration_hrs;
+            vm.dur_min = current[0].duration_min;
+            vm.start_time = current[0].start_time;
+            vm.end_time = current[0].end_time;
+            vm.days = current[0].which_days;
+            vm.length = current.length;
         }
 
     }
