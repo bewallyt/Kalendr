@@ -14,7 +14,6 @@
         vm.day_array = [];
         vm.selectedUser;
         vm.addUser = addUser;
-        //vm.addDay = addDay;
         vm.followingDict = [];
         var event_type;
 
@@ -65,7 +64,7 @@
             $scope.closeThisDialog();
 
             function freeTimeSuccessFn(data, status, headers, config) {
-                Snackbar.show('Success! Free time request processed');
+                Snackbar.show('Success! Free-time processed');
                 //console.log(data.data[0]);
                 $rootScope.$broadcast('ft.search.complete', {
                     data: data,
