@@ -14,6 +14,11 @@ from mail.mail import send_post, send_shared_post
 import datetime
 
 
+
+'''
+    Create a new post. The create call uses the PoserSerializer to deserialize the HTTP request and create a new
+    post object and save it.
+'''
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -54,8 +59,6 @@ class PostViewSet(viewsets.ModelViewSet):
  Or the originator of the post changed the post's content
  This viewset is linked to the notification bar under social bar at the front-end
 '''
-
-
 class NotificationPostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -242,6 +245,11 @@ class GetSharedPostView(viewsets.ModelViewSet):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
+
+
+'''
+    Pub API endpoints:
+'''
 class AccountSavePudPostViewSet(viewsets.ViewSet):
     queryset = Post.objects.all()
     pud_queryset = Pud.objects.all()

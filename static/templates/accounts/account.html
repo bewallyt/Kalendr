@@ -197,13 +197,19 @@
     <!-- there is trouble with replacing these -->
 
     <a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend btn-hover"
-       id="showLeftPush"
+       style="background-color:#2196f3; color:#333333"
        ng-click="vm.closeAccords()"
-       ng-show="vm.isAuthenticated"></a>
+       ng-show="vm.isAuthenticated">
+        <md-tooltip>Social Bar</md-tooltip>
+    </a>
+
 
     <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview btn-hover"
+            style="background-color:#2196f3; color:#333333"
             id="btn-pudview"
-            ng-show="vm.isAuthenticated"></button>
+            ng-show="vm.isAuthenticated">
+        <md-tooltip>Task List</md-tooltip>
+    </button>
 
 
     <a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications btn-hover"
@@ -331,7 +337,8 @@
 
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
-            showLeftPush = document.getElementById('showLeftPush'),
+            showLeftPushArray = document.getElementsByClassName('mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend btn-hover'),
+            showLeftPush = showLeftPushArray[0],
             showLeftPush1 = document.getElementById('showLeftPush2'),
             body = document.body;
 

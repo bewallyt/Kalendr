@@ -9,7 +9,7 @@
         .module('kalendr.signup.controllers')
         .controller('NewSignupController', NewSignupController);
 
-    NewSignupController.$inject = ['$rootScope', '$scope','Authentication', 'Snackbar', 'Signup'];
+    NewSignupController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Signup'];
 
 
     /**
@@ -41,6 +41,8 @@
 
         vm.getNumber = getNumber;
 
+        var dayOfWeek;
+
 
         /**
          * @name submit
@@ -50,9 +52,15 @@
         function submit() {
 
             createDateTime();
+            createDayOfWeek();
+
+            var firstMeetingMonth = vm.dates[0].getMonth();
+            var firstMeetingDate = vm.dates[0].getDate();
+            var firstMeetingWeek = vm.dates[0].getWeekNum();
+            console.log('week num: ' + firstMeetingWeek);
 
 
-            Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser).then(createPostSuccessFn, createPostErrorFn);
+            Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser, dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
 
             $rootScope.$broadcast('signup.created', {
                 content: vm.content,
@@ -62,6 +70,10 @@
                 minTimes: vm.minTimes,
                 maxTimes: vm.maxTimes,
                 numSlotsPerUser: vm.numSlotsPerUser,
+                dayOfWeek: dayOfWeek,
+                firstMeetingMonth: firstMeetingMonth,
+                firstMeetingDate: firstMeetingDate,
+                firstMeetingWeek: firstMeetingWeek,
                 author: {
                     username: Authentication.getAuthenticatedAccount().username
                 }
@@ -121,7 +133,7 @@
             for (i = 0; i < vm.dates.length; i++) {
                 var day = vm.dates[i].getDate();
                 console.log('day: ' + day);
-                var month = vm.dates[i].getMonth() + 1;
+                var month = vm.dates[i].getMonth();
                 console.log('month: ' + month);
                 var year = vm.dates[i].getFullYear();
                 console.log('year: ' + year);
@@ -135,6 +147,18 @@
                 console.log('beginDateTimes: ' + beginDateTimes[i]);
                 console.log('endDateTimes: ' + endDateTimes[i]);
             }
+        }
+
+        function createDayOfWeek() {
+            var num_day = vm.dates[0].getDay();
+
+            if (num_day == 0) dayOfWeek = 'Sunday';
+            else if (num_day == 1) dayOfWeek = 'Monday';
+            else if (num_day == 2) dayOfWeek = 'Tuesday';
+            else if (num_day == 3) dayOfWeek = 'Wednesday';
+            else if (num_day == 4) dayOfWeek = 'Thursday';
+            else if (num_day == 5) dayOfWeek = 'Friday';
+            else dayOfWeek = 'Saturday';
         }
     }
 

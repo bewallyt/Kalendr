@@ -13,7 +13,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
 from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView,PartialUpdateView
 from puds.views import AccountPudsViewSet, PudViewSet, AccountCompletePudViewSet
 from freetime.views import FreeTimeViewSet
-from signup.views import SignUpCreateView
+from signup.views import SignUpCreateAndListView
 
 # Base router
 router = routers.SimpleRouter()
@@ -32,7 +32,10 @@ router.register(r'post_update', PostUpdateView)
 router.register(r'freetime', FreeTimeViewSet)
 # Initially used APIView. Didn't make it to make, keep getting 405. Switched to
 # ModelViewSet and worked at once. Experience: 
-router.register(r'signup', SignUpCreateView)
+router.register(r'signup', SignUpCreateAndListView)
+
+signup_router = routers.NestedSimpleRouter(router, r'signup', lookup='post')
+signup_router.register(r'get_description', SignUpCreateAndListView)
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/
@@ -93,6 +96,7 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(group_router.urls)),
     url(r'^api/v1/', include(week_router.urls)),
     url(r'^api/v1/', include(save_router.urls)),
+    url(r'^api/v1/', include(signup_router.urls)),
     url(r'^api/v1/', include(pud_save_router.urls)),
     url(r'^api/v1/', include(pud_complete_router.urls)),
     url(r'^api/v1/', include(notification_router.urls)),
