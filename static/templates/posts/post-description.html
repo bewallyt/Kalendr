@@ -54,7 +54,7 @@
             <accordion close-others="vm.post_description_close1">
                 <accordion-group>
                     <accordion-heading>
-                        Block {{ $index + 1 }} {{ vm.BlockDates[$index]}}
+                        Block {{ $index + 1 }} {{ vm.returnedblockDates[$index]}}
                         <i
                                 class="pull-right glyphicon""></i>
                     </accordion-heading>
@@ -70,7 +70,10 @@
 
                                         <md-checkbox aria-label="is_pud_time"
                                                      ng-disabled="vm.checkDisabled"
-                                                     ng-click='vm.checkSlot($index, slot.start_time, slot.end_time)'>
+                                                     ng-true-value="true"
+                                                     ng-false-value="false"
+                                                     ng-model="pass"
+                                                     ng-click='vm.checkSlot(slot.start_time, slot.end_time,pass)'>
                                         </md-checkbox>
                                     </div>
                                 </md-item-content>

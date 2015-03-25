@@ -229,23 +229,23 @@
             }
         }
 
-        function checkSlot(slotIndex, start_time, end_time) {
-            if (vm.selectedSlots[slotIndex] == false) {
-                console.log('selected start and end time: ' + start_time + ' ' + end_time);
-                console.log('numSelected: ' + vm.numSelected);
-                vm.selectedSlots[slotIndex] = true;
+        function checkSlot(slotIndex, start_time, end_time, pass) {
+            //if (pass == false) {
+            //    console.log('selected start and end time: ' + start_time + ' ' + end_time);
+            //    console.log('numSelected: ' + vm.numSelected);
+            //    vm.selectedSlots[slotIndex] = true;
                 vm.numSelected++;
                 vm.selectedStart.push(start_time);
                 vm.selectedEnd.push(end_time);
-            }
-            else {
-                console.log('deselected');
-                console.log('numSelected: ' + vm.numSelected);
-                vm.numSelected--;
-                vm.selectedStart.pop();
-                vm.selectedEnd.pop();
-            }
-            if (vm.numSelected == vm.maxSlots) ;
+            //}
+            //else {
+            //    console.log('deselected');
+            //    console.log('numSelected: ' + vm.numSelected);
+            //    vm.numSelected--;
+            //    vm.selectedStart.pop();
+            //    vm.selectedEnd.pop();
+            //}
+            //if (vm.numSelected == vm.maxSlots) ;
         }
 
         function parseBlockDates(backendStartTime, backendEndTime, index) {
