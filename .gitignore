@@ -63,7 +63,7 @@ npm-debug.log
 ##### static/bower_components/
 
 # Uglified JavaScript
-dist/
+##### dist/
 
 # Staticfiles
 staticfiles/
