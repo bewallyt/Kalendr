@@ -47,10 +47,20 @@
         // Search
         vm.searchAvailableSlots = searchAvailableSlots;
         vm.meetingDuration;
+        vm.isSearching = false;
+
+        // Received Slots
+        vm.returnedBlocks = [];
+        vm.returnedNumFreeSlots = [];
+        vm.returnedblockDates = [];
+
+        // Selecting Slots
+        vm.selectedSlots = [];
 
         // Reformat Time
         vm.blockDates = [];
         vm.parseSlotTimes = parseSlotTimes;
+
 
         function init(id) {
 
@@ -126,8 +136,8 @@
                         vm.blocks[i] = data.data['myblocks'][i];
                         var j;
                         var numFreeSlots = 0;
-                        for(j = 0; j < vm.blocks[i].myslots.length; j++){
-                            if(vm.blocks[i].myslots.owner == null) numFreeSlots++;
+                        for (j = 0; j < vm.blocks[i].myslots.length; j++) {
+                            if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
                         }
                         vm.numFreeSlots[i] = numFreeSlots;
                         parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
@@ -146,23 +156,39 @@
             }
 
 
-
         }
 
-        function signUp(){
+        function signUp() {
             vm.notSigningUp = false;
         }
 
 
-        function searchAvailableSlots(){
-            Signup.searchSlots(vm.postId,vm.meetingDuration).then(successSearchFn, errorFn);
+        function searchAvailableSlots() {
+            vm.isSearching = true;
+            Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
 
-            function successSearchFn(data, status, headers, config){
-                console.log('returned slots: ' + data.data);
+            function successSearchFn(data, status, headers, config) {
+                console.log('returned slots: ' + data.data['myblocks']);
+
+                var i;
+                for (i = 0; i < data.data['myblocks'].length; i++) {
+                    console.log(data.data['myblocks'][i]);
+                    vm.returnedBlocks[i] = data.data['myblocks'][i];
+                    var j;
+                    var numFreeSlots = 0;
+                    for (j = 0; j < vm.returnedBlocks[i].myslots.length; j++) {
+                        if (vm.returnedBlocks[i].myslots.owner == null) numFreeSlots++;
+                    }
+                    vm.returnedNumFreeSlots[i] = numFreeSlots;
+                    parseReturnedBlockDates(vm.returnedBlocks[i].start_time, vm.returnedBlocks[i].end_time, i);
+                }
+                vm.isSearching = false;
+
             }
 
             function errorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
+                vm.isSearching = false;
             }
 
 
@@ -184,6 +210,22 @@
 
         }
 
+        function parseReturnedBlockDates(backendStartTime, backendEndTime, index) {
+            var startDateAndTime = backendStartTime.split('T');
+            var startYearMonthDate = startDateAndTime[0].split('-');
+            var startHourMinSec = startDateAndTime[1].split(':');
+
+            var endDateAndTime = backendEndTime.split('T');
+            var endHourMinSec = endDateAndTime[1].split(':');
+
+            var date = startYearMonthDate[1] + '/' + startYearMonthDate[2] + '/' + startYearMonthDate[0];
+            var startTime = startHourMinSec[0] + ':' + startHourMinSec[1];
+            var endTime = endHourMinSec[0] + ':' + endHourMinSec[1];
+
+            vm.returnedblockDates[index] = date + ' ' + startTime + '-' + endTime;
+
+        }
+
         function parseSlotTimes(slotTime) {
             var slotDateAndTime = slotTime.split('T');
             var hourMinSec = slotDateAndTime[1].split(':');
@@ -200,4 +242,5 @@
 
 
     }
-})();
+})
+();

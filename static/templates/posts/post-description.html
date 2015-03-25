@@ -42,6 +42,48 @@
         </md-slider>
         <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.searchAvailableSlots()">Search
         </md-button>
+
+    </div>
+
+    <div ng-show="vm.notSigningUp == false && !vm.isOwner">
+        <div layout layout-align="center">
+            <md-progress-circular md-mode="indeterminate" ng-show="vm.isSearching"></md-progress-circular>
+        </div>
+
+        <div ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
+            <accordion close-others="vm.post_description_close1">
+                <accordion-group>
+                    <accordion-heading>
+                        Block {{ $index + 1 }}: {{ vm.BlockDates[$index]}}
+                        ({{ vm.returnedNumFreeSlots[$index] }} Available
+                        Slots)
+                        <i
+                                class="pull-right glyphicon""></i>
+                    </accordion-heading>
+
+                    <md-content>
+                        <md-list>
+                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots">
+                                <md-item-content>
+                                    <div class="md-tile-content" style="background-color:#019587; color=black">
+                                        <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
+                                            {{ vm.parseSlotTimes(slot.end_time) }}</h3>
+                                        <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
+
+                                        <md-checkbox aria-label="is_pud_time" class="is_pud_time"
+                                                     ng-model="vm.selectedSlots[$index]">
+                                        </md-checkbox>
+                                    </div>
+                                </md-item-content>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-item>
+                        </md-list>
+                    </md-content>
+
+                </accordion-group>
+
+            </accordion>
+        </div>
     </div>
 
 
