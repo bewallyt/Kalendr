@@ -13,7 +13,7 @@ from groups.views import GroupViewSet, AccountGroupsViewSet, AccountFollowingVie
 from access.views import AccessViewSet, AccountAccessViewSet, NotificationResponseView,PartialUpdateView
 from puds.views import AccountPudsViewSet, PudViewSet, AccountCompletePudViewSet
 from freetime.views import FreeTimeViewSet
-from signup.views import SignUpCreateAndListView
+from signup.views import SignUpCreateAndListView, SignUpView
 
 # Base router
 router = routers.SimpleRouter()
@@ -34,8 +34,15 @@ router.register(r'freetime', FreeTimeViewSet)
 # ModelViewSet and worked at once. Experience: 
 router.register(r'signup', SignUpCreateAndListView)
 
+# For return description of a specific signup post
 signup_router = routers.NestedSimpleRouter(router, r'signup', lookup='post')
 signup_router.register(r'get_description', SignUpCreateAndListView)
+signup_router.register(r'request', SignUpView)
+
+# For other users to select signup slots
+select_slot_router = routers.NestedSimpleRouter(signup_router, r'get_description', lookup='duration')
+select_slot_router.register(r'request', SignUpView)
+
 
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/
@@ -97,6 +104,7 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(week_router.urls)),
     url(r'^api/v1/', include(save_router.urls)),
     url(r'^api/v1/', include(signup_router.urls)),
+    url(r'^api/v1/', include(select_slot_router.urls)),
     url(r'^api/v1/', include(pud_save_router.urls)),
     url(r'^api/v1/', include(pud_complete_router.urls)),
     url(r'^api/v1/', include(notification_router.urls)),

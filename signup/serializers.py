@@ -12,9 +12,12 @@ class SignUpSlotSerializer(serializers.ModelSerializer):
 
     def get_owner(self, obj):
         if obj.owner is None:
-            return 'null'
+            return 'Available'
         elif self.context['is_owner'] == False:
-            return ''
+            if self.context['requester'] != obj.owner.username:
+                return ''
+            else:
+                return obj.owner.username
         else:
             return obj.owner.username
 
@@ -30,8 +33,8 @@ class TimeBlockSerializer(serializers.ModelSerializer):
     def get_context(self,obj):
         return self.context
 
-    myslots = SignUpSlotSerializer(many=True)
     context = serializers.SerializerMethodField()
+    myslots = SignUpSlotSerializer(many=True, context=context)
 
     class Meta:
         model = TimeBlock
@@ -45,19 +48,19 @@ class SignUpSheetSerializer(serializers.ModelSerializer):
     def get_type(self, obj):
         return 'signup'
 
-    def get_context(self,obj):
+    def get_is_owner(self,obj):
         return self.context
 
 
     # This really should be part of the PostSerializer!! OH WELL
     type = serializers.SerializerMethodField()
-    context = serializers.SerializerMethodField()
-    myblocks = TimeBlockSerializer(many=True, context=context)
+    is_owner = serializers.SerializerMethodField()
+    myblocks = TimeBlockSerializer(many=True, context=is_owner)
 
 
 
     class Meta:
         model = SignUp
         field = ('id', 'type', 'name', 'location', 'max_slots', 'max_duration', 'min_duration',
-                 'myblocks')
+                 'myblocks','is_owner')
 

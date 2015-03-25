@@ -18,7 +18,9 @@
     function Signup($http) {
         var Signup = {
             create: create,
-            get: get
+            get: get,
+            searchSlots: searchSlots,
+            confirmSlots: confirmSlots
         };
 
         return Signup;
@@ -47,6 +49,22 @@
 
         function get(postId){
             return $http.get('/api/v1/signup/' + postId + '/get_description/');
+        }
+
+        function searchSlots(postId, duration){
+            return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration +'/request/')
+        }
+
+        function confirmSlots(postId, startTimes, endTimes){
+            console.log(startTimes);
+            console.log(endTimes);
+            return $http.post('/api/v1/signup/' + postId + '/request/', {
+                    postPk: postId,
+                    beginDateTimes: startTimes,
+                    endDateTimes: endTimes
+                }
+            )
+
         }
 
     }

@@ -25,6 +25,9 @@
             } else {
                 event_type = 1;
             }
+            if (vm.su) {
+                vm.day_array.push(6);
+            }
             if (vm.mo) {
                 vm.day_array.push(0);
             }
@@ -42,9 +45,6 @@
             }
             if (vm.sa) {
                 vm.day_array.push(5);
-            }
-            if (vm.su) {
-                vm.day_array.push(6);
             }
 
             passVal(event_type, vm.start_search, vm.end_search, vm.dur_hr, vm.dur_mi,
