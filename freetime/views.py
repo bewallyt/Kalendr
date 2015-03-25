@@ -147,6 +147,8 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
             end_time: string
             duration_hrs: int
             duration_min: int
+            post_begin_time: string
+            post_end_time: string
         }
     ]
     where the list is ordered by the user, and then chronologically by post time
@@ -180,6 +182,9 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
             if is_recurring:
                 conflict.start_date = str(start_date)[5:7] + '/' + str(start_date)[8:10] + '/' + str(start_date)[0:4]
                 conflict.end_date = str(end_date)[5:7] + '/' + str(end_date)[8:10] + '/' + str(end_date)[0:4]
+            if conflict.is_conflict and conflict.post.not_all_day:
+                conflict.post_begin_time = (dateutil.parser.parse(conflict.post.begin_time)-datetime.timedelta(hours=5)).strftime('%I:%M %p')
+                conflict.post_end_time = (dateutil.parser.parse(conflict.post.end_time)-datetime.timedelta(hours=5)).strftime('%I:%M %p')
             conflict.which_days = ', '.join(map(lambda x: day_name[x], weekdays))
             conflict.start_time = (start_time-datetime.timedelta(hours=5)).strftime('%I:%M %p')
             conflict.end_time = (end_time-datetime.timedelta(hours=5)).strftime('%I:%M %p')

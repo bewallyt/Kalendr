@@ -30,6 +30,8 @@ class Conflict(models.Model):
     end_time = models.CharField(max_length=50, default='')
     duration_hrs = models.PositiveIntegerField(default=0)
     duration_min = models.PositiveIntegerField(default=0)
+    post_begin_time = models.CharField(max_length=50, default='')
+    post_end_time = models.CharField(max_length=50, default='')
     
     def __unicode__(self):
         return '{0}: {1}'.format(self.user, self.is_conflict)
