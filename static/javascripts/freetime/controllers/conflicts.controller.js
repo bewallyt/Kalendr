@@ -24,6 +24,7 @@
         vm.end_time;
         vm.days;
         vm.length;
+        vm.users;
 
         activate();
 
@@ -66,6 +67,7 @@
             vm.end_time = current[0].end_time;
             vm.days = current[0].which_days;
             vm.length = current.length;
+            vm.users = current[0].num_conflicting_users;
         }
 
     }

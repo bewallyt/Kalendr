@@ -1,15 +1,16 @@
 <div class="row pudview-content" ng-cloak>
 
-        <div class="well">
-            <h4>Search Parameters</h4>
-            <h6>Duration: {{ vm.dur_hrs }} hrs, {{ vm.dur_min }} min</h6>
-            <h6>Start Time: {{ vm.start_time }}</h6>
-            <h6>End Time: {{ vm.end_time }}</h6>
-            <h6>Days: {{ vm.days }}</h6>
-
-        </div>
+    <div class="well">
+        <h4>Search Parameters</h4>
+        <h6>Duration: {{ vm.dur_hrs }} hrs, {{ vm.dur_min }} min</h6>
+        <h6>Start Time: {{ vm.start_time }}</h6>
+        <h6>End Time: {{ vm.end_time }}</h6>
+        <h6>Days: {{ vm.days }}</h6>
+        <h5># of Conflicted Users: {{ vm.users }}</h5>
+    </div>
     <div class="well" style="float: right; z-index: 25;">
         <h6># of Conflicts</h6>
+
         <h1 layout="column" layout-align="center center">{{ vm.length }}</h1>
     </div>
 
