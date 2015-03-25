@@ -34,7 +34,7 @@
         vm.maxDuration;
         vm.maxSlots;
         vm.blocks = [];
-        vm.numSlots = [];
+        vm.numFreeSlots = [];
 
         vm.getNumber = getNumber;
         vm.isLoading = true;
@@ -124,7 +124,12 @@
                     for (i = 0; i < data.data['myblocks'].length; i++) {
                         console.log(data.data['myblocks'][i]);
                         vm.blocks[i] = data.data['myblocks'][i];
-                        vm.numSlots[i] = vm.blocks[i].myslots.length;
+                        var j;
+                        var numFreeSlots = 0;
+                        for(j = 0; j < vm.blocks[i].myslots.length; j++){
+                            if(vm.blocks[i].myslots.owner == null) numFreeSlots++;
+                        }
+                        vm.numFreeSlots[i] = numFreeSlots;
                         parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
                     }
 

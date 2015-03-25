@@ -9,13 +9,13 @@
         .module('kalendr.signup.controllers')
         .controller('NewSignupController', NewSignupController);
 
-    NewSignupController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Signup'];
+    NewSignupController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Signup', 'Access'];
 
 
     /**
      * @namespace NewSignupController
      */
-    function NewSignupController($rootScope, $scope, Authentication, Snackbar, Signup) {
+    function NewSignupController($rootScope, $scope, Authentication, Snackbar, Signup, Access) {
         var vm = this;
 
         vm.submit = submit;
@@ -36,7 +36,7 @@
         vm.maxTimes;
 
         vm.selectedGroup;
-        vm.groups = [];
+        vm.groups = new Object();
         vm.addGroups = addGroups;
 
         vm.getNumber = getNumber;
@@ -87,7 +87,7 @@
              * @desc Show snackbar with success message
              */
             function createPostSuccessFn(data, status, headers, config) {
-                Snackbar.show('Success! Event added to Kalendr');
+                Snackbar.show('Success! Signup Created.');
 
                 // Benson to David: Access Rule API call here
                 // Signup is created by now.
@@ -102,7 +102,7 @@
                 //console.log("This is the group rule:");
                 //console.log(vm.groupRuleDict);
                 console.log(data.data.id);
-                //Access.createShareable(data.data.id, vm.groupRuleDict);
+                Access.createShareable(data.data.id, vm.groups);
 
 
             }
@@ -121,7 +121,7 @@
         }
 
         function addGroups() {
-            vm.groups.push(vm.selectedGroup.originalObject.name);
+            vm.groups[vm.selectedGroup.originalObject.name] = 'ALL';
         }
 
         function getNumber(num) {

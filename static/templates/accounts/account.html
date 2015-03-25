@@ -36,7 +36,7 @@
                     </li>
                 </div>
 
-                <h5 ng-hide=""> {{ vm.myUsername }} has no notifications</h5>
+                <h5 ng-hide="vm.hasNotifications == true"> {{ vm.myUsername }} has no notifications</h5>
             </accordion-group>
             <accordion-group is-open="vm.isSecondOpen"
                              is-disabled="status.isSecondDisabled">
