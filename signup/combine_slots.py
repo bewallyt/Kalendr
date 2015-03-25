@@ -18,19 +18,24 @@ def combine(requester, post, signup, num_slots_to_combine):
         new_block.save()
         slot_list = block.myslots.all()
 
-        for i in range(0,len(slot_list),num_slots_to_combine):
-            new_owner = None
-            upper = min(len(slot_list), i + num_slots_to_combine)
-            for j in range(i, upper):
+        i = 0
+        j = i + num_slots_to_combine
 
-                if (slot_list[j].owner == None) or (slot_list[j].owner == requester):
+        while j < len(slot_list):
+            new_owner = None
+            for index in range(i,j):
+                if (slot_list[index].owner == None) or (slot_list[index].owner == requester):
                     print 'Available slot'
                 else:
-                    print 'Slot taken by: ' + slot_list[j].owner.username
-                    new_owner = slot_list[j].owner
+                    print 'Slot taken by: ' + slot_list[index].owner.username
+                    new_owner = slot_list[index].owner
 
-            new_slot = SignUpSlot(owner = new_owner, block = new_block, start_time = slot_list[i].start_time, end_time = slot_list[i+num_slots_to_combine-1].end_time)
+            new_slot = SignUpSlot(owner = new_owner, block = new_block,
+                                  start_time = slot_list[i].start_time, end_time = slot_list[j].end_time)
             new_slot.save()
+            i = i + 1
+            j = j + 1
+
 
     data = SignUpSheetSerializer(new_sign)
 
