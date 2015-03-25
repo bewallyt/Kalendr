@@ -41,6 +41,8 @@ signup_router.register(r'get_description', SignUpCreateAndListView)
 # For other users to select signup slots
 select_slot_router = routers.NestedSimpleRouter(signup_router, r'get_description', lookup='duration')
 select_slot_router.register(r'request', SignUpView)
+
+
 accounts_router = routers.NestedSimpleRouter(router, r'accounts', lookup='account')
 # /api/v1/accounts/"user_id/name"/posts/
 accounts_router.register(r'posts', AccountPostsViewSet)
@@ -101,6 +103,7 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(week_router.urls)),
     url(r'^api/v1/', include(save_router.urls)),
     url(r'^api/v1/', include(signup_router.urls)),
+    url(r'^api/v1/', include(select_slot_router.urls)),
     url(r'^api/v1/', include(pud_save_router.urls)),
     url(r'^api/v1/', include(pud_complete_router.urls)),
     url(r'^api/v1/', include(notification_router.urls)),

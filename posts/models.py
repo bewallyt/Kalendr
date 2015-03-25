@@ -7,7 +7,7 @@ from puds.models import Pud
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Account, related_name='myevents', blank=True)
+    author = models.ForeignKey(Account, related_name='myevents', blank=True,null=True)
     shared_with = models.ManyToManyField(KGroup, blank=True, through='access.AccessRule')
 
     content = models.CharField(max_length=40)
