@@ -53,9 +53,10 @@ for each user, for each post visible to requesting_user, during the time_ranges
 '''
 def find_conflicts(users, time_ranges, requesting_user, is_recurring):
     conflicts = []
+    num_conflicting_users = 0
     for user in users:
         conflict_found = False
-        
+
         for post in visible_posts(requesting_user, user):
             post_range = get_post_range(post)
 
@@ -64,10 +65,15 @@ def find_conflicts(users, time_ranges, requesting_user, is_recurring):
                     conflict_found = True
                     conflicts.append(Conflict(user=user, post=post, is_conflict=True, is_one_off=is_recurring and post.repeat == ''))
                     break
-        
+
+        num_conflicting_users += (1 if conflict_found else 0)
+
         if not conflict_found:
             conflicts.append(Conflict(user=user, is_conflict=False))
-        
+
+    for conflict in conflicts:
+        conflict.num_conflicting_users = num_conflicting_users
+
     return sorted(conflicts, Conflict.cmp)
 
 

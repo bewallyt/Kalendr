@@ -19,4 +19,4 @@ class ConflictSerializer(serializers.ModelSerializer):
         model = Conflict
         fields = ('user', 'post', 'is_conflict', 'is_one_off',
                   'freetime_recurring', 'start_date', 'end_date', 'which_days', 'start_time', 'end_time',
-                  'duration_hrs', 'duration_min', 'post_begin_time', 'post_end_time')
+                  'duration_hrs', 'duration_min', 'post_begin_time', 'post_end_time', 'num_conflicting_users')

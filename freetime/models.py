@@ -32,6 +32,7 @@ class Conflict(models.Model):
     duration_min = models.PositiveIntegerField(default=0)
     post_begin_time = models.CharField(max_length=50, default='')
     post_end_time = models.CharField(max_length=50, default='')
+    num_conflicting_users = models.PositiveIntegerField(default=0)
     
     def __unicode__(self):
         return '{0}: {1}'.format(self.user, self.is_conflict)
