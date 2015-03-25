@@ -158,28 +158,38 @@ class SignUpView(viewsets.ModelViewSet):
 
         requester = Account.objects.get(email=request.user.email)
         post = Post.objects.get(pk = request.data['postPk'])
+        slot_querset = SignUpSlot.objects.filter(block__sheet__post = post)
+
+
 
         begin_time_list_unicode = request.data['beginDateTimes']
         end_time_list_unicode = request.data['endDateTimes']
         begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
         end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
 
+        print begin_time_list_datetime
+        print end_time_list_datetime
+
         num_requested_slot = len(begin_time_list_datetime)
         max_slots = post.signup.max_slots
         min_duration = timedelta(minutes=post.signup.min_duration)
+
+        print num_requested_slot
+        print max_slots
+        print post.signup.min_duration
 
         if num_requested_slot > max_slots:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         for i in range(0, len(begin_time_list_datetime)):
-            start_slot = SignUpSlot.objects.get(start_time = begin_time_list_datetime[i])
-            end_slot = SignUpSlot.objects.get(end_time = end_time_list_datetime[i])
+            start_slot = slot_querset.get(start_time = begin_time_list_datetime[i])
+            end_slot = slot_querset.get(end_time = end_time_list_datetime[i])
             end_slot.owner = requester
             end_slot.save()
             while start_slot != end_slot:
                 start_slot.owner = requester
                 start_slot.save()
-                start_slot = SignUpSlot.objects.get(start_time = start_slot.start_time +  min_duration)
+                start_slot = slot_querset.get(start_time = start_slot.start_time +  min_duration)
 
         data = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester': requester.username})
         print 'Sign up sheet after sign up create'
