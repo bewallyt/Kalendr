@@ -39,7 +39,7 @@ def combine(requester, post, signup, num_slots_to_combine):
             j = j + 1
 
 
-    data = SignUpSheetSerializer(new_sign, context={'is_owner': False, 'requester': requester})
+    data = SignUpSheetSerializer(new_sign, context={'is_owner': False, 'requester': requester.username})
 
     print data.data
     new_sign.delete()

@@ -9,7 +9,7 @@ from signup.serializers import SignUpSheetSerializer
 from posts.serializers import PostSerializer
 from authentication.models import Account
 from posts.models import Post
-from combine_slots import combine, unicode_to_datetime
+from combine_slots import combine
 
 # Create your views here.
 class SignUpCreateAndListView(viewsets.ModelViewSet):
@@ -32,6 +32,9 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
 
 
     def create(self, request):
+        def unicode_to_datetime(code):
+            datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%S.%fZ')
+            return datetime_obj
 
         owner = Account.objects.get(email = request.user.email)
         name = request.data['content']
@@ -131,7 +134,7 @@ class SignUpView(viewsets.ModelViewSet):
             print data
             return Response(data)
         else:
-            serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester': requester})
+            serializer = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester': requester.username})
 
         print serializer.data
 
@@ -143,8 +146,14 @@ class SignUpView(viewsets.ModelViewSet):
         start_time and a list of end_time
 
         Also, post id.
+
+        time data '2015-03-24T18:00:00Z' does not match format '%Y-%m-%dT%H:%M:%S.%fZ'
     '''
     def create(self, request, *args, **kwargs):
+        def unicode_to_datetime(code):
+            datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%SZ')
+            return datetime_obj
+
         requester = Account.objects.get(email=request.user.email)
         post = Post.objects.get(pk = request.data['postPk'])
 
@@ -169,6 +178,9 @@ class SignUpView(viewsets.ModelViewSet):
                 start_slot.owner = requester
                 start_slot.save()
                 start_slot = SignUpSlot.objects.get(start_time = start_slot.start_time +  min_duration)
+
+        data = SignUpSheetSerializer(post.signup, context={'is_owner': False, 'requester': requester.username})
+        return Response(data.data, status=status.HTTP_201_CREATED)
 
 
 

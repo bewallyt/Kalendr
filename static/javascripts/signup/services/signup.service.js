@@ -56,6 +56,14 @@
         }
 
         function confirmSlots(postId, startTimes, endTimes){
+            console.log(startTimes);
+            console.log(endTimes);
+            return $http.post('/api/v1/signup/' + postId + '/request/', {
+                    postPk: postId,
+                    beginDateTimes: startTimes,
+                    endDateTimes: endTimes
+                }
+            )
 
         }
 
