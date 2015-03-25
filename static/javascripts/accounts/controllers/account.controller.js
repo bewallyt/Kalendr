@@ -210,7 +210,9 @@
                 Posts.pudPostUpdate(pud.username, pud.id).then(pudCompleteSuccessFn, pudCompleteErrorFn);
             });
 
-            $scope.$on('pud.created.error', function () {
+            $scope.$on('ft.search.complete', function(event, freetime_data) {
+                console.log('does data come here?');
+                console.log(freetime_data.data.data[0]);
             });
 
             function accountSuccessFn(data, status, headers, config) {

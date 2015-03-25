@@ -57,19 +57,22 @@
             vm.followingDict.push(vm.selectedUser.originalObject.username);
         }
 
-        //function addDay() {
-        //    vm.day_array.push(ng-ngModel);
-        //}
-
         function passVal(type, s_date, e_date, hrs, min, s_time, e_time, days, following) {
 
             FreeTimes.create(type, s_date, e_date, hrs, min, s_time, e_time, days,
-                following);
+                following).then(freeTimeSuccessFn, freeTimeErrorFn);
 
             $scope.closeThisDialog();
 
             function freeTimeSuccessFn(data, status, headers, config) {
                 Snackbar.show('Success! Free time request processed');
+                //console.log(data.data[0]);
+                $rootScope.$broadcast('ft.search.complete', {
+                    data: data,
+                    author: {
+                        username: Authentication.getAuthenticatedAccount().username
+                    }
+                });
             }
 
             function freeTimeErrorFn(data, status, headers, config) {
