@@ -70,7 +70,10 @@
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
                                         <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
 
-                                        <md-checkbox aria-label="is_pud_time" class="is_pud_time"
+                                        <md-checkbox aria-label="is_pud_time"
+                                                     ng-disabled="false"
+                                                     ng-click='vm.checkSlot()'
+                                                     class="is_pud_time"
                                                      ng-model="vm.selectedSlots[$index]">
                                         </md-checkbox>
                                     </div>

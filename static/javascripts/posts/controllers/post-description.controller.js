@@ -182,6 +182,15 @@
                     vm.returnedNumFreeSlots[i] = numFreeSlots;
                     parseReturnedBlockDates(vm.returnedBlocks[i].start_time, vm.returnedBlocks[i].end_time, i);
                 }
+
+                var totalNumFreeSlots;
+                for(i = 0; i < vm.returnedNumFreeSlots.length; i++){
+                    totalNumFreeSlots += returnedNumFreeSlots[i];
+                }
+
+                for(i = 0; i < totalNumFreeSlots; i++){
+                    vm.selectedSlots = false;
+                }
                 vm.isSearching = false;
 
             }
