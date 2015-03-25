@@ -90,7 +90,7 @@
         <div layout="column" layout-align="center center">
             <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
                        ng-click="vm.confirmSignUp() && close()"
-                       ng-disabled="vm.selectedStart.length > vm.maxSlots || vm.selectedStart <= 0">Sign Up
+                       ng-disabled="vm.selectedStart <= 0">Sign Up
             </md-button>
         </div>
     </div>

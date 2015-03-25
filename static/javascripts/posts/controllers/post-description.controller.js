@@ -224,7 +224,7 @@
             }
 
             function errorFn(data, status, headers, config) {
-                Snackbar.error(data.data.error);
+                Snackbar.error('Too many slots selected');
                 $scope.closeThisDialog();
             }
         }
