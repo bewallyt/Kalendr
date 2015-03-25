@@ -138,6 +138,15 @@ class FreeTimeViewSet(viewsets.ModelViewSet):
             is_conflict: boolean
             post: Post
             is_one_off: boolean
+
+            freetime_recurring: boolean
+            start_date: string
+            end_date: string
+            which_days: string (comma separated)
+            start_time: string
+            end_time: string
+            duration_hrs: int
+            duration_min: int
         }
     ]
     where the list is ordered by the user, and then chronologically by post time

@@ -21,6 +21,15 @@ class Conflict(models.Model):
     post = models.ForeignKey(Post)
     is_conflict = models.BooleanField(default=False)
     is_one_off = models.BooleanField(default=False)
+
+    freetime_recurring = models.BooleanField(default=False)
+    start_date = models.CharField(max_length=50, default='')
+    end_date = models.CharField(max_length=50, default='')
+    which_days = models.CharField(max_length=100, default='')
+    start_time = models.CharField(max_length=50, default='')
+    end_time = models.CharField(max_length=50, default='')
+    duration_hrs = models.PositiveIntegerField(default=0)
+    duration_min = models.PositiveIntegerField(default=0)
     
     def __unicode__(self):
         return '{0}: {1}'.format(self.user, self.is_conflict)
