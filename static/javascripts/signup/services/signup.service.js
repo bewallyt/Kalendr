@@ -19,7 +19,8 @@
         var Signup = {
             create: create,
             get: get,
-            searchSlots: searchSlots
+            searchSlots: searchSlots,
+            confirmSlots: confirmSlots
         };
 
         return Signup;
@@ -52,6 +53,10 @@
 
         function searchSlots(postId, duration){
             return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration +'/request/')
+        }
+
+        function confirmSlots(postId, startTimes, endTimes){
+
         }
 
     }

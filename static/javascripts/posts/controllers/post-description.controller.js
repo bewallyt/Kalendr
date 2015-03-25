@@ -56,6 +56,14 @@
 
         // Selecting Slots
         vm.selectedSlots = [];
+        vm.checkSlot = checkSlot;
+        vm.numSelected = 0;
+        vm.checkDisabled = false;
+
+        // Selected Times
+        vm.selectedStart = [];
+        vm.selectedEnd = [];
+        vm.confirmSignUp = confirmSignUp;
 
         // Reformat Time
         vm.blockDates = [];
@@ -165,6 +173,10 @@
 
         function searchAvailableSlots() {
             vm.isSearching = true;
+            vm.selectedStart = [];
+            vm.selectedEnd = [];
+            vm.selectedSlots = [];
+            vm.numSelected = 0;
             Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
 
             function successSearchFn(data, status, headers, config) {
@@ -183,13 +195,13 @@
                     parseReturnedBlockDates(vm.returnedBlocks[i].start_time, vm.returnedBlocks[i].end_time, i);
                 }
 
-                var totalNumFreeSlots;
-                for(i = 0; i < vm.returnedNumFreeSlots.length; i++){
-                    totalNumFreeSlots += returnedNumFreeSlots[i];
+                var totalNumFreeSlots = 0;
+                for (i = 0; i < vm.returnedNumFreeSlots.length; i++) {
+                    totalNumFreeSlots += vm.returnedNumFreeSlots[i];
                 }
 
-                for(i = 0; i < totalNumFreeSlots; i++){
-                    vm.selectedSlots = false;
+                for (i = 0; i < totalNumFreeSlots; i++) {
+                    vm.selectedSlots[i] = false;
                 }
                 vm.isSearching = false;
 
@@ -201,6 +213,36 @@
             }
 
 
+        }
+
+        function confirmSignUp() {
+            Signup.confirmSlots(vm.postId, vm.selectedStart, vm.selectedEnd).then(successConfirmFn, errorFn);
+
+            function successConfirmFn(data, status, headers, config){
+                console.log('posted: ' + data.data);
+            }
+
+            function errorFn(data, status, headers, config) {
+                Snackbar.error(data.data.error);
+            }
+        }
+
+        function checkSlot(slotIndex, start_time, end_time) {
+            console.log('slot checked: ' + slotIndex);
+            if (vm.selectedSlots[slotIndex] == false) {
+                console.log('selected start and end time: ' + start_time + ' ' + end_time);
+                vm.selectedSlots[slotIndex] = true;
+                vm.numSelected++;
+                vm.selectedStart.push(start_time);
+                vm.selectedEnd.push(end_time);
+            }
+            else {
+                console.log('deselected');
+                vm.numSelected--;
+                vm.selectedStart.pop();
+                vm.selectedEnd.pop();
+            }
+            if (vm.numSelected == vm.maxSlots) ;
         }
 
         function parseBlockDates(backendStartTime, backendEndTime, index) {

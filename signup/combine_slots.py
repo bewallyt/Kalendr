@@ -31,7 +31,7 @@ def combine(requester, post, signup, num_slots_to_combine):
                     new_owner = slot_list[index].owner
 
             new_slot = SignUpSlot(owner = new_owner, block = new_block,
-                                  start_time = slot_list[i].start_time, end_time = slot_list[j].end_time)
+                                  start_time = slot_list[i].start_time, end_time = slot_list[j - 1].end_time)
             new_slot.save()
             i = i + 1
             j = j + 1

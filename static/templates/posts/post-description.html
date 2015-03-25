@@ -63,7 +63,7 @@
 
                     <md-content>
                         <md-list>
-                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots">
+                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
                                 <md-item-content>
                                     <div class="md-tile-content" style="background-color:#019587; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -71,10 +71,8 @@
                                         <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
 
                                         <md-checkbox aria-label="is_pud_time"
-                                                     ng-disabled="false"
-                                                     ng-click='vm.checkSlot()'
-                                                     class="is_pud_time"
-                                                     ng-model="vm.selectedSlots[$index]">
+                                                     ng-disabled="vm.checkDisabled"
+                                                     ng-click='vm.checkSlot($index, slot.start_time, slot.end_time)'>
                                         </md-checkbox>
                                     </div>
                                 </md-item-content>
@@ -86,6 +84,11 @@
                 </accordion-group>
 
             </accordion>
+        </div>
+
+        <div layout="column" layout-align="center center" ng-show=" vm.numSelected > 0">
+            <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.confirmSignUp()">Sign Up
+            </md-button>
         </div>
     </div>
 
