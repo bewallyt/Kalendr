@@ -60,7 +60,9 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
         SignUp.objects.create_signup(post, name, loc, max_duration, min_duration,
                                      max_slot, begin_time_list_datetime, end_time_list_datetime)
 
-        return Response(request.data, status=status.HTTP_200_OK)
+        post_data = PostSerializer(post).data
+
+        return Response(post_data, status=status.HTTP_201_CREATED)
 
     '''
         This API is called when user click on the description
@@ -99,3 +101,4 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
         #Now that I have a JSON, how do I inject a field into this JSON?
         print serializer.data
         return Response(serializer.data)
+

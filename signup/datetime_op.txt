@@ -81,7 +81,6 @@ p = Post(content = "signup")
 
     Create a SignUp sheet
 
-
     Share it with others
 
     Allow others to actually sign up

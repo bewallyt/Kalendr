@@ -37,6 +37,7 @@
                 else if (groupRuleDict[groupName] == "Busy") groupRuleDict[groupName] = 'BUS';
                 else groupRuleDict[groupName] = 'ALL';
             }
+            console.log(post)
             return $http.post('/api/v1/access/', {
                 post: post,
                 rules: groupRuleDict

@@ -108,7 +108,10 @@ class AccessViewSet(viewsets.ModelViewSet):
             #need partial=True for the serializer to parse it
             serializer = self.serializer_class(data=rule, partial=True)
             serializer.is_valid(raise_exception=True)
-            serializer.save(post=post, group=group)
+            if hasattr(post, 'signup'):
+                serializer.save(post=post, group=group, receiver_response = 'CONFIRM')
+            else:
+                serializer.save(post=post, group=group)
             order += 1
 
         # If a post is shared with a non-follower group, then we should go through the member list and
