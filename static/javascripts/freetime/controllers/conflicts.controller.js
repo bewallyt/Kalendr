@@ -29,10 +29,6 @@
          */
         function activate() {
 
-            //var i;
-            //for (i = 0; i < $scope.conflicts.length; i++) {
-            //    console.log($scope.conflicts[i].content);
-            //}
             console.log("in activate conflicts");
             $scope.$watchCollection(function () {
                 return $scope.conflicts;
@@ -54,9 +50,6 @@
 
                 for (var j = 0; j < current.length; j++) {
                     vm.columns[j].push(current[j]);
-                    console.log('in conflicts controller');
-                    console.log(current[j].is_conflict);
-                    console.log(current[j].post.content);
                 }
 
             }

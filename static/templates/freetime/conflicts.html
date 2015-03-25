@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="row pudview-content" ng-cloak>
 
-</body>
-</html>
+    <!-- <div class="col-md-4">
+        <div ng-repeat="conflict in vm.columns[0]">
+            <conflict conflict="conflict"></conflict>
+        </div>
+    </div> -->
+
+    <div ng-repeat="column in vm.columns">
+        <div class="col-md-1">
+            <div ng-repeat="conflict in column">
+                <conflict conflict="conflict"></conflict>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /conflict content -->

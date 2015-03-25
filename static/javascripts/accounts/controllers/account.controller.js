@@ -210,12 +210,9 @@
                 Posts.pudPostUpdate(pud.username, pud.id).then(pudCompleteSuccessFn, pudCompleteErrorFn);
             });
 
-            $scope.$on('ft.search.complete', function(event, conflicts) {
+            $scope.$on('ft.search.complete', function (event, conflicts) {
                 console.log('does data come here?');
                 console.log(conflicts.data.data[0]);
-                //conflicts.data.data.forEach(function(entry) {
-                //    vm.conflicts
-                //});
                 vm.conflicts = conflicts.data.data; //has length
             });
 
