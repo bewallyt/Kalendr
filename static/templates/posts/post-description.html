@@ -26,14 +26,30 @@
 <div ng-show="vm.isSignup == true">
     <h5>Minimum Slot Duration: {{ vm.minDuration }} minutes</h5>
     <h5>Maximum Slot Duration: {{ vm.maxDuration }} minutes</h5>
+    <h5>{{ vm.maxSlots }} Slots Available for Sign up</h5>
 
     <br>
 
+    <div layout layout-align="center center" ng-show="vm.notSigningUp == false && vm.isOwner"> Meeting Duration (in
+        Minutes)
+    </div>
+
+    <div layout layout-align="center center"  ng-show="vm.notSigningUp == false && vm.isOwner">
+        <md-slider flex class="md-primary" md-discrete ng-model="vm.meetingDuration" step="{{ vm.minDuration * 1 }}"
+                   min="{{ vm.minDuration * 1 }}"
+                   max="{{ vm.maxDuration * 1 }}"
+                   aria-label="duration">
+        </md-slider>
+        <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.searchAvailableSlots()">Search
+        </md-button>
+    </div>
+
+
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
-        <accordion ng-show="vm.isSignup == true" close-others="vm.post_description_close">
+        <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true" close-others="vm.post_description_close">
             <accordion-group>
                 <accordion-heading>
-                    Block {{ $index + 1 }}: {{vm.blockDates[$index]}} ({{ vm.numSlots[$index] }} Available Slots) <i
+                    Block {{ $index + 1 }}: {{ vm.blockDates[$index]}} ({{ vm.numSlots[$index] }} Available Slots) <i
                         class="pull-right glyphicon""></i>
                 </accordion-heading>
 
@@ -42,7 +58,8 @@
                         <md-item ng-repeat="slot in vm.blocks[$index].myslots">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#019587; color=black">
-                                    <h3>{{ vm.parseSlotTimes(slot.start_time) }} - {{ vm.parseSlotTimes(slot.end_time) }}</h3>
+                                    <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
+                                        {{ vm.parseSlotTimes(slot.end_time) }}</h3>
                                     <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
 
                                     <p>
@@ -57,6 +74,12 @@
             </accordion-group>
 
         </accordion>
+    </div>
+
+    <div layout="column" layout-align="center center" ng-show="vm.isOwner">
+        <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.signUp()"
+                   ng-show="vm.notSigningUp == true">Sign Up
+        </md-button>
     </div>
 </div>
 

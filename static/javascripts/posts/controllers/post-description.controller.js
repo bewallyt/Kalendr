@@ -32,11 +32,21 @@
         vm.isSignup;
         vm.minDuration;
         vm.maxDuration;
+        vm.maxSlots;
         vm.blocks = [];
         vm.numSlots = [];
 
         vm.getNumber = getNumber;
         vm.isLoading = true;
+
+        // Signup for User A and User B
+        vm.isOwner;
+        vm.signUp = signUp;
+        vm.notSigningUp = true;
+
+        // Search
+        vm.searchAvailableSlots = searchAvailableSlots;
+        vm.meetingDuration;
 
         // Reformat Time
         vm.blockDates = [];
@@ -100,28 +110,41 @@
 
             function successSignupFn(data, status, headers, config) {
                 vm.isLoading = false;
-                console.log('Data Type: ' + data.data['type']);
-                console.log('Min Duration: ' + data.data['min_duration']);
-                console.log('Signup Blocks: ' + data.data['myblocks']);
+                if (data.data['type'] == 'signup') {
+                    console.log('Data Type: ' + data.data['type']);
+                    console.log('Min Duration: ' + data.data['min_duration']);
+                    console.log('Signup Blocks: ' + data.data['myblocks']);
+                    console.log('is Owner: ' + data.data['context']['is_owner']);
 
-                var i;
-                for (i = 0; i < data.data['myblocks'].length; i++) {
-                    console.log(data.data['myblocks'][i]);
-                    vm.blocks[i] = data.data['myblocks'][i];
-                    vm.numSlots[i] = vm.blocks[i].myslots.length;
-                    parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
+                    vm.isOwner = data.data['context']['is_owner'];
+                    vm.maxSlots = data.data['max_slots'];
+
+                    var i;
+                    for (i = 0; i < data.data['myblocks'].length; i++) {
+                        console.log(data.data['myblocks'][i]);
+                        vm.blocks[i] = data.data['myblocks'][i];
+                        vm.numSlots[i] = vm.blocks[i].myslots.length;
+                        parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
+                    }
+
+
+                    if (data.data['type'] == 'signup') vm.isSignup = true;
+                    vm.minDuration = data.data['min_duration'];
+                    vm.maxDuration = data.data['max_duration'];
                 }
-
-
-
-                if (data.data['type'] == 'signup') vm.isSignup = true;
-                vm.minDuration = data.data['min_duration'];
-                vm.maxDuration = data.data['max_duration'];
             }
 
             function errorFn(data, status, headers, config) {
                 Snackbar.error(data.data.error);
             }
+
+        }
+
+        function signUp(){
+            vm.notSigningUp = false;
+        }
+
+        function searchAvailableSlots(){
 
         }
 
