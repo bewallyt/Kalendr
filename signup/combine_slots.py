@@ -20,7 +20,8 @@ def combine(requester, post, signup, num_slots_to_combine):
 
         for i in range(0,len(slot_list),num_slots_to_combine):
             new_owner = None
-            for j in range(i, i + num_slots_to_combine):
+            upper = min(len(slot_list), i + num_slots_to_combine)
+            for j in range(i, upper):
 
                 if (slot_list[j].owner == None) or (slot_list[j].owner == requester):
                     print 'Available slot'
