@@ -45,19 +45,19 @@ class SignUpSheetSerializer(serializers.ModelSerializer):
     def get_type(self, obj):
         return 'signup'
 
-    def get_context(self,obj):
+    def get_is_owner(self,obj):
         return self.context
 
 
     # This really should be part of the PostSerializer!! OH WELL
     type = serializers.SerializerMethodField()
-    context = serializers.SerializerMethodField()
-    myblocks = TimeBlockSerializer(many=True, context=context)
+    is_owner = serializers.SerializerMethodField()
+    myblocks = TimeBlockSerializer(many=True, context=is_owner)
 
 
 
     class Meta:
         model = SignUp
         field = ('id', 'type', 'name', 'location', 'max_slots', 'max_duration', 'min_duration',
-                 'myblocks')
+                 'myblocks','is_owner')
 
