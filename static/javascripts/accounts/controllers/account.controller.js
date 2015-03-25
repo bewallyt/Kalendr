@@ -15,7 +15,7 @@
         var vm = this;
         instantiateAccordian();
         var username;
-
+        vm.conflicts = [];
         vm.account = undefined;
         vm.posts = [];
         vm.puds = [];
@@ -210,9 +210,13 @@
                 Posts.pudPostUpdate(pud.username, pud.id).then(pudCompleteSuccessFn, pudCompleteErrorFn);
             });
 
-            $scope.$on('ft.search.complete', function(event, freetime_data) {
+            $scope.$on('ft.search.complete', function(event, conflicts) {
                 console.log('does data come here?');
-                console.log(freetime_data.data.data[0]);
+                console.log(conflicts.data.data[0]);
+                //conflicts.data.data.forEach(function(entry) {
+                //    vm.conflicts
+                //});
+                vm.conflicts = conflicts.data.data; //has length
             });
 
             function accountSuccessFn(data, status, headers, config) {
