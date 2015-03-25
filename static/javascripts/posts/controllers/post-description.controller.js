@@ -9,12 +9,12 @@
         .module('kalendr.posts.controllers')
         .controller('PostDescriptionController', PostDescriptionController);
 
-    PostDescriptionController.$inject = ['Access', 'Signup', '$scope'];
+    PostDescriptionController.$inject = ['Access', 'Signup', '$scope', 'Snackbar'];
 
     /**
      * @namespace PostDescriptionController
      */
-    function PostDescriptionController(Access, Signup, $scope) {
+    function PostDescriptionController(Access, Signup, $scope, Snackbar) {
         var vm = this;
 
         vm.columns = [];

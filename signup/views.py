@@ -148,6 +148,8 @@ class SignUpView(viewsets.ModelViewSet):
         Also, post id.
 
         time data '2015-03-24T18:00:00Z' does not match format '%Y-%m-%dT%H:%M:%S.%fZ'
+
+        This function is for requester to actually signup.
     '''
     def create(self, request, *args, **kwargs):
         def unicode_to_datetime(code):
@@ -160,6 +162,10 @@ class SignUpView(viewsets.ModelViewSet):
         post = Post.objects.get(pk = request.data['postPk'])
         slot_querset = SignUpSlot.objects.filter(block__sheet__post = post)
 
+        for slot in slot_querset:
+            if slot.owner == requester:
+                slot.owner = None
+                slot.save()
 
 
         begin_time_list_unicode = request.data['beginDateTimes']
