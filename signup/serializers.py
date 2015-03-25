@@ -14,7 +14,10 @@ class SignUpSlotSerializer(serializers.ModelSerializer):
         if obj.owner is None:
             return 'null'
         elif self.context['is_owner'] == False:
-            return ''
+            if self.context['requester'] != obj.owner.username:
+                return ''
+            else:
+                return obj.owner.username
         else:
             return obj.owner.username
 
@@ -30,8 +33,8 @@ class TimeBlockSerializer(serializers.ModelSerializer):
     def get_context(self,obj):
         return self.context
 
-    myslots = SignUpSlotSerializer(many=True)
     context = serializers.SerializerMethodField()
+    myslots = SignUpSlotSerializer(many=True, context=context)
 
     class Meta:
         model = TimeBlock
