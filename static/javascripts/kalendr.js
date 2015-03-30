@@ -15,6 +15,7 @@
             'kalendr.access',
             'kalendr.utils',
             'kalendr.freetime',
+            'kalendr.enmasse',
             'ui.bootstrap',
             'angucomplete',
             'ngMaterial'
