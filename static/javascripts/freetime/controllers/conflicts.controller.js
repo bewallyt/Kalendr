@@ -58,16 +58,23 @@
                 for (var j = 0; j < current.length; j++) {
                     vm.columns[j].push(current[j]);
                 }
-
+                vm.dur_hrs = current[0].duration_hrs;
+                vm.dur_min = current[0].duration_min;
+                vm.start_time = current[0].start_time;
+                vm.end_time = current[0].end_time;
+                vm.days = current[0].which_days;
+                vm.length = current.length;
+                vm.users = current[0].num_conflicting_users;
             }
-
-            vm.dur_hrs = current[0].duration_hrs;
-            vm.dur_min = current[0].duration_min;
-            vm.start_time = current[0].start_time;
-            vm.end_time = current[0].end_time;
-            vm.days = current[0].which_days;
-            vm.length = current.length;
-            vm.users = current[0].num_conflicting_users;
+            //if (current.length != 0) {
+            //    vm.dur_hrs = current[0].duration_hrs;
+            //    vm.dur_min = current[0].duration_min;
+            //    vm.start_time = current[0].start_time;
+            //    vm.end_time = current[0].end_time;
+            //    vm.days = current[0].which_days;
+            //    vm.length = current.length;
+            //    vm.users = current[0].num_conflicting_users;
+            //}
         }
 
     }
