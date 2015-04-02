@@ -58,6 +58,7 @@
                 repeat_int = 1;
                 exp_day = 32;
                 vm.expiry = new Date();
+                vm.escalate = false;
             } else {
                 repeat_int = 0;
                 repeatType = 'Perpetual';

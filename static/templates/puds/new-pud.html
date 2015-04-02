@@ -40,7 +40,7 @@
 
         <md-checkbox aria-label="expires" class="expires" ng-model="vm.expires">Expires</md-checkbox>
 
-        <md-checkbox aria-label="escalate" class="escalate" ng-model="vm.escalate" ng-show="vm.expires">Escalate
+        <md-checkbox aria-label="escalate" class="escalate" ng-model="vm.escalate" ng-show="vm.expires && vm.repeat!='Daily'">Escalate
             Priority
         </md-checkbox>
 

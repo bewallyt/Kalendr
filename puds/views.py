@@ -27,6 +27,10 @@ class PudViewSet(viewsets.ModelViewSet):
         print 'in partial update'
 
 
+# def completeescalate(exPud):
+#     pass
+
+
 class AccountPudsViewSet(viewsets.ViewSet):
     queryset = Pud.objects.select_related('author')
     serializer_class = PudSerializer
@@ -35,10 +39,14 @@ class AccountPudsViewSet(viewsets.ViewSet):
     def list(self, request, account_username=None):
         print 'in list of accountpudsview'
 
-        queryset = self.queryset.filter(author__username=account_username).filter(is_completed=False)
-        serializer = self.serializer_class(queryset, many=True)
+        # queryset = self.queryset.filter(author__username=account_username)
+        # expiring_puds = queryset.filter(expires=True)
+        # for exPud in expiring_puds:
+        #     completeescalate(exPud)
+        final_queryset = self.queryset.filter(author__username=account_username).filter(is_completed=False)
+        serializer = self.serializer_class(final_queryset, many=True)
 
-        for pud in queryset.filter(is_completed=False).filter(notification=True):
+        for pud in final_queryset.filter(is_completed=False).filter(notification=True):
             pud.notification = False
             pud.save()
             send_pud(pud)

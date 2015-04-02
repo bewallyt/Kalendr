@@ -24,7 +24,7 @@ class Pud(models.Model):
 
     expiry_time = models.DateTimeField(default=datetime.now())
     expiry_day = models.IntegerField(blank=True, default=32)
-    expiry = models.DateTimeField(default=datetime.now( ))
+    expiry = models.DateTimeField(default=datetime.now())
     expires = models.BooleanField(default=False)
     escalate = models.BooleanField(default=False)
 
