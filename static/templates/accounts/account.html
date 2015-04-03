@@ -192,10 +192,10 @@
 </div><!-- /pudview -->
 
 
-<md-button class="md-fab btn-add-new-post md-primary btn-hover"
+<md-button class="md-fab btn-enmasse md-primary btn-hover"
            aria-label="newenmasse"
            ng-show="vm.isAuthenticated"
-           ng-dialog="/static/templates/posts/new-enmasse.html"
+           ng-dialog="/static/templates/enmasse/new-enmasse.html"
            ng-dialog-controller="EnmasseController as vm">
     <md-icon md-svg-src="/static/lib/img/playlist-add.svg"></md-icon>
     <md-tooltip md-direction="left">En Masse</md-tooltip>
@@ -220,6 +220,13 @@
         ng-show="vm.isAuthenticated">
     <md-tooltip md-direction="left">FT Summary</md-tooltip>
 </button>
+
+<!-- <md-button class="md-fab btn-pudview md-primary btn-hover"
+           aria-label="pudview"
+           ng-show="vm.isAuthenticated" id="btn-pudview">
+    <md-icon md-svg-src="/static/lib/img/check.svg"></md-icon>
+    <md-tooltip md-direction="left">Task List</md-tooltip>
+</md-button> -->
 
 
 <a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications btn-hover"
