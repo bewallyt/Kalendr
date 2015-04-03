@@ -45,15 +45,31 @@
                 priority_int = 3;
             }
 
+            if (vm.expires != true) {
+                vm.expires = false;
+            }
+
+            if (vm.escalate != true) {
+                vm.escalate = false;
+            }
+
             var duration = parseInt(vm.duration);
             var repeatType = vm.repeat;
 
             if (vm.repeat == 'Weekly') {
                 repeat_int = 2;
-                exp_day = vm.expiry.getDay();
+                if (vm.expires) {
+                    exp_day = vm.expiry.getDay();
+                } else {
+                    exp_day = 32;
+                }
             } else if (vm.repeat == 'Monthly') {
                 repeat_int = 3;
-                exp_day = vm.expiry.getDate();
+                if (vm.expires) {
+                    exp_day = vm.expiry.getDate();
+                } else {
+                    exp_day = 32;
+                }
             } else if (vm.repeat == 'Daily') {
                 repeat_int = 1;
                 exp_day = 32;
@@ -75,12 +91,10 @@
                 notifyWhen = 0;
             }
 
-            if (vm.expires != true) {
-                vm.expires = false;
-            }
-
-            if (vm.escalate != true) {
-                vm.escalate = false;
+            if (!vm.expires) {
+                vm.expiry = new Date();
+                exp_day = 32;
+                vm.expiry_time = vm.expiry;
             }
 
 

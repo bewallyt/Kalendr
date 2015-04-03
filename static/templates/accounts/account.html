@@ -176,11 +176,11 @@
 
 <div id="pudview" class="pudview" ng-show="vm.isAuthenticated">
 
-    <!-- <puds puds="vm.puds"></puds> -->
-    <conflicts conflicts="vm.conflicts"></conflicts>
+    <puds puds="vm.puds"></puds>
+    <!-- <conflicts conflicts="vm.conflicts"></conflicts> -->
 
     <button class="pudview-close" id="pudview-close"></button>
-    <md-button class="md-fab btn-add-new-post md-primary btn-hover"
+    <!-- <md-button class="md-fab btn-add-new-post md-primary btn-hover"
                aria-label="newpost"
                ng-show="vm.isAuthenticated"
                ng-dialog="/static/templates/posts/new-post.html"
@@ -188,7 +188,7 @@
                ng-dialog-controller="NewPostController as vm">
         <md-icon md-svg-src="/static/lib/img/add.svg"></md-icon>
         <md-tooltip md-direction="left">New Event</md-tooltip>
-    </md-button>
+    </md-button> -->
 </div><!-- /pudview -->
 
 <!-- Buttons in descending display order -->
