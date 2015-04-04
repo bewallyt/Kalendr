@@ -38,6 +38,27 @@
             </md-radio-group>
         </div>
 
+        <md-checkbox aria-label="expires" class="expires" ng-model="vm.expires">Expires</md-checkbox>
+
+        <md-checkbox aria-label="escalate" class="escalate" ng-model="vm.escalate" ng-show="vm.expires && vm.repeat!='Daily'">Escalate
+            Priority
+        </md-checkbox>
+
+        <md-input-container ng-show="vm.expires">
+            <label style="color:#545454">Expiry Time</label>
+            <input type="time" step="any" name="expiry_time" ng-model="vm.expiry_time">
+        </md-input-container>
+
+        <md-input-container ng-show="vm.expires && vm.repeat!='Daily'">
+            <label style="color:#545454">Expiry Day</label>
+            <input type="date" step="any" name="expiry" ng-model="vm.expiry">
+
+            <div ng-messages="vm.expiry.$error">
+                <div ng-message="vm.expiry">Weekly PUD, M-F considered, monthly PUD, day will be considered (1-31).
+                </div>
+            </div>
+        </md-input-container>
+
         <md-checkbox aria-label="notifications" class="notifications" ng-model="vm.notification">Notifications
         </md-checkbox>
 
