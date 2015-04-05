@@ -1,0 +1,138 @@
+Create a timedelta object:
+    >>> from datetime import timedelta, date, datetime
+    >>> delta = timedelta(minutes = 15)
+    >>> delta
+    datetime.timedelta(0, 900)
+
+Create datetime object:
+    >>> dt1 = datetime(year = 2015, month = 2, day = 1, hour = 15, minute = 30)
+    >>> dt1
+    datetime.datetime(2015, 2, 1, 15, 30)
+
+    >>> dt2 = datetime(year = 2015, month = 2, day = 1, hour = 16, minute = 30)
+    >>> dt2
+    datetime.datetime(2015, 2, 1, 16, 30)
+
+Diff between two datetime:
+    >>> dt2 - dt1;
+    datetime.timedelta(0, 3600) // One hour = 3600 seconds
+    >>> dt1-dt2
+    datetime.timedelta(-1, 82800)
+
+Add datetime with timedelta:
+    >>> dt1+delta
+    datetime.datetime(2015, 2, 1, 16, 0)
+    >>> dt1+delta*2
+    datetime.datetime(2015, 2, 1, 16, 30)
+Comparsion:
+    datetime:
+        >>> dt2
+        datetime.datetime(2015, 2, 1, 16, 30)
+        >>> dt1
+        datetime.datetime(2015, 2, 1, 15, 30)
+        >>> dt1< dt2
+        True
+        >>> dt2<dt1
+        False
+
+    timedelta:
+        >>> diff
+        datetime.timedelta(0, 3600)
+        >>> diff <delta
+        False
+        >>> delta<diff
+        True
+
+
+
+
+
+>>> list = [0,1,2,3,4,5]
+>>> len(list)
+6
+>>> for i in range(0, len(list)-1):
+...     print list[i]
+...
+0
+1
+2
+3
+4
+
+from signup.serializers import SignUpSheetSerializer
+
+
+
+begin_time_list = request.data['beginDateTimes']
+this is a list
+
+datetime object acquired from the front end:
+[u'2015-03-22T18:00:00.000Z']
+<type 'unicode'>
+year-month-day
+
+
+Implementation:
+from signup.models import SignUp
+from posts.models import Post
+
+p = Post(content = "signup")
+
+
+    Create a SignUp sheet
+
+    Share it with others
+
+    Allow others to actually sign up
+
+    Allow others to delete or change their signups
+
+
+
+
+
+
+Appendix:
+    Signup Serializer Result on a signup sheet with 2 timeblocks:
+
+>>> data.data
+ReturnDict(
+
+[('post', 78), # this is the id for this signup sheet, becuase in the model post = models.OneToOneField(Post, primary_key=True)
+('myblocks', #myblocks maps to a list of OrderedDict
+
+＃ Two TimeBlocks
+[	#TimeBlock
+	OrderedDict([(u'id', 15),
+		('myslots', #myslots maps to a list of OrderedDict
+
+			[OrderedDict([('id', 174), ('start_time', '2015-03-23T18:00:00Z'), ('end_time', '2015-03-23T18:10:00Z'), ('owner', None)]),
+			OrderedDict([('id', 175), ('start_time', '2015-03-23T18:10:00Z'), ('end_time', '2015-03-23T18:20:00Z'), ('owner', None)]),
+			OrderedDict([('id', 176), ('start_time', '2015-03-23T18:20:00Z'), ('end_time', '2015-03-23T18:30:00Z'), ('owner', None)]),
+			OrderedDict([('id', 177), ('start_time', '2015-03-23T18:30:00Z'), ('end_time', '2015-03-23T18:40:00Z'), ('owner', None)]),
+			OrderedDict([('id', 178), ('start_time', '2015-03-23T18:40:00Z'), ('end_time', '2015-03-23T18:50:00Z'), ('owner', None)]),
+			OrderedDict([('id', 179), ('start_time', '2015-03-23T18:50:00Z'), ('end_time', '2015-03-23T19:00:00Z'), ('owner', None)]),
+			OrderedDict([('id', 180), ('start_time', '2015-03-23T19:00:00Z'), ('end_time', '2015-03-23T19:10:00Z'), ('owner', None)]), OrderedDict([('id', 181), ('start_time', '2015-03-23T19:10:00Z'), ('end_time', '2015-03-23T19:20:00Z'), ('owner', None)]), OrderedDict([('id', 182), ('start_time', '2015-03-23T19:20:00Z'), ('end_time', '2015-03-23T19:30:00Z'), ('owner', None)]), OrderedDict([('id', 183), ('start_time', '2015-03-23T19:30:00Z'), ('end_time', '2015-03-23T19:40:00Z'), ('owner', None)]), OrderedDict([('id', 184), ('start_time', '2015-03-23T19:40:00Z'), ('end_time', '2015-03-23T19:50:00Z'), ('owner', None)]), OrderedDict([('id', 185), ('start_time', '2015-03-23T19:50:00Z'), ('end_time', '2015-03-23T20:00:00Z'), ('owner', None)])
+			]
+		),
+
+	('start_time', '2015-03-23T18:00:00Z'), ('end_time', '2015-03-23T20:00:00Z'), ('sheet', 78)]
+	),
+	#TimeBlock
+	OrderedDict(
+		[(u'id', 16),
+		('myslots',
+			[OrderedDict([('id', 186), ('start_time', '2015-03-24T12:00:00Z'), ('end_time', '2015-03-24T12:10:00Z'), ('owner', None)]),
+			OrderedDict([('id', 187), ('start_time', '2015-03-24T12:10:00Z'), ('end_time', '2015-03-24T12:20:00Z'), ('owner', None)]),
+			OrderedDict([('id', 188), ('start_time', '2015-03-24T12:20:00Z'), ('end_time', '2015-03-24T12:30:00Z'), ('owner', None)]),
+			OrderedDict([('id', 189), ('start_time', '2015-03-24T12:30:00Z'), ('end_time', '2015-03-24T12:40:00Z'), ('owner', None)]), OrderedDict([('id', 190), ('start_time', '2015-03-24T12:40:00Z'), ('end_time', '2015-03-24T12:50:00Z'), ('owner', None)]), OrderedDict([('id', 191), ('start_time', '2015-03-24T12:50:00Z'), ('end_time', '2015-03-24T13:00:00Z'), ('owner', None)])]),
+
+		('start_time', '2015-03-24T12:00:00Z'), ('end_time', '2015-03-24T13:00:00Z'), ('sheet', 78)]
+
+	)
+]
+
+), ('name', u'signserizerl'), ('location', u'adsflj'), ('max_slots', 2), ('max_duration', 30), ('min_duration', 10)]
+
+
+)

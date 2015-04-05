@@ -1,0 +1,21 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <h2 layout="column" layout-align="center center">Multi-Event Creation</h2>
+        <br>
+
+        <div>Input Formats</div>
+        <!-- display input 'rulebook' here -->
+        <br>
+        <md-input-container>
+            <label style="color:#545454">Enter your events/tasks, line by line</label>
+            <textarea cols="50" ng-keypress="vm.check($event, $event.keyCode)" ng-model="vm.text" required></textarea>
+        </md-input-container>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
+        </div>
+
+    </div>
+
+</form>
+

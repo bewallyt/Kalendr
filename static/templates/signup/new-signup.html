@@ -1,0 +1,95 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <center><h2>New Meeting</h2></center>
+        <md-input-container>
+            <label style="color:#545454">Name of Meeting</label>
+            <input required type="text" name="task_name" ng-model="vm.content">
+        </md-input-container>
+
+        <md-input-container>
+            <label style="color:#545454">Location of Meeting</label>
+            <input required type="text" name="task_name" ng-model="vm.location">
+        </md-input-container>
+        <center>Slot Time (in minutes)</center>
+        <br>
+
+        <div layout layout-sm="column">
+
+            <span>Min Time</span>
+
+            <md-slider flex class="md-primary" md-discrete ng-model="vm.minTimes[$index]" step="5" min="5"
+                       max="30"
+                       aria-label="minTimes">
+            </md-slider>
+
+
+            <span>Max Time</span>
+
+            <md-slider flex class="md-primary" md-discrete ng-disabled="vm.minTimes[$index] == null"
+                       ng-model="vm.maxTimes[$index]" step="{{ vm.minTimes[$index] * 1 }}"
+                       min="{{ vm.minTimes[$index] * 1 }}" max="{{ vm.minTimes[$index] * 6 }}"
+                       aria-label="maxTimes">
+            </md-slider>
+        </div>
+
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label style="color:#545454">Max Slots per User</label>
+                <input required id="blocks" type="number" name="quantity" min="1" max="7" ng-model="vm.numSlotsPerUser">
+            </md-input-container>
+
+            <md-input-container flex>
+                <label style="color:#545454">Number of Signup Blocks</label>
+                <input required id="blocks" type="number" name="quantity" min="1" max="7" ng-model="vm.numBlocks">
+            </md-input-container>
+        </div>
+        <div ng-show="vm.numBlocks">
+            <div ng-repeat="i in vm.getNumber(vm.numBlocks) track by $index">
+                <br>
+                <center><b>Block {{ $index + 1 }} </b></center>
+
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label style="color:#545454">Date</label>
+                        <input required type="date" ng-model="vm.dates[$index]">
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label style="color:#545454">Start time</label>
+                        <input required style="padding-top: 15px" type="time" step="3600"
+                               ng-model="vm.beginTimes[$index]">
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label style="color:#545454">End time</label>
+                        <input required style="padding-top: 15px" type="time" step="3600"
+                               ng-model="vm.endTimes[$index]">
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <center>Share with whom?</center>
+
+        <div>
+            <br>
+            <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedGroup"
+                          localdata="ngDialogData" titlefield="name" searchfields="name"
+                          minlength="1"
+                          inputclass="form-control2" matchclass="highlight"
+                          placeholder="Search Groups and Followers"/>
+
+            <center><a class="absolute mdi-social-plus-one btn btn-default "
+                       ng-show="vm.selectedGroup"
+                       ng-click="vm.addGroups()"></a></center>
+
+            <li ng-repeat="(group, rule) in vm.groups">{{ group }}</li>
+        </div>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
+        </div>
+    </div>
+
+</form>

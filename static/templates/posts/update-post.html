@@ -32,87 +32,41 @@
             <label class="float-label" for="event__location">Description of event</label>
 
         </div>
-        Date of Event:
-        <br>
 
+        <md-input-container flex>
+            <label style="color:#545454">Date of Event</label>
+            <input type="date"  ng-model="vm.start_time">
+        </md-input-container>
 
-        <input type="date" id="event__date" name="date" ng-model="vm.start_time">
-
-        <input type="checkbox" class="all_day" ng-model="vm.not_all_day"/> Not all day?
-        <br>
+        <md-checkbox ng-model="vm.not_all_day">Not all day?</md-checkbox>
 
         <div ng-show="vm.not_all_day == true">
-            <br>
-            Start time:
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label style="color:#545454">Start time</label>
+                    <input type="time" ng-model="vm.begin_time">
+                </md-input-container>
 
-            <input type="time" name="starttime" ng-model="vm.begin_time">
-            End time:
-            <input type="time" name="endtime" ng-model="vm.end_time">
-            <br>
-            Pud allocation:
-            <input type="checkbox" name="is_pud_time" ng-model="vm.pud_time"/>
-        </div>
-        <br>
+                <md-input-container flex>
+                    <label style="color:#545454">End time</label>
+                    <input type="time" ng-model="vm.end_time">
+                </md-input-container>
+            </div>
 
-        Repeat:
-        <input type="checkbox" name="is_repeating" ng-model="vm.is_repeating" ng-hide="vm.pud_time == true"/>
-
-        <div ng-show="vm.is_repeating == true">
-            <br>
-            <select class="form-control" ng-model="vm.repeat">
-                <option value='Daily'>Daily</option>
-                <option value='Weekly'>Weekly</option>
-                <option value='Monthly'>Monthly</option>
-            </select>
-            <br>
-            Repeat until:
-            <br>
-            <input type="date" name="endrepeat" ng-model="vm.end_repeat">
-        </div>
-        <br>
-        Receive email notifications:
-        <input type="checkbox" name="notification" ng-model="vm.notification "/>
-        <br>
-        <input type="datetime-local" name="notify_when" ng-model="vm.notify_when" ng-show="vm.notification == true"/>
-        <br ng-show="vm.notification == true">
-
-        <br>
-
-        Share Event?
-        <input type="checkbox" ng-model="vm.is_shared"/>
-
-        <div ng-show="vm.is_shared == true">
-            <br>
-            <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedGroup"
-                          localdata="ngDialogData" titlefield="name" searchfields="name"
-                          minlength="1"
-                          inputclass="form-control2" matchclass="highlight"
-                          placeholder="Search Groups and Followers"/>
-
-            <center><h4 ng-show="vm.selectedGroup">Access Rule</h4></center>
-            <center>
-                <div class="form-group" ng-show="vm.selectedGroup">
-                    <label class="radio_btn_left" for="busy">Busy</label><input type="radio" name="rule" id="busy"
-                                                                                value="Busy" ng-model="vm.rule">
-                    <label class="radio_btn_middle_post" for="see">Read Only</label>
-                    <input type="radio" name="rule" id="see" value="Read Only" ng-model="vm.rule">
-                    <label class="radio_btn_label" for="modify">Modify</label>
-                    <input type="radio" name="rule" id="modify" value="Modify" ng-model="vm.rule">
-
-                </div>
-            </center>
-
-            <center><a class="absolute mdi-social-plus-one btn btn-default "
-                       ng-show="vm.rule"
-                       ng-click="vm.addGroups()"></a></center>
-
-            <li ng-repeat="(group, rule) in vm.groupRuleDict">{{ group }} - {{ rule }}</li>
+            <md-checkbox aria-label="is_pud_time" class="is_pud_time" ng-model="vm.pud_time">Pud allocation
+            </md-checkbox>
         </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">
-                Submit
-            </button>
+        <md-checkbox ng-model="vm.notification">Receive email notifications</md-checkbox>
+        <md-input-container>
+            <label ng-show="vm.notification == true" style="color:#545454">Notification Time</label>
+            <input type="datetime-local" name="notify_when" ng-model="vm.notify_when"
+                   ng-show="vm.notification == true"/>
+        </md-input-container>
+
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
         </div>
 
 

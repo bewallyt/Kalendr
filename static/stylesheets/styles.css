@@ -1,161 +1,3 @@
-.btn-add-new-post {
-    position: fixed;
-    bottom: 12px;
-    right: 20px;
-}
-
-.btn-create-pud {
-    position: fixed;
-    bottom: 78px;
-    right: 20px;
-}
-
-.btn-pudview {
-    position: fixed;
-    bottom: 144px;
-    right: 20px;
-}
-
-.btn-add-new-friend {
-    position: fixed;
-    bottom: 210px;
-    right: 20px;
-}
-
-.btn-home {
-    position: fixed;
-    bottom: 276px;
-    right: 20px;
-}
-
-.btn-change-date {
-    position: fixed;
-    bottom: 342px;
-    right: 20px;
-}
-
-.btn-change-date {
-    position: fixed;
-    bottom: 342px;
-    right: 20px;
-}
-
-.btn-before {
-    position: fixed;
-    bottom: 408px;
-    right: 20px;
-}
-
-.btn-next {
-    position: fixed;
-    bottom: 474px;
-    right: 20px;
-}
-
-.btn-notifications {
-    position: fixed;
-    bottom: 540px;
-    right: 20px;
-}
-
-.btn-nopadding {
-    width: 15em;
-    height: 3em;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-right: 20px;
-    padding-left: 20px;
-}
-
-.btn-bottom-right {
-    padding: 14px 10px;
-    position: absolute;
-}
-
-.left-side {
-    text-align: left;
-    margin-left: -15px;
-    margin-top: -15px;
-    position: absolute;
-}
-
-.left-side-btn {
-    text-align: left;
-    margin-left: -100px;
-    margin-top: -10px;
-}
-
-.repeat {
-    position: absolute;
-}
-
-.no-posts-here {
-    text-align: center;
-}
-
-.post {
-    height: 150px;
-}
-
-.post .post__meta {
-    font-weight: bold;
-    text-align: right;
-    padding-bottom: 30px;
-}
-
-.post .post__meta2 {
-    font-weight: bold;
-    text-align: left;
-    padding-bottom: 19px;
-}
-
-.post .post__meta a:hover {
-    text-decoration: none;
-}
-
-.account {
-}
-
-.left-side{
-    margin-left: -23px;
-    margin-top: 10px;
-    position: absolute;
-    padding-left:5px;
-    padding-right:5px;
-}
-.right-side{
-    margin-left: -2px;
-    /*margin-top: 10px;*/
-    padding-left:5px;
-    padding-right:5px;
-    position: absolute;
-}
-
-.corner_div{
-    float:right;
-    margin-top: 55%;
-}
-
-.top_corner_div{
-    float:left;
-    margin-top: -4%;
-    margin-left: -1%;
-}
-
-#visible_well button{
-    display: none;
-}
-
-
-#visible_well:hover .left-side{
-    display: inline;
-}
-#visible_well:hover .right-side{
-    display: inline;
-}
-
-
-
 .account .account__header {
     margin-bottom: 20px;
     text-align: center;
@@ -165,91 +7,17 @@
     font-weight: bold;
 }
 
-.buttonform {
-    text-align: center;
-}
-
-.post__notify__false {
-    visibility: hidden;
-}
-
-.post__notify__true {
-    margin-top: -55px;
-    margin-left: -15px;
-}
-
-.post__repeat__none {
-    visibility: hidden;
-}
-
-.post__repeat__Weekly {
-    margin-top: -50px;
-}
-
-.all_day {
-    margin-left: 50em;
-}
-
-.post__repeatnone {
-    visibility: hidden;
-}
-
-.post__time {
-    visibility: hidden;
-}
-
-.post .post__beta__true {
-    text-align: right;
-    font-size: 70%;
-    margin-bottom: 5px;
-}
-
-.post .day_of_week {
-    font-size: 70%;
-}
-
-.post .post__beta__false {
-    visibility: hidden;
-    margin-bottom: 19px;
-}
-
-.post .post__location__none {
-    visibility: hidden;
-}
-
-.post .post__location__inline {
-    display: inline;
-}
-
-.post .post__content {
-    display: inline;
-    text-align: center;
-}
-
-.post .post__description__none {
-    visibility: hidden;
-}
-
-.post__pud__false {
-    visibility: hidden;
-}
-
 .form-control:focus {
     border-bottom: 2px solid #CDF0ED;
 }
 
 #button__padding {
     margin-left: 20px;
+
 }
 
 #date__padding {
     margin-left: 50px;
-}
-
-.transparent {
-    zoom: 1;
-    filter: alpha(opacity=50);
-    opacity: 0.5;
 }
 
 .col-md-1 {
@@ -260,69 +28,10 @@
     width: 30%;
 }
 
-.namepud {
-    float: left;
-}
-
-.durationpud {
-    float: left;
-}
-
-.completepud {
-    float: left;
-}
-
-.repeatpud {
-    float: left;
-    margin-right: 200px;
-}
-
-.prioritypud {
-    float: left;
-}
-
-.detailspud {
-    margin-right: 100px;
-}
-
-input[type="radio"] {
-    margin: 0 20px 0 20px;
-}
-
-.radio_btn_left {
-    margin: 0 0px 0 10px;
-}
-
-.radio_btn_label {
-    margin: 0 0px 0 15px;
-}
-
-.radio_btn_middle {
-    margin: 0 0px 0 5px;
-}
-
-
-.radio_btn_left_post {
-    margin: 0 0px 0 -24px;
-}
-
-.radio_btn_label {
-    margin: 0 0px 0 15px;
-}
-
-.radio_btn_middle_post {
-    margin: 0 0px 0 0px;
-}
 .form-group .center {
     margin-left: auto;
     margin-right: auto;
     width: 70%;
-
-}
-
-#absolute {
-    position: absolute;
-
 }
 
 .panel-title {
@@ -339,26 +48,11 @@ input[type="radio"] {
     color: #cdf0ed;
 }
 
-/*.panel-body{*/
-/*outline: 0;*/
-/*background-color: #009587;*/
-/*padding: 6px;*/
-/*margin-bottom: 5px;*/
-/*text-align: center;*/
-/*font-size: 14px;*/
-/*color: #cdf0ed;*/
-/*}*/
-
-#green {
-
-}
-
-
-.weekday h5{
+.weekday h5 {
     margin-right: 11%;
     text-decoration: underline;
     transform: rotate(-90deg);
-	transform-origin: right top 0;
+    transform-origin: right top 0;
     float: right;
     font-weight: lighter;
     text-transform: uppercase;
@@ -372,7 +66,10 @@ input[type="radio"] {
     border-top-style: solid;
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 .nav, .pagination, .carousel, .panel-title a {
     cursor: pointer;
+}
+
+.days_checkbox {
+    display: block;
 }

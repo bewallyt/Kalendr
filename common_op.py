@@ -7,6 +7,13 @@ from posts.models import Post
 from groups.models import  KGroup
 from authentication.models import Account
 from access.models import AccessRule
+from signup.models import SignUp, TimeBlock, SignUpSlot
+from posts.models import Post
+from signup.serializers import SignUpSheetSerializer
+
+sign = SignUp.objects.all()[12]
+data = SignUpSheetSerializer(sign)
+data.data
 
 user0 = Account.objects.get(username="user0")
 user1 = Account.objects.get(username="user1")

@@ -1,0 +1,87 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <center><h2>Free Times</h2></center>
+
+        <md-switch ng-model="vm.event_type" aria-label="Switch 2" ng-true-value="'Recurring'"
+                   ng-false-value="'One-Time'"
+                   ng-init="vm.event_type='One-Time'">
+            {{ vm.event_type }}
+        </md-switch>
+
+        <div ng-show="vm.event_type=='Recurring'">
+
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label style="color:#545454">Search From</label>
+                    <input type="date" ng-model="vm.start_search">
+                </md-input-container>
+                <md-input-container flex>
+                    <label style="color:#545454">Search Until</label>
+                    <input type="date" ng-model="vm.end_search">
+                </md-input-container>
+            </div>
+
+        </div>
+
+        <div layout layout-sm="column" layout-align="center center">
+            <md-input-container flex>
+                <label style="color:#545454">Duration</label>
+                <input required type=" number" step="any" name="quant_hr" ng-model="vm.dur_hr" min="0" max="24">
+
+                <div ng-messages="vm.dur_hr.$error">
+                    <div ng-message="vm.dur_hr">hrs</div>
+                </div>
+            </md-input-container>
+
+            <md-input-container flex ng-show="vm.dur_hr!=24">
+                <label style="color:#545454">Duration</label>
+                <input required type="number" step="any" name="quant_mi" ng-model="vm.dur_mi" min="0" max="59">
+
+                <div ng-messages="vm.dur_mi.$error">
+                    <div ng-message="vm.dur_mi">minutes</div>
+                </div>
+            </md-input-container>
+        </div>
+        <br>
+
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label style="color:#545454">Start time</label>
+                <input required type="time" name="starttime" ng-model="vm.begin_time">
+            </md-input-container>
+            <md-input-container flex>
+                <label style="color:#545454">End time</label>
+                <input required type="time" name="endtime" ng-model="vm.end_time">
+            </md-input-container>
+        </div>
+
+        Days:
+        <div layout layout-sm="column" layout-align="center center">
+            <md-checkbox aria-label="sunday" class="days_checkbox" ng-model="vm.su">Su</md-checkbox>
+            <md-checkbox aria-label="monday" class="days_checkbox" ng-model="vm.mo">M</md-checkbox>
+            <md-checkbox aria-label="tuesday" class="days_checkbox" ng-model="vm.tu">T</md-checkbox>
+            <md-checkbox aria-label="wednesday" class="days_checkbox" ng-model="vm.we">W</md-checkbox>
+            <md-checkbox aria-label="thursday" class="days_checkbox" ng-model="vm.th">Th</md-checkbox>
+            <md-checkbox aria-label="friday" class="days_checkbox" ng-model="vm.fr">F</md-checkbox>
+            <md-checkbox aria-label="saturday" class="days_checkbox" ng-model="vm.sa">S</md-checkbox>
+        </div>
+
+        <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedUser"
+                      localdata="ngDialogData" titlefield="username" searchfields="username"
+                      minlength="1"
+                      inputclass="form-control2" matchclass="highlight"
+                      placeholder="Search Following"/>
+
+        <center><a class="absolute mdi-social-plus-one btn btn-default "
+                   ng-show="vm.selectedUser"
+                   ng-click="vm.addUser()"></a></center>
+
+        <li ng-repeat="user in vm.followingDict">{{ user }}</li>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
+        </div>
+
+    </div>
+
+</form>

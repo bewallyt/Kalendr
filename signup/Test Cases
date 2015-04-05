@@ -1,0 +1,13 @@
+1. A Create a signup with multiple blocks, and >1 max_slots. share it with 2 users B and C.
+    Open it to see the details
+
+    Show there is a notification
+
+2. B sign up with TOO MANY SLOTS--> Fail
+3. B sign up with correct number of slots --> success --> show that details
+4. B want to change --> search should return time slots that B sign up for as available.
+
+Switch to C
+
+1. Show that C cannot see who signed up, only unavailable.
+2. search does not return slots that are taken

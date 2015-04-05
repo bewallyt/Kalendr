@@ -7,7 +7,7 @@ from puds.models import Pud
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Account, related_name='myevents', blank=True)
+    author = models.ForeignKey(Account, related_name='myevents', blank=True,null=True)
     shared_with = models.ManyToManyField(KGroup, blank=True, through='access.AccessRule')
 
     content = models.CharField(max_length=40)
@@ -18,8 +18,8 @@ class Post(models.Model):
     location_event = models.CharField(max_length=40, blank=True, default='none')
     description_event = models.CharField(max_length=100, blank=True, default='none')
 
-    begin_time = models.CharField(max_length=50, blank=True, default='none')
-    end_time = models.CharField(max_length=50, blank=True, default='none')
+    begin_time = models.CharField(max_length=50, blank=True, default='')
+    end_time = models.CharField(max_length=50, blank=True, default='')
     end_repeat = models.DateTimeField(default=datetime.now(), blank=True)
     need_repeat = models.BooleanField(default=False)
 
@@ -43,6 +43,18 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     can_modifty = models.BooleanField(default=False)
+
+    is_updated = models.BooleanField(default=False)
+
+
+
+    '''
+        Fields for sign-up sheet.
+        Using OneToOne Field as a way to do inheritance.
+        Ideally, we do not repreat any information that's already in post,
+        but that might introduce problems in the serialization stage. So
+        for the sake of simplicity, sign up sheet will be a self-contained model
+    '''
 
     def __unicode__(self):
         return '{0}'.format(self.content)

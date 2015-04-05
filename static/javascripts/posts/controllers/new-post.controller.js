@@ -54,6 +54,7 @@
             else dayOfWeek = 'Saturday';
 
 
+            if(dayOfWeek == 'Sunday') weekNum ++;
             if (vm.begin_time === null) vm.begin_time = '';
             if (vm.end_time === null) vm.end_time = '';
             if (vm.notify_when === null) vm.notify_when = vm.start_time;
@@ -149,6 +150,7 @@
             else dayOfWeek = 'Saturday';
 
 
+            if(dayOfWeek == 'Sunday') weekNum ++;
             if (vm.begin_time === null) vm.begin_time = '';
             if (vm.end_time === null) vm.end_time = '';
             if (vm.notify_when === null) vm.notify_when = vm.start_time;
@@ -170,6 +172,8 @@
                 vm.content = "Complete Task";
                 vm.description_event = 'Work on: ';
             }
+
+            console.log(vm.start_time);
 
             Posts.create(vm.content, vm.start_time, vm.notification, vm.notify_when, vm.repeat, vm.location_event,
                 vm.description_event, vm.begin_time, vm.end_time, vm.end_repeat, vm.not_all_day, dayOfWeek,
@@ -216,10 +220,10 @@
                 // e.g. filter queryset via .latest('created_at')
                 // returned group will be data.data not data.data[0] because single item (not array)
 
-                //console.log("post creation successful and here is data.data: ");
-                //console.log(data.data.id);
-                //console.log("This is the group rule:");
-                //console.log(vm.groupRuleDict);
+                console.log("post creation successful and here is data.data: ");
+                console.log(data.data.id);
+                console.log("This is the group rule:");
+                console.log(vm.groupRuleDict);
                 Access.createShareable(data.data.id, vm.groupRuleDict);
 
 

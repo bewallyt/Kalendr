@@ -9,11 +9,16 @@ from posts.repeat import repeat_events
 from rest_framework import status
 from authentication.models import Account
 from access.models import AccessRule
-from mail.mail import send_post
+from mail.mail import send_post, send_shared_post
 
 import datetime
 
 
+
+'''
+    Create a new post. The create call uses the PoserSerializer to deserialize the HTTP request and create a new
+    post object and save it.
+'''
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -54,8 +59,6 @@ class PostViewSet(viewsets.ModelViewSet):
  Or the originator of the post changed the post's content
  This viewset is linked to the notification bar under social bar at the front-end
 '''
-
-
 class NotificationPostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -97,8 +100,9 @@ class AccountPostsViewSet(viewsets.ViewSet):
                 e.save()
                 repeat_events(e)
             # Parse start_time(date),begin_time(clock time, optional field), end_time(clock, optional)
-            if e.is_date_set == False:
+            if e.is_date_set == False or e.is_updated == True:
                 e.is_date_set = True
+                e.is_updated = False
                 e.show_date = str(e.start_time)[5:7] + "/" + str(e.start_time)[8:10] + "/" + str(e.start_time)[0:4]
                 e.show_begin_time = str(e.begin_time)[11:16]
                 e.show_end_time = str(e.end_time)[11:16]
@@ -107,6 +111,7 @@ class AccountPostsViewSet(viewsets.ViewSet):
             if e.is_week_set == False:
                 e.is_week_set = True
                 if e.day_of_week == 'Sunday':
+                    print 'its sunday'
                     e.week_num = e.start_time.isocalendar()[1] + 1
                 else:
                     e.week_num = e.start_time.isocalendar()[1]
@@ -133,6 +138,14 @@ class AccountPostsViewSet(viewsets.ViewSet):
             notify_post.notification = False
             notify_post.save()
             send_post(notify_post)
+
+        for rule in AccessRule.objects.all().filter(notification_email=True):
+            if rule.group.is_follow_group:
+                email_address = rule.group.members.all()[0].email
+                rule.notification_email = False
+                rule.save()
+                send_shared_post(rule.post, email_address, rule.notify_when)
+
 
         return Response(serializer.data)
 
@@ -166,7 +179,9 @@ class PostUpdateView(viewsets.ModelViewSet):
                 ar.save()
 
             updated_post = self.serializer_class(post, data = request.data, partial=True)
+            print updated_post
             if updated_post.is_valid():
+                print 'updated post is_updated: ' + str(updated_post.data['is_updated'])
                 updated_post.save()
                 return Response(updated_post.data, status=status.HTTP_200_OK)
 
@@ -230,6 +245,11 @@ class GetSharedPostView(viewsets.ModelViewSet):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 
+
+
+'''
+    Pub API endpoints:
+'''
 class AccountSavePudPostViewSet(viewsets.ViewSet):
     queryset = Post.objects.all()
     pud_queryset = Pud.objects.all()

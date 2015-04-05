@@ -38,13 +38,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'rest_framework',
-    'compressor',
     'djrill',
+    'compressor',
     'authentication',
     'posts',
     'groups',
     'puds',
     'access',
+    'freetime',
+    'signup',
 )
 
 TEMPLATE_LOADERS = (

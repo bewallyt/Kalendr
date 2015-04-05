@@ -1,0 +1,183 @@
+.post {
+    height: 6em;
+}
+
+.post .post__meta {
+    font-weight: bold;
+    text-align: right;
+    float: right;
+}
+
+.post .post__meta a:hover {
+    text-decoration: none;
+}
+
+.post .post__content {
+    margin-top: 25%;
+    display: block;
+    float: left;
+    position: absolute;
+}
+
+.post .post__meta2 {
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 19px;
+}
+
+.left-side {
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.right-side {
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.post_attr {
+    float: left;
+}
+
+#visible_well button {
+    display: none;
+}
+
+#visible_well:hover .left-side {
+    display: inline;
+}
+
+#visible_well:hover .right-side {
+    display: inline;
+}
+
+/* post description */
+.top_corner_div {
+    float: left;
+    margin-top: -4%;
+    margin-left: -1%;
+}
+
+.post__notify__false {
+    visibility: hidden;
+}
+
+.post__notify__true {
+    margin-top: -55px;
+    margin-left: -15px;
+}
+
+.post__repeat__none {
+    visibility: hidden;
+}
+
+.post__repeat__Weekly {
+    margin-top: -50px;
+}
+
+.all_day {
+    margin-left: 50em;
+}
+
+.post__repeatnone {
+    visibility: hidden;
+}
+
+.post__time {
+    visibility: hidden;
+}
+
+.post .post__beta__true {
+    text-align: right;
+    font-size: 70%;
+    margin-bottom: 5px;
+}
+
+.post .day_of_week {
+    font-size: 70%;
+}
+
+.post .post__beta__false {
+    visibility: hidden;
+    margin-bottom: 19px;
+}
+
+.post .post__location__none {
+    visibility: hidden;
+}
+
+.post .post__location__inline {
+    display: inline;
+}
+
+.post .post__description__none {
+    visibility: hidden;
+}
+
+.post__pud__false {
+    visibility: hidden;
+}
+
+/* post invite */
+input[type="radio"] {
+    margin: 0 20px 0 20px;
+}
+
+.radio_btn_left {
+    margin: 0 0px 0 10px;
+}
+
+.radio_btn_label {
+    margin: 0 0px 0 15px;
+}
+
+.radio_btn_middle {
+    margin: 0 0px 0 5px;
+}
+
+.radio_btn_left_post {
+    margin: 0 0px 0 -24px;
+}
+
+.radio_btn_label {
+    margin: 0 0px 0 15px;
+}
+
+.radio_btn_middle_post {
+    margin: 0 0px 0 0px;
+}
+
+/* screens smaller than 1450px in width */
+@media (max-device-width: 1450px) {
+
+    .post {
+        height: 5em;
+    }
+
+    .post .post__content {
+        margin-top: 30%;
+    }
+
+    .post .post__date {
+        font-size: 0.7em;
+    }
+
+    .post .day_of_week {
+        font-size: 0.75em;
+    }
+
+    .left-side {
+        float: left;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .right-side {
+        float: left;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+}

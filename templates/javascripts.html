@@ -2,39 +2,49 @@
 {% load staticfiles %}
 
 {% compress js %}
+
+    <!-- Jquery -->
     <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery-ui.min.js' %}"></script>
+
+    <!-- Underscore -->
     <script type="text/javascript" src="{% static 'bower_components/underscore/underscore.js' %}"></script>
+
+    <!-- Bootstrap -->
     <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'bower_components/bootstrap-material-design/dist/js/material.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'bower_components/bootstrap-material-design/dist/js/ripples.js' %}"></script>
 
+    <!-- Angular Variations -->
     <script type="text/javascript" src="{% static 'bower_components/angular/angular.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/angular-cookies/angular-cookies.js' %}"></script>
-
     <script type="text/javascript"
             src="{% static 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js' %}"></script>
 
+    <!-- Ngdialog -->
     <script type="text/javascript" src="{% static 'bower_components/ngDialog/js/ngDialog.js' %}"></script>
-    <script type="text/javascript" src="{% static 'lib/snackbarjs/snackbar.min.js' %}"></script>
 
+    <!-- UI Feature Helpers -->
+    <script type="text/javascript" src="{% static 'lib/snackbarjs/snackbar.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'lib/classie.js' %}"></script>
     <script type="text/javascript" src="{% static 'lib/menu/js/modernizr.custom.js' %}"></script>
 
-
+    <!-- Kalendr App -->
     <script type="text/javascript" src="{% static 'javascripts/kalendr.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/kalendr.config.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/kalendr.routes.js' %}"></script>
 
+    <!-- Accounts -->
     <script type="text/javascript" src="{% static 'javascripts/accounts/accounts.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/accounts/services/account.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/accounts/controllers/account.controller.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'javascripts/accounts/controllers/account-settings.controller.js' %}"></script>
 
+    <!-- Authentication -->
     <script type="text/javascript" src="{% static 'javascripts/authentication/authentication.module.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'javascripts/authentication/services/authentication.service.js' %}"></script>
@@ -43,9 +53,11 @@
     <script type="text/javascript"
             src="{% static 'javascripts/authentication/controllers/login.controller.js' %}"></script>
 
+    <!-- Layout -->
     <script type="text/javascript" src="{% static 'javascripts/layout/layout.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/layout/controllers/navbar.controller.js' %}"></script>
 
+    <!-- Posts -->
     <script type="text/javascript" src="{% static 'javascripts/posts/posts.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/posts/services/posts.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/posts/directives/posts.directive.js' %}"></script>
@@ -53,24 +65,60 @@
     <script type="text/javascript" src="{% static 'javascripts/posts/controllers/posts.controller.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/posts/controllers/new-post.controller.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/posts/controllers/date.controller.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascripts/posts/controllers/post-description.controller.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascripts/posts/controllers/post-description.controller.js' %}"></script>
+
+    <!-- Puds -->
     <script type="text/javascript" src="{% static 'javascripts/puds/puds.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/puds/services/puds.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/puds/directives/puds.directive.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/puds/directives/pud.directive.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/puds/controllers/puds.controller.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/puds/controllers/new-pud.controller.js' %}"></script>
-    <script type="text/javascript" src="{% static 'javascripts/puds/controllers/pud-complete.controller.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascripts/puds/controllers/pud-complete.controller.js' %}"></script>
 
+    <!-- Signup -->
+    <script type="text/javascript" src="{% static 'javascripts/signup/signup.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/signup/services/signup.service.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascripts/signup/controllers/new-signup.controller.js' %}"></script>
+
+    <!-- Groups -->
     <script type="text/javascript" src="{% static 'javascripts/groups/groups.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/groups/services/group-posts.service.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/groups/controllers/group.controller.js' %}"></script>
 
+    <!-- Utils -->
     <script type="text/javascript" src="{% static 'javascripts/utils/utils.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/utils/services/snackbar.service.js' %}"></script>
 
+    <!-- AnguComplete -->
     <script type="text/javascript" src="{% static 'ng_modules/auto_complete/angucomplete.js' %}"></script>
 
+    <!-- Access -->
     <script type="text/javascript" src="{% static 'javascripts/access/access.module.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascripts/access/services/access.service.js' %}"></script>
+
+    <!-- EnMasse -->
+    <script type="text/javascript" src="{% static 'javascripts/enmasse/enmasse.module.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/enmasse/controllers/enmasse.controller.js' %}"></script>
+
+    <!-- Freetime -->
+    <script type="text/javascript" src="{% static 'javascripts/freetime/freetime.module.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascripts/freetime/controllers/find-freetime.controller.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'javascripts/freetime/controllers/conflicts.controller.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/freetime/directives/conflict.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/freetime/directives/conflicts.directive.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascripts/freetime/services/freetime.service.js' %}"></script>
+
+    <!-- Angular Material -->
+    <script type="text/javascript" src="{% static 'bower_components/angular-aria/angular-aria.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-animate/angular-animate.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/angular-material/angular-material.js' %}"></script>
+
+
+
 {% endcompress %}

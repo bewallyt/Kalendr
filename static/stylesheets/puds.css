@@ -1,0 +1,84 @@
+/* 1680 x 1050 pixel screen */
+
+.outblock {
+    padding: 1%;
+    height: 100%;
+    float: left;
+    display: inline;
+    margin-top: -3%;
+}
+
+.intblock {
+    display: block;
+    padding: 5px;
+    margin-bottom: 10%;
+}
+
+.pud {
+    height: 4em;
+}
+
+.outblock_r {
+    padding: 1%;
+    height: 100%;
+    float: right;
+    display: inline;
+    margin-top: -3%;
+    text-align: right;
+}
+
+.outblock_c {
+    padding: 1%;
+    height: 100%;
+    float: left;
+    display: inline;
+    margin-top: -3%;
+}
+
+.flip-container {
+    perspective: initial;
+}
+
+/* flip the pane when hovered */
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+    transform: rotateY(180deg);
+}
+
+.front, .back {
+    width: 22em;
+}
+
+/* flip speed */
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+    transform: rotateY(180deg);
+}
+
+/* screens smaller than 1450px in width */
+@media (max-device-width: 1450px) {
+
+    .front, .back {
+        width: 16em;
+    }
+
+}
