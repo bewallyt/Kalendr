@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from schedule.models import ScheduleRequest
 from schedule.serializers import ScheduleRequestSerializer
+from posts.models import Post
 
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = ScheduleRequest.objects.all()
@@ -30,7 +31,8 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         email_address = user.email
 
         # do stuff
-        ## get all posts of user between start_date and end_date
+        ## get all posts authored by user and all posts user has confirmed, filtering between provided dates
+        ## check, does this include blocks signed up for
         ## write methods in mail.py for sending plain_text/graphical posts
         ## success/failure of mail sending should be returned from those methods for the Response        
        
