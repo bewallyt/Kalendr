@@ -200,6 +200,7 @@ puds/migrations/
 access/migrations/
 freetime/migrations/
 signup/migrations
+schedule/migrations/
 
 # Mac cache
 .DS_Store
