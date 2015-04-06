@@ -75,14 +75,19 @@
     z-index: 10;
 }
 
-.btn-notifications {
+.btn-email {
     position: fixed;
     bottom: 78%;
     right: 1%;
-    z-index: 10;
+    z-index: 9;
 }
 
-
+.btn-notifications {
+    position: fixed;
+    bottom: 85%;
+    right: 1%;
+    z-index: 8;
+}
 
 .btn-nopadding {
     width: 15em;
@@ -155,42 +160,50 @@
     }
 
     .btn-new-signup {
-        bottom: 10%;
+        bottom: 9%;
     }
 
     .btn-create-pud {
-        bottom: 19%;
+        bottom: 17%;
     }
 
     .btn-pudview {
-        bottom: 28%;
+        bottom: 25%;
     }
 
     .btn-add-new-friend {
-        bottom: 37%;
+        bottom: 33%;
     }
 
     .btn-home {
-        bottom: 46%;
+        bottom: 41%;
     }
 
     .btn-change-date {
-        bottom: 55%;
+        bottom: 49%;
     }
 
     .btn-before {
-        bottom: 64%;
+        bottom: 57%;
     }
 
     .btn-next {
-        bottom: 73%;
+        bottom: 65%;
     }
 
     .btn-free-time {
-        bottom: 82%;
+        bottom: 73%;
+    }
+
+    .btn-enmasse {
+        bottom: 81%;
+    }
+
+    .btn-email {
+        bottom: 89%;
     }
 
     .btn-notifications {
-        bottom: 91%;
+        bottom: 97%;
     }
 }

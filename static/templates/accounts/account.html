@@ -191,6 +191,14 @@
     </md-button> -->
 </div><!-- /pudview -->
 
+<md-button class="md-fab btn-email md-primary btn-hover"
+           aria-label="getemail"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/email/new-email.html"
+           ng-dialog-controller="EmailController as vm">
+    <md-icon md-svg-src="/static/lib/img/send.svg"></md-icon>
+    <md-tooltip md-direction="left">Email Schedule</md-tooltip>
+</md-button>
 
 <md-button class="md-fab btn-enmasse md-primary btn-hover"
            aria-label="newenmasse"
