@@ -1,3 +1,12 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class ScheduleTest(TestCase):
+
+    def setUp(self):
+        return
+        
+    def test_empty(self):
+        return
+
+    
