@@ -23,11 +23,11 @@
             console.log(start_date);
             console.log(end_date);
             console.log(format);
-            //return $http.post('/api/v1/freetime/', {
-            //    start_date: start_date,
-            //    end_date: end_date,
-            //    format: format
-            //});
+            return $http.post('/api/v1/schedule/', {
+               start_date: start_date,
+               end_date: end_date,
+               format: format
+            });
         }
     }
 })();

@@ -1,9 +1,12 @@
 from django.shortcuts import render
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from schedule.models import ScheduleRequest
 from schedule.serializers import ScheduleRequestSerializer
 from posts.models import Post
+from django.utils.timezone import now
+from datetime import timedelta
 
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = ScheduleRequest.objects.all()
@@ -27,8 +30,18 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         graphical = validated_data['format'] == 1
         start_date = validated_data['start_date']
         end_date = validated_data['end_date']
+        if start_date == None:
+            start_date = now()
+        if end_date == None:
+            end_date = start_date + timedelta(weeks=1)
         user = request.user
         email_address = user.email
+        
+        print graphical
+        print start_date
+        print end_date
+        print user.username
+        print email_address
 
         # do stuff
         ## get all posts authored by user and all posts user has confirmed, filtering between provided dates
