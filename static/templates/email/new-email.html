@@ -1,0 +1,30 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <h2 layout="column" layout-align="center center">Email Schedule</h2>
+        <br>
+
+        <br>
+        <div layout layout-sm="column">
+            <md-input-container flex>
+                <label style="color:#545454">Start date</label>
+                <input required type="date" name="startdate" ng-model="vm.start_date">
+            </md-input-container>
+            <md-input-container flex>
+                <label style="color:#545454">End date</label>
+                <input required type="date" name="enddate" ng-model="vm.end_date">
+            </md-input-container>
+        </div>
+
+        <md-switch ng-model="vm.email_type" aria-label="Switch 1" ng-true-value="'Text'"
+                   ng-false-value="'PDF'"
+                   ng-init="vm.email_type='Text'">
+            {{ vm.email_type }}
+        </md-switch>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
+        </div>
+
+    </div>
+
+</form>
