@@ -104,7 +104,6 @@ def send_graphical_schedule(posts, start_date, end_date, email_address, username
 
     call('pdflatex email_schedule.tex', shell=True)
     
-    email_address = 'ej48@duke.edu'
     email = EmailMessage(subject='Your schedule from Kalendr', to=[email_address])
     #email.attach_file('obama.gif')
     email.attach_file('email_schedule.pdf')
