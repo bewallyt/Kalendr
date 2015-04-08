@@ -202,5 +202,8 @@ freetime/migrations/
 signup/migrations
 schedule/migrations/
 
+# files generated when emailing schedules
+email_schedule.*
+
 # Mac cache
 .DS_Store
