@@ -61,7 +61,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         # do stuff
         posts = search_posts(user, start_date, end_date)
         if graphical:
-            response_data = mail.send_graphical_schedule(posts, start_date, end_date, email_address)
+            response_data = mail.send_graphical_schedule(posts, start_date, end_date, email_address, user.username)
         else:
             response_data = mail.send_text_schedule(posts, start_date, end_date, email_address)
        

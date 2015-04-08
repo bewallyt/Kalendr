@@ -1,6 +1,6 @@
 from django.core.mail import EmailMessage
 import datetime
-import os
+from subprocess import call
 
 
 def send_post(post):
@@ -87,11 +87,27 @@ def send_text_schedule(posts, start_date, end_date, email_address):
     return response
     
 
-def send_graphical_schedule(posts, start_date, end_date, email_address):
+def send_graphical_schedule(posts, start_date, end_date, email_address, username):
+    s0 = r'\documentclass{article}\usepackage{fullpage}\usepackage{booktabs}\begin{document}\title{Kalendr Schedule}\author{'
+    s1 = r'}\date{'
+    s2 = r' -- '
+    s3 = r'}\maketitle\section*{}\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llllll}\toprule Date & Begin Time & End Time & Event & Description & Location \\\toprule '
+    s4 = r'\\\bottomrule\end{tabular*}\end{document}'
+    
+    event_tex = ['{0}&{1}&{2}&{3}&{4}&{5}'.format(post.show_date, post.show_begin_time, post.show_end_time, post.content, post.description_event, post.location_event) for post in posts]
+    
+    content = s0 + username + s1 + start_date.strftime('%B %d, %Y') + s2 + end_date.strftime('%B %d, %Y') + s3 + r'\\\midrule '.join(event_tex) + s4
+    
+    f = open('email_schedule.tex', 'w')
+    f.write(content)
+    f.close()
+
+    call('pdflatex email_schedule.tex', shell=True)
+    
     email_address = 'ej48@duke.edu'
-    directory = os.path.dirname(os.path.abspath(__file__))
     email = EmailMessage(subject='Your schedule from Kalendr', to=[email_address])
-    email.attach_file(directory + '/obama.gif')
+    #email.attach_file('obama.gif')
+    email.attach_file('email_schedule.pdf')
     email.send(fail_silently=False)
     response = email.mandrill_response[0]
     return response
