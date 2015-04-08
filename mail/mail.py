@@ -1,5 +1,6 @@
 from django.core.mail import EmailMessage
 import datetime
+import os
 
 
 def send_post(post):
@@ -23,6 +24,7 @@ def send_post(post):
     print response
     return response
 
+    
 def send_shared_post(post, email_address, send_time):
     when = post.day_of_week + ', ' + post.show_date
     if post.not_all_day:
@@ -69,3 +71,28 @@ def send_pud(pud):
     response = email.mandrill_response[0]
     print response
     return response
+    
+
+def send_text_schedule(posts, start_date, end_date, email_address):
+    content = 'Events from {0} to {1}:\n\n'.format(start_date.date().isoformat(), end_date.date().isoformat())
+    for post in posts:
+        when = post.day_of_week + ', ' + post.show_date
+        if post.not_all_day:
+            when = when + ' at ' + post.show_begin_time
+        content = content + 'Event: {0}\nWhen: {1}\nWhere: {2}\n Description: {3}\n\n'.format(post.content, when, post.location_event, post.description_event)
+        
+    email = EmailMessage(subject='Your schedule from Kalendr', body=content, to=[email_address])
+    email.send(fail_silently=False)
+    response = email.mandrill_response[0]
+    return response
+    
+
+def send_graphical_schedule(posts, start_date, end_date, email_address):
+    email_address = 'ej48@duke.edu'
+    directory = os.path.dirname(os.path.abspath(__file__))
+    email = EmailMessage(subject='Your schedule from Kalendr', to=[email_address])
+    email.attach_file(directory + '/obama.gif')
+    email.send(fail_silently=False)
+    response = email.mandrill_response[0]
+    return response
+    
