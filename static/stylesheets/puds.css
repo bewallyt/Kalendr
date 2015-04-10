@@ -33,6 +33,7 @@
     float: left;
     display: inline;
     margin-top: -3%;
+    margin-left: -10%;
 }
 
 .flip-container {
@@ -79,6 +80,10 @@
 
     .front, .back {
         width: 16em;
+    }
+
+    .exes {
+        font-size: .75em;
     }
 
 }
