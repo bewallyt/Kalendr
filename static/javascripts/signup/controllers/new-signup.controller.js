@@ -41,6 +41,10 @@
 
         vm.getNumber = getNumber;
 
+        // Preferenced-Based
+        vm.isPreference = false;
+        vm.preferenceDuration;
+
         var dayOfWeek;
 
 
