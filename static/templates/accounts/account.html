@@ -64,7 +64,7 @@
                                  ng-class="{'glyphicon-chevron-down': vm.isFirstOpen, 'glyphicon-chevron-right': !vm.isFirstOpen}"></i>
                 </accordion-heading>
 
-                <button type="button" class="mdi-social-person-add btn btn-primary btn-lg" data-toggle="collapse"
+                <button type="button" class="mdi-social-person-add btn btn-default btn-lg" data-toggle="collapse"
                         data-target="#search">
                 </button>
                 <div id="search" class="collapse">
@@ -74,7 +74,7 @@
 
                     <button data-toggle="collapse" data-target="#search" ng-show="vm.selectedUser"
                             ng-click="vm.addFollower()"
-                            class="btn btn-primary">
+                            class="btn btn-default">
                         Add Follower
                     </button>
                 </div>
@@ -94,7 +94,7 @@
                 </accordion-heading>
                 <center>
 
-                    <button type="button" class="mdi-social-group-add btn btn-primary btn-lg"
+                    <button type="button" class="mdi-social-group-add btn btn-default btn-lg"
                             data-toggle="collapse" data-target="#add_group">
                     </button>
                     <div id="add_group" class="collapse">
@@ -119,7 +119,7 @@
                                               placeholder="Search for group members"/>
 
 
-                                <center><a class="mdi-social-plus-one btn btn-primary "
+                                <center><a class="mdi-social-plus-one btn btn-default "
                                            ng-show="vm.selectedMember"
                                            ng-click="vm.addMembers()"></a></center>
 
@@ -132,7 +132,7 @@
 
                             <div class="form-group">
                                 <button data-toggle="collapse" data-target="#add_group" type="submit"
-                                        class="btn btn-primary">
+                                        class="btn btn-default">
                                     Create Group
                                 </button>
                             </div>
@@ -214,7 +214,7 @@
 
 <!-- there is trouble with replacing these -->
 
-<a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend btn-hover"
+<a class="mdi-social-group btn btn-default btn-fab btn-raised btn-add-new-friend btn-hover"
    style="background-color:#2196f3; color:#333333"
    ng-click="vm.closeAccords()"
    ng-show="vm.isAuthenticated">
@@ -222,7 +222,7 @@
 </a>
 
 
-<button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview btn-hover"
+<button class="mdi-navigation-check btn btn-default btn-fab btn-raised btn-pudview btn-hover"
         style="background-color:#2196f3; color:#333333"
         id="btn-pudview"
         ng-show="vm.isAuthenticated">
@@ -362,7 +362,7 @@
 
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
-            showLeftPushArray = document.getElementsByClassName('mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend btn-hover'),
+            showLeftPushArray = document.getElementsByClassName('mdi-social-group btn btn-default btn-fab btn-raised btn-add-new-friend btn-hover'),
             showLeftPush = showLeftPushArray[0],
             showLeftPush1 = document.getElementById('showLeftPush2'),
             body = document.body;

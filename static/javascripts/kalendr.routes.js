@@ -16,10 +16,6 @@
             controller: 'AccountController',
             controllerAs: 'vm',
             templateUrl: '/static/templates/accounts/account.html'
-        }).when('/register', {
-            controller: 'RegisterController',
-            controllerAs: 'vm',
-            templateUrl: '/static/templates/authentication/register.html'
         }).when('/login', {
             controller: 'LoginController',
             controllerAs: 'vm',
