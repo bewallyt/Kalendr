@@ -31,7 +31,7 @@
         function activate() {
             // If the user is authenticated, they should not be here.
             if (Authentication.isAuthenticated()) {
-                $location.url('/');
+                $location.url('/kalendr');
             }
 
             var tabs = [
