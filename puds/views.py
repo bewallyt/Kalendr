@@ -86,8 +86,9 @@ def completeescalate(pud):  # refactor! extract duplicated logic blocks
                 pud.is_completed = True
                 pud.save()
         elif (pud.expiry.date() - eastern_time.date()).days <= 7:
-            if pud.escalate:
+            if pud.escalate and pud.last_escalated.date() != eastern_time.date():
                 if pud.priority_int < 3:
+                    pud.last_escalated = eastern_time()
                     pud.priority_int += 1
                     pud.save()
                     pud.priority = priority[pud.priority_int]
@@ -108,8 +109,9 @@ def completeescalate(pud):  # refactor! extract duplicated logic blocks
                 pud.is_completed = True
                 pud.save()
         else:
-            if pud.escalate:
+            if pud.escalate and pud.last_escalated.date() != eastern_time.date():
                 if pud.priority_int < 3:
+                    pud.last_escalated = eastern_time()
                     pud.priority_int += 1
                     pud.save()
                     pud.priority = priority[pud.priority_int]
@@ -123,8 +125,9 @@ def completeescalate(pud):  # refactor! extract duplicated logic blocks
                 pud.is_completed = True
                 pud.save()
         elif pud.expiry_day - eastern_time.day <= 7:
-            if pud.escalate:
+            if pud.escalate and pud.last_escalated.date() != eastern_time.date():
                 if pud.priority_int < 3:
+                    pud.last_escalated = eastern_time()
                     pud.priority_int += 1
                     pud.save()
                     pud.priority = priority[pud.priority_int]

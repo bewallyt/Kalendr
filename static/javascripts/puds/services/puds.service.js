@@ -47,11 +47,11 @@
          */
         function create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
                         need_repeat, notifyWhen, expires, escalate, expiry, exp_day, expiry_time) {
-            console.log("expires " + expires);
-            console.log("escalates " + escalate);
-            console.log("when " + expiry);
-            console.log("what day " + exp_day);
-            console.log("what time " + expiry_time);
+            //console.log("expires " + expires);
+            //console.log("escalates " + escalate);
+            //console.log("when " + expiry);
+            //console.log("what day " + exp_day);
+            //console.log("what time " + expiry_time);
             return $http.post('/api/v1/puds/', {
                 content: content,
                 notification: notification,

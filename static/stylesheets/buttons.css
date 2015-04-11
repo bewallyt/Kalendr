@@ -75,14 +75,19 @@
     z-index: 10;
 }
 
-.btn-notifications {
+.btn-email {
     position: fixed;
     bottom: 78%;
     right: 1%;
-    z-index: 10;
+    z-index: 9;
 }
 
-
+.btn-notifications {
+    position: fixed;
+    bottom: 85%;
+    right: 1%;
+    z-index: 8;
+}
 
 .btn-nopadding {
     width: 15em;
@@ -190,7 +195,18 @@
         bottom: 82%;
     }
 
+    .btn-enmasse {
+        bottom: 82%;
+        right: 6%;
+    }
+
+    .btn-email {
+        bottom: 73%;
+        right: 6%;
+    }
+
     .btn-notifications {
-        bottom: 91%;
+        bottom: 64%;
+        right: 6%;
     }
 }

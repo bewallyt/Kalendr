@@ -27,6 +27,7 @@ class Pud(models.Model):
     expiry = models.DateTimeField(default=datetime.now())
     expires = models.BooleanField(default=False)
     escalate = models.BooleanField(default=False)
+    last_escalated = models.DateTimeField(default=datetime.now())
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
