@@ -26,7 +26,7 @@
             } else {
                 format = 0;
             }
-            Email.create(vm.start_date, vm.end_date, format);//.then(emailSuccess, emailError);
+            Email.create(vm.start_date, vm.end_date, format).then(emailSuccess, emailError);
 
             $scope.closeThisDialog();
 
