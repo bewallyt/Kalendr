@@ -102,8 +102,9 @@ def send_graphical_schedule(posts, start_date, end_date, email_address, username
     f.write(content)
     f.close()
     
+    #verify that file gets written to and can be read from current directory
     f2 = open('email_schedule.tex')
-    str = f.read()
+    str = f2.read()
     return str
     
 
