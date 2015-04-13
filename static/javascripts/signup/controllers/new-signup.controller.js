@@ -44,6 +44,7 @@
         // Preferenced-Based
         vm.isPreference = false;
         vm.preferenceDuration;
+        vm.numBlocksPref;
 
         var dayOfWeek;
 
@@ -63,26 +64,51 @@
             var firstMeetingWeek = vm.dates[0].getWeekNum();
             console.log('week num: ' + firstMeetingWeek);
 
-            if(dayOfWeek == 'Sunday') firstMeetingWeek ++;
+            if (dayOfWeek == 'Sunday') firstMeetingWeek++;
 
-            Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser, dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
+            if (!vm.isPreference) {
 
-            $rootScope.$broadcast('signup.created', {
-                content: vm.content,
-                location: vm.location,
-                beginDateTimes: vm.beginDateTimes,
-                endDateTimes: vm.endDateTimes,
-                minTimes: vm.minTimes,
-                maxTimes: vm.maxTimes,
-                numSlotsPerUser: vm.numSlotsPerUser,
-                dayOfWeek: dayOfWeek,
-                firstMeetingMonth: firstMeetingMonth,
-                firstMeetingDate: firstMeetingDate,
-                firstMeetingWeek: firstMeetingWeek,
-                author: {
-                    username: Authentication.getAuthenticatedAccount().username
-                }
-            });
+                Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser, dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
+
+                $rootScope.$broadcast('signup.created', {
+                    content: vm.content,
+                    location: vm.location,
+                    beginDateTimes: beginDateTimes,
+                    endDateTimes: endDateTimes,
+                    minTimes: vm.minTimes,
+                    maxTimes: vm.maxTimes,
+                    numSlotsPerUser: vm.numSlotsPerUser,
+                    dayOfWeek: dayOfWeek,
+                    firstMeetingMonth: firstMeetingMonth,
+                    firstMeetingDate: firstMeetingDate,
+                    firstMeetingWeek: firstMeetingWeek,
+                    author: {
+                        username: Authentication.getAuthenticatedAccount().username
+                    }
+                });
+
+            }
+
+            else{
+
+                /*Preference-Based Signup*/
+                Signup.createPref(vm.content, vm.location, beginDateTimes, endDateTimes, dayOfWeek, firstMeetingWeek, vm.preferenceDuration);
+
+                $rootScope.$broadcast('prefSignup.created', {
+                    content: vm.content,
+                    location: vm.location,
+                    beginDateTimes: beginDateTimes,
+                    endDateTimes: endDateTimes,
+                    dayOfWeek: dayOfWeek,
+                    firstMeetingMonth: firstMeetingMonth,
+                    firstMeetingDate: firstMeetingDate,
+                    firstMeetingWeek: firstMeetingWeek,
+                    author: {
+                        username: Authentication.getAuthenticatedAccount().username
+                    }
+                });
+            }
+
 
             $scope.closeThisDialog();
 

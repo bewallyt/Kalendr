@@ -11,6 +11,8 @@ from authentication.models import Account
 from posts.models import Post
 from combine_slots import combine
 
+from pre_signup.views import PrefSignUpCreatAndListView
+
 # Create your views here.
 class SignUpCreateAndListView(viewsets.ModelViewSet):
     serializer_class = SignUpSheetSerializer
@@ -96,11 +98,17 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
                 print 'requester is post owner'
                 serializer = SignUpSheetSerializer(post.signup, context={'is_owner': True, 'requester': post_owner.username})
 
+        elif hasattr(post, 'prefsignup'):
+            print 'This is a pre-based signup'
+            instance = PrefSignUpCreatAndListView()
+            response = PrefSignUpCreatAndListView.list(instance, request, post_pk)
+            return response
+
         else:
-            print 'Post is not a signup sheet'
+            print 'Post is a regular post'
             serializer = PostSerializer(post)
 
-        #Now that I have a JSON, how do I inject a field into this JSON?
+        # Now that I have a JSON, how do I inject a field into this JSON?
         print serializer.data
         return Response(serializer.data)
 
