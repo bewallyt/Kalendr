@@ -201,6 +201,7 @@ access/migrations/
 freetime/migrations/
 signup/migrations
 schedule/migrations/
+pre_signup/migrations/
 
 # Mac cache
 .DS_Store
