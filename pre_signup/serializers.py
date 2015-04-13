@@ -10,20 +10,21 @@ class PrefSignUpSlotSerializer(serializers.ModelSerializer):
     requester_list = serializers.SerializerMethodField()
 
     def get_requester_list(self, obj):
-        if obj.requester_list is None:
-            return []
-        else:
-            requester_set = obj.requester_list.all()
-            if self.context['is_owner'] == True:
-                return requester_set.value_list('username', flat=True)
+        requester_set = obj.requester_list.all()
+        username_list = []
 
+        for requester in requester_set:
+            username_list.append(requester.username)
+
+        if self.context['is_owner'] == True:
+            return username_list
+
+        else:
+            requester_name = self.context['requester']
+            if requester_name in username_list:
+                return [requester_name]
             else:
-                requester_name = self.context['requester']
-                requester_name_list = requester_set.value_list('username', flat=True)
-                if requester_name in requester_name_list:
-                    return [requester_name]
-                else:
-                    return []
+                return []
 
     class Meta:
         model = PrefSignUpSlot

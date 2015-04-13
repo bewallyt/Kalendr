@@ -56,7 +56,7 @@ class PrefSignUp(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
     duration = models.IntegerField(default=120)
-    resolved = models.BooleanField(default=False)
+    resolved = models.BooleanField(default=False, blank=False)
 
     objects = PrefSignUpManager()
 
@@ -110,6 +110,6 @@ class PrefSignUpSlot(models.Model):
 '''
 class SignUpPreference(models.Model):
     slot = models.ForeignKey(PrefSignUpSlot, blank=True)
-    requestor = models.ForeignKey(Account, blank=True)
+    requester = models.ForeignKey(Account, blank=True)
     # 3 = Strongly prefer; 2 = Slightly prefer; 1 = If I have to.
     pref = models.PositiveSmallIntegerField()
