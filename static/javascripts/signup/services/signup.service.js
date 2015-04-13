@@ -18,6 +18,7 @@
     function Signup($http) {
         var Signup = {
             create: create,
+            createPref: createPref,
             get: get,
             searchSlots: searchSlots,
             confirmSlots: confirmSlots
@@ -47,15 +48,30 @@
             });
         }
 
-        function get(postId){
+
+        /*Benson to David: API call for prefBased Signups*/
+        function createPref(content, location, beginDateTimes, endDateTimes, dayOfWeek, weekNum, preferenceDuration) {
+
+            return $http.post('/api/v1/signupPref/', {
+                content: content,
+                location: location,
+                beginDateTimes: beginDateTimes,
+                endDateTimes: endDateTimes,
+                dayOfWeek: dayOfWeek,
+                weekNum: weekNum,
+                duration: preferenceDuration
+            });
+        }
+
+        function get(postId) {
             return $http.get('/api/v1/signup/' + postId + '/get_description/');
         }
 
-        function searchSlots(postId, duration){
-            return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration +'/request/')
+        function searchSlots(postId, duration) {
+            return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration + '/request/')
         }
 
-        function confirmSlots(postId, startTimes, endTimes){
+        function confirmSlots(postId, startTimes, endTimes) {
             console.log(startTimes);
             console.log(endTimes);
             return $http.post('/api/v1/signup/' + postId + '/request/', {
