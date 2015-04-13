@@ -105,7 +105,7 @@ def send_graphical_schedule(posts, start_date, end_date, email_address, username
     #verify that file gets written to and can be read from current directory
     f2 = open('email_schedule.tex')
     str = f2.read()
-    return str
+    return {'a' : str}
     
 
     call('pdflatex email_schedule.tex', shell=True)
