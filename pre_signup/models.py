@@ -14,8 +14,8 @@ class PrefSignUpManager(models.Manager):
 
         sheet = self.model(post = post, name = name, location = location,
                            duration = duration)
-        sheet.save()
 
+        sheet.save()
         min_delta = timedelta(minutes = duration)
 
 

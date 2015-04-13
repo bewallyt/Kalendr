@@ -100,7 +100,8 @@ class SignUpCreateAndListView(viewsets.ModelViewSet):
 
         elif hasattr(post, 'prefsignup'):
             print 'This is a pre-based signup'
-            response = PrefSignUpCreatAndListView.list(request, post_pk)
+            instance = PrefSignUpCreatAndListView()
+            response = PrefSignUpCreatAndListView.list(instance, request, post_pk)
             return response
 
         else:

@@ -30,7 +30,7 @@ class PrefSignUpCreatAndListView(viewsets.ModelViewSet):
         def unicode_to_datetime(code):
             datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%S.%fZ')
             return datetime_obj
-
+        print "create pref_based sign up"
         owner = Account.objects.get(email = request.user.email)
         name = request.data['content']
         week_num = request.data['weekNum']
@@ -45,12 +45,13 @@ class PrefSignUpCreatAndListView(viewsets.ModelViewSet):
         begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
         end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
 
-        post = Post.objects.create(author = owner, content= "SignUp: " + name, description_event = "Sign up sheet",
+        post = Post.objects.create(author = owner, content= "Pref-Based SignUp: " + name, description_event = "Sign up sheet",
                                    week_num = week_num, day_of_week = day_of_week,
                                    location_event = loc, start_time = begin_time_list_datetime[0],
                                    need_repeat = False, is_date_set = False, is_week_set = True)
         post.save()
 
+        print "post saved and about to create signup"
         PrefSignUp.objects.create_signup(post, name, loc, duration,
                                         begin_time_list_datetime,
                                         end_time_list_datetime)
