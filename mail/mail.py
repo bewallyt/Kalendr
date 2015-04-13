@@ -101,18 +101,12 @@ def send_graphical_schedule(posts, start_date, end_date, email_address, username
     f = open('email_schedule.tex', 'w')
     f.write(content)
     f.close()
-    
-    #verify that file gets written to and can be read from current directory
-    f2 = open('email_schedule.tex')
-    str = f2.read()
-    return {'a' : str}
-    
 
     call('pdflatex email_schedule.tex', shell=True)
     
     email = EmailMessage(subject='Your schedule from Kalendr', to=[email_address])
-    #email.attach_file('obama.gif')
-    email.attach_file('email_schedule.pdf')
+    email.attach_file('obama.gif')
+    # email.attach_file('email_schedule.pdf')
     email.send(fail_silently=False)
     response = email.mandrill_response[0]
     return response
