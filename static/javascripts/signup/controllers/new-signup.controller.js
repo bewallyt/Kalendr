@@ -44,6 +44,7 @@
         // Preferenced-Based
         vm.isPreference = false;
         vm.preferenceDuration;
+        vm.numBlocksPref;
 
         var dayOfWeek;
 

@@ -21,7 +21,9 @@
             createPref: createPref,
             get: get,
             searchSlots: searchSlots,
-            confirmSlots: confirmSlots
+            confirmSlots: confirmSlots,
+            searchPrefSlots: searchPrefSlots,
+            confirmPrefSlots: confirmPrefSlots
         };
 
         return Signup;
@@ -68,7 +70,12 @@
         }
 
         function searchSlots(postId, duration) {
-            return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration + '/request/')
+            return $http.get('/api/v1/signup/' + postId + '/get_description/' + duration + '/request/');
+        }
+
+        //Benson: pref search Slot api call
+        function searchPrefSlots(postId) {
+            //return $http.get('/api/v1/signup/' + postId + '/get_description/request/');
         }
 
         function confirmSlots(postId, startTimes, endTimes) {
@@ -78,6 +85,17 @@
                     postPk: postId,
                     beginDateTimes: startTimes,
                     endDateTimes: endTimes
+                }
+            )
+
+        }
+
+        //Benson: pref confirm pref slot template added
+        function confirmPrefSlots(postId, duration) {
+            console.log(duration);
+            return $http.post('/api/v1/signup/' + postId + '/requestPref/', {
+                    postPk: postId,
+                    duration: duration
                 }
             )
 
