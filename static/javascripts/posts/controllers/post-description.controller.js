@@ -69,6 +69,13 @@
         vm.blockDates = [];
         vm.parseSlotTimes = parseSlotTimes;
 
+        // Preference Based Variables
+        vm.prefDuration;
+        // Hardcoded to test
+        vm.isPrefSignup = false;
+        vm.preferenceValues = [];
+        vm.confirmPrefSignUp = confirmPrefSignUp;
+
 
         function init(id) {
 
@@ -128,7 +135,7 @@
 
             function successSignupFn(data, status, headers, config) {
                 vm.isLoading = false;
-                if (data.data['type'] == 'signup') {
+                if (data.data['type'] == 'signup' || data.data['type'] == 'prefsignup' ) {
                     vm.isSignup = true;
                     console.log('Data Type: ' + data.data['type']);
                     console.log('Min Duration: ' + data.data['min_duration']);
@@ -152,7 +159,7 @@
                     }
 
 
-                    if (data.data['type'] == 'signup') vm.isSignup = true;
+                    if (data.data['type'] == 'prefsignup') vm.isPrefSignup = true;
                     vm.minDuration = data.data['min_duration'];
                     vm.maxDuration = data.data['max_duration'];
                 }
@@ -168,7 +175,12 @@
 
         function signUp() {
             vm.notSigningUp = false;
+
+            if(vm.isPrefSignup){
+                vm.searchAvailableSlots();
+            }
         }
+
 
 
         function searchAvailableSlots() {
@@ -177,9 +189,18 @@
             vm.selectedEnd = [];
             vm.selectedSlots = [];
             vm.numSelected = 0;
-            Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
+
+            /*Benson: API Call for prefBased signups required no meeting duration (set by originator)*/
+            if (!vm.isPrefSignup) {
+                Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
+            }
+            else{
+                Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
+                //Signup.searchPrefSlots(vm.postId).then(successSearchFn, errorFn);
+            }
 
             function successSearchFn(data, status, headers, config) {
+                /*Benson: Expecting Same Data (slots) back for both pref and normal signups*/
                 console.log('returned slots: ' + data.data['myblocks']);
 
                 var i;
@@ -218,7 +239,7 @@
         function confirmSignUp() {
             Signup.confirmSlots(vm.postId, vm.selectedStart, vm.selectedEnd).then(successConfirmFn, errorFn);
 
-            function successConfirmFn(data, status, headers, config){
+            function successConfirmFn(data, status, headers, config) {
                 console.log('posted: ' + data.data);
                 $scope.closeThisDialog();
             }
@@ -229,14 +250,28 @@
             }
         }
 
+        function confirmPrefSignUp() {
+            Signup.confirmSlots(vm.postId, vm.preferenceValues).then(successConfirmFn, errorFn);
+
+            function successConfirmFn(data, status, headers, config) {
+                console.log('posted: ' + data.data);
+                $scope.closeThisDialog();
+            }
+
+            function errorFn(data, status, headers, config) {
+                Snackbar.error('Error');
+                $scope.closeThisDialog();
+            }
+        }
+
         function checkSlot(start_time, end_time) {
             //if (pass == false) {
             //    console.log('selected start and end time: ' + start_time + ' ' + end_time);
             //    console.log('numSelected: ' + vm.numSelected);
             //    vm.selectedSlots[slotIndex] = true;
-                vm.numSelected++;
-                vm.selectedStart.push(start_time);
-                vm.selectedEnd.push(end_time);
+            vm.numSelected++;
+            vm.selectedStart.push(start_time);
+            vm.selectedEnd.push(end_time);
             //}
             //else {
             //    console.log('deselected');

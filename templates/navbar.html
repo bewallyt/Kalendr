@@ -1,18 +1,15 @@
-<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as vm">
+<nav class="navbar" style="background-color:#2196f3; color:#333333" role="navigation"
+     ng-controller="NavbarController as vm">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#we-are-borg-navbar">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
             </button>
             {% if user.is_authenticated %}
-                <a class="navbar-brand" href="/"> {{ user.username }}'s Kalendr</a>
+                <a class="navbar-brand"> {{ user.username }}'s Kalendr</a>
 
             {% else %}
-                <a class="navbar-brand" href="/">Kalendr</a>
+                <a class="navbar-brand">Kalendr</a>
             {% endif %}
         </div>
         <!-- ./navbar-header -->
@@ -22,10 +19,8 @@
                 {% if user.is_authenticated %}
 
                     <li class="withripple"><a href="/+{{ user.username }}/settings">Settings</a></li>
-                    <li class="withripple"><a href="javascript:void(0)" ng-click="vm.logout()">Logout</a></li>
+                    <li class="withripple"><a href="/" ng-click="vm.logout()">Logout</a></li>
                 {% else %}
-                    <li class="withripple"><a href="/login">Login</a></li>
-                    <li class="withripple"><a href="/register">Register</a></li>
                 {% endif %}
             </ul>
         </div>

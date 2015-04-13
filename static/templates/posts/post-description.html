@@ -9,8 +9,9 @@
     </h4>
 </center>
 <br>
-<h5>Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
-<h5>Event Created by: {{ ngDialogData.author.username }} - {{ ngDialogData.author.email }}</h5>
+<h5 ng-hide="ngDialogData.is_holiday">Event Created on: {{ ngDialogData.created_at | date:'MM/dd/yyyy' }}</h5>
+<h5 ng-hide="ngDialogData.is_holiday">Event Created by: {{ ngDialogData.author.username }}
+    - {{ ngDialogData.author.email }}</h5>
 <h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
 <h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.begin_time | date:'h:mma' }}
     - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
@@ -23,7 +24,7 @@
     <md-progress-circular md-mode="indeterminate" ng-show="vm.isLoading"></md-progress-circular>
 </div>
 
-<div ng-show="vm.isSignup == true">
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == false">
     <h5>Minimum Slot Duration: {{ vm.minDuration }} minutes</h5>
     <h5>Maximum Slot Duration: {{ vm.maxDuration }} minutes</h5>
     <h5>{{ vm.maxSlots }} Slot(s) Available for Sign up</h5>
@@ -63,7 +64,7 @@
                         <md-list>
                             <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
                                 <md-item-content>
-                                    <div class="md-tile-content" style="background-color:#019587; color=black">
+                                    <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
                                         <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
@@ -110,7 +111,7 @@
                     <md-list>
                         <md-item ng-repeat="slot in vm.blocks[$index].myslots">
                             <md-item-content>
-                                <div class="md-tile-content" style="background-color:#019587; color=black">
+                                <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
                                     <h4>{{ slot.owner }}</h4>
@@ -135,6 +136,107 @@
         </md-button>
     </div>
 </div>
+
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true">
+    <h5>Slot Duration: {{ vm.prefDuration }} minutes</h5>
+
+    <br>
+
+    <div layout layout-align="center center" ng-show="vm.notSigningUp == false && !vm.isOwner"> Meeting Duration (in
+        Minutes)
+    </div>
+
+    <div ng-show="vm.notSigningUp == false && !vm.isOwner">
+        <div layout layout-align="center">
+            <md-progress-circular md-mode="indeterminate" ng-show="vm.isSearching"></md-progress-circular>
+        </div>
+
+        <div ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
+            <accordion close-others="vm.post_description_close1">
+                <accordion-group>
+                    <accordion-heading>
+                        Block {{ $index + 1 }} {{ vm.returnedblockDates[$index]}}
+                        <i
+                                class="pull-right glyphicon""></i>
+                    </accordion-heading>
+
+                    <md-content>
+                        <md-list>
+                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
+                                <md-item-content>
+                                    <div class="md-tile-content" style="background-color:#2196f3; color=black">
+                                        <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
+                                            {{ vm.parseSlotTimes(slot.end_time) }}</h3>
+                                        <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
+                                        <!-- Add radio buttons (is $inde value correct?)-->
+                                        <md-radio-group ng-model="vm.preferenceValues[$index]">
+                                            <div layout layout-sm="column" layout-align="center center">
+                                                <md-radio-button value='notPref'>If I have to/md-radio-button>
+                                                <md-radio-button value='slightlyPref'>Slightly Preferred</md-radio-button>
+                                                <md-radio-button value='highlyPref'>Highly Preferred</md-radio-button>
+                                            </div>
+                                        </md-radio-group>
+                                    </div>
+                                </md-item-content>
+                                <md-divider ng-if="!$last"></md-divider>
+                            </md-item>
+                        </md-list>
+                    </md-content>
+
+                </accordion-group>
+
+            </accordion>
+        </div>
+
+        <div layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                       ng-click="vm.confirmPrefSignUp() && close()"
+                       ng-disabled="vm.preferenceValues <= 0">Sign Up
+            </md-button>
+        </div>
+    </div>
+
+
+    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+        <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
+                   close-others="vm.post_description_close">
+            <accordion-group>
+                <accordion-heading>
+                    Block {{ $index + 1 }} {{ vm.blockDates[$index]}}
+                    <i
+                            class="pull-right glyphicon""></i>
+                </accordion-heading>
+
+                <md-content>
+                    <md-list>
+                        <md-item ng-repeat="slot in vm.blocks[$index].myslots">
+                            <md-item-content>
+                                <div class="md-tile-content" style="background-color:#2196f3; color=black">
+                                    <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
+                                        {{ vm.parseSlotTimes(slot.end_time) }}</h3>
+                                    <h4>{{ slot.owner }}</h4>
+
+                                    <p>
+                                    </p>
+                                </div>
+                            </md-item-content>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-item>
+                    </md-list>
+                </md-content>
+
+            </accordion-group>
+
+        </accordion>
+    </div>
+
+    <div layout="column" layout-align="center center" ng-show="!vm.isOwner">
+        <md-button class="md-raised md-primary btn-submit" ng-click="vm.signUp()"
+                   ng-show="vm.notSigningUp == true">Sign Up
+        </md-button>
+    </div>
+</div>
+
 
 <div ng-hide="vm.isSignup">
     <accordion ng-hide="(ngDialogData.is_holiday

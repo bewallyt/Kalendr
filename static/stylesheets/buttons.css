@@ -160,50 +160,53 @@
     }
 
     .btn-new-signup {
-        bottom: 9%;
+        bottom: 10%;
     }
 
     .btn-create-pud {
-        bottom: 17%;
+        bottom: 19%;
     }
 
     .btn-pudview {
-        bottom: 25%;
+        bottom: 28%;
     }
 
     .btn-add-new-friend {
-        bottom: 33%;
+        bottom: 37%;
     }
 
     .btn-home {
-        bottom: 41%;
+        bottom: 46%;
     }
 
     .btn-change-date {
-        bottom: 49%;
+        bottom: 55%;
     }
 
     .btn-before {
-        bottom: 57%;
+        bottom: 64%;
     }
 
     .btn-next {
-        bottom: 65%;
-    }
-
-    .btn-free-time {
         bottom: 73%;
     }
 
+    .btn-free-time {
+        bottom: 82%;
+    }
+
     .btn-enmasse {
-        bottom: 81%;
+        bottom: 82%;
+        right: 6%;
     }
 
     .btn-email {
-        bottom: 89%;
+        bottom: 73%;
+        right: 6%;
     }
 
     .btn-notifications {
-        bottom: 97%;
+        bottom: 64%;
+        right: 6%;
     }
 }
