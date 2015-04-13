@@ -101,6 +101,11 @@ def send_graphical_schedule(posts, start_date, end_date, email_address, username
     f = open('email_schedule.tex', 'w')
     f.write(content)
     f.close()
+    
+    f2 = open('email_schedule.tex')
+    str = f.read()
+    return str
+    
 
     call('pdflatex email_schedule.tex', shell=True)
     
