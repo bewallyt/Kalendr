@@ -76,6 +76,10 @@
         vm.preferenceValues = [];
         vm.confirmPrefSignUp = confirmPrefSignUp;
 
+        // Pereference Based Originator Variables
+        vm.resolve = resolve;
+        vm.isResolved = false;
+
 
         function init(id) {
 
@@ -135,7 +139,7 @@
 
             function successSignupFn(data, status, headers, config) {
                 vm.isLoading = false;
-                if (data.data['type'] == 'signup' || data.data['type'] == 'prefsignup' ) {
+                if (data.data['type'] == 'signup' || data.data['type'] == 'prefsignup') {
                     vm.isSignup = true;
                     console.log('Data Type: ' + data.data['type']);
                     console.log('Min Duration: ' + data.data['min_duration']);
@@ -159,7 +163,10 @@
                     }
 
 
-                    if (data.data['type'] == 'prefsignup') vm.isPrefSignup = true;
+                    if (data.data['type'] == 'prefsignup'){
+                        vm.isPrefSignup = true;
+                        vm.prefDuration = data.data['duration'];
+                    }
                     vm.minDuration = data.data['min_duration'];
                     vm.maxDuration = data.data['max_duration'];
                 }
@@ -176,11 +183,10 @@
         function signUp() {
             vm.notSigningUp = false;
 
-            if(vm.isPrefSignup){
+            if (vm.isPrefSignup) {
                 vm.searchAvailableSlots();
             }
         }
-
 
 
         function searchAvailableSlots() {
@@ -194,7 +200,7 @@
             if (!vm.isPrefSignup) {
                 Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
             }
-            else{
+            else {
                 Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
                 //Signup.searchPrefSlots(vm.postId).then(successSearchFn, errorFn);
             }
@@ -261,6 +267,19 @@
             function errorFn(data, status, headers, config) {
                 Snackbar.error('Error');
                 $scope.closeThisDialog();
+            }
+        }
+
+        function resolve() {
+            // make API call
+
+            function successResolveFn(data, status, headers, config) {
+                vm.isResolved = true;
+                console.log('resolved: ' + data.data);
+            }
+
+            function errorFn(data, status, headers, config) {
+                Snackbar.error('Error');
             }
         }
 
