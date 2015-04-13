@@ -141,21 +141,21 @@
                 expiry_time = expiry;
             }
 
-            //console.log("content: " + content);
-            //console.log("priority: " + priority);
-            //console.log("pr int: " + priority_int);
-            //console.log("duration: " + duration);
-            //console.log("repeat: " + repeat);
-            //console.log("re type: " + repeatType);
-            //console.log("re int: " + repeat_int);
-            //console.log("expires: " + expires);
-            //console.log("escalate: " + escalate);
-            //console.log("ex-time: " + expiry_time);
-            //console.log("expiry: " + expiry);
-            //console.log("ex-day: " + exp_day);
-            //console.log("notify: " + notify);
-            //console.log("notify when: " + notifyWhen);
-            //console.log("\n");
+            console.log("content: " + content);
+            console.log("priority: " + priority);
+            console.log("pr int: " + priority_int);
+            console.log("duration: " + duration);
+            console.log("repeat: " + repeat);
+            console.log("re type: " + repeatType);
+            console.log("re int: " + repeat_int);
+            console.log("expires: " + expires);
+            console.log("escalate: " + escalate);
+            console.log("ex-time: " + expiry_time);
+            console.log("expiry: " + expiry);
+            console.log("ex-day: " + exp_day);
+            console.log("notify: " + notify);
+            console.log("notify when: " + notifyWhen);
+            console.log("\n");
 
             Puds.create(content, notify, priority, priority_int, duration, repeatType, repeat_int,
                 repeat, notifyWhen, expires, escalate, expiry, exp_day, expiry_time).then(pudSuccess);

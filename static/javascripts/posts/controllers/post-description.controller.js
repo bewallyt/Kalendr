@@ -135,7 +135,7 @@
 
             function successSignupFn(data, status, headers, config) {
                 vm.isLoading = false;
-                if (data.data['type'] == 'signup') {
+                if (data.data['type'] == 'signup' || data.data['type'] == 'prefsignup' ) {
                     vm.isSignup = true;
                     console.log('Data Type: ' + data.data['type']);
                     console.log('Min Duration: ' + data.data['min_duration']);
@@ -159,7 +159,7 @@
                     }
 
 
-                    if (data.data['type'] == 'signup') vm.isSignup = true;
+                    if (data.data['type'] == 'prefsignup') vm.isPrefSignup = true;
                     vm.minDuration = data.data['min_duration'];
                     vm.maxDuration = data.data['max_duration'];
                 }
