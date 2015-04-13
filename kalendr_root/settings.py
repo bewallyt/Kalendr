@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'access',
     'freetime',
     'signup',
+    'schedule',
 )
 
 TEMPLATE_LOADERS = (

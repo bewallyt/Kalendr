@@ -8,7 +8,7 @@
 }
 
 .form-control:focus {
-    border-bottom: 2px solid #CDF0ED;
+    border-bottom: 2px solid #333333;
 }
 
 #button__padding {
@@ -38,14 +38,14 @@
     padding: 6px;
     text-align: center;
     font-size: 16px;
-    color: #009587;
+    color: #333333;
 }
 
 .panel-collapse {
-    background-color: #009587;
+    background-color: #2196f3;
+    color: #333333;
     text-align: center;
     font-size: 14px;
-    color: #cdf0ed;
 }
 
 .weekday h5 {
@@ -73,3 +73,14 @@
 .days_checkbox {
     display: block;
 }
+
+accordion-heading:hover {
+    background-color: black;
+    color:black;
+}
+
+.panel-default :hover > .panel-heading :hover {
+    background-color: #2196f3;
+    color: #333333;
+}
+

@@ -12,15 +12,11 @@
      * @desc Define valid application routes
      */
     function config($routeProvider) {
-        $routeProvider.when('/', {
+        $routeProvider.when('/kalendr', {
             controller: 'AccountController',
             controllerAs: 'vm',
             templateUrl: '/static/templates/accounts/account.html'
-        }).when('/register', {
-            controller: 'RegisterController',
-            controllerAs: 'vm',
-            templateUrl: '/static/templates/authentication/register.html'
-        }).when('/login', {
+        }).when('/', {
             controller: 'LoginController',
             controllerAs: 'vm',
             templateUrl: '/static/templates/authentication/login.html'

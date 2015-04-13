@@ -19,11 +19,13 @@
         vm.submit = submit;
         vm.need_repeat = false;
 
+
         function submit() {
             var repeat_int;
             var priority_int;
             var notification;
             var notifyWhen;
+            var exp_day;
 
             var content = vm.content;
 
@@ -43,18 +45,40 @@
                 priority_int = 3;
             }
 
+            if (vm.expires != true) {
+                vm.expires = false;
+            }
+
+            if (vm.escalate != true) {
+                vm.escalate = false;
+            }
+
             var duration = parseInt(vm.duration);
             var repeatType = vm.repeat;
 
             if (vm.repeat == 'Weekly') {
                 repeat_int = 2;
+                if (vm.expires) {
+                    exp_day = vm.expiry.getDay();
+                } else {
+                    exp_day = 32;
+                }
             } else if (vm.repeat == 'Monthly') {
                 repeat_int = 3;
+                if (vm.expires) {
+                    exp_day = vm.expiry.getDate();
+                } else {
+                    exp_day = 32;
+                }
             } else if (vm.repeat == 'Daily') {
                 repeat_int = 1;
+                exp_day = 32;
+                vm.expiry = new Date();
+                vm.escalate = false;
             } else {
                 repeat_int = 0;
                 repeatType = 'Perpetual';
+                exp_day = 32;
             }
 
             if (vm.repeat == 'Weekly' ||
@@ -67,9 +91,15 @@
                 notifyWhen = 0;
             }
 
+            if (!vm.expires) {
+                vm.expiry = new Date();
+                exp_day = 32;
+                vm.expiry_time = vm.expiry;
+            }
+
 
             Puds.create(content, notification, priority, priority_int, duration, repeatType, repeat_int,
-                vm.need_repeat, notifyWhen).then(createPudSuccessFn, createPudErrorFn);
+                vm.need_repeat, notifyWhen, vm.expires, vm.escalate, vm.expiry, exp_day, vm.expiry_time).then(createPudSuccessFn, createPudErrorFn);
 
             $rootScope.$broadcast('pud.created', {
                 content: content,

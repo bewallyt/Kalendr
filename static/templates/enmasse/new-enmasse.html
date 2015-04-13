@@ -1,0 +1,35 @@
+<form role="form" ng-submit="vm.submit()">
+    <div class="form-group">
+        <h2 layout="column" layout-align="center center">Multi-Event Creation</h2>
+        <br>
+        
+        <!-- display input 'rulebook' here -->
+        <h5>One type of event or task per line, only press Return/Enter when all attributes are asssigned.</h5>
+        <h6>Input Formats:</h6>
+        <md-button class="md-primary"
+                   aria-label="pud_rule"
+                   ng-dialog="/static/templates/enmasse/pud.html">Pud
+        </md-button>
+        <md-button class="md-primary"
+                   aria-label="event_rule"
+                   ng-dialog="/static/templates/enmasse/event.html">Event
+        </md-button>
+        <md-button class="md-primary"
+                   aria-label="signup_rule"
+                   ng-dialog="/static/templates/enmasse/signup.html">SignUp
+        </md-button>
+
+        <br>
+        <md-input-container>
+            <label style="color:#545454">Enter your events/tasks, line by line</label>
+            <textarea cols="50" ng-keypress="vm.check($event, $event.keyCode)" ng-model="vm.text" required></textarea>
+        </md-input-container>
+
+        <div class="form-group" layout="column" layout-align="center center">
+            <md-button class="md-raised md-primary btn-submit" type="submit">Submit</md-button>
+        </div>
+
+    </div>
+
+</form>
+

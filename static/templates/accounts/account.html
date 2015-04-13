@@ -1,3 +1,4 @@
+
 <div class="account" ng-show="vm.isAuthenticated" ng-cloak>
     <div class="jumbotron account__header">
         <h1 class="account__username" ng-cloak>{{ vm.date }}</h1>
@@ -9,7 +10,7 @@
 </div>
 
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-    <center><h3>Social Bar</h3></center>
+    <center><h3 style="color:black">Social Bar</h3></center>
 
 
     <div>
@@ -64,7 +65,7 @@
                                  ng-class="{'glyphicon-chevron-down': vm.isFirstOpen, 'glyphicon-chevron-right': !vm.isFirstOpen}"></i>
                 </accordion-heading>
 
-                <button type="button" class="mdi-social-person-add btn btn-primary btn-lg" data-toggle="collapse"
+                <button type="button" class="mdi-social-person-add btn btn-default btn-lg" data-toggle="collapse"
                         data-target="#search">
                 </button>
                 <div id="search" class="collapse">
@@ -74,7 +75,7 @@
 
                     <button data-toggle="collapse" data-target="#search" ng-show="vm.selectedUser"
                             ng-click="vm.addFollower()"
-                            class="btn btn-primary">
+                            class="btn btn-default">
                         Add Follower
                     </button>
                 </div>
@@ -94,7 +95,7 @@
                 </accordion-heading>
                 <center>
 
-                    <button type="button" class="mdi-social-group-add btn btn-primary btn-lg"
+                    <button type="button" class="mdi-social-group-add btn btn-default btn-lg"
                             data-toggle="collapse" data-target="#add_group">
                     </button>
                     <div id="add_group" class="collapse">
@@ -119,7 +120,7 @@
                                               placeholder="Search for group members"/>
 
 
-                                <center><a class="mdi-social-plus-one btn btn-primary "
+                                <center><a class="mdi-social-plus-one btn btn-default "
                                            ng-show="vm.selectedMember"
                                            ng-click="vm.addMembers()"></a></center>
 
@@ -132,7 +133,7 @@
 
                             <div class="form-group">
                                 <button data-toggle="collapse" data-target="#add_group" type="submit"
-                                        class="btn btn-primary">
+                                        class="btn btn-default">
                                     Create Group
                                 </button>
                             </div>
@@ -176,11 +177,11 @@
 
 <div id="pudview" class="pudview" ng-show="vm.isAuthenticated">
 
-    <!-- <puds puds="vm.puds"></puds> -->
-    <conflicts conflicts="vm.conflicts"></conflicts>
+    <puds puds="vm.puds"></puds>
+    <!-- <conflicts conflicts="vm.conflicts"></conflicts> -->
 
     <button class="pudview-close" id="pudview-close"></button>
-    <md-button class="md-fab btn-add-new-post md-primary btn-hover"
+    <!-- <md-button class="md-fab btn-add-new-post md-primary btn-hover"
                aria-label="newpost"
                ng-show="vm.isAuthenticated"
                ng-dialog="/static/templates/posts/new-post.html"
@@ -188,36 +189,61 @@
                ng-dialog-controller="NewPostController as vm">
         <md-icon md-svg-src="/static/lib/img/add.svg"></md-icon>
         <md-tooltip md-direction="left">New Event</md-tooltip>
-    </md-button>
+    </md-button> -->
 </div><!-- /pudview -->
+
+<md-button class="md-fab btn-email md-primary btn-hover"
+           aria-label="getemail"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/email/new-email.html"
+           ng-dialog-controller="EmailController as vm">
+    <md-icon md-svg-src="/static/lib/img/send.svg"></md-icon>
+    <md-tooltip md-direction="left">Email Schedule</md-tooltip>
+</md-button>
+
+<md-button class="md-fab btn-enmasse md-primary btn-hover"
+           aria-label="newenmasse"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/enmasse/new-enmasse.html"
+           ng-dialog-controller="EnmasseController as vm">
+    <md-icon md-svg-src="/static/lib/img/playlist-add.svg"></md-icon>
+    <md-tooltip md-direction="left">En Masse</md-tooltip>
+</md-button>
 
 <!-- Buttons in descending display order -->
 <!--<div class="btn-over">-->
 
-    <!-- there is trouble with replacing these -->
+<!-- there is trouble with replacing these -->
 
-    <a class="mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend btn-hover"
-       style="background-color:#2196f3; color:#333333"
-       ng-click="vm.closeAccords()"
-       ng-show="vm.isAuthenticated">
-        <md-tooltip md-direction="left">Social Bar</md-tooltip>
-    </a>
-
-
-    <button class="mdi-navigation-check btn btn-primary btn-fab btn-raised btn-pudview btn-hover"
-            style="background-color:#2196f3; color:#333333"
-            id="btn-pudview"
-            ng-show="vm.isAuthenticated">
-        <md-tooltip md-direction="left">FT Summary</md-tooltip>
-    </button>
+<a class="mdi-social-group btn btn-default btn-fab btn-raised btn-add-new-friend btn-hover"
+   style="background-color:#2196f3; color:#333333"
+   ng-click="vm.closeAccords()"
+   ng-show="vm.isAuthenticated">
+    <md-tooltip md-direction="left">Social Bar</md-tooltip>
+</a>
 
 
-    <a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications btn-hover"
-       id="showLeftPush2"
-       ng-click="vm.showNotificationsTab()"
-       ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
+<button class="mdi-navigation-check btn btn-default btn-fab btn-raised btn-pudview btn-hover"
+        style="background-color:#2196f3; color:#333333"
+        id="btn-pudview"
+        ng-show="vm.isAuthenticated">
+    <md-tooltip md-direction="left">Task List</md-tooltip>
+</button>
 
-    <!--<md-button class="md-fab btn-notifications md-primary btn-hover"
+<!-- <md-button class="md-fab btn-pudview md-primary btn-hover"
+           aria-label="pudview"
+           ng-show="vm.isAuthenticated" id="btn-pudview">
+    <md-icon md-svg-src="/static/lib/img/check.svg"></md-icon>
+    <md-tooltip md-direction="left">Task List</md-tooltip>
+</md-button> -->
+
+
+<a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications btn-hover"
+   id="showLeftPush2"
+   ng-click="vm.showNotificationsTab()"
+   ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
+
+<!--<md-button class="md-fab btn-notifications md-primary btn-hover"
                aria-label="notifications"
                ng-show="vm.hasNotifications">
         <md-icon md-svg-src="/static/lib/img/notifications.svg"></md-icon>
@@ -227,77 +253,77 @@
        ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
     </md-button>-->
 
-    <md-button class="md-fab btn-free-time md-primary btn-hover"
-               aria-label="freetime"
-               ng-show="vm.isAuthenticated"
-               ng-dialog="/static/templates/freetime/find-freetime.html"
-               ng-dialog-data="{{ vm.followingListOwners }}"
-               ng-dialog-controller="FreeTimeController as vm">
-        <md-icon md-svg-src="/static/lib/img/dashboard.svg"></md-icon>
-        <md-tooltip md-direction="left">Freetimes</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-free-time md-primary btn-hover"
+           aria-label="freetime"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/freetime/find-freetime.html"
+           ng-dialog-data="{{ vm.followingListOwners }}"
+           ng-dialog-controller="FreeTimeController as vm">
+    <md-icon md-svg-src="/static/lib/img/dashboard.svg"></md-icon>
+    <md-tooltip md-direction="left">Freetimes</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-before md-primary btn-hover"
-               aria-label="before"
-               ng-show="vm.isAuthenticated"
-               ng-click="vm.before()">
-        <md-icon md-svg-src="/static/lib/img/keyboard-arrow-left.svg"></md-icon>
-        <md-tooltip md-direction="left">Last Week</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-before md-primary btn-hover"
+           aria-label="before"
+           ng-show="vm.isAuthenticated"
+           ng-click="vm.before()">
+    <md-icon md-svg-src="/static/lib/img/keyboard-arrow-left.svg"></md-icon>
+    <md-tooltip md-direction="left">Last Week</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-next md-primary btn-hover"
-               aria-label="next"
-               ng-show="vm.isAuthenticated"
-               ng-click="vm.next()">
-        <md-icon md-svg-src="/static/lib/img/keyboard-arrow-right.svg"></md-icon>
-        <md-tooltip md-direction="left">Next Week</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-next md-primary btn-hover"
+           aria-label="next"
+           ng-show="vm.isAuthenticated"
+           ng-click="vm.next()">
+    <md-icon md-svg-src="/static/lib/img/keyboard-arrow-right.svg"></md-icon>
+    <md-tooltip md-direction="left">Next Week</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-change-date md-primary btn-hover"
-               aria-label="changedate"
-               ng-show="vm.isAuthenticated"
-               ng-dialog="/static/templates/posts/change-calendar.html"
-               ng-dialog-controller="DateController as vm">
-        <md-icon md-svg-src="/static/lib/img/event-note.svg"></md-icon>
-        <md-tooltip md-direction="left">Choose Week</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-change-date md-primary btn-hover"
+           aria-label="changedate"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/posts/change-calendar.html"
+           ng-dialog-controller="DateController as vm">
+    <md-icon md-svg-src="/static/lib/img/event-note.svg"></md-icon>
+    <md-tooltip md-direction="left">Choose Week</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-home md-primary btn-hover"
-               aria-label="home"
-               ng-show="vm.isAuthenticated"
-               ng-click="vm.activate()">
-        <md-icon md-svg-src="/static/lib/img/home.svg"></md-icon>
-        <md-tooltip md-direction="left">Home</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-home md-primary btn-hover"
+           aria-label="home"
+           ng-show="vm.isAuthenticated"
+           ng-click="vm.activate()">
+    <md-icon md-svg-src="/static/lib/img/home.svg"></md-icon>
+    <md-tooltip md-direction="left">Home</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-create-pud md-primary btn-hover"
-               aria-label="createpud"
-               ng-show="vm.isAuthenticated"
-               ng-dialog="/static/templates/puds/new-pud.html"
-               ng-dialog-controller="NewPudController as vm">
-        <md-icon md-svg-src="/static/lib/img/format-list-numbered.svg"></md-icon>
-        <md-tooltip md-direction="left">New Task</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-create-pud md-primary btn-hover"
+           aria-label="createpud"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/puds/new-pud.html"
+           ng-dialog-controller="NewPudController as vm">
+    <md-icon md-svg-src="/static/lib/img/format-list-numbered.svg"></md-icon>
+    <md-tooltip md-direction="left">New Task</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-new-signup md-primary btn-hover"
-               aria-label="signup"
-               ng-show="vm.isAuthenticated"
-               ng-dialog="/static/templates/signup/new-signup.html"
-               ng-dialog-data="{{ vm.shareable }}"
-               ng-dialog-controller="NewSignupController as vm">
-        <md-icon md-svg-src="/static/lib/img/border-color.svg"></md-icon>
-        <md-tooltip md-direction="left">Sign Ups</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-new-signup md-primary btn-hover"
+           aria-label="signup"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/signup/new-signup.html"
+           ng-dialog-data="{{ vm.shareable }}"
+           ng-dialog-controller="NewSignupController as vm">
+    <md-icon md-svg-src="/static/lib/img/border-color.svg"></md-icon>
+    <md-tooltip md-direction="left">Sign Ups</md-tooltip>
+</md-button>
 
-    <md-button class="md-fab btn-add-new-post md-primary btn-hover"
-               aria-label="newpost"
-               ng-show="vm.isAuthenticated"
-               ng-dialog="/static/templates/posts/new-post.html"
-               ng-dialog-data="{{ vm.shareable }}"
-               ng-dialog-controller="NewPostController as vm">
-        <md-icon md-svg-src="/static/lib/img/add.svg"></md-icon>
-        <md-tooltip md-direction="left">New Event</md-tooltip>
-    </md-button>
+<md-button class="md-fab btn-add-new-post md-primary btn-hover"
+           aria-label="newpost"
+           ng-show="vm.isAuthenticated"
+           ng-dialog="/static/templates/posts/new-post.html"
+           ng-dialog-data="{{ vm.shareable }}"
+           ng-dialog-controller="NewPostController as vm">
+    <md-icon md-svg-src="/static/lib/img/add.svg"></md-icon>
+    <md-tooltip md-direction="left">New Event</md-tooltip>
+</md-button>
 <!--</div>-->
 
 <script>
@@ -337,7 +363,7 @@
 
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
-            showLeftPushArray = document.getElementsByClassName('mdi-social-group btn btn-primary btn-fab btn-raised btn-add-new-friend btn-hover'),
+            showLeftPushArray = document.getElementsByClassName('mdi-social-group btn btn-default btn-fab btn-raised btn-add-new-friend btn-hover'),
             showLeftPush = showLeftPushArray[0],
             showLeftPush1 = document.getElementById('showLeftPush2'),
             body = document.body;
