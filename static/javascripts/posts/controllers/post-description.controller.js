@@ -79,6 +79,7 @@
         // Pereference Based Originator Variables
         vm.resolve = resolve;
         vm.isResolved = false;
+        vm.arrayOfArraysofRequesters = [];
 
 
         function init(id) {
@@ -149,6 +150,12 @@
                     vm.isOwner = data.data['is_owner']['is_owner'];
                     vm.maxSlots = data.data['max_slots'];
 
+                    if (data.data['type'] == 'prefsignup'){
+                        vm.isPrefSignup = true;
+                        vm.prefDuration = data.data['duration'];
+
+                    }
+
                     var i;
                     for (i = 0; i < data.data['myblocks'].length; i++) {
                         console.log(data.data['myblocks'][i]);
@@ -156,17 +163,30 @@
                         var j;
                         var numFreeSlots = 0;
                         for (j = 0; j < vm.blocks[i].myslots.length; j++) {
+                            // add info for pref
                             if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
+                            if(vm.isPrefSignup){
+                                var k;
+                                // parse for requester info
+                                for(k = 0; k < vm.blocks[i].myslots[j].requester_list.length; k++){
+                                    //console.log(vm.blocks[i].myslots[j].requester_list[k]);
+                                    var tempPreference;
+                                    if(vm.blocks[i].myslots[j].requester_list[k][1] == 1) tempPreference = "Not Preferred";
+                                    else if(vm.blocks[i].myslots[j].requester_list[k][1] == 2) tempPreference = "Slightly Preferred";
+                                    else tempPreference = "Highly Preferred";
+                                    vm.arrayOfArraysofRequesters.push([vm.blocks[i].myslots[j].requester_list[k][0], tempPreference]);
+                                }
+                                for(k = 0; k < vm.arrayOfArraysofRequesters.length; k++){
+                                    console.log(vm.arrayOfArraysofRequesters[k]);
+                                }
+                            }
+
                         }
                         vm.numFreeSlots[i] = numFreeSlots;
                         parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
                     }
 
 
-                    if (data.data['type'] == 'prefsignup'){
-                        vm.isPrefSignup = true;
-                        vm.prefDuration = data.data['duration'];
-                    }
                     vm.minDuration = data.data['min_duration'];
                     vm.maxDuration = data.data['max_duration'];
                 }
@@ -279,7 +299,8 @@
         }
 
         function resolve() {
-            // make API call
+            // make get API call
+            // make create API call
 
             function successResolveFn(data, status, headers, config) {
                 vm.isResolved = true;

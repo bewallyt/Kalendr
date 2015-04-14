@@ -281,13 +281,13 @@
 
                 <md-content>
                     <md-list>
-                        <md-item ng-repeat="slot in vm.blocks[$index].myslots">
+                        <md-item ng-repeat="slot in vm.blocks[$index].myslots track by $index">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
                                     <h4>{{ slot.owner }}</h4>
-
+                                    <h5 ng-show="vm.arrayOfArraysofRequesters[$index]">{{ vm.arrayOfArraysofRequesters[$index][0] }} - {{ vm.arrayOfArraysofRequesters[$index][1] }}</h5>
                                     <p>
                                     </p>
                                 </div>
@@ -302,12 +302,13 @@
         </accordion>
 
 
-        <div layout="column" layout-align="center center">
+    </div>
+
+            <div layout="column" layout-align="center center">
             <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
                        ng-click="vm.resolve()">Resolve
             </md-button>
         </div>
-    </div>
 
     <div layout="column" layout-align="center center" ng-show="!vm.isOwner">
         <md-button class="md-raised md-primary btn-submit" ng-click="vm.signUp()"
