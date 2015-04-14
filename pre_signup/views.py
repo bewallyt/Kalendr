@@ -244,6 +244,8 @@ class ResolveSignupView(viewsets.ModelViewSet):
                         potential_slot.owner = req
                         potential_slot.save()
                         break
+                else:
+                    continue
 
         serializer = PrefSignUpSheetSerializer(post.prefsignup,
                                                    context={'is_owner': True,
