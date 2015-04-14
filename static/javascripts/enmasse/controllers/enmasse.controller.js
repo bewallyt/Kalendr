@@ -80,11 +80,6 @@
 
             try {
                 var now = new Date();
-                var inputDate = new Date();
-                var year = parseInt(fields[8].split(":")[1].split("/")[2]);
-                var day = parseInt(fields[8].split(":")[1].split("/")[1]);
-                var month = parseInt(fields[8].split(":")[1].split("/")[0]);
-                inputDate.setFullYear(year, month - 1, day);
                 if (!_.contains(['low', 'normal', 'high', 'urgent'], fields[2].split(":")[1])) throw "Invalid priority value, line " + vm.lineNumber;
                 if (parseInt(fields[3].split(":")[1]) < 1
                     || parseInt(fields[3].split(":")[1] > 24)
@@ -102,16 +97,19 @@
                     )) throw "Expiry time must be in 24 hr format, line " + vm.lineNumber; //working up to here
 
                 if (fields[5].split(":")[1] == 'y'
-                    && ((parseInt(fields[8].split(":")[1].split("/")[0]) - 1 == now.getMonth()
-                        && parseInt(fields[8].split(":")[1].split("/")[2]) == now.getYear()
-                        && parseInt(fields[8].split(":")[1].split("/")[1]) == now.getDate())
-                    || (parseInt(fields[8].split(":")[1].split("/")[0]) - 1 < now.getMonth()
-                        && parseInt(fields[8].split(":")[1].split("/")[2]) < now.getYear())
-                    || (parseInt(fields[8].split(":")[1].split("/")[1]) < 1
-                        || parseInt(fields[8].split(":")[1].split("/")[1]) > 31)
-                    || (isNaN(parseInt(fields[8].split(":")[1].split("/")[0]))
-                        || isNaN(parseInt(fields[8].split(":")[1].split("/")[1]))
-                        || isNaN(parseInt(fields[8].split(":")[1].split("/")[2]))))) throw "Invalid expiry date or expiry date is backdated/today, line " + vm.lineNumber;
+                    && ((isNaN(parseInt(fields[8].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[8].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[8].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[8].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[8].split(":")[1].split("/")[1]) > 31
+                    || parseInt(fields[8].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[8].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[8].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[8].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[8].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[8].split(":")[1].split("/")[1]) <= now.getDate())
+                    )
+                ) throw "Invalid date and/or date is backdated/today, line " + vm.lineNumber;
 
                 if (fields[9].split(":")[1] == 'y/n') throw "Choose whether you want to be notified of the PUD"; //this works
 
