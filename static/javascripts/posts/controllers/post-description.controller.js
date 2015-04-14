@@ -72,7 +72,7 @@
         // Preference Based Variables
         vm.prefDuration;
         // Hardcoded to test
-        vm.isPrefSignup = false;
+        vm.isPrefSignup = true;
         vm.preferenceValues = [];
         vm.confirmPrefSignUp = confirmPrefSignUp;
 
@@ -201,8 +201,8 @@
                 Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
             }
             else {
-                Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
-                //Signup.searchPrefSlots(vm.postId).then(successSearchFn, errorFn);
+                //Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
+                Signup.searchPrefSlots(vm.postId).then(successSearchFn, errorFn);
             }
 
             function successSearchFn(data, status, headers, config) {

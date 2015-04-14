@@ -100,6 +100,7 @@ class PrefSignUpSlot(models.Model):
     # shared_with = models.ManyToManyField(KGroup, blank=True, through='access.AccessRule')
     requester_list = models.ManyToManyField(Account, related_name="requester_list", through='SignUpPreference',
                                            blank=True, null=True)
+    owner = models.ForeignKey(Account, related_name='resolved_owner', blank=True, null=True)
 
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null = True)
     end_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null = True)

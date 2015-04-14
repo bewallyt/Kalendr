@@ -75,7 +75,7 @@
 
         //Benson: pref search Slot api call
         function searchPrefSlots(postId) {
-            //return $http.get('/api/v1/signup/' + postId + '/get_description/request/');
+            return $http.get('/api/v1/signup/' + postId + '/prefSlots/');
         }
 
         function confirmSlots(postId, startTimes, endTimes) {
