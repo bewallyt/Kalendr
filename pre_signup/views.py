@@ -151,9 +151,10 @@ class RequesterSignUpView(viewsets.ModelViewSet):
         post = Post.objects.get(pk = request.data['postPk'])
 
         if post.prefsignup.resolved:
-            return Response()
+            print 'Signup Already Resolved'
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post)
+        pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post).order_by('start_time')
 
         # What's the best way of deleting a many-to-many field element?
         # delete the through field element?
@@ -168,22 +169,28 @@ class RequesterSignUpView(viewsets.ModelViewSet):
         begin_time_list_unicode = request.data['beginDateTimes']
         end_time_list_unicode = request.data['endDateTimes']
         preference_list = request.data['preference']
+        print begin_time_list_unicode
+        print end_time_list_unicode
+        print preference_list
         begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
         end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
 
-        for i in range(0, len(begin_time_list_datetime)):
-            slot = pref_slot_queryset.get(start_time = begin_time_list_datetime[i])
+        for i in range(0, len(pref_slot_queryset)):
+            slot = pref_slot_queryset[i]
             pref = 3
             if preference_list[i] == "notPref":
                 pref = 1
             elif preference_list[i] == "slightlyPref":
                 pref = 2
+            elif preference_list[i] == 'am':
+                pref = 0
             else:
                 pref = 3
-            pref_link = SignUpPreference(slot = slot, requester = requester, pref = pref)
-            pref_link.save()
+            if pref > 0:
+                pref_link = SignUpPreference(slot = slot, requester = requester, pref = pref)
+                pref_link.save()
 
-        data = PrefSignUpSheetSerializer(post.prefsignup, context={'is_owner': False, 'requester': requester.username})
+        data = PrefSignUpSheetSerializer(post.prefsignup, context={'is_owner': True, 'requester': requester.username})
 
         print 'Updated the Pref-based sign up after preference create'
         print data.data
@@ -206,7 +213,7 @@ class ResolveSignupView(viewsets.ModelViewSet):
 
 
     '''
-    def list(self, request,post_pk, *args, **kwargs):
+    def list(self, request, post_pk, *args, **kwargs):
         print 'Possible Assignment of Schedule'
         post = Post.objects.get(pk = post_pk)
         post_owner = post.author
@@ -254,6 +261,39 @@ class ResolveSignupView(viewsets.ModelViewSet):
         print 'This is one potential assignment'
         print serializer.data
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
+    '''
+        This function is called by originator to resolve the schedule
+
+        Expect:
+            1. a list of begin time
+            2. a list of end time
+            3. a list of usernames (if owner not set, expect empty string)
+    '''
+    def create(self, request, *args, **kwargs):
+        def unicode_to_datetime(code):
+            datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%SZ')
+            return datetime_obj
+
+        requester = Account.objects.get(email=request.user.email)
+        post = Post.objects.get(pk = request.data['postPk'])
+        owner = post.author
+
+        if owner != requester:
+            print 'Non- owner is trying to resolve the schedule'
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if post.prefsignup.resolved:
+            print 'Schedule is already resolved for post: ',post.pk
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
 
 
 

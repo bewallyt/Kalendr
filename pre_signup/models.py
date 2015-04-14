@@ -100,6 +100,8 @@ class PrefSignUpSlot(models.Model):
     # shared_with = models.ManyToManyField(KGroup, blank=True, through='access.AccessRule')
     requester_list = models.ManyToManyField(Account, related_name="requester_list", through='SignUpPreference',
                                            blank=True, null=True)
+
+    # owner is None until originator tries to resolve the schedule.
     owner = models.ForeignKey(Account, related_name='resolved_owner', blank=True, null=True)
 
     start_time = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null = True)
@@ -112,5 +114,5 @@ class PrefSignUpSlot(models.Model):
 class SignUpPreference(models.Model):
     slot = models.ForeignKey(PrefSignUpSlot, blank=True)
     requester = models.ForeignKey(Account, blank=True)
-    # 3 = Strongly prefer; 2 = Slightly prefer; 1 = If I have to.
+    # 3 = Strongly prefer; 2 = Slightly prefer; 1 = If I have to; 0 = not selected
     pref = models.PositiveSmallIntegerField()
