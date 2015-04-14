@@ -174,6 +174,26 @@
                 Posts.getWeek(username, post.firstMeetingWeek).then(postsSuccessFn, postsErrorFn);
             });
 
+            /*
+             Benson: added $on for prefSignup.created
+             Redundant code - needs refactoring
+             */
+
+            $scope.$on('prefSignup.created', function (event, post) {
+
+                num_month = post.firstMeetingMonth;
+                month = findMonth(num_month);
+
+                vm.date = post.dayOfWeek + ', ' + month + ' ' + post.firstMeetingDate;
+                vm.weekNum = post.firstMeetingWeek;
+
+                console.log('weeknumber passed: ' + post.firstMeetingWeek);
+
+                Posts.getWeek(username, post.firstMeetingWeek).then(postsSuccessFn, postsErrorFn);
+                Posts.getWeek(username, post.firstMeetingWeek).then(postsSuccessFn, postsErrorFn);
+            });
+            /**/
+
             $scope.$on('post.created.error', function () {
                 vm.posts.shift();
             });

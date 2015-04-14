@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'access',
     'freetime',
     'signup',
+    'pre_signup',
     'schedule',
 )
 

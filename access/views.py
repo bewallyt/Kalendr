@@ -108,7 +108,7 @@ class AccessViewSet(viewsets.ModelViewSet):
             #need partial=True for the serializer to parse it
             serializer = self.serializer_class(data=rule, partial=True)
             serializer.is_valid(raise_exception=True)
-            if hasattr(post, 'signup'):
+            if hasattr(post, 'signup') or hasattr(post, 'prefsignup'):
                 print 'Shared post is a signup'
                 serializer.save(post=post, group=group, receiver_response = 'CONFIRM', notify_receiver = True)
             else:
