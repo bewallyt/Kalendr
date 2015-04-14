@@ -29,25 +29,17 @@
             if (keyCode == 13) {
                 vm.lineNumber = textArea.value.substr(0, textArea.selectionStart).split("\n").length;
                 lines = vm.text.split("\n");
-                directToRule(lines[vm.lineNumber - 1]);
+                validationRule(lines[vm.lineNumber - 1]);
             }
         }
 
         function validateLine() {
             lines = vm.text.split("\n");
-            directToRule(lines[vm.lineNumber - 1]);
+            validationRule(lines[vm.lineNumber - 1]);
         }
 
-        function directToRule(line) {
-            var fields = line.split(";");
-            var forFields = [];
-            var i;
-            for (i = 0; i < fields.length; i++) {
-                forFields[i] = fields[i].trim();
-            }
-
-            forFields = forFields.slice(0, forFields.length - 1);
-
+        function validationRule(line) {
+            var forFields = stringTrimmer(line);
             if (forFields[0] == 'pud') {
                 validatePud(forFields);
             } else if (forFields[0] == 'event') {
@@ -59,6 +51,38 @@
             }
         }
 
+        function creationRule(line) {
+            var forFields = stringTrimmer(line);
+            if (forFields[0] == 'pud') {
+                parseCreatePud(forFields);
+            } else if (forFields[0] == 'event') {
+                parseCreateEvent(forFields);
+            } else if (forFields[0] == 'signup') {
+                parseCreateSignUp(forFields);
+            } else {
+            }
+        }
+
+        function stringTrimmer(line) {
+            var fields = line.split(";");
+            var forFields = [];
+            var i;
+            for (i = 0; i < fields.length; i++) {
+                forFields[i] = fields[i].trim();
+            }
+
+            forFields = forFields.slice(0, forFields.length - 1);
+            return forFields;
+        }
+
+        /**
+         * @name validatePud
+         * @desc Parse the textarea line to validate the input fields and values
+         * @desc Line format - pud; content:val; priority:val; duration:#; recurring:val; expires:y/n; escalates:y/n; time:hh/mm; day:mm/dd/yyyy; notify:y/n; when:#;
+         * @param {Object} fields The line of text split by semicolons into an index-able array
+         * @returns {Snackbar}
+         * @memberOf kalendr.enmasse.controllers.EnmasseController
+         */
         function validatePud(fields) {
             var areFieldsValid;
             var areValuesValid = true;
@@ -123,6 +147,13 @@
             }
         }
 
+        /**
+         * @name parseCreatePud
+         * @desc Parse the textarea line to create a PUD with the input values
+         * @param {Object} fields The line of text split by semicolons into an index-able array
+         * @returns {Puds}
+         * @memberOf kalendr.enmasse.controllers.EnmasseController
+         */
         function parseCreatePud(fields) {
 
             var content = fields[1].split(":")[1];
@@ -241,11 +272,26 @@
 
         }
 
+        function parseCreateEvent(fields) {
+
+        }
+
         function validateSignUp(fields) {
 
         }
 
+
+        function parseCreateSignUp(fields) {
+
+        }
+
+
+        //uncomment logic when ready to test all types of kalendr objects
         function submit() { //called when all the lines are validated and user clicks submit
+            //var i;
+            //for (i = 0; i < lines.length; i++) {
+            //    creationRule(lines[i]);
+            //}
         }
     }
 })
