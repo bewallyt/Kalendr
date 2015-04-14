@@ -95,7 +95,9 @@
             console.log(duration);
             return $http.post('/api/v1/signup/' + postId + '/requestPref/', {
                     postPk: postId,
-                    preferenceList: preferenceList
+                    preferenceList: preferenceList,
+                    beginDateTimes: startTimes,
+                    endDateTimes: endTimes
                 }
             )
 
