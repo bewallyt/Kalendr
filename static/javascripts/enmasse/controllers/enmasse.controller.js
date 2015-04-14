@@ -59,10 +59,9 @@
             }
         }
 
-        //pud; content:val; priority:val; duration:#; recurring:val; expires:y/n; escalates:y/n; time:hh/mm; day:mm/dd/yyyy; notify:y/n; when:#;
         function validatePud(fields) {
             var areFieldsValid;
-            var areValuesValid;
+            var areValuesValid = true;
             var i;
             for (i = 1; i < fields.length; i++) {
                 if (fields[i].split(":")[0] != fieldKeys[i - 1]) {
@@ -73,10 +72,6 @@
                     areFieldsValid = true;
                 }
             }
-
-            //if (areFieldsValid) {
-            //    Snackbar.show('Pud fields are correct on line ' + vm.lineNumber, 5000);
-            //}
 
             try {
                 var now = new Date();
@@ -120,7 +115,7 @@
                     )) throw "Notification interval must be between 1 and 7 inclusive, line " + vm.lineNumber;
             } catch (err) {
                 Snackbar.error(err, 5000);
-                //areValuesValid = false;
+                areValuesValid = false;
             }
 
             if (areFieldsValid && areValuesValid) {
