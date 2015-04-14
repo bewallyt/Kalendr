@@ -216,8 +216,50 @@ class ResolveSignupView(viewsets.ModelViewSet):
             print 'ResolveSignUpView called by non-owner!'
             return Response(status=status.HTTP_403_FORBIDDEN)
 
+        if hasattr(post, 'prefsignup'):
+            print 'this is a prefsignup'
+        else:
+            print 'this is NOT a prefsignup'
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if post.prefsignup.resolved:
+            print 'This pref-based signup is already resolved'
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
         requester_list = list(post.shared_with.all())
-        slot_list = list(PrefSignUpSlot.objects.filter(block__sheet__post = post, ))
+        slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post)
+        pref_link_queryset = SignUpPreference.objects.filter(slot__block__sheet__post = post)
+
+        # check if the M2M field contains a particular object
+        # slot_queryset.filter(requester_list = aRequester)
+
+        for req in requester_list:
+            my_slots = slot_queryset.filter(requester_list = req)
+            if my_slots.count() != 0:
+                my_pref_links = pref_link_queryset.filter(requester = req).order_by('-pref')
+                for link in my_pref_links:
+                    potential_slot = link.slot
+                    if potential_slot.owner is None:
+                        potential_slot.owner = req
+                        potential_slot.save()
+                        break
+
+        serializer = PrefSignUpSheetSerializer(post.prefsignup,
+                                                   context={'is_owner': True,
+                                                            'requester': post_owner.username})
+
+        print 'This is one potential assignment'
+        print serializer.data
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
+
+
+
+
+
+
 
 
 
