@@ -72,7 +72,7 @@
         // Preference Based Variables
         vm.prefDuration;
         // Hardcoded to test
-        vm.isPrefSignup = true;
+        vm.isPrefSignup = false;
         vm.preferenceValues = [];
         vm.confirmPrefSignUp = confirmPrefSignUp;
 
@@ -201,7 +201,6 @@
                 Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
             }
             else {
-                //Signup.searchSlots(vm.postId, vm.meetingDuration).then(successSearchFn, errorFn);
                 Signup.searchPrefSlots(vm.postId).then(successSearchFn, errorFn);
             }
 
@@ -229,6 +228,8 @@
 
                 for (i = 0; i < totalNumFreeSlots; i++) {
                     vm.selectedSlots[i] = false;
+                    //Benson added this for David as default preference Value
+                    vm.preferenceValues[i] = "am";
                 }
                 vm.isSearching = false;
 
@@ -247,6 +248,7 @@
 
             function successConfirmFn(data, status, headers, config) {
                 console.log('posted: ' + data.data);
+                Snackbar.show('Signup Successful');
                 $scope.closeThisDialog();
             }
 
@@ -257,10 +259,16 @@
         }
 
         function confirmPrefSignUp() {
-            Signup.confirmSlots(vm.postId, vm.preferenceValues).then(successConfirmFn, errorFn);
+            // check preference values
+            var i;
+            for(i = 0; i < vm.preferenceValues.length; i++){
+                console.log(vm.preferenceValues[i]);
+            }
+            Signup.confirmPrefSlots(vm.postId, vm.preferenceValues, vm.selectedStart, vm.selectedEnd).then(successConfirmFn, errorFn);
 
             function successConfirmFn(data, status, headers, config) {
                 console.log('posted: ' + data.data);
+                Snackbar.show('Preferences Saved');
                 $scope.closeThisDialog();
             }
 

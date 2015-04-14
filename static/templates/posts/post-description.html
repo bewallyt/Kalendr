@@ -13,6 +13,7 @@
 <h5 ng-hide="ngDialogData.is_holiday">Event Created by: {{ ngDialogData.author.username }}
     - {{ ngDialogData.author.email }}</h5>
 <h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
+<h5 ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner">Slot Duration: {{ vm.prefDuration }} minutes</h5>
 <h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.begin_time | date:'h:mma' }}
     - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
 <h5 ng-show="ngDialogData.need_repeat">Repeats {{ ngDialogData.repeat }} until {{ ngDialogData.end_repeat }}</h5>
@@ -67,7 +68,7 @@
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                        <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
+                                        <h4 ng-show="{{ slot.owner }}">{{ slot.owner }}</h4>
 
                                         <md-checkbox aria-label="is_pud_time"
                                                      ng-disabled="vm.checkDisabled"
@@ -167,11 +168,10 @@
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                        <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
                                         <!-- Add radio buttons (is $index value correct?)-->
                                         <md-radio-group ng-model="vm.preferenceValues[$index]">
                                             <div layout layout-sm="column" layout-align="center center">
-                                                <md-radio-button value='notPref'>If I have to/md-radio-button>
+                                                <md-radio-button value='notPref'>Not Preferred</md-radio-button>
                                                 <md-radio-button value='slightlyPref'>Slightly Preferred</md-radio-button>
                                                 <md-radio-button value='highlyPref'>Highly Preferred</md-radio-button>
                                             </div>
@@ -237,10 +237,37 @@
     </div>
 </div>
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner">
-    <h5>Slot Duration: {{ vm.prefDuration }} minutes</h5>
 
-    <br>
+<div ng-show="vm.isSignup && vm.isOwner">
+    <accordion ng-hide="(ngDialogData.is_holiday
+|| (vm.hasConfirmedGroups == false
+    && vm.hasDeclinedGroups == false
+    && vm.hasRemovedGroups == false
+    && vm.hasNoRespGroups == false))" close-others="vm.post_description_close">
+        <accordion-group is-open="vm.isThirdOpenPost"
+                         is-disabled="status.isPostDisabled">
+            <accordion-heading>
+                Shared With <i class="pull-right glyphicon""></i>
+            </accordion-heading>
+            <br>
+
+            <li ng-repeat="user in vm.confirmedGroups">
+                <p align="left">
+                    {{ user.name }}</p>
+            </li>
+            <li ng-repeat="user in vm.hasNoRespGroups">
+                <p align="left">
+                    {{ user.name }}</p>
+            </li>
+
+        </accordion-group>
+
+    </accordion>
+</div>
+
+
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner">
+
 
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
@@ -336,33 +363,6 @@
                         {{ user.name }}</p>
                 </li>
             </div>
-
-        </accordion-group>
-
-    </accordion>
-</div>
-
-<div ng-show="vm.isSignup && vm.isOwner">
-    <accordion ng-hide="(ngDialogData.is_holiday
-|| (vm.hasConfirmedGroups == false
-    && vm.hasDeclinedGroups == false
-    && vm.hasRemovedGroups == false
-    && vm.hasNoRespGroups == false))" close-others="vm.post_description_close">
-        <accordion-group is-open="vm.isThirdOpenPost"
-                         is-disabled="status.isPostDisabled">
-            <accordion-heading>
-                Shared With <i class="pull-right glyphicon""></i>
-            </accordion-heading>
-            <br>
-
-            <li ng-repeat="user in vm.confirmedGroups">
-                <p align="left">
-                    {{ user.name }}</p>
-            </li>
-            <li ng-repeat="user in vm.hasNoRespGroups">
-                <p align="left">
-                    {{ user.name }}</p>
-            </li>
 
         </accordion-group>
 

@@ -91,11 +91,10 @@
         }
 
         //Benson: pref confirm pref slot template added
-        function confirmPrefSlots(postId, preferenceList) {
-            console.log(duration);
+        function confirmPrefSlots(postId, preferenceList, startTimes, endTimes) {
             return $http.post('/api/v1/signup/' + postId + '/requestPref/', {
                     postPk: postId,
-                    preferenceList: preferenceList,
+                    preference: preferenceList,
                     beginDateTimes: startTimes,
                     endDateTimes: endTimes
                 }
