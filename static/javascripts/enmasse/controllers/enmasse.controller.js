@@ -21,6 +21,7 @@
         vm.check = check;
         vm.validateLine = validateLine;
         vm.lineNumber;
+        vm.validated = true;
         var lines;
         var fieldKeys = ['content', 'priority', 'duration', 'recurring', 'expires', 'escalates', 'time', 'day', 'notify', 'when'];
 
@@ -140,10 +141,12 @@
             } catch (err) {
                 Snackbar.error(err, 5000);
                 areValuesValid = false;
+                vm.validated = true;
             }
 
             if (areFieldsValid && areValuesValid) {
                 Snackbar.show("Pud fields and values valid on line " + vm.lineNumber, 5000);
+                vm.validated = false;
             }
         }
 
