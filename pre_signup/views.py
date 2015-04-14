@@ -130,11 +130,12 @@ class RequesterSignUpView(viewsets.ModelViewSet):
 
 
     '''
-        This function is called when a requester selects a list of slots, each
-        of which has a preference associated.
+        This function is called when a requester signs up a list of slots, each
+        of which has a preference associated. The M2M field in PrefSignUpSlot
+        will add more Accounts after this method
 
         Implementation of this function follow the same logic as the create
-        function in signu/views.py.
+        function in signup/views.py.
         Therefore, the expected input is
             1. A list of start_time
             2. A list of end_time
@@ -148,6 +149,9 @@ class RequesterSignUpView(viewsets.ModelViewSet):
 
         requester = Account.objects.get(email=request.user.email)
         post = Post.objects.get(pk = request.data['postPk'])
+
+        if post.prefsignup.resolved:
+            return Response()
 
         pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post)
 
@@ -178,6 +182,43 @@ class RequesterSignUpView(viewsets.ModelViewSet):
                 pref = 3
             pref_link = SignUpPreference(slot = slot, requester = requester, pref = pref)
             pref_link.save()
+
+        data = PrefSignUpSheetSerializer(post.prefsignup, context={'is_owner': False, 'requester': requester.username})
+
+        print 'Updated the Pref-based sign up after preference create'
+        print data.data
+
+        return Response(data.data, status=status.HTTP_201_CREATED)
+
+
+'''
+    This viewset is called when an originator tries to resolve
+    the signup schedule for a pref-based signup
+'''
+class ResolveSignupView(viewsets.ModelViewSet):
+    serializer_class = PrefSignUpSheetSerializer
+    queryset = PrefSignUp.objects.all()
+
+
+    '''
+        This function returns a possible assignment for a pref-base
+        signup with post_pk
+
+
+    '''
+    def list(self, request,post_pk, *args, **kwargs):
+        print 'Possible Assignment of Schedule'
+        post = Post.objects.get(pk = post_pk)
+        post_owner = post.author
+        requester = Account.objects.get(email=request.user.email)
+
+        if requester != post_owner:
+            print 'ResolveSignUpView called by non-owner!'
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        requester_list = list(post.shared_with.all())
+        slot_list = list(PrefSignUpSlot.objects.filter(block__sheet__post = post, ))
+
 
 
 
