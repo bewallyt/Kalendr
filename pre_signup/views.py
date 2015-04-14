@@ -272,15 +272,12 @@ class ResolveSignupView(viewsets.ModelViewSet):
             3. a list of usernames (if owner not set, expect empty string)
     '''
     def create(self, request, *args, **kwargs):
-        def unicode_to_datetime(code):
-            datetime_obj = datetime.strptime(code, '%Y-%m-%dT%H:%M:%SZ')
-            return datetime_obj
 
         requester = Account.objects.get(email=request.user.email)
         post = Post.objects.get(pk = request.data['postPk'])
-        owner = post.author
+        post_owner = post.author
 
-        if owner != requester:
+        if post_owner != requester:
             print 'Non- owner is trying to resolve the schedule'
             return Response(status=status.HTTP_403_FORBIDDEN)
 
@@ -288,27 +285,25 @@ class ResolveSignupView(viewsets.ModelViewSet):
             print 'Schedule is already resolved for post: ',post.pk
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        username_list = requester.data['ownerList']
 
 
+        pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post).order_by('start_time')
 
+        for i in range(0, len(pref_slot_queryset)):
+            if username_list[i] != 'na':
+                owner = Account.objects.get(username = username_list[i])
+                pref_slot_queryset[i].owner = owner
+            else:
+                pref_slot_queryset[i].owner = None
 
+        post.prefsignup.resolved = True
 
+        serializer = PrefSignUpSheetSerializer(post.prefsignup,
+                                               context={'is_owner': True,
+                                                        'requester': post_owner.username})
 
+        print 'final resolution:'
+        print serializer.data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return Response(status=status.HTTP_202_ACCEPTED)
