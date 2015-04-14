@@ -19,20 +19,52 @@
         var vm = this;
         vm.submit = submit;
         vm.check = check;
+        vm.validateLine = validateLine;
         vm.lineNumber;
+        vm.validated = true;
+        var lines;
+        var fieldKeys = ['content', 'priority', 'duration', 'recurring', 'expires', 'escalates', 'time', 'day', 'notify', 'when'];
 
         function check(event, keyCode) {
             var textArea = event.target;
             if (keyCode == 13) {
                 vm.lineNumber = textArea.value.substr(0, textArea.selectionStart).split("\n").length;
-                //console.log("line number: " + vm.lineNumber);
-                var lines = vm.text.split("\n");
-                //console.log(lines[vm.lineNumber - 1]);
-                directToRule(lines[vm.lineNumber - 1]);
+                lines = vm.text.split("\n");
+                validationRule(lines[vm.lineNumber - 1]);
             }
         }
 
-        function directToRule(line) {
+        function validateLine() {
+            lines = vm.text.split("\n");
+            validationRule(lines[vm.lineNumber - 1]);
+        }
+
+        function validationRule(line) {
+            var forFields = stringTrimmer(line);
+            if (forFields[0] == 'pud') {
+                validatePud(forFields);
+            } else if (forFields[0] == 'event') {
+                validateEvent(forFields);
+            } else if (forFields[0] == 'signup') {
+                validateSignUp(forFields);
+            } else {
+                Snackbar.error('Invalid Kalendr object type!', 5000);
+            }
+        }
+
+        function creationRule(line) {
+            var forFields = stringTrimmer(line);
+            if (forFields[0] == 'pud') {
+                parseCreatePud(forFields);
+            } else if (forFields[0] == 'event') {
+                parseCreateEvent(forFields);
+            } else if (forFields[0] == 'signup') {
+                parseCreateSignUp(forFields);
+            } else {
+            }
+        }
+
+        function stringTrimmer(line) {
             var fields = line.split(";");
             var forFields = [];
             var i;
@@ -41,20 +73,91 @@
             }
 
             forFields = forFields.slice(0, forFields.length - 1);
-            //forFields.forEach(function (entry) {
-            //    console.log(entry + " field");
-            //});
+            return forFields;
+        }
 
-            if (forFields[0] == 'pud') {
-                validatePud(forFields);
-            } else if (forFields[0] == 'event') {
-                validateEvent(forFields);
-            } else if (forFields[0] == 'signup') {
-                validateSignUp(forFields);
+        /**
+         * @name validatePud
+         * @desc Parse the textarea line to validate the input fields and values
+         * @desc Line format - pud; content:val; priority:val; duration:#; recurring:val; expires:y/n; escalates:y/n; time:hh/mm; day:mm/dd/yyyy; notify:y/n; when:#;
+         * @param {Object} fields The line of text split by semicolons into an index-able array
+         * @returns {Snackbar}
+         * @memberOf kalendr.enmasse.controllers.EnmasseController
+         */
+        function validatePud(fields) {
+            var areFieldsValid;
+            var areValuesValid = true;
+            var i;
+            for (i = 1; i < fields.length; i++) {
+                if (fields[i].split(":")[0] != fieldKeys[i - 1]) {
+                    Snackbar.error('Pud field names are incorrect on line ' + vm.lineNumber, 5000);
+                    areFieldsValid = false;
+                    break;
+                } else {
+                    areFieldsValid = true;
+                }
+            }
+
+            try {
+                var now = new Date();
+                if (!_.contains(['low', 'normal', 'high', 'urgent'], fields[2].split(":")[1])) throw "Invalid priority value, line " + vm.lineNumber;
+                if (parseInt(fields[3].split(":")[1]) < 1
+                    || parseInt(fields[3].split(":")[1] > 24)
+                    || isNaN(parseInt(fields[3].split(":")[1]))) throw "Duration must be at least 1 hr and no more than 24 hrs, line " + vm.lineNumber;
+                if (!_.contains(['n', 'Daily', 'Weekly', 'Monthly'], fields[4].split(":")[1])) throw "Invalid recurrence value, line " + vm.lineNumber;
+                if (fields[5].split(":")[1] == 'y/n') throw "Choose whether the PUD expires";
+                if (fields[6].split(":")[1] == 'y/n') throw "Choose whether the PUD escalates";
+                if (fields[5].split(":")[1] == 'y'
+                    && (parseInt(fields[7].split(":")[1].split("/")[0]) < 0
+                    || parseInt(fields[7].split(":")[1].split("/")[0]) > 23
+                    || parseInt(fields[7].split(":")[1].split("/")[1]) < 0
+                    || parseInt(fields[7].split(":")[1].split("/")[1]) > 59
+                    || isNaN(parseInt(fields[7].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[7].split(":")[1].split("/")[1]))
+                    )) throw "Expiry time must be in 24 hr format, line " + vm.lineNumber; //working up to here
+
+                if (fields[5].split(":")[1] == 'y'
+                    && ((isNaN(parseInt(fields[8].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[8].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[8].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[8].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[8].split(":")[1].split("/")[1]) > 31
+                    || parseInt(fields[8].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[8].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[8].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[8].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[8].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[8].split(":")[1].split("/")[1]) <= now.getDate())
+                    )
+                ) throw "Invalid date and/or date is backdated/today, line " + vm.lineNumber;
+
+                if (fields[9].split(":")[1] == 'y/n') throw "Choose whether you want to be notified of the PUD"; //this works
+
+                if (fields[9].split(":")[1] == 'y'
+                    && (fields[10].split(":")[1] > 7
+                    || fields[10].split(":")[1] < 1
+                    || isNaN(parseInt(fields[10].split(":")[1]))
+                    )) throw "Notification interval must be between 1 and 7 inclusive, line " + vm.lineNumber;
+            } catch (err) {
+                Snackbar.error(err, 5000);
+                areValuesValid = false;
+                vm.validated = true;
+            }
+
+            if (areFieldsValid && areValuesValid) {
+                Snackbar.show("Pud fields and values valid on line " + vm.lineNumber, 5000);
+                vm.validated = false;
             }
         }
 
-        function validatePud(fields) {
+        /**
+         * @name parseCreatePud
+         * @desc Parse the textarea line to create a PUD with the input values
+         * @param {Object} fields The line of text split by semicolons into an index-able array
+         * @returns {Puds}
+         * @memberOf kalendr.enmasse.controllers.EnmasseController
+         */
+        function parseCreatePud(fields) {
 
             var content = fields[1].split(":")[1];
             var priority = fields[2].split(":")[1];
@@ -90,17 +193,35 @@
             var expires = fields[5].split(":")[1] == 'y';
             var escalate = fields[6].split(":")[1] == 'y';
 
-            var d = new Date();
-            d.setHours(parseInt(fields[7].split(":")[1].split("/")[0]));
-            d.setMinutes(parseInt(fields[7].split(":")[1].split("/")[1]));
-            expiry_time = d;
+            if (!expires) {
+                expiry = new Date();
+                exp_day = 32;
+                expiry_time = expiry;
+            } else {
+                var d = new Date();
+                d.setHours(parseInt(fields[7].split(":")[1].split("/")[0]));
+                d.setMinutes(parseInt(fields[7].split(":")[1].split("/")[1]));
+                expiry_time = d;
 
-            var d2 = new Date();
-            var year = parseInt(fields[8].split(":")[1].split("/")[2]);
-            var day = parseInt(fields[8].split(":")[1].split("/")[1]);
-            var month = parseInt(fields[8].split(":")[1].split("/")[0]);
-            d2.setFullYear(year, month - 1, day);
-            expiry = d2;
+                var d2 = new Date();
+                var year = parseInt(fields[8].split(":")[1].split("/")[2]);
+                var day = parseInt(fields[8].split(":")[1].split("/")[1]);
+                var month = parseInt(fields[8].split(":")[1].split("/")[0]);
+                d2.setFullYear(year, month - 1, day);
+                expiry = d2;
+            }
+
+            //var d = new Date();
+            //d.setHours(parseInt(fields[7].split(":")[1].split("/")[0]));
+            //d.setMinutes(parseInt(fields[7].split(":")[1].split("/")[1]));
+            //expiry_time = d;
+            //
+            //var d2 = new Date();
+            //var year = parseInt(fields[8].split(":")[1].split("/")[2]);
+            //var day = parseInt(fields[8].split(":")[1].split("/")[1]);
+            //var month = parseInt(fields[8].split(":")[1].split("/")[0]);
+            //d2.setFullYear(year, month - 1, day);
+            //expiry = d2;
 
             if (repeatType == 'Weekly') {
                 repeat_int = 2;
@@ -135,27 +256,11 @@
                 notifyWhen = 0;
             }
 
-            if (!expires) {
-                expiry = new Date();
-                exp_day = 32;
-                expiry_time = expiry;
-            }
-
-            console.log("content: " + content);
-            console.log("priority: " + priority);
-            console.log("pr int: " + priority_int);
-            console.log("duration: " + duration);
-            console.log("repeat: " + repeat);
-            console.log("re type: " + repeatType);
-            console.log("re int: " + repeat_int);
-            console.log("expires: " + expires);
-            console.log("escalate: " + escalate);
-            console.log("ex-time: " + expiry_time);
-            console.log("expiry: " + expiry);
-            console.log("ex-day: " + exp_day);
-            console.log("notify: " + notify);
-            console.log("notify when: " + notifyWhen);
-            console.log("\n");
+            //if (!expires) {
+            //    expiry = new Date();
+            //    exp_day = 32;
+            //    expiry_time = expiry;
+            //}
 
             Puds.create(content, notify, priority, priority_int, duration, repeatType, repeat_int,
                 repeat, notifyWhen, expires, escalate, expiry, exp_day, expiry_time).then(pudSuccess);
@@ -170,11 +275,26 @@
 
         }
 
+        function parseCreateEvent(fields) {
+
+        }
+
         function validateSignUp(fields) {
 
         }
 
+
+        function parseCreateSignUp(fields) {
+
+        }
+
+
+        //uncomment logic when ready to test all types of kalendr objects
         function submit() { //called when all the lines are validated and user clicks submit
+            //var i;
+            //for (i = 0; i < lines.length; i++) {
+            //    creationRule(lines[i]);
+            //}
         }
     }
 })
