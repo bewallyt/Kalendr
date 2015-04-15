@@ -88,6 +88,11 @@
         vm.requestersCounter = 0;
 
         // For originator resolve
+        vm.update = update;
+        vm.isBeingUpdated = false;
+        vm.possibleRequesters = [];
+        vm.resolvedRequesters = [];
+        vm.resolve = resolve;
 
 
 
@@ -112,6 +117,7 @@
                 console.log('confirmed:' + data.data);
                 var i;
                 for (i = 0; i < data.data.length; i++) {
+                    vm.possibleRequesters.push(data.data[i].name);
                     console.log(data.data[i].name);
                 }
                 vm.confirmedGroups = data.data;
@@ -183,6 +189,12 @@
                             // add info for pref
                             if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
                             if (vm.isPrefSignup) {
+                                if(vm.blocks[i].myslots[j].owner.length > 0){
+                                    vm.isSuggested = true;
+                                    console.log('is suggested');
+                                }
+
+
                                 var k;
                                 // parse for requester info
                                 var preferencePlaceholder = "";
@@ -196,6 +208,7 @@
                                     preferencePlaceholder = preferencePlaceholder + " " + vm.blocks[i].myslots[j].requester_list[k][0] + " - " + tempPreference + " ";
 
                                 }
+                                vm.resolvedRequesters[counter] = "na";
                                 vm.arrayOfArraysofRequesters[counter] = preferencePlaceholder;
                                 console.log('pushed: ' + preferencePlaceholder);
                                 counter++;
@@ -274,6 +287,7 @@
                     vm.selectedSlots[i] = false;
                     //Benson added this for David as default preference Value
                     vm.preferenceValues[i] = "am";
+                    vm.resolvedRequesters[i] = "na";
                 }
                 vm.isSearching = false;
 
@@ -336,8 +350,6 @@
         }
 
         function suggest() {
-            // make get API call
-            // make create API call
 
             Signup.suggestSchedule(vm.postId).then(successSuggestFn, errorFn);
 
@@ -345,10 +357,34 @@
                 vm.isSuggested = true;
                 Snackbar.show('Schedule Suggested!');
                 console.log('suggested: ' + data.data);
+                $scope.closeThisDialog();
             }
 
             function errorFn(data, status, headers, config) {
                 Snackbar.error('Error');
+                $scope.closeThisDialog();
+            }
+        }
+
+        function update(){
+            vm.isBeingUpdated = true;
+        }
+
+        function resolve(){
+            console.log('number of requesters: ' + vm.resolvedRequesters.length);
+            Signup.resolveSchedule(vm.postId, vm.resolvedRequesters).then(successResolveFn, errorFn);
+
+            function successResolveFn(data, status, headers, config) {
+                vm.isSuggested = true;
+                vm.isBeingUpdated = false;
+                Snackbar.show('Schedule Resolved!');
+                console.log('suggested: ' + data.data);
+                $scope.closeThisDialog();
+            }
+
+            function errorFn(data, status, headers, config) {
+                Snackbar.error('Error');
+                $scope.closeThisDialog();
             }
         }
 
