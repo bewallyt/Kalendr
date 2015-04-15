@@ -11,7 +11,8 @@ body {
     width: 0px;
     min-height: 0px;
     /*background: #ffffff;*/
-    background-color: transparent;
+    background: url('../../../lib/img/glass_blue.png');
+    /*background-color: transparent;*/
     position: absolute;
     z-index: 10000;
     top: 0px;
@@ -193,7 +194,7 @@ input[type="search"] {
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 800;
-    color: #c2c2c2;
+    color: #777777;
     padding: 0.5em 0;
 }
 
