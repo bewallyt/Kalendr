@@ -71,15 +71,16 @@
 
         // Preference Based Variables
         vm.prefDuration;
-        // Hardcoded to test
         vm.isPrefSignup = false;
         vm.preferenceValues = [];
+        vm.frontEndPreferenceValues = [];
         vm.confirmPrefSignUp = confirmPrefSignUp;
 
         // Pereference Based Originator Variables
         vm.resolve = resolve;
         vm.isResolved = false;
         vm.arrayOfArraysofRequesters = [];
+
 
 
         function init(id) {
@@ -158,11 +159,13 @@
 
                     var i;
                     for (i = 0; i < data.data['myblocks'].length; i++) {
+
                         console.log(data.data['myblocks'][i]);
                         vm.blocks[i] = data.data['myblocks'][i];
                         var j;
                         var numFreeSlots = 0;
                         for (j = 0; j < vm.blocks[i].myslots.length; j++) {
+                            vm.frontEndPreferenceValues[i][j] = "am";
                             // add info for pref
                             if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
                             if(vm.isPrefSignup){
@@ -247,6 +250,7 @@
                 }
 
                 for (i = 0; i < totalNumFreeSlots; i++) {
+                    console.log('total number of free slots: ' + totalNumFreeSlots);
                     vm.selectedSlots[i] = false;
                     //Benson added this for David as default preference Value
                     vm.preferenceValues[i] = "am";
