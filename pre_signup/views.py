@@ -242,13 +242,20 @@ class ResolveSignupView(viewsets.ModelViewSet):
         # slot_queryset.filter(requester_list = aRequester)
 
         for req in requester_list:
-            my_slots = slot_queryset.filter(requester_list = req)
+            if req.members.all().count() > 1:
+                print 'Not a KGROUP'
+            user = req.members.all()[0]
+
+            my_slots = slot_queryset.filter(requester_list = user)
+
             if my_slots.count() != 0:
-                my_pref_links = pref_link_queryset.filter(requester = req).order_by('-pref')
+                my_pref_links = pref_link_queryset.filter(requester = user).order_by('-pref')
                 for link in my_pref_links:
                     potential_slot = link.slot
-                    if potential_slot.owner is None:
-                        potential_slot.owner = req
+                    if potential_slot.owner is None or potential_slot.owner == user:
+
+                        print user.username
+                        potential_slot.owner = user
                         potential_slot.save()
                         break
                 else:
