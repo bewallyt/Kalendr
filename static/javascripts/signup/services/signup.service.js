@@ -101,7 +101,6 @@
                     endDateTimes: endTimes
                 }
             )
-
         }
 
         function suggestSchedule(postId) {
@@ -115,6 +114,5 @@
                 }
             )
         }
-
     }
 })();

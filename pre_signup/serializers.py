@@ -4,9 +4,12 @@
 '''
 from rest_framework import serializers
 from pre_signup.models import PrefSignUp, PrefTimeBlock, PrefSignUpSlot, SignUpPreference
+from authentication.models import Account
+
 
 class PrefSignUpSlotSerializer(serializers.ModelSerializer):
     requester_list = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
 
     def get_requester_list(self, obj):
         requester_set = obj.requester_list.all()
