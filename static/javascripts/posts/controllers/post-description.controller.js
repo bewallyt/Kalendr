@@ -88,11 +88,11 @@
         vm.requestersCounter = 0;
 
         // For originator resolve
-        vm.update = update;
-        vm.isBeingUpdated = false;
         vm.possibleRequesters = [];
         vm.resolvedRequesters = [];
         vm.resolve = resolve;
+        vm.isResolved = true;
+        vm.startResolve = false;
 
 
 
@@ -161,6 +161,8 @@
                     console.log('Min Duration: ' + data.data['min_duration']);
                     console.log('Signup Blocks: ' + data.data['myblocks']);
                     console.log('is Owner: ' + data.data['is_owner']['is_owner']);
+                    console.log('is resolved: ' + data.data['resolved']);
+                    vm.isResolved = data.data['resolved'];
 
                     vm.isOwner = data.data['is_owner']['is_owner'];
                     vm.maxSlots = data.data['max_slots'];
@@ -355,6 +357,7 @@
 
             function successSuggestFn(data, status, headers, config) {
                 vm.isSuggested = true;
+                vm.startResolve = true;
                 Snackbar.show('Schedule Suggested!');
                 console.log('suggested: ' + data.data);
                 $scope.closeThisDialog();
@@ -366,17 +369,13 @@
             }
         }
 
-        function update(){
-            vm.isBeingUpdated = true;
-        }
 
         function resolve(){
             console.log('number of requesters: ' + vm.resolvedRequesters.length);
             Signup.resolveSchedule(vm.postId, vm.resolvedRequesters).then(successResolveFn, errorFn);
 
             function successResolveFn(data, status, headers, config) {
-                vm.isSuggested = true;
-                vm.isBeingUpdated = false;
+                vm.isSuggested = false;
                 Snackbar.show('Schedule Resolved!');
                 console.log('suggested: ' + data.data);
                 $scope.closeThisDialog();

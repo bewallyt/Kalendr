@@ -271,7 +271,7 @@
 </div>
 
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && vm.isBeingUpdated">
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && vm.startResolve">
 
 
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
@@ -296,10 +296,11 @@
                                         <select
                                                 ng-model="vm.resolvedRequesters[vm.numSlotsFront[$parent.$index] + $index]"
                                                 placeholder="Select User">
-                                            <option value="" disabled selected>Schedule User</option>
                                             <option
                                                     ng-value="requester"
-                                                    ng-repeat="requester in vm.possibleRequesters"><center>{{ requester }}</center></option>
+                                                    ng-repeat="requester in vm.possibleRequesters">
+                                                <center>{{ requester }}</center>
+                                            </option>
                                         </select>
                                     </div>
                                     <h5> {{ slot.owner }}</h5>
@@ -330,7 +331,7 @@
 
 </div>
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && !vm.isBeingUpdated">
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && !vm.startResolve">
 
 
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
@@ -373,13 +374,13 @@
 
     <div layout="column" layout-align="center center">
         <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
-                   ng-click="vm.suggest()" ng-hide="vm.isSuggested">Suggest
+                   ng-click="vm.suggest()" ng-show="!vm.isSuggested && !vm.isResolved">Suggest
         </md-button>
     </div>
 
     <div layout="column" layout-align="center center">
         <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
-                   ng-click="vm.update()" ng-show="vm.isSuggested">Update
+                   ng-click="vm.suggest()" ng-show="vm.isSuggested && !vm.isResolved">Re-suggest
         </md-button>
     </div>
 
