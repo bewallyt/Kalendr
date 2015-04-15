@@ -277,7 +277,7 @@
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
                    close-others="vm.post_description_close">
-            <accordion-group>
+            <accordion-group is-open="true">
                 <accordion-heading>
                     Block {{ $index + 1 }} {{ vm.blockDates[$index]}}
                     <i
@@ -294,8 +294,7 @@
 
                                     <div style="z-index: 9999; position:relative;">
                                         <select
-                                                ng-model="vm.resolvedRequesters[vm.numSlotsFront[$parent.$index] + $index]"
-                                                placeholder="Select User">
+                                                ng-model="vm.resolvedRequesters[vm.numSlotsFront[$parent.$index] + $index]">
                                             <option
                                                     ng-value="requester"
                                                     ng-repeat="requester in vm.possibleRequesters">

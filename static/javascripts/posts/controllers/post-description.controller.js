@@ -360,12 +360,10 @@
                 vm.startResolve = true;
                 Snackbar.show('Schedule Suggested!');
                 console.log('suggested: ' + data.data);
-                $scope.closeThisDialog();
             }
 
             function errorFn(data, status, headers, config) {
                 Snackbar.error('Error');
-                $scope.closeThisDialog();
             }
         }
 
