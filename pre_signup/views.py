@@ -292,7 +292,8 @@ class ResolveSignupView(viewsets.ModelViewSet):
             print 'Schedule is already resolved for post: ',post.pk
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        username_list = request.data['ownerList']
+        username_list = request.data['usernames']
+        print username_list
 
 
         pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post).order_by('start_time')
@@ -303,8 +304,11 @@ class ResolveSignupView(viewsets.ModelViewSet):
                 pref_slot_queryset[i].owner = owner
             else:
                 pref_slot_queryset[i].owner = None
+            pref_slot_queryset[i].save()
+
 
         post.prefsignup.resolved = True
+        post.prefsignup.save()
 
         serializer = PrefSignUpSheetSerializer(post.prefsignup,
                                                context={'is_owner': True,
