@@ -87,6 +87,9 @@
         vm.arrayOfArraysofRequesters = [];
         vm.requestersCounter = 0;
 
+        // For originator resolve
+
+
 
         function init(id) {
 
@@ -340,6 +343,7 @@
 
             function successSuggestFn(data, status, headers, config) {
                 vm.isSuggested = true;
+                Snackbar.show('Schedule Suggested!');
                 console.log('suggested: ' + data.data);
             }
 
