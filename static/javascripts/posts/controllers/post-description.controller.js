@@ -73,12 +73,12 @@
         vm.prefDuration;
         vm.isPrefSignup = false;
         vm.preferenceValues = [];
-        vm.frontEndPreferenceValues = [];
+        vm.frontEndPreferenceValues;;
         vm.confirmPrefSignUp = confirmPrefSignUp;
 
         // Pereference Based Originator Variables
-        vm.resolve = resolve;
-        vm.isResolved = false;
+        vm.suggest = suggest;
+        vm.isSuggested = false;
         vm.arrayOfArraysofRequesters = [];
 
 
@@ -159,12 +159,14 @@
 
                     var i;
                     for (i = 0; i < data.data['myblocks'].length; i++) {
+                        vm.frontEndPreferenceValues = new Array(data.data['myblocks'].length);
 
                         console.log(data.data['myblocks'][i]);
                         vm.blocks[i] = data.data['myblocks'][i];
                         var j;
                         var numFreeSlots = 0;
                         for (j = 0; j < vm.blocks[i].myslots.length; j++) {
+                            vm.frontEndPreferenceValues[i] = new Array(vm.blocks[i].myslots.length);
                             vm.frontEndPreferenceValues[i][j] = "am";
                             // add info for pref
                             if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
@@ -285,8 +287,13 @@
         function confirmPrefSignUp() {
             // check preference values
             var i;
-            for(i = 0; i < vm.preferenceValues.length; i++){
-                console.log(vm.preferenceValues[i]);
+            var counter = 0;
+            for(i = 0; i < vm.frontEndPreferenceValues.length; i++){
+                var j;
+                for(j = 0; j < vm.frontEndPreferenceValues[i].length; j++){
+                    vm.preferenceValues[counter] = vm.frontEndPreferenceValues[i][j];
+                    counter++;
+                }
             }
             Signup.confirmPrefSlots(vm.postId, vm.preferenceValues, vm.selectedStart, vm.selectedEnd).then(successConfirmFn, errorFn);
 
@@ -302,13 +309,15 @@
             }
         }
 
-        function resolve() {
+        function suggest() {
             // make get API call
             // make create API call
 
-            function successResolveFn(data, status, headers, config) {
-                vm.isResolved = true;
-                console.log('resolved: ' + data.data);
+            Signup.suggestSchedule(vm.postId).then(successSuggestFn, errorFn);
+
+            function successSuggestFn(data, status, headers, config) {
+                vm.isSuggested = true;
+                console.log('suggested: ' + data.data);
             }
 
             function errorFn(data, status, headers, config) {
