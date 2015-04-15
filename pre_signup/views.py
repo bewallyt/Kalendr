@@ -166,14 +166,14 @@ class RequesterSignUpView(viewsets.ModelViewSet):
 
 
         # Update/create signup links
-        begin_time_list_unicode = request.data['beginDateTimes']
-        end_time_list_unicode = request.data['endDateTimes']
+        #begin_time_list_unicode = request.data['beginDateTimes']
+        #end_time_list_unicode = request.data['endDateTimes']
         preference_list = request.data['preference']
-        print begin_time_list_unicode
-        print end_time_list_unicode
+        #print begin_time_list_unicode
+        #print end_time_list_unicode
         print preference_list
-        begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
-        end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
+        #begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
+        #end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
 
         for i in range(0, len(pref_slot_queryset)):
             slot = pref_slot_queryset[i]

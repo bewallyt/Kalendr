@@ -29,6 +29,7 @@ class PrefSignUpSlotSerializer(serializers.ModelSerializer):
 
         else:
             requester_name = self.context['requester']
+            requester = Account.objects.get(username = requester_name)
             if requester_name in username_list:
                 pref_link = SignUpPreference.objects.get(slot = obj,
                                                          requester = requester)
