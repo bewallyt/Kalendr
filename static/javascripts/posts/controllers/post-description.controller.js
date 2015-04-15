@@ -71,14 +71,24 @@
 
         // Preference Based Variables
         vm.prefDuration;
-        // Hardcoded to test
         vm.isPrefSignup = false;
         vm.preferenceValues = [];
+        vm.frontEndPreferenceValues;
+        vm.numBlocks;
+        vm.numSlots;
+        vm.numSlotsFront = [];
+        vm.numSlotsFront[0] = 0;
+
         vm.confirmPrefSignUp = confirmPrefSignUp;
 
         // Pereference Based Originator Variables
-        vm.resolve = resolve;
-        vm.isResolved = false;
+        vm.suggest = suggest;
+        vm.isSuggested = false;
+        vm.arrayOfArraysofRequesters = [];
+        vm.requestersCounter = 0;
+
+        // For originator resolve
+
 
 
         function init(id) {
@@ -149,24 +159,57 @@
                     vm.isOwner = data.data['is_owner']['is_owner'];
                     vm.maxSlots = data.data['max_slots'];
 
+                    if (data.data['type'] == 'prefsignup') {
+                        vm.isPrefSignup = true;
+                        vm.prefDuration = data.data['duration'];
+
+                    }
+
                     var i;
+                    var counter = 0;
                     for (i = 0; i < data.data['myblocks'].length; i++) {
+                        vm.frontEndPreferenceValues = new Array(data.data['myblocks'].length);
+                        vm.numBlocks = data.data['myblocks'].length;
+
                         console.log(data.data['myblocks'][i]);
                         vm.blocks[i] = data.data['myblocks'][i];
                         var j;
                         var numFreeSlots = 0;
                         for (j = 0; j < vm.blocks[i].myslots.length; j++) {
+                            vm.numSlots = vm.blocks[i].myslots.length;
+                            vm.numSlotsFront[i+1] = vm.numSlots;
+                            vm.frontEndPreferenceValues[i] = new Array(vm.blocks[i].myslots.length);
+                            vm.frontEndPreferenceValues[i][j] = "am";
+                            // add info for pref
                             if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
+                            if (vm.isPrefSignup) {
+                                var k;
+                                // parse for requester info
+                                var preferencePlaceholder = "";
+                                for (k = 0; k < vm.blocks[i].myslots[j].requester_list.length; k++) {
+                                    if(k > 0) preferencePlaceholder = preferencePlaceholder + "&";
+                                    //console.log(vm.blocks[i].myslots[j].requester_list[k]);
+                                    var tempPreference;
+                                    if (vm.blocks[i].myslots[j].requester_list[k][1] == 1) tempPreference = "Not Preferred";
+                                    else if (vm.blocks[i].myslots[j].requester_list[k][1] == 2) tempPreference = "Slightly Preferred";
+                                    else tempPreference = "Highly Preferred";
+                                    preferencePlaceholder = preferencePlaceholder + " " + vm.blocks[i].myslots[j].requester_list[k][0] + " - " + tempPreference + " ";
+
+                                }
+                                vm.arrayOfArraysofRequesters[counter] = preferencePlaceholder;
+                                console.log('pushed: ' + preferencePlaceholder);
+                                counter++;
+                            }
+
                         }
                         vm.numFreeSlots[i] = numFreeSlots;
                         parseBlockDates(vm.blocks[i].start_time, vm.blocks[i].end_time, i);
                     }
-
-
-                    if (data.data['type'] == 'prefsignup'){
-                        vm.isPrefSignup = true;
-                        vm.prefDuration = data.data['duration'];
+                    for (k = 0; k < vm.arrayOfArraysofRequesters.length; k++) {
+                        console.log(vm.arrayOfArraysofRequesters[k]);
                     }
+
+
                     vm.minDuration = data.data['min_duration'];
                     vm.maxDuration = data.data['max_duration'];
                 }
@@ -227,6 +270,7 @@
                 }
 
                 for (i = 0; i < totalNumFreeSlots; i++) {
+                    console.log('total number of free slots: ' + totalNumFreeSlots);
                     vm.selectedSlots[i] = false;
                     //Benson added this for David as default preference Value
                     vm.preferenceValues[i] = "am";
@@ -261,8 +305,21 @@
         function confirmPrefSignUp() {
             // check preference values
             var i;
-            for(i = 0; i < vm.preferenceValues.length; i++){
-                console.log(vm.preferenceValues[i]);
+            var counter = 0;
+            for (i = 0; i < vm.numBlocks; i++) {
+                console.log('i: ' + i);
+                var j;
+                for (j = 0; j < vm.numSlotsFront[i+1]; j++) {
+                    console.log('j ' + j);
+                    if (vm.frontEndPreferenceValues[i][j] != null) {
+                        vm.preferenceValues[counter] = vm.frontEndPreferenceValues[i][j];
+                    }
+                    else {
+                        vm.preferenceValues[counter] = "am";
+                    }
+                    console.log('block ' + i + ' slot ' + j + ': ' + vm.preferenceValues[counter]);
+                    counter++;
+                }
             }
             Signup.confirmPrefSlots(vm.postId, vm.preferenceValues, vm.selectedStart, vm.selectedEnd).then(successConfirmFn, errorFn);
 
@@ -278,12 +335,16 @@
             }
         }
 
-        function resolve() {
-            // make API call
+        function suggest() {
+            // make get API call
+            // make create API call
 
-            function successResolveFn(data, status, headers, config) {
-                vm.isResolved = true;
-                console.log('resolved: ' + data.data);
+            Signup.suggestSchedule(vm.postId).then(successSuggestFn, errorFn);
+
+            function successSuggestFn(data, status, headers, config) {
+                vm.isSuggested = true;
+                Snackbar.show('Schedule Suggested!');
+                console.log('suggested: ' + data.data);
             }
 
             function errorFn(data, status, headers, config) {

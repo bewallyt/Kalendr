@@ -23,7 +23,9 @@
             searchSlots: searchSlots,
             confirmSlots: confirmSlots,
             searchPrefSlots: searchPrefSlots,
-            confirmPrefSlots: confirmPrefSlots
+            confirmPrefSlots: confirmPrefSlots,
+            suggestSchedule: suggestSchedule,
+            resolveSchedule: resolveSchedule
         };
 
         return Signup;
@@ -99,8 +101,18 @@
                     endDateTimes: endTimes
                 }
             )
-
         }
 
+        function suggestSchedule(postId) {
+            return $http.get('/api/v1/signup/' + postId + '/get_suggestion/');
+        }
+
+        function resolveSchedule(postId, usernames) {
+            return $http.post('/api/v1/signup/' + postId + '/resolve_schedule/', {
+                    postPk: postId,
+                    usernames: usernames
+                }
+            )
+        }
     }
 })();

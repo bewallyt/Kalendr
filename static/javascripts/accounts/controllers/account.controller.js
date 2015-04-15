@@ -176,7 +176,7 @@
 
             /*
              Benson: added $on for prefSignup.created
-             Redundant code - needs refactoring
+             Redundan
              */
 
             $scope.$on('prefSignup.created', function (event, post) {

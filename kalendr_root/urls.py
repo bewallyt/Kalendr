@@ -16,7 +16,7 @@ from freetime.views import FreeTimeViewSet
 from signup.views import SignUpCreateAndListView, SignUpView
 from schedule.views import ScheduleViewSet
 
-from pre_signup.views import PrefSignUpCreatAndListView, RequesterSignUpView
+from pre_signup.views import PrefSignUpCreatAndListView, RequesterSignUpView, ResolveSignupView
 
 # Base router
 router = routers.SimpleRouter()
@@ -49,6 +49,9 @@ signup_router.register(r'request', SignUpView)
 # Get the list of slot for a pref_based signup
 signup_router.register(r'prefSlots', RequesterSignUpView)
 signup_router.register(r'requestPref', RequesterSignUpView)
+signup_router.register(r'get_suggestion', ResolveSignupView)
+signup_router.register(r'resolve_schedule', ResolveSignupView)
+
 
 # For other users to select signup slots
 select_slot_router = routers.NestedSimpleRouter(signup_router, r'get_description', lookup='duration')
