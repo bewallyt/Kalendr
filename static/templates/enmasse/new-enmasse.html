@@ -1,4 +1,4 @@
-<form role="form" ng-submit="vm.submit()">
+<form role="form">
     <div class="form-group">
         <h2 layout="column" layout-align="center center">Multi-Event Creation</h2>
         <br>
@@ -33,7 +33,7 @@
             <textarea cols="50" ng-keypress="vm.check($event, $event.keyCode)" ng-model="vm.text" required></textarea>
         </md-input-container>
         <div class="form-group" layout="column" layout-align="center center">
-            <md-button class="md-raised md-primary btn-submit" type="submit" ng-disabled="vm.validated">Submit</md-button>
+            <md-button class="md-raised md-primary btn-submit" type="submit" ng-click="vm.submit()" ng-disabled="vm.validated">Submit</md-button>
         </div>
 
     </div>

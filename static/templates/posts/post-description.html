@@ -69,7 +69,7 @@
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                        <h4 ng-show="{{ slot.owner }}">{{ slot.owner }}</h4>
+                                        <h4>{{ slot.owner }}</h4>
 
                                         <md-checkbox aria-label="is_pud_time"
                                                      ng-disabled="vm.checkDisabled"
@@ -216,9 +216,10 @@
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                    <h4>{{ slot.owner }}</h4>
-                                    <h5>
-                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h5>
+
+                                    <h3> Scheduled for {{ slot.owner }}</h3>
+                                    <h6>
+                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h6>
 
                                     <p>
                                     </p>
@@ -270,7 +271,7 @@
 </div>
 
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner">
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && vm.isBeingUpdated">
 
 
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
@@ -290,9 +291,20 @@
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                    <h4>{{ slot.owner }}</h4>
-                                    <h5>
-                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h5>
+
+                                    <div style="z-index: 9999; position:relative;">
+                                        <select
+                                                ng-model="vm.resolvedRequesters[vm.numSlotsFront[$parent.$index] + $index]"
+                                                placeholder="Select User">
+                                            <option value="" disabled selected>Schedule User</option>
+                                            <option
+                                                    ng-value="requester"
+                                                    ng-repeat="requester in vm.possibleRequesters"><center>{{ requester }}</center></option>
+                                        </select>
+                                    </div>
+                                    <h5> {{ slot.owner }}</h5>
+                                    <h6>
+                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h6>
 
                                     <p>
                                     </p>
@@ -312,7 +324,62 @@
 
     <div layout="column" layout-align="center center">
         <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
-                   ng-click="vm.suggest()">Suggest
+                   ng-click="vm.resolve()">Resolve
+        </md-button>
+    </div>
+
+</div>
+
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && !vm.isBeingUpdated">
+
+
+    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+        <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
+                   close-others="vm.post_description_close">
+            <accordion-group>
+                <accordion-heading>
+                    Block {{ $index + 1 }} {{ vm.blockDates[$index]}}
+                    <i
+                            class="pull-right glyphicon""></i>
+                </accordion-heading>
+
+                <md-content>
+                    <md-list>
+                        <md-item ng-repeat="slot in vm.blocks[$index].myslots track by $index">
+                            <md-item-content>
+                                <div class="md-tile-content" style="background-color:#2196f3; color=black">
+                                    <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
+                                        {{ vm.parseSlotTimes(slot.end_time) }}</h3>
+
+                                    <h3> {{ slot.owner }}</h3>
+                                    <h6>
+                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h6>
+
+                                    <p>
+                                    </p>
+                                </div>
+                            </md-item-content>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-item>
+                    </md-list>
+                </md-content>
+
+            </accordion-group>
+
+        </accordion>
+
+
+    </div>
+
+    <div layout="column" layout-align="center center">
+        <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                   ng-click="vm.suggest()" ng-hide="vm.isSuggested">Suggest
+        </md-button>
+    </div>
+
+    <div layout="column" layout-align="center center">
+        <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                   ng-click="vm.update()" ng-show="vm.isSuggested">Update
         </md-button>
     </div>
 

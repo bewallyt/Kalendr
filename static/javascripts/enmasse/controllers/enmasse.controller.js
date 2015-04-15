@@ -288,13 +288,13 @@
 
         }
 
-
-        //uncomment logic when ready to test all types of kalendr objects
         function submit() { //called when all the lines are validated and user clicks submit
-            //var i;
-            //for (i = 0; i < lines.length; i++) {
-            //    creationRule(lines[i]);
-            //}
+            var i;
+            for (i = 0; i < lines.length; i++) {
+                creationRule(lines[i]); //maybe need to setTimeOut to slow down loop, sometimes, too many pud creations fails to update DOM, missing PUD
+            }                           //talk w/ Benson about timeout
+
+            $scope.closeThisDialog();
         }
     }
 })
