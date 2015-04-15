@@ -292,7 +292,7 @@ class ResolveSignupView(viewsets.ModelViewSet):
             print 'Schedule is already resolved for post: ',post.pk
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        username_list = requester.data['ownerList']
+        username_list = request.data['ownerList']
 
 
         pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post).order_by('start_time')
