@@ -215,18 +215,6 @@
                 expiry = d2;
             }
 
-            //var d = new Date();
-            //d.setHours(parseInt(fields[7].split(":")[1].split("/")[0]));
-            //d.setMinutes(parseInt(fields[7].split(":")[1].split("/")[1]));
-            //expiry_time = d;
-            //
-            //var d2 = new Date();
-            //var year = parseInt(fields[8].split(":")[1].split("/")[2]);
-            //var day = parseInt(fields[8].split(":")[1].split("/")[1]);
-            //var month = parseInt(fields[8].split(":")[1].split("/")[0]);
-            //d2.setFullYear(year, month - 1, day);
-            //expiry = d2;
-
             if (repeatType == 'Weekly') {
                 repeat_int = 2;
                 if (expires) {
@@ -259,12 +247,6 @@
             } else {
                 notifyWhen = 0;
             }
-
-            //if (!expires) {
-            //    expiry = new Date();
-            //    exp_day = 32;
-            //    expiry_time = expiry;
-            //}
 
             Puds.create(content, notify, priority, priority_int, duration, repeatType, repeat_int,
                 repeat, notifyWhen, expires, escalate, expiry, exp_day, expiry_time).then(pudSuccess);
