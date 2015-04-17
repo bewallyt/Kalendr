@@ -3,33 +3,53 @@
     Question: If SignUp uses customized manager
 '''
 from rest_framework import serializers
-from pre_signup.models import PrefSignUp, PrefTimeBlock, PrefSignUpSlot
+from pre_signup.models import PrefSignUp, PrefTimeBlock, PrefSignUpSlot, SignUpPreference
+from authentication.models import Account
 
 
 class PrefSignUpSlotSerializer(serializers.ModelSerializer):
     requester_list = serializers.SerializerMethodField()
+    owner = serializers.SerializerMethodField()
 
     def get_requester_list(self, obj):
         requester_set = obj.requester_list.all()
         username_list = []
+        tuple_list = []
 
         for requester in requester_set:
+            pref_link = SignUpPreference.objects.get(slot = obj,
+                                                     requester = requester)
+            pref = pref_link.pref
+            tup = (requester.username, pref)
             username_list.append(requester.username)
+            tuple_list.append(tup)
 
         if self.context['is_owner'] == True:
-            return username_list
+            return tuple_list
 
         else:
             requester_name = self.context['requester']
+            requester = Account.objects.get(username = requester_name)
             if requester_name in username_list:
-                return [requester_name]
+                pref_link = SignUpPreference.objects.get(slot = obj,
+                                                         requester = requester)
+                pref = pref_link.pref
+                tup = (requester_name, pref)
+                return [tup]
             else:
                 return []
+
+    def get_owner(self, obj):
+        if obj.owner is None:
+            return ''
+        else:
+            return obj.owner.username
+
 
     class Meta:
         model = PrefSignUpSlot
 
-        fields = ('id', 'start_time', 'end_time', 'requester_list')
+        fields = ('id', 'owner', 'start_time', 'end_time', 'requester_list')
 
         read_only_fields = ('id', 'start_time', 'end_time')
 

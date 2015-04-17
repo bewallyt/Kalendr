@@ -92,7 +92,7 @@
             else{
 
                 /*Preference-Based Signup*/
-                Signup.createPref(vm.content, vm.location, beginDateTimes, endDateTimes, dayOfWeek, firstMeetingWeek, vm.preferenceDuration);
+                Signup.createPref(vm.content, vm.location, beginDateTimes, endDateTimes, dayOfWeek, firstMeetingWeek, vm.preferenceDuration).then(createPostSuccessFn, createPostErrorFn);
 
                 $rootScope.$broadcast('prefSignup.created', {
                     content: vm.content,

@@ -13,6 +13,8 @@
 <h5 ng-hide="ngDialogData.is_holiday">Event Created by: {{ ngDialogData.author.username }}
     - {{ ngDialogData.author.email }}</h5>
 <h5 ng-hide="ngDialogData.is_holiday">Location: {{ ngDialogData.location_event }}</h5>
+<h5 ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner">Slot Duration: {{ vm.prefDuration }}
+    minutes</h5>
 <h5 ng-show="ngDialogData.not_all_day">Time of Event: {{ ngDialogData.begin_time | date:'h:mma' }}
     - {{ ngDialogData.end_time | date:'h:mma' }}</h5>
 <h5 ng-show="ngDialogData.need_repeat">Repeats {{ ngDialogData.repeat }} until {{ ngDialogData.end_repeat }}</h5>
@@ -67,7 +69,7 @@
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                        <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
+                                        <h4>{{ slot.owner }}</h4>
 
                                         <md-checkbox aria-label="is_pud_time"
                                                      ng-disabled="vm.checkDisabled"
@@ -167,12 +169,12 @@
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                             {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                        <h4 ng-show="{{ slot.owner }} != null">{{ slot.owner }}</h4>
                                         <!-- Add radio buttons (is $index value correct?)-->
-                                        <md-radio-group ng-model="vm.preferenceValues[$index]">
+                                        <md-radio-group ng-model="vm.frontEndPreferenceValues[$parent.$index][$index]">
                                             <div layout layout-sm="column" layout-align="center center">
-                                                <md-radio-button value='notPref'>If I have to/md-radio-button>
-                                                <md-radio-button value='slightlyPref'>Slightly Preferred</md-radio-button>
+                                                <md-radio-button value='notPref'>Not Preferred</md-radio-button>
+                                                <md-radio-button value='slightlyPref'>Slightly Preferred
+                                                </md-radio-button>
                                                 <md-radio-button value='highlyPref'>Highly Preferred</md-radio-button>
                                             </div>
                                         </md-radio-group>
@@ -214,7 +216,10 @@
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                    <h4>{{ slot.owner }}</h4>
+
+                                    <h3> Scheduled for {{ slot.owner }}</h3>
+                                    <h6>
+                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h6>
 
                                     <p>
                                     </p>
@@ -237,53 +242,95 @@
     </div>
 </div>
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner">
-    <h5>Slot Duration: {{ vm.prefDuration }} minutes</h5>
 
-    <br>
+<div ng-show="vm.isSignup && vm.isOwner">
+    <accordion ng-hide="(ngDialogData.is_holiday
+|| (vm.hasConfirmedGroups == false
+    && vm.hasDeclinedGroups == false
+    && vm.hasRemovedGroups == false
+    && vm.hasNoRespGroups == false))" close-others="vm.post_description_close">
+        <accordion-group is-open="vm.isThirdOpenPost"
+                         is-disabled="status.isPostDisabled">
+            <accordion-heading>
+                Shared With <i class="pull-right glyphicon""></i>
+            </accordion-heading>
+            <br>
 
-    <div ng-show="vm.notSigningUp == false && vm.isOwner">
-        <div layout layout-align="center">
-            <md-progress-circular md-mode="indeterminate" ng-show="vm.isSearching"></md-progress-circular>
-        </div>
+            <li ng-repeat="user in vm.confirmedGroups">
+                <p align="left">
+                    {{ user.name }}</p>
+            </li>
+            <li ng-repeat="user in vm.hasNoRespGroups">
+                <p align="left">
+                    {{ user.name }}</p>
+            </li>
 
-        <div ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
-            <accordion close-others="vm.post_description_close1">
-                <accordion-group>
-                    <accordion-heading>
-                        Block {{ $index + 1 }} {{ vm.returnedblockDates[$index]}}
-                        <i
-                                class="pull-right glyphicon""></i>
-                    </accordion-heading>
+        </accordion-group>
 
-                    <md-content>
-                        <md-list>
-                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
-                                <md-item-content>
-                                    <div class="md-tile-content" style="background-color:#2196f3; color=black">
-                                        <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
-                                            {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                        <!-- Add list preference && user -->
-                                        <h4 ng-show="{{ slot.users }} != null">{{ slot.owner }}</h4>
-                                        <h4 ng-show="{{ slot.preferences }} != null">{{ slot.preferences }}</h4>
+    </accordion>
+</div>
+
+
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && vm.startResolve">
+
+
+    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+        <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
+                   close-others="vm.post_description_close">
+            <accordion-group is-open="true">
+                <accordion-heading>
+                    Block {{ $index + 1 }} {{ vm.blockDates[$index]}}
+                    <i
+                            class="pull-right glyphicon""></i>
+                </accordion-heading>
+
+                <md-content>
+                    <md-list>
+                        <md-item ng-repeat="slot in vm.blocks[$index].myslots track by $index">
+                            <md-item-content>
+                                <div class="md-tile-content" style="background-color:#2196f3; color=black">
+                                    <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
+                                        {{ vm.parseSlotTimes(slot.end_time) }}</h3>
+
+                                    <div style="z-index: 9999; position:relative;">
+                                        <select
+                                                ng-model="vm.resolvedRequesters[vm.numSlotsFront[$parent.$index] + $index]">
+                                            <option
+                                                    ng-value="requester"
+                                                    ng-repeat="requester in vm.possibleRequesters">
+                                                <center>{{ requester }}</center>
+                                            </option>
+                                        </select>
                                     </div>
-                                </md-item-content>
-                                <md-divider ng-if="!$last"></md-divider>
-                            </md-item>
-                        </md-list>
-                    </md-content>
+                                    <h5> {{ slot.owner }}</h5>
+                                    <h6>
+                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h6>
 
-                </accordion-group>
+                                    <p>
+                                    </p>
+                                </div>
+                            </md-item-content>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-item>
+                    </md-list>
+                </md-content>
 
-            </accordion>
-        </div>
+            </accordion-group>
 
-        <div layout="column" layout-align="center center">
-            <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
-                       ng-click="vm.resolve()">Resolve
-            </md-button>
-        </div>
+        </accordion>
+
+
     </div>
+
+    <div layout="column" layout-align="center center">
+        <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                   ng-click="vm.resolve()">Resolve
+        </md-button>
+    </div>
+
+</div>
+
+<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && !vm.startResolve">
 
 
     <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
@@ -298,12 +345,15 @@
 
                 <md-content>
                     <md-list>
-                        <md-item ng-repeat="slot in vm.blocks[$index].myslots">
+                        <md-item ng-repeat="slot in vm.blocks[$index].myslots track by $index">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
                                         {{ vm.parseSlotTimes(slot.end_time) }}</h3>
-                                    <h4>{{ slot.owner }}</h4>
+
+                                    <h3> {{ slot.owner }}</h3>
+                                    <h6>
+                                        {{ vm.arrayOfArraysofRequesters[vm.numSlotsFront[$parent.$index] + $index]}}</h6>
 
                                     <p>
                                     </p>
@@ -317,6 +367,20 @@
             </accordion-group>
 
         </accordion>
+
+
+    </div>
+
+    <div layout="column" layout-align="center center">
+        <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                   ng-click="vm.suggest()" ng-show="!vm.isSuggested && !vm.isResolved">Suggest
+        </md-button>
+    </div>
+
+    <div layout="column" layout-align="center center">
+        <md-button class="md-raised md-primary btn-submit" form="myform" type="submit"
+                   ng-click="vm.suggest()" ng-show="vm.isSuggested && !vm.isResolved">Re-suggest
+        </md-button>
     </div>
 
     <div layout="column" layout-align="center center" ng-show="!vm.isOwner">
@@ -373,33 +437,6 @@
                         {{ user.name }}</p>
                 </li>
             </div>
-
-        </accordion-group>
-
-    </accordion>
-</div>
-
-<div ng-show="vm.isSignup && vm.isOwner">
-    <accordion ng-hide="(ngDialogData.is_holiday
-|| (vm.hasConfirmedGroups == false
-    && vm.hasDeclinedGroups == false
-    && vm.hasRemovedGroups == false
-    && vm.hasNoRespGroups == false))" close-others="vm.post_description_close">
-        <accordion-group is-open="vm.isThirdOpenPost"
-                         is-disabled="status.isPostDisabled">
-            <accordion-heading>
-                Shared With <i class="pull-right glyphicon""></i>
-            </accordion-heading>
-            <br>
-
-            <li ng-repeat="user in vm.confirmedGroups">
-                <p align="left">
-                    {{ user.name }}</p>
-            </li>
-            <li ng-repeat="user in vm.hasNoRespGroups">
-                <p align="left">
-                    {{ user.name }}</p>
-            </li>
 
         </accordion-group>
 

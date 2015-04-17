@@ -130,11 +130,12 @@ class RequesterSignUpView(viewsets.ModelViewSet):
 
 
     '''
-        This function is called when a requester selects a list of slots, each
-        of which has a preference associated.
+        This function is called when a requester signs up a list of slots, each
+        of which has a preference associated. The M2M field in PrefSignUpSlot
+        will add more Accounts after this method
 
         Implementation of this function follow the same logic as the create
-        function in signu/views.py.
+        function in signup/views.py.
         Therefore, the expected input is
             1. A list of start_time
             2. A list of end_time
@@ -149,7 +150,11 @@ class RequesterSignUpView(viewsets.ModelViewSet):
         requester = Account.objects.get(email=request.user.email)
         post = Post.objects.get(pk = request.data['postPk'])
 
-        pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post)
+        if post.prefsignup.resolved:
+            print 'Signup Already Resolved'
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post).order_by('start_time')
 
         # What's the best way of deleting a many-to-many field element?
         # delete the through field element?
@@ -161,29 +166,155 @@ class RequesterSignUpView(viewsets.ModelViewSet):
 
 
         # Update/create signup links
-        begin_time_list_unicode = request.data['beginDateTimes']
-        end_time_list_unicode = request.data['endDateTimes']
+        #begin_time_list_unicode = request.data['beginDateTimes']
+        #end_time_list_unicode = request.data['endDateTimes']
         preference_list = request.data['preference']
-        begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
-        end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
+        #print begin_time_list_unicode
+        #print end_time_list_unicode
+        print preference_list
+        #begin_time_list_datetime = list(map(unicode_to_datetime, begin_time_list_unicode))
+        #end_time_list_datetime = list(map(unicode_to_datetime, end_time_list_unicode))
 
-        for i in range(0, len(begin_time_list_datetime)):
-            slot = pref_slot_queryset.get(start_time = begin_time_list_datetime[i])
+        for i in range(0, len(pref_slot_queryset)):
+            slot = pref_slot_queryset[i]
             pref = 3
             if preference_list[i] == "notPref":
                 pref = 1
             elif preference_list[i] == "slightlyPref":
                 pref = 2
+            elif preference_list[i] == 'am':
+                pref = 0
             else:
                 pref = 3
-            pref_link = SignUpPreference(slot = slot, requester = requester, pref = pref)
-            pref_link.save()
+            if pref > 0:
+                pref_link = SignUpPreference(slot = slot, requester = requester, pref = pref)
+                pref_link.save()
+
+        data = PrefSignUpSheetSerializer(post.prefsignup, context={'is_owner': True, 'requester': requester.username})
+
+        print 'Updated the Pref-based sign up after preference create'
+        print data.data
+
+        return Response(data.data, status=status.HTTP_201_CREATED)
 
 
+'''
+    This viewset is called when an originator tries to resolve
+    the signup schedule for a pref-based signup
+'''
+class ResolveSignupView(viewsets.ModelViewSet):
+    serializer_class = PrefSignUpSheetSerializer
+    queryset = PrefSignUp.objects.all()
 
 
+    '''
+        This function returns a possible assignment for a pref-base
+        signup with post_pk
 
 
+    '''
+    def list(self, request, post_pk, *args, **kwargs):
+        print 'Possible Assignment of Schedule'
+        post = Post.objects.get(pk = post_pk)
+        post_owner = post.author
+        requester = Account.objects.get(email=request.user.email)
+
+        if requester != post_owner:
+            print 'ResolveSignUpView called by non-owner!'
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if hasattr(post, 'prefsignup'):
+            print 'this is a prefsignup'
+        else:
+            print 'this is NOT a prefsignup'
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if post.prefsignup.resolved:
+            print 'This pref-based signup is already resolved'
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+        requester_list = list(post.shared_with.all())
+        slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post)
+        pref_link_queryset = SignUpPreference.objects.filter(slot__block__sheet__post = post)
 
+        # check if the M2M field contains a particular object
+        # slot_queryset.filter(requester_list = aRequester)
+
+        for req in requester_list:
+            if req.members.all().count() > 1:
+                print 'Not a KGROUP'
+            user = req.members.all()[0]
+
+            my_slots = slot_queryset.filter(requester_list = user)
+
+            if my_slots.count() != 0:
+                my_pref_links = pref_link_queryset.filter(requester = user).order_by('-pref')
+                for link in my_pref_links:
+                    potential_slot = link.slot
+                    if potential_slot.owner is None or potential_slot.owner == user:
+
+                        print user.username
+                        potential_slot.owner = user
+                        potential_slot.save()
+                        break
+                else:
+                    continue
+
+        serializer = PrefSignUpSheetSerializer(post.prefsignup,
+                                                   context={'is_owner': True,
+                                                            'requester': post_owner.username})
+
+        print 'This is one potential assignment'
+        print serializer.data
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
+    '''
+        This function is called by originator to resolve the schedule
+
+        Expect:
+            1. a list of begin time
+            2. a list of end time
+            3. a list of usernames (if owner not set, expect empty string)
+    '''
+    def create(self, request, *args, **kwargs):
+
+        requester = Account.objects.get(email=request.user.email)
+        post = Post.objects.get(pk = request.data['postPk'])
+        post_owner = post.author
+
+        if post_owner != requester:
+            print 'Non- owner is trying to resolve the schedule'
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if post.prefsignup.resolved:
+            print 'Schedule is already resolved for post: ',post.pk
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        username_list = request.data['usernames']
+        print username_list
+
+
+        pref_slot_queryset = PrefSignUpSlot.objects.filter(block__sheet__post = post).order_by('start_time')
+
+        for i in range(0, len(pref_slot_queryset)):
+            if username_list[i] != 'na':
+                owner = Account.objects.get(username = username_list[i])
+                pref_slot_queryset[i].owner = owner
+            else:
+                pref_slot_queryset[i].owner = None
+            pref_slot_queryset[i].save()
+
+
+        post.prefsignup.resolved = True
+        post.prefsignup.save()
+
+        serializer = PrefSignUpSheetSerializer(post.prefsignup,
+                                               context={'is_owner': True,
+                                                        'requester': post_owner.username})
+
+        print 'final resolution:'
+        print serializer.data
+
+        return Response(status=status.HTTP_202_ACCEPTED)
