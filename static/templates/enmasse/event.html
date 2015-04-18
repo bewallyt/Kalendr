@@ -1,6 +1,11 @@
 <div>
-    <h6>pud; content:val; priority:val; duration:#; recurring:val; expires:y/n; escalates:y/n; time:hh/mm; day:mm/dd/yyyy;
-        notify:y/n; when:#;</h6>
-    <h6>For pr, acceptable values are - low, normal, high, urgent</h6>
-    <h6>For re, acceptable values are - n, Daily, Weekly, Monthly</h6>
+    <h6>event; content:val; description:val; dateOfEvent:mm/dd/yyyy; allDay:y/n; optionalStartTime:hh/mm;
+        optionalEndTime:hh/mm;  repeat:y/n; optionalRepeatValue:weekly/daily/monthly;  pudAllocation:y/n; shareEvent:y/n
+        notify:y/n; optionalNotificationTime: mm/dd/yyyy hh/mm;</h6>
+
+
+    <h5>Example:</h5>
+        <h6>event; content:Graduation; description:Commencement Ceremony; dateOfEvent:05/10/2015; allDay:n; optionalStartTime:09/00;
+        optionalEndTime: 12/00;  repeat:n; optionalRepeatValue:;  pudAllocation:n; shareEvent:n
+        notify:n; optionalNotificationTime:;</h6>
 </div>
