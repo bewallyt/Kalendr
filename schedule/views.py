@@ -6,6 +6,7 @@ from schedule.models import ScheduleRequest
 from schedule.serializers import ScheduleRequestSerializer
 from posts.models import Post
 from access.models import AccessRule
+from puds.models import Pud
 from django.utils.timezone import now
 from datetime import timedelta
 from mail import mail
@@ -13,11 +14,13 @@ from mail import mail
 
 '''
 Returns a list of all posts authored by the user, and all shared posts that the user has confirmed,
+and all puds that expire
 provided that those posts are within the time range
 '''
 def search_posts(user, start_date, end_date):
     authored_posts = user.myevents.filter(start_time__gte=start_date).filter(start_time__lte=end_date)
     confirmed_posts = Post.objects.filter(start_time__gte=start_date).filter(start_time__lte=end_date).filter(shared_with__name=user.username, accessrule__receiver_response='CONFIRM')
+    puds = Pud.objects.filter(expires=True).filter(expiry__gte=start_date).filter(expiry__lte=end_date)
     
     for post in confirmed_posts:
         ac = AccessRule.objects.get(post=post, group__name=user.username)
@@ -25,8 +28,10 @@ def search_posts(user, start_date, end_date):
             post.content = 'Busy'
             post.location_event = ''
             post.description_event = ''
+            
+    post_puds = [Post(content=pud.content, start_time=pud.expiry, show_date=pud.expiry.strftime('%m/%d/%Y'), day_of_week=pud.expiry.strftime('%A'),description_event='PUD Expiration') for pud in puds]
     
-    return sorted(authored_posts | confirmed_posts, cmp=lambda x,y: cmp(x.start_time, y.start_time) if cmp(x.start_time, y.start_time) != 0 else cmp(x.begin_time, y.begin_time))
+    return sorted(list(authored_posts | confirmed_posts) + post_puds, cmp=lambda x,y: cmp(x.start_time, y.start_time) if cmp(x.start_time, y.start_time) != 0 else cmp(x.begin_time, y.begin_time))
     
 
 class ScheduleViewSet(viewsets.ModelViewSet):
