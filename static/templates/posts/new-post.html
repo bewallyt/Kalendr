@@ -27,7 +27,7 @@
         </md-input-container>
         <md-checkbox ng-model="vm.not_all_day">Not all day?</md-checkbox>
 
-        <div ng-show="vm.not_all_day == true">
+        <div class="fader" ng-show="vm.not_all_day == true">
             <div layout layout-sm="column">
                 <md-input-container flex>
                     <label style="color:#545454">Start time</label>
@@ -44,11 +44,11 @@
             </md-checkbox>
         </div>
 
-        <md-checkbox aria-label="is_repeating" class="is_repeating" ng-model="vm.is_repeating"
+        <md-checkbox aria-label="is_repeating" class="is_repeating fader" ng-model="vm.is_repeating"
                      ng-hide="vm.pud_time == true">Repeat
         </md-checkbox>
 
-        <div ng-show="vm.is_repeating == true">
+        <div class="fader" ng-show="vm.is_repeating == true">
             <md-radio-group ng-model="vm.repeat">
                 <div layout layout-sm="column" layout-align="center center">
                     <md-radio-button value='Daily'>Daily</md-radio-button>
@@ -66,7 +66,7 @@
 
         <md-checkbox aria-label="is_shared" class="is_shared" ng-model="vm.is_shared">Share Event?</md-checkbox>
 
-        <div ng-show="vm.is_shared == true">
+        <div class="fader" ng-show="vm.is_shared == true">
             <br>
             <angucomplete class="change_angucomplate" id="search" pause="100" selectedobject="vm.selectedGroup"
                           localdata="ngDialogData" titlefield="name" searchfields="name"
@@ -74,7 +74,7 @@
                           inputclass="form-control2" matchclass="highlight"
                           placeholder="Search Groups and Followers"/>
 
-            <center><h4 ng-show="vm.selectedGroup">Access Rule</h4></center>
+            <center><h4 class="fader" ng-show="vm.selectedGroup">Access Rule</h4></center>
             <center>
                 <div class="form-group" ng-show="vm.selectedGroup">
                     <label class="radio_btn_left" for="busy">Busy</label><input type="radio" name="rule" id="busy"
@@ -87,20 +87,20 @@
                 </div>
             </center>
 
-            <center><a class="absolute mdi-social-plus-one btn btn-default "
+            <center><a class="fader absolute mdi-social-plus-one btn btn-default "
                        ng-show="vm.rule"
                        ng-click="vm.addGroups()"></a></center>
 
-            <li ng-repeat="(group, rule) in vm.groupRuleDict">{{ group }} - {{ rule }}</li>
+            <li class="fader" ng-repeat="(group, rule) in vm.groupRuleDict">{{ group }} - {{ rule }}</li>
         </div>
 
         <md-checkbox aria-label="notification" class="notification" ng-model="vm.notification">Receive email
             notifications
         </md-checkbox>
         <md-input-container>
-            <label ng-show="vm.notification == true" style="color:#545454">Notification Time</label>
+            <label class="fader" ng-show="vm.notification == true" style="color:#545454">Notification Time</label>
             <input type="datetime-local" name="notify_when" ng-model="vm.notify_when"
-                   ng-show="vm.notification == true"/>
+                   class="fader" ng-show="vm.notification == true"/>
         </md-input-container>
 
         <div class="form-group" layout="column" layout-align="center center">

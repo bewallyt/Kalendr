@@ -16,7 +16,7 @@
         </md-input-container>
 
 
-        <div ng-show="vm.isPreference">
+        <div class="fader" ng-show="vm.isPreference">
             <md-input-container flex style="padding-top: 30px;">
                 <label style="color:#545454">Slot Time (in minutes)</label>
                 <md-slider flex class="md-primary" md-discrete ng-model="vm.preferenceDuration" step="10" min="10"
@@ -30,7 +30,7 @@
             </md-input-container>
         </div>
 
-        <div ng-hide="vm.isPreference">
+        <div class="fader" ng-hide="vm.isPreference">
             <center>Slot Time (in minutes)</center>
             <br>
 
@@ -68,8 +68,8 @@
                 </md-input-container>
             </div>
         </div>
-        <div ng-show="vm.numBlocks">
-            <div ng-repeat="i in vm.getNumber(vm.numBlocks) track by $index">
+        <div class="fader" ng-show="vm.numBlocks">
+            <div class="fader" ng-repeat="i in vm.getNumber(vm.numBlocks) track by $index">
                 <br>
                 <center><b>Block {{ $index + 1 }} </b></center>
 
@@ -105,11 +105,11 @@
                           inputclass="form-control2" matchclass="highlight"
                           placeholder="Search Groups and Followers"/>
 
-            <center><a class="absolute mdi-social-plus-one btn btn-default "
+            <center><a class="fader absolute mdi-social-plus-one btn btn-default "
                        ng-show="vm.selectedGroup"
                        ng-click="vm.addGroups()"></a></center>
 
-            <li ng-repeat="(group, rule) in vm.groups">{{ group }}</li>
+            <li class="fader" ng-repeat="(group, rule) in vm.groups">{{ group }}</li>
         </div>
 
         <div class="form-group" layout="column" layout-align="center center">

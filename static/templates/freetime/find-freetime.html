@@ -33,7 +33,7 @@
                 </div>
             </md-input-container>
 
-            <md-input-container flex ng-show="vm.dur_hr!=24">
+            <md-input-container flex class="fader" ng-show="vm.dur_hr!=24">
                 <label style="color:#545454">Duration</label>
                 <input required type="number" step="any" name="quant_mi" ng-model="vm.dur_mi" min="0" max="59">
 
@@ -72,7 +72,7 @@
                       inputclass="form-control2" matchclass="highlight"
                       placeholder="Search Following"/>
 
-        <center><a class="absolute mdi-social-plus-one btn btn-default "
+        <center><a class="fader absolute mdi-social-plus-one btn btn-default "
                    ng-show="vm.selectedUser"
                    ng-click="vm.addUser()"></a></center>
 

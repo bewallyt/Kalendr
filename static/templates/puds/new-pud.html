@@ -28,7 +28,7 @@
         <md-checkbox aria-label="is_repeating" class="is_repeating" ng-model="vm.is_repeating">Recurring</md-checkbox>
 
         <!-- change this to md-select, but seems to have trouble working, options pop-up not showing -->
-        <div ng-show="vm.is_repeating">
+        <div class="fader" ng-show="vm.is_repeating">
             <md-radio-group ng-model="vm.repeat">
                 <div layout layout-sm="column" layout-align="center center">
                     <md-radio-button value='Daily'>Daily</md-radio-button>
@@ -40,16 +40,16 @@
 
         <md-checkbox aria-label="expires" class="expires" ng-model="vm.expires">Expires</md-checkbox>
 
-        <md-checkbox aria-label="escalate" class="escalate" ng-model="vm.escalate" ng-show="vm.expires && vm.repeat!='Daily'">Escalate
+        <md-checkbox aria-label="escalate" class="fader escalate" ng-model="vm.escalate" ng-show="vm.expires && vm.repeat!='Daily'">Escalate
             Priority
         </md-checkbox>
 
-        <md-input-container ng-show="vm.expires">
+        <md-input-container class="fader" ng-show="vm.expires">
             <label style="color:#545454">Expiry Time</label>
             <input type="time" step="any" name="expiry_time" ng-model="vm.expiry_time">
         </md-input-container>
 
-        <md-input-container ng-show="vm.expires && vm.repeat!='Daily'">
+        <md-input-container class="fader" ng-show="vm.expires && vm.repeat!='Daily'">
             <label style="color:#545454">Expiry Day</label>
             <input type="date" step="any" name="expiry" ng-model="vm.expiry">
 
@@ -62,7 +62,7 @@
         <md-checkbox aria-label="notifications" class="notifications" ng-model="vm.notification">Notifications
         </md-checkbox>
 
-        <md-input-container ng-show="vm.notification">
+        <md-input-container class="fader" ng-show="vm.notification">
             <label style="color:#545454">Notification interval</label>
             <input type="number" step="any" name="notify_when" ng-model="vm.notify_when" min="0" max="7">
 

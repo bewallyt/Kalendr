@@ -53,7 +53,7 @@
             <md-progress-circular md-mode="indeterminate" ng-show="vm.isSearching"></md-progress-circular>
         </div>
 
-        <div ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
+        <div class="fader" ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
             <accordion close-others="vm.post_description_close1">
                 <accordion-group>
                     <accordion-heading>
@@ -64,7 +64,7 @@
 
                     <md-content>
                         <md-list>
-                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
+                            <md-item class="fader" ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
                                 <md-item-content>
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -99,7 +99,7 @@
     </div>
 
 
-    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+    <div class="fader"  ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
                    close-others="vm.post_description_close">
             <accordion-group>
@@ -111,7 +111,7 @@
 
                 <md-content>
                     <md-list>
-                        <md-item ng-repeat="slot in vm.blocks[$index].myslots">
+                        <md-item class="fader" ng-repeat="slot in vm.blocks[$index].myslots">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -153,7 +153,7 @@
             <md-progress-circular md-mode="indeterminate" ng-show="vm.isSearching"></md-progress-circular>
         </div>
 
-        <div ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
+        <div class="fader" ng-repeat="i in vm.getNumber(vm.returnedBlocks.length) track by $index">
             <accordion close-others="vm.post_description_close1">
                 <accordion-group>
                     <accordion-heading>
@@ -164,7 +164,7 @@
 
                     <md-content>
                         <md-list>
-                            <md-item ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
+                            <md-item class="fader" ng-repeat="slot in vm.returnedBlocks[$index].myslots track by $index">
                                 <md-item-content>
                                     <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                         <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -199,7 +199,7 @@
     </div>
 
 
-    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+    <div class="fader" ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
                    close-others="vm.post_description_close">
             <accordion-group>
@@ -211,7 +211,7 @@
 
                 <md-content>
                     <md-list>
-                        <md-item ng-repeat="slot in vm.blocks[$index].myslots">
+                        <md-item class="fader" ng-repeat="slot in vm.blocks[$index].myslots">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -235,7 +235,7 @@
         </accordion>
     </div>
 
-    <div layout="column" layout-align="center center" ng-show="!vm.isOwner">
+    <div class="fader" layout="column" layout-align="center center" ng-show="!vm.isOwner">
         <md-button class="md-raised md-primary btn-submit" ng-click="vm.signUp()"
                    ng-show="vm.notSigningUp == true">Sign Up
         </md-button>
@@ -243,7 +243,7 @@
 </div>
 
 
-<div ng-show="vm.isSignup && vm.isOwner">
+<div class="fader" ng-show="vm.isSignup && vm.isOwner">
     <accordion ng-hide="(ngDialogData.is_holiday
 || (vm.hasConfirmedGroups == false
     && vm.hasDeclinedGroups == false
@@ -256,11 +256,11 @@
             </accordion-heading>
             <br>
 
-            <li ng-repeat="user in vm.confirmedGroups">
+            <li class="fader" ng-repeat="user in vm.confirmedGroups">
                 <p align="left">
                     {{ user.name }}</p>
             </li>
-            <li ng-repeat="user in vm.hasNoRespGroups">
+            <li class="fader" ng-repeat="user in vm.hasNoRespGroups">
                 <p align="left">
                     {{ user.name }}</p>
             </li>
@@ -271,10 +271,10 @@
 </div>
 
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && vm.startResolve">
+<div  class="fader" ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && vm.startResolve">
 
 
-    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+    <div class="fader" ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
                    close-others="vm.post_description_close">
             <accordion-group is-open="true">
@@ -286,7 +286,7 @@
 
                 <md-content>
                     <md-list>
-                        <md-item ng-repeat="slot in vm.blocks[$index].myslots track by $index">
+                        <md-item class="fader" ng-repeat="slot in vm.blocks[$index].myslots track by $index">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -295,7 +295,7 @@
                                     <div style="z-index: 9999; position:relative;">
                                         <select
                                                 ng-model="vm.resolvedRequesters[vm.numSlotsFront[$parent.$index] + $index]">
-                                            <option
+                                            <option class="fader"
                                                     ng-value="requester"
                                                     ng-repeat="requester in vm.possibleRequesters">
                                                 <center>{{ requester }}</center>
@@ -330,10 +330,10 @@
 
 </div>
 
-<div ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && !vm.startResolve">
+<div class="fader" ng-show="vm.isSignup == true && vm.isPrefSignup == true && vm.isOwner && !vm.startResolve">
 
 
-    <div ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
+    <div class="fader" ng-repeat="i in vm.getNumber(vm.blocks.length) track by $index">
         <accordion ng-show="vm.isSignup == true && vm.notSigningUp == true"
                    close-others="vm.post_description_close">
             <accordion-group>
@@ -345,7 +345,7 @@
 
                 <md-content>
                     <md-list>
-                        <md-item ng-repeat="slot in vm.blocks[$index].myslots track by $index">
+                        <md-item class="fader" ng-repeat="slot in vm.blocks[$index].myslots track by $index">
                             <md-item-content>
                                 <div class="md-tile-content" style="background-color:#2196f3; color=black">
                                     <h3>{{ vm.parseSlotTimes(slot.start_time) }} -
@@ -391,7 +391,7 @@
 </div>
 
 
-<div ng-hide="vm.isSignup">
+<div class="fader" ng-hide="vm.isSignup">
     <accordion ng-hide="(ngDialogData.is_holiday
 || (vm.hasConfirmedGroups == false
     && vm.hasDeclinedGroups == false

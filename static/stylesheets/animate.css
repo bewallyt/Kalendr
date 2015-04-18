@@ -1359,20 +1359,29 @@ Copyright (c) 2014 Daniel Eden
 }
 
 .fader.ng-hide-remove {
-   -webkit-animation: fadeIn 0.7s;
+   -webkit-animation: fadeIn 0.4s;
     display: block!important;
 }
 .faderLong.ng-hide-remove {
-   -webkit-animation: fadeIn 1.2s;
+   -webkit-animation: fadeIn 0.7s;
     display: block!important;
 }
 
 .fader.ng-hide-add  {
-   -webkit-animation: fadeOut 0.7s;
+   -webkit-animation: fadeOut 0.4s;
     display: block!important;
 }
 .faderLong.ng-hide-add  {
    -webkit-animation: fadeOut 0.7s;
+    display: block!important;
+}
+.fader .ng-enter{
+   -webkit-animation: fadeInDown 0.7s;
+    display: block!important;
+}
+
+.fader .ng-leave{
+     -webkit-animation: fadeOutUp 0.7s;
     display: block!important;
 }
 

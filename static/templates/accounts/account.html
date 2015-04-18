@@ -23,9 +23,9 @@
                 </accordion-heading>
                 <br>
 
-                <div ng-show="vm.hasNotifications == true"><p class="groups_underline" align="left">New
+                <div class="fader" ng-show="vm.hasNotifications == true"><p class="groups_underline" align="left">New
                     Notifications</p>
-                    <li ng-repeat="notification in vm.newNotifications">
+                    <li class="fader" ng-repeat="notification in vm.newNotifications">
                         <a class="btn btn-flat btn-default btn-nopadding"
                            ng-click="vm.groupClick(group)"
                            href="javascript:void(0)"
@@ -37,7 +37,7 @@
                     </li>
                 </div>
 
-                <h5 ng-hide="vm.hasNotifications == true"> {{ vm.myUsername }} has no notifications</h5>
+                <h5 class="fader"ng-hide="vm.hasNotifications == true"> {{ vm.myUsername }} has no notifications</h5>
             </accordion-group>
             <accordion-group is-open="vm.isSecondOpen"
                              is-disabled="status.isSecondDisabled">
@@ -47,7 +47,7 @@
                 </accordion-heading>
                 <br>
 
-                <li ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
+                <li class="fader" ng-show="vm.isFollowing" ng-repeat="following in vm.followingList">
                     <a type="button" class="btn btn-flat btn-default btn-nopadding" ng-init="singleModel=0"
                        ng-model="singleModel" btn-checkbox
                        btn-checkbox-true="1" btn-checkbox-false="0"
@@ -56,7 +56,7 @@
                     </a>
 
                 </li>
-                <h5 ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
+                <h5 class="fader" ng-hide="vm.isFollowing"> {{ vm.myUsername }} is not following anyone :(</h5>
             </accordion-group>
             <accordion-group is-open="vm.isFirstOpen"
                              is-disabled="vm.isFirstDisabled">
@@ -81,11 +81,11 @@
                 </div>
                 <br>
 
-                <li ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
+                <li class="fader" ng-show="vm.hasFollowers" ng-repeat="follower in vm.followerList">
                     <a class="btn btn-flat btn-default btn-nopadding">
                         <p class="group_button_text" align="left"> {{ follower.name }}</p></a>
                 </li>
-                <h5 ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
+                <h5 class="fader" ng-hide="vm.hasFollowers"> {{ vm.myUsername }} has no followers :(</h5>
             </accordion-group>
 
             <accordion-group is-open="vm.open">
@@ -120,11 +120,11 @@
                                               placeholder="Search for group members"/>
 
 
-                                <center><a class="mdi-social-plus-one btn btn-default "
+                                <center><a class="fader mdi-social-plus-one btn btn-default "
                                            ng-show="vm.selectedMember"
                                            ng-click="vm.addMembers()"></a></center>
 
-                                <li ng-repeat="member in vm.groupMembers">
+                                <li class="fader" ng-repeat="member in vm.groupMembers">
                                     {{ member }}
                                 </li>
 
@@ -142,9 +142,9 @@
                 </center>
                 <br>
 
-                <div ng-show="vm.hasGroups">
+                <div class="fader" ng-show="vm.hasGroups">
                     <div ng-show="vm.hasOwnedGroups"><p class="groups_underline" align="left">Groups I own</p>
-                        <li ng-repeat="group in vm.ownedGroups">
+                        <li class="fader" ng-repeat="group in vm.ownedGroups">
                             <a class="btn btn-flat btn-default btn-nopadding"
                                ng-click="vm.groupClick(group)"
                                href="javascript:void(0)"
@@ -155,9 +155,9 @@
                         </li>
                         <br>
                     </div>
-                    <div ng-show="vm.hasMemberOfGroups"><p class="groups_underline" align="left">Groups I'm a member
+                    <div class="fader" ng-show="vm.hasMemberOfGroups"><p class="groups_underline" align="left">Groups I'm a member
                         of</p>
-                        <li ng-repeat="group in vm.memberOfGroups">
+                        <li class="fader" ng-repeat="group in vm.memberOfGroups">
                             <a class="btn btn-flat btn-default btn-nopadding"
                                ng-click="vm.groupClick(group)"
                                href="javascript:void(0)"
@@ -168,7 +168,7 @@
                         </li>
                     </div>
                 </div>
-                <h5 ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
+                <h5 class="fader" ng-hide="vm.hasGroups"> {{ vm.myUsername }} has no groups :(</h5>
             </accordion-group>
         </accordion>
     </div>
@@ -192,7 +192,7 @@
     </md-button> -->
 </div><!-- /pudview -->
 
-<md-button class="md-fab btn-email md-primary btn-hover"
+<md-button class="fader md-fab btn-email md-primary btn-hover"
            aria-label="getemail"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/email/new-email.html"
@@ -201,7 +201,7 @@
     <md-tooltip md-direction="left">Email Schedule</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-enmasse md-primary btn-hover"
+<md-button class="fader md-fab btn-enmasse md-primary btn-hover"
            aria-label="newenmasse"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/enmasse/new-enmasse.html"
@@ -215,7 +215,7 @@
 
 <!-- there is trouble with replacing these -->
 
-<a class="mdi-social-group btn btn-default btn-fab btn-raised btn-add-new-friend btn-hover"
+<a class="fader mdi-social-group btn btn-default btn-fab btn-raised btn-add-new-friend btn-hover"
    style="background-color:#2196f3; color:#333333"
    ng-click="vm.closeAccords()"
    ng-show="vm.isAuthenticated">
@@ -223,7 +223,7 @@
 </a>
 
 
-<button class="mdi-navigation-check btn btn-default btn-fab btn-raised btn-pudview btn-hover"
+<button class="fader mdi-navigation-check btn btn-default btn-fab btn-raised btn-pudview btn-hover"
         style="background-color:#2196f3; color:#333333"
         id="btn-pudview"
         ng-show="vm.isAuthenticated">
@@ -238,7 +238,7 @@
 </md-button> -->
 
 
-<a class="mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications btn-hover"
+<a class="faderLong mdi-social-notifications btn btn-default btn-fab btn-raised btn-notifications btn-hover"
    id="showLeftPush2"
    ng-click="vm.showNotificationsTab()"
    ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
@@ -253,7 +253,7 @@
        ng-show="vm.hasNotifications"><span style="font-size: 12px">{{ vm.numNotifications }}</span></a>
     </md-button>-->
 
-<md-button class="md-fab btn-free-time md-primary btn-hover"
+<md-button class="fader md-fab btn-free-time md-primary btn-hover"
            aria-label="freetime"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/freetime/find-freetime.html"
@@ -263,7 +263,7 @@
     <md-tooltip md-direction="left">Freetimes</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-before md-primary btn-hover"
+<md-button class="fader md-fab btn-before md-primary btn-hover"
            aria-label="before"
            ng-show="vm.isAuthenticated"
            ng-click="vm.before()">
@@ -271,7 +271,7 @@
     <md-tooltip md-direction="left">Last Week</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-next md-primary btn-hover"
+<md-button class="fader md-fab btn-next md-primary btn-hover"
            aria-label="next"
            ng-show="vm.isAuthenticated"
            ng-click="vm.next()">
@@ -279,7 +279,7 @@
     <md-tooltip md-direction="left">Next Week</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-change-date md-primary btn-hover"
+<md-button class="fader md-fab btn-change-date md-primary btn-hover"
            aria-label="changedate"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/posts/change-calendar.html"
@@ -288,7 +288,7 @@
     <md-tooltip md-direction="left">Choose Week</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-home md-primary btn-hover"
+<md-button class="fader md-fab btn-home md-primary btn-hover"
            aria-label="home"
            ng-show="vm.isAuthenticated"
            ng-click="vm.activate()">
@@ -296,7 +296,7 @@
     <md-tooltip md-direction="left">Home</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-create-pud md-primary btn-hover"
+<md-button class="fader md-fab btn-create-pud md-primary btn-hover"
            aria-label="createpud"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/puds/new-pud.html"
@@ -305,7 +305,7 @@
     <md-tooltip md-direction="left">New PUD</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-new-signup md-primary btn-hover"
+<md-button class="fader md-fab btn-new-signup md-primary btn-hover"
            aria-label="signup"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/signup/new-signup.html"
@@ -315,7 +315,7 @@
     <md-tooltip md-direction="left">Sign Ups</md-tooltip>
 </md-button>
 
-<md-button class="md-fab btn-add-new-post md-primary btn-hover"
+<md-button class="fader md-fab btn-add-new-post md-primary btn-hover"
            aria-label="newpost"
            ng-show="vm.isAuthenticated"
            ng-dialog="/static/templates/posts/new-post.html"
