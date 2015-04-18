@@ -20,7 +20,7 @@ provided that those posts are within the time range
 def search_posts(user, start_date, end_date):
     authored_posts = user.myevents.filter(start_time__gte=start_date).filter(start_time__lte=end_date)
     confirmed_posts = Post.objects.filter(start_time__gte=start_date).filter(start_time__lte=end_date).filter(shared_with__name=user.username, accessrule__receiver_response='CONFIRM')
-    puds = Pud.objects.filter(expires=True).filter(expiry__gte=start_date).filter(expiry__lte=end_date)
+    puds = Pud.objects.filter(author=user).filter(expires=True).filter(expiry__gte=start_date).filter(expiry__lte=end_date)
     
     for post in confirmed_posts:
         ac = AccessRule.objects.get(post=post, group__name=user.username)
