@@ -4,7 +4,7 @@
     <!-- Top Navigation -->
 
     <div class="codrops-top clearfix">
-        <span class="right" style="font-size: 15px"><a href="/" ng-click="vm.showLogin()"><span>Login</span></a></span>
+        <span class="right" style="font-size: 15px; padding-right: 20px"><a href="/" ng-click="vm.showLogin()"><span>Login</span></a></span>
     </div>
 
 
@@ -23,21 +23,21 @@
             <div class="screen">
                 <ul id="slideshow-2" class="slideshow">
                     <li class="slideshow__item current"><img src="/static/lib/img/large/1.png"/></li>
-                    <li class="slideshow__item"><img src="/static/lib/img/large/2.png"/></li>
                     <li class="slideshow__item"><img src="/static/lib/img/large/3.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/large/2.png"/></li>
                     <li class="slideshow__item"><img src="/static/lib/img/large/4.png"/></li>
                 </ul>
             </div>
             <header class="codrops-header">
-                <h1 style="color:#2196f3; font-family: 'Raleway'; font-size: 100px" ng-hide="vm.isPrompted"><span>Presenting</span>
+                <h1 class="fader" style="color:#2196f3; font-family: 'Raleway'; font-size: 100px" ng-hide="vm.isPrompted"><span>Presenting</span>
                     Kalendr <i><b> a social calendar
                         application with
                         seamless integration of task and appointment management. Ease into your day with less planning
                         and
                         more play. </b></i></h1>
 
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4" ng-show="vm.isPrompted">
+                <div class="row fader" ng-show="vm.isPrompted">
+                    <div class="col-md-4 col-md-offset-4" >
                         <br><br><br><br><br><br><br><br><br><br>
 
                         <div layout="column" layout-align="center center">

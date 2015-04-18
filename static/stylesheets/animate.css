@@ -6,6 +6,16 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 Copyright (c) 2014 Daniel Eden
 */
 
+.ng-hide-add, .ng-hide-remove {
+    /* ensure visibility during the transition */
+    display: block !important; /* yes, important */
+}
+
+.ng-show-add, .ng-show-remove {
+    /* ensure visibility during the transition */
+    display: block !important; /* yes, important */
+}
+
 .animated {
   -webkit-animation-duration: 1s;
           animation-duration: 1s;
@@ -1064,6 +1074,11 @@ Copyright (c) 2014 Daniel Eden
           animation-name: fadeIn;
 }
 
+.fadeIn .ng-show-add  {
+  -webkit-animation-name: fadeIn;
+          animation-name: fadeIn;
+}
+
 @-webkit-keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -1341,6 +1356,24 @@ Copyright (c) 2014 Daniel Eden
 .fadeOut {
   -webkit-animation-name: fadeOut;
           animation-name: fadeOut;
+}
+
+.fader.ng-hide-remove {
+   -webkit-animation: fadeIn 0.7s;
+    display: block!important;
+}
+.faderLong.ng-hide-remove {
+   -webkit-animation: fadeIn 1.2s;
+    display: block!important;
+}
+
+.fader.ng-hide-add  {
+   -webkit-animation: fadeOut 0.7s;
+    display: block!important;
+}
+.faderLong.ng-hide-add  {
+   -webkit-animation: fadeOut 0.7s;
+    display: block!important;
 }
 
 @-webkit-keyframes fadeOutDown {

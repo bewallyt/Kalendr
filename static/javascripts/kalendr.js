@@ -19,6 +19,7 @@
             'kalendr.email',
             'ui.bootstrap',
             'angucomplete',
+            'ngAnimate',
             'ngMaterial'
         ]).config(function ($mdThemingProvider) {
             $mdThemingProvider.theme('default')
