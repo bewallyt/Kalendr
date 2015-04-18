@@ -1,4 +1,3 @@
-
 <center><h2 ng-init="vm.currentNotificationPostId = ngDialogData.id">{{ ngDialogData.content }}</h2></center>
 <center><h4 ng-hide="ngDialogData.is_holiday">{{ ngDialogData.description_event }}</h4></center>
 
@@ -26,12 +25,14 @@
                 <center><h4>Event Invitation Status</h4></center>
                 <center>
                     <div class="form-group">
-                        <label class="radio_btn_middle" for="confirm" style="color: #cdf0ed">Confirm</label>
-                        <input type="radio" name="response" id="confirm" value='CONFIRM' ng-model="vm.response">
-                        <label class="radio_btn_middle" for="decline" style="color: #cdf0ed">Decline</label>
-                        <input type="radio" name="response" id="decline" value='DECLINE' ng-model="vm.response">
-                        <label class="radio_btn_middle" for="remove" style="color: #cdf0ed">Remove</label>
-                        <input type="radio" name="response" id="remove" value='REMOVED' ng-model="vm.response">
+
+                        <md-radio-group ng-model="vm.response">
+                            <div layout layout-sm="column" layout-align="center center">
+                                <md-radio-button value='CONFIRM'>Confirm</md-radio-button>
+                                <md-radio-button value='DECLINE'>Decline</md-radio-button>
+                                <md-radio-button value='REMOVED'>Remove</md-radio-button>
+                            </div>
+                        </md-radio-group>
 
                     </div>
                 </center>
