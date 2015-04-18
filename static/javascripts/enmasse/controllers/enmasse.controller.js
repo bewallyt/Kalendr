@@ -24,6 +24,7 @@
         vm.validated = true;
         var lines;
         var fieldKeys = ['content', 'priority', 'duration', 'recurring', 'expires', 'escalates', 'time', 'day', 'notify', 'when'];
+        var eventfieldKeys = ['content', 'description', 'dateOfEvent', 'allDay', 'optionalStartTime', 'optionalEndTime', 'repeat', 'optionalRepeatValue', 'pudAllocation', 'notify', 'optionalNotificationTime', 'shareEvent'];
 
         function check(event, keyCode) {
             var textArea = event.target;
@@ -258,6 +259,86 @@
         }
 
         function validateEvent(fields) {
+
+
+            var areFieldsValid;
+            var areValuesValid = true;
+            var i;
+            for (i = 1; i < fields.length; i++) {
+                console.log(fields[i].split(":")[0]);
+                if (fields[i].split(":")[0] != eventfieldKeys [i - 1]) {
+                    console.log('error at: ' + fields[i].split(":")[0]);
+                    console.log(eventfieldKeys [i - 1]);
+                    Snackbar.error('Event field names are incorrect on line ' + vm.lineNumber, 5000);
+                    areFieldsValid = false;
+                    break;
+                } else {
+                    areFieldsValid = true;
+                }
+            }
+
+            try {
+                var now = new Date();
+                if ((isNaN(parseInt(fields[3].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[3].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[3].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[3].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[3].split(":")[1].split("/")[1]) > 31
+                    || parseInt(fields[3].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[3].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[3].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[3].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[3].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[3].split(":")[1].split("/")[1]) < now.getDate())
+                    || (parseInt(fields[3].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[3].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[3].split(":")[1].split("/")[1]) == now.getDate())
+                ) throw "Invalid date and/or date-time is backdated, line " + vm.lineNumber;
+                if (fields[4].split(":")[1] == 'y/n') throw "Choose whether the event is all day";
+                if (fields[4].split(":")[1] == 'y'
+                    && (parseInt(fields[5].split(":")[1].split("/")[0]) < now.getHours()
+                    || parseInt(fields[6].split(":")[1].split("/")[0]) < now.getHours()))
+                    throw "Invalid time or time is backdated, line " + vm.lineNumber;
+
+                if (fields[7].split(":")[1] == 'y/n') throw "Choose whether the event repeats.";
+                if (fields[7].split(":")[1] == 'y'
+                && (fields[8].split(":")[1] != "Daily" ||
+                    fields[8].split(":")[1] != "Weekly" ||
+                    fields[8].split(":")[1] != "Monthly" ||
+                    fields[8].split(":")[1] != "daily" ||
+                    fields[8].split(":")[1] != "weekly" ||
+                    fields[8].split(":")[1] != "monthly")) throw "Invalid repeat value:";
+
+
+                if (fields[9].split(":")[1] == 'y/n') throw "Choose whether you want PUD allocation";
+                if (fields[10].split(":")[1] == 'y/n') throw "Choose whether you want to be notified of the event";
+
+                if (fields[10].split(":")[1] == 'y'
+                    && ((isNaN(parseInt(fields[11].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[11].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[11].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[11].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[11].split(":")[1].split("/")[1]) > 31
+                    || parseInt(fields[11].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[11].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[11].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[11].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[11].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[11].split(":")[1].split("/")[1]) < now.getDate())
+                    || (parseInt(fields[11].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[11].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[11].split(":")[1].split("/")[1]) == now.getDate()
+                    && parseInt(fields[11].split(":")[1].split("/")[3]) < now.getHours()))) throw "Invalid time or time is backdated, line " + vm.lineNumber;
+            } catch (err) {
+                Snackbar.error(err, 5000);
+                areValuesValid = false;
+                vm.validated = true;
+            }
+
+            if (areFieldsValid && areValuesValid) {
+                Snackbar.show("Event fields and values valid on line " + vm.lineNumber, 5000);
+                vm.validated = false;
+            }
 
         }
 

@@ -2,168 +2,168 @@
 <body class="demo-4" style="overflow: hidden;">
 
 <div>
-        <!-- Top Navigation -->
+    <!-- Top Navigation -->
 
-        <div class="codrops-top clearfix">
+    <div class="codrops-top clearfix">
             <span class="right" style="font-size: 15px; padding-right: 20px"><a href="/"
                                                                                 ng-click="vm.showLogin()"><span>Login</span></a></span>
-        </div>
+    </div>
 
 
-        <div id="wrap" class="wrap">
-            <div class="mockup">
-                <img class="mockup__img" src="/static/lib/img/mockup4.jpg"/>
+    <div id="wrap" class="wrap">
+        <div class="mockup">
+            <img class="mockup__img" src="/static/lib/img/mockup4.jpg"/>
 
-                <div class="mobile">
-                    <ul id="slideshow-1" class="slideshow">
-                        <li class="slideshow__item"><img src="/static/lib/img/small/p1.png"/></li>
-                        <li class="slideshow__item"><img src="/static/lib/img/small/p2.png"/></li>
-                        <li class="slideshow__item"><img src="/static/lib/img/small/p3.png"/></li>
-                        <li class="slideshow__item"><img src="/static/lib/img/small/p4.png"/></li>
-                    </ul>
-                </div>
-                <div class="screen">
-                    <ul id="slideshow-2" class="slideshow">
-                        <li class="slideshow__item current"><img src="/static/lib/img/large/1.png"/></li>
-                        <li class="slideshow__item"><img src="/static/lib/img/large/3.png"/></li>
-                        <li class="slideshow__item"><img src="/static/lib/img/large/2.png"/></li>
-                        <li class="slideshow__item"><img src="/static/lib/img/large/4.png"/></li>
-                    </ul>
-                </div>
-                <header class="codrops-header">
-                    <h1 class="faderLong" style="color:#2196f3; font-family: 'Raleway'; font-size: 100px"
-                        ng-hide="vm.isPrompted"><span>Presenting</span>
-                        Kalendr <i><b> a social calendar
-                            application with
-                            seamless integration of task and appointment management. Ease into your day with less
-                            planning
-                            and
-                            more play. </b></i></h1>
+            <div class="mobile">
+                <ul id="slideshow-1" class="slideshow">
+                    <li class="slideshow__item"><img src="/static/lib/img/small/p1.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/small/p2.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/small/p3.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/small/p4.png"/></li>
+                </ul>
+            </div>
+            <div class="screen">
+                <ul id="slideshow-2" class="slideshow">
+                    <li class="slideshow__item current"><img src="/static/lib/img/large/1.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/large/3.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/large/2.png"/></li>
+                    <li class="slideshow__item"><img src="/static/lib/img/large/4.png"/></li>
+                </ul>
+            </div>
+            <header class="codrops-header">
+                <h1 class="faderLong" style="color:#2196f3; font-family: 'Raleway'; font-size: 100px"
+                    ng-hide="vm.isPrompted"><span>Presenting</span>
+                    Kalendr <i><b> a social calendar
+                        application with
+                        seamless integration of task and appointment management. Ease into your day with less
+                        planning
+                        and
+                        more play. </b></i></h1>
 
-                    <div class="row faderLong" ng-show="vm.isPrompted">
-                        <div class="col-md-4 col-md-offset-4">
-                            <br><br><br><br><br><br><br><br><br><br>
+                <div class="row faderLong" ng-show="vm.isPrompted">
+                    <div class="col-md-4 col-md-offset-4">
+                        <br><br><br><br><br><br><br><br><br><br>
 
-                            <div layout="column" layout-align="center center">
-                                <br><br>
+                        <div layout="column" layout-align="center center">
+                            <br><br>
 
-                                <div class="well" layout="column" layout-align="center center"
-                                     style="height:450px; width:471px">
-                                    <md-tabs md-selected="0" md-border-bottom>
-                                        <md-tab style="padding-left: 80px; padding-right: 80px;"
-                                                ng-repeat="tab in tabs track by $index"
-                                                ng-disabled="tab.disabled"
-                                                label="{{ tab.title }}">
-                                            <div class="demo-tab tab{{$index%4}}"
-                                                 style="padding: 25px; text-align: center;">
-                                                <div>
-                                                    <form role="form" ng-submit="vm.login()" ng-show="$index == 0">
+                            <div class="well" layout="column" layout-align="center center"
+                                 style="height:450px; width:471px">
+                                <md-tabs md-selected="0" md-border-bottom>
+                                    <md-tab style="padding-left: 80px; padding-right: 80px;"
+                                            ng-repeat="tab in tabs track by $index"
+                                            ng-disabled="tab.disabled"
+                                            label="{{ tab.title }}">
+                                        <div class="demo-tab tab{{$index%4}}"
+                                             style="padding: 25px; text-align: center;">
+                                            <div>
+                                                <form role="form" ng-submit="vm.login()" ng-show="$index == 0">
 
-                                                        <md-input-container>
-                                                            <label style="color:#545454"
-                                                                   style="font-size: 15px">Email</label>
-                                                            <input required type="text" style="font-size: 15px"
-                                                                   name="task_name"
-                                                                   ng-model="vm.email">
-                                                        </md-input-container>
-                                                        <md-input-container>
-                                                            <label style="color:#545454"
-                                                                   style="font-size: 15px">Password</label>
-                                                            <input required type="password" name="task_name"
-                                                                   ng-model="vm.password">
-                                                        </md-input-container>
-                                                        <br><br><br>
+                                                    <md-input-container>
+                                                        <label style="color:#545454"
+                                                               style="font-size: 15px">Email</label>
+                                                        <input required type="text" style="font-size: 15px"
+                                                               name="task_name"
+                                                               ng-model="vm.email">
+                                                    </md-input-container>
+                                                    <md-input-container>
+                                                        <label style="color:#545454"
+                                                               style="font-size: 15px">Password</label>
+                                                        <input required type="password" name="task_name"
+                                                               ng-model="vm.password">
+                                                    </md-input-container>
+                                                    <br><br><br>
 
-                                                        <div class="form-group" layout="column"
-                                                             layout-align="center center"
-                                                             ng-show="$index == 0">
-                                                            <md-button class="md-raised md-primary btn-submit"
-                                                                       type="submit">Login
-                                                            </md-button>
-                                                        </div>
+                                                    <div class="form-group" layout="column"
+                                                         layout-align="center center"
+                                                         ng-show="$index == 0">
+                                                        <md-button class="md-raised md-primary btn-submit"
+                                                                   type="submit">Login
+                                                        </md-button>
+                                                    </div>
 
-                                                    </form>
-                                                    <form role="form" ng-submit="vm.register()" ng-show="$index == 1">
-                                                        <md-input-container>
-                                                            <label style="color:#545454">Email</label>
-                                                            <input required type="text" name="task_name"
-                                                                   ng-model="vm.email">
-                                                        </md-input-container>
-                                                        <md-input-container>
-                                                            <label style="color:#545454">Name</label>
-                                                            <input required type="text" name="task_name"
-                                                                   ng-model="vm.username">
-                                                        </md-input-container>
-                                                        <md-input-container>
-                                                            <label style="color:#545454">Password</label>
-                                                            <input required type="password" name="task_name"
-                                                                   ng-model="vm.password">
-                                                        </md-input-container>
-                                                        <div class="form-group" layout="column"
-                                                             layout-align="center center"
-                                                             ng-show="$index == 1">
-                                                            <md-button class="md-raised md-primary btn-submit"
-                                                                       type="submit">Signup
-                                                            </md-button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <br/>
+                                                </form>
+                                                <form role="form" ng-submit="vm.register()" ng-show="$index == 1">
+                                                    <md-input-container>
+                                                        <label style="color:#545454">Email</label>
+                                                        <input required type="text" name="task_name"
+                                                               ng-model="vm.email">
+                                                    </md-input-container>
+                                                    <md-input-container>
+                                                        <label style="color:#545454">Name</label>
+                                                        <input required type="text" name="task_name"
+                                                               ng-model="vm.username">
+                                                    </md-input-container>
+                                                    <md-input-container>
+                                                        <label style="color:#545454">Password</label>
+                                                        <input required type="password" name="task_name"
+                                                               ng-model="vm.password">
+                                                    </md-input-container>
+                                                    <div class="form-group" layout="column"
+                                                         layout-align="center center"
+                                                         ng-show="$index == 1">
+                                                        <md-button class="md-raised md-primary btn-submit"
+                                                                   type="submit">Signup
+                                                        </md-button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </md-tab>
-                                    </md-tabs>
+                                            <br/>
+                                        </div>
+                                    </md-tab>
+                                </md-tabs>
 
 
-                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                </header>
+            </header>
 
 
-            </div>
-            <script src="/static/lib/main.js"></script>
-            <script>
-                (function () {
-                    new Slideshow(document.getElementById('slideshow-1'));
-                    setTimeout(function () {
-                        new Slideshow(document.getElementById('slideshow-2'));
-                    }, 1750);
-
-                    /* Mockup responsiveness */
-                    var body = docElem = window.document.documentElement,
-                            wrap = document.getElementById('wrap'),
-                            mockup = wrap.querySelector('.mockup'),
-                            mockupWidth = mockup.offsetWidth;
-
-                    scaleMockup();
-
-                    function scaleMockup() {
-                        var wrapWidth = wrap.offsetWidth,
-                                val = wrapWidth / mockupWidth;
-
-                        mockup.style.transform = 'scale3d(' + val + ', ' + val + ', 1)';
-                    }
-
-                    window.addEventListener('resize', resizeHandler);
-
-                    function resizeHandler() {
-                        function delayed() {
-                            resize();
-                            resizeTimeout = null;
-                        }
-
-                        if (typeof resizeTimeout != 'undefined') {
-                            clearTimeout(resizeTimeout);
-                        }
-                        resizeTimeout = setTimeout(delayed, 50);
-                    }
-
-                    function resize() {
-                        scaleMockup();
-                    }
-                })();
-            </script>
         </div>
+        <script src="/static/lib/main.js"></script>
+        <script>
+            (function () {
+                new Slideshow(document.getElementById('slideshow-1'));
+                setTimeout(function () {
+                    new Slideshow(document.getElementById('slideshow-2'));
+                }, 1750);
+
+                /* Mockup responsiveness */
+                var body = docElem = window.document.documentElement,
+                        wrap = document.getElementById('wrap'),
+                        mockup = wrap.querySelector('.mockup'),
+                        mockupWidth = mockup.offsetWidth;
+
+                scaleMockup();
+
+                function scaleMockup() {
+                    var wrapWidth = wrap.offsetWidth,
+                            val = wrapWidth / mockupWidth;
+
+                    mockup.style.transform = 'scale3d(' + val + ', ' + val + ', 1)';
+                }
+
+                window.addEventListener('resize', resizeHandler);
+
+                function resizeHandler() {
+                    function delayed() {
+                        resize();
+                        resizeTimeout = null;
+                    }
+
+                    if (typeof resizeTimeout != 'undefined') {
+                        clearTimeout(resizeTimeout);
+                    }
+                    resizeTimeout = setTimeout(delayed, 50);
+                }
+
+                function resize() {
+                    scaleMockup();
+                }
+            })();
+        </script>
+    </div>
 </body>
