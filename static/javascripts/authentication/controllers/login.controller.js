@@ -23,6 +23,9 @@
 
         activate();
 
+        vm.showLogin = showLogin;
+        vm.isPrompted = false;
+
         /**
          * @name activate
          * @desc Actions to be performed when this controller is instantiated
@@ -61,6 +64,11 @@
 
         function register() {
             Authentication.register(vm.email, vm.password, vm.username);
+        }
+
+        function showLogin(){
+            console.log('is prompted');
+            vm.isPrompted = true;
         }
 
 
