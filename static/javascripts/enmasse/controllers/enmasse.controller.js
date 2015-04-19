@@ -34,13 +34,14 @@
         vm.groupRuleDict = new Object();
 
 
-
         var username = Authentication.getAuthenticatedAccount().username;
         Groups.getFollowers(username).then(followerSuccessFn);
 
         var lines;
         var fieldKeys = ['content', 'priority', 'duration', 'recurring', 'expires', 'escalates', 'time', 'day', 'notify', 'when'];
         var eventfieldKeys = ['content', 'description', 'location', 'dateOfEvent', 'allDay', 'optionalStartTime', 'optionalEndTime', 'repeat', 'optionalRepeatValue', 'optionalRepeatEndDate', 'pudAllocation', 'notify', 'optionalNotificationTime', 'shareEvent', 'optionalShareWith'];
+        var signupFieldKeys = ['name', 'location', 'minTime', 'maxTime', 'maxSlotsPerUser', 'numberOfBlocks', 'blockDateStartTimeEndTime', 'shareWith', 'preferenceBased', 'preferenceDuration'];
+
 
         function check(event, keyCode) {
             var textArea = event.target;
@@ -319,7 +320,7 @@
                 console.log('field 9' + fields[9].split(":")[1]);
                 if (fields[8].split(":")[1] == 'y/n') throw "Choose whether the event repeats.";
                 if (fields[8].split(":")[1] == 'y'
-                    && !_.contains(['daily', 'weekly', 'monthly', 'Daily', 'Weekly', 'Monthly'], fields[9].split(":")[1])) throw "Invalid repeat value."  +vm.lineNumber;
+                    && !_.contains(['daily', 'weekly', 'monthly', 'Daily', 'Weekly', 'Monthly'], fields[9].split(":")[1])) throw "Invalid repeat value." + vm.lineNumber;
 
 
                 if (fields[8].split(":")[1] == 'y'
@@ -374,7 +375,7 @@
                     for (i = 0; i < textFollowers.length; i++) {
                         if (followers.indexOf(textFollowers[i]) == -1) {
                             invalidName = textFollowers[i];
-                            throw invalidName + " is an invalid follower name in line " +vm.lineNumber;
+                            throw invalidName + " is an invalid follower name in line " + vm.lineNumber;
                         }
                     }
 
@@ -493,7 +494,7 @@
             if (fields[14].split(":")[1] == "y") {
                 shareEvent = true;
                 var i;
-                for(i = 0; i < textFollowers.length; i++){
+                for (i = 0; i < textFollowers.length; i++) {
                     vm.groupRuleDict[textFollowers[i]] = textRules;
                 }
             }
@@ -552,7 +553,7 @@
             function createPostSuccessFn(data, status, headers, config) {
                 Snackbar.show('Success! Event added to Kalendr');
 
-                if(shareEvent){
+                if (shareEvent) {
                     Access.createShareable(data.data.id, vm.groupRuleDict);
                 }
 
@@ -571,7 +572,130 @@
         }
 
         function validateSignUp(fields) {
+            var areFieldsValid;
+            var areValuesValid = true;
+            var i;
+            for (i = 1; i < fields.length; i++) {
+                if (fields[i].split(":")[0] != signupFieldKeys[i - 1]) {
+                    Snackbar.error('Signup field names are incorrect on line ' + vm.lineNumber, 5000);
+                    areFieldsValid = false;
+                    break;
+                } else {
+                    areFieldsValid = true;
+                }
+            }
 
+            try {
+
+                if (isNaN(parseInt(fields[3].split(":")[1]))
+                    //|| parseInt(fields[3].split(":")[1]) != 5
+                    //|| parseInt(fields[3].split(":")[1]) != 10
+                    //|| parseInt(fields[3].split(":")[1]) != 15
+                    //|| parseInt(fields[3].split(":")[1]) != 20
+                    //|| parseInt(fields[3].split(":")[1]) != 25
+                    //|| parseInt(fields[3].split(":")[1]) != 30
+                ) throw "Minimum time " + fields[3].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
+
+                if (isNaN(parseInt(fields[4].split(":")[1]))
+                    //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 1
+                    //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 2
+                    //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 3
+                    //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 4
+                    //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 5
+                    //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 6
+                ) throw "Maximum time " + fields[4].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
+
+                var numOfBlocks = parseInt(fields[6].split(":")[1]);
+                var maxSlotsPerUser = parseInt(fields[5].split(":")[1]);
+
+                if (maxSlotsPerUser < 1) throw "Max slots per user needs to be greater than 1, line " + vm.lineNumber;
+                if (numOfBlocks < 1) throw "Number of blocks needs to be greater than 1, line " + vm.lineNumber;
+
+                var blockDateTimes = fields[7].split(":")[1].split(".");
+                if (blockDateTimes.length != numOfBlocks) throw "Number of date time fields in blockDateStartTimeEndTime field is incorrect, line" + vm.lineNumber;
+
+                for (var i = 0; i < blockDateTimes.length; i++) {
+
+                    // Checking Block Times
+
+                    console.log("0: " + blockDateTimes[i].split("/")[0]);
+                    console.log("1: " + blockDateTimes[i].split("/")[1]);
+                    console.log("2: " + blockDateTimes[i].split("/")[2]);
+                    console.log("3: " + blockDateTimes[i].split("/")[3]);
+                    console.log("4: " + blockDateTimes[i].split("/")[4]);
+                    console.log("5: " + blockDateTimes[i].split("/")[5]);
+                    console.log("6: " + blockDateTimes[i].split("/")[6]);
+
+                    var now = new Date();
+
+                    if (((isNaN(parseInt(blockDateTimes[i].split("/")[0]))
+                        || isNaN(parseInt(blockDateTimes[i].split("/")[1]))
+                        || isNaN(parseInt(blockDateTimes[i].split("/")[2]))
+                        || isNaN(parseInt(blockDateTimes[i].split("/")[3]))
+                        || isNaN(parseInt(blockDateTimes[i].split("/")[4]))
+                        || isNaN(parseInt(blockDateTimes[i].split("/")[5]))
+                        || isNaN(parseInt(blockDateTimes[i].split("/")[6]))
+                        ) || parseInt(blockDateTimes[i].split("/")[1]) < 1
+                        || parseInt(blockDateTimes[i].split("/")[1]) > 31
+                        || parseInt(blockDateTimes[i].split("/")[2]) < now.getFullYear()
+                        || (parseInt(blockDateTimes[i].split("/")[2]) == now.getFullYear()
+                        && parseInt(blockDateTimes[i].split("/")[0]) < now.getMonth() + 1)
+                        || (parseInt(blockDateTimes[i].split("/")[2]) == now.getFullYear()
+                        && parseInt(blockDateTimes[i].split("/")[0]) == now.getMonth() + 1
+                        && parseInt(blockDateTimes[i].split("/")[1]) < now.getDate())
+                        || (parseInt(blockDateTimes[i].split("/")[2]) == now.getFullYear()
+                        && parseInt(blockDateTimes[i].split("/")[0]) == now.getMonth() + 1
+                        && parseInt(blockDateTimes[i].split("/")[1]) == now.getDate()
+                        && parseInt(blockDateTimes[i].split("/")[3]) < now.getHours())
+                        ||
+                        (parseInt(blockDateTimes[i].split("/")[5]) < now.getHours())
+                        && parseInt(blockDateTimes[i].split("/")[3]) < now.getHours())
+                        || ((parseInt(blockDateTimes[i].split("/")[3]) < 0
+                        || parseInt(blockDateTimes[i].split("/")[3]) > 23
+                        || parseInt(blockDateTimes[i].split("/")[4]) < 0
+                        || parseInt(blockDateTimes[i].split("/")[4]) > 59))
+                        || ((parseInt(blockDateTimes[i].split("/")[5]) < 0
+                        || parseInt(blockDateTimes[i].split("/")[5]) > 23
+                        || parseInt(blockDateTimes[i].split("/")[6]) < 0
+                        || parseInt(blockDateTimes[i].split("/")[6]) > 59)
+                        )) throw "Invalid date and/or date-time is backdated, line " + vm.lineNumber;
+
+                }
+                var followersString = fields[8].split(":")[1];
+                var signUpFollowers = followersString.split(".");
+
+                for (i = 0; i < signUpFollowers.length; i++) {
+                    if (followers.indexOf(signUpFollowers[i]) == -1) {
+                        invalidName = signUpFollowers[i];
+                        throw invalidName + " is an invalid follower name, line " + vm.lineNumber;
+                    }
+                }
+
+                if (fields[9].split(":")[1] == 'y/n') throw "Choose whether you want a preference based signup";
+
+                // Check whether follower exists via get follower
+                if (fields[9].split(":")[1] == 'y' &&
+                    (parseInt(fields[10].split(":")[1]) != 10 ||
+                    parseInt(fields[10].split(":")[1]) != 20 ||
+                    parseInt(fields[10].split(":")[1]) != 30 ||
+                    parseInt(fields[10].split(":")[1]) != 40 ||
+                    parseInt(fields[10].split(":")[1]) != 50 ||
+                    parseInt(fields[10].split(":")[1]) != 60)) throw fields[10].split(":")[1] + " is an invalid preference time, line " + vm.lineNumber;
+
+
+            }
+
+            catch
+                (err) {
+                Snackbar.error(err, 5000);
+                areValuesValid = false;
+                vm.validated = true;
+            }
+
+            if (areFieldsValid && areValuesValid) {
+                Snackbar.show("Sign up valid on line " + vm.lineNumber, 5000);
+                vm.validated = false;
+            }
         }
 
 
