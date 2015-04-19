@@ -9,22 +9,36 @@
         .module('kalendr.enmasse.controllers')
         .controller('EnmasseController', EnmasseController);
 
-    EnmasseController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Posts', 'Access', 'Puds'];
+    EnmasseController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Posts', 'Access', 'Puds', 'Groups'];
 
 
     /**
      * @namespace EnmasseController
      */
-    function EnmasseController($rootScope, $scope, Authentication, Snackbar, Posts, Access, Puds) {
+    function EnmasseController($rootScope, $scope, Authentication, Snackbar, Posts, Access, Puds, Groups) {
         var vm = this;
         vm.submit = submit;
         vm.check = check;
         vm.validateLine = validateLine;
         vm.lineNumber;
         vm.validated = true;
+
+
+        // Used for sharing
+        var followers = [];
+        var textFollowers = [];
+        var nameAndRules = [];
+        var textRules = [];
+        var trueNames;
+        var invalidName;
+
+
+        var username = Authentication.getAuthenticatedAccount().username;
+        Groups.getFollowers(username).then(followerSuccessFn);
+
         var lines;
         var fieldKeys = ['content', 'priority', 'duration', 'recurring', 'expires', 'escalates', 'time', 'day', 'notify', 'when'];
-        var eventfieldKeys = ['content', 'description', 'location', 'dateOfEvent', 'allDay', 'optionalStartTime', 'optionalEndTime', 'repeat', 'optionalRepeatValue', 'optionalRepeatEndDate', 'pudAllocation', 'notify', 'optionalNotificationTime', 'shareEvent'];
+        var eventfieldKeys = ['content', 'description', 'location', 'dateOfEvent', 'allDay', 'optionalStartTime', 'optionalEndTime', 'repeat', 'optionalRepeatValue', 'optionalRepeatEndDate', 'pudAllocation', 'notify', 'optionalNotificationTime', 'shareEvent', 'optionalShareWith'];
 
         function check(event, keyCode) {
             var textArea = event.target;
@@ -302,8 +316,8 @@
 
                 console.log('field 9' + fields[9].split(":")[1]);
                 if (fields[8].split(":")[1] == 'y/n') throw "Choose whether the event repeats.";
-                 if (fields[8].split(":")[1] == 'y'
-                    && !_.contains(['daily', 'weekly', 'monthly', 'Daily', 'Weekly', 'Monthly'], fields[9].split(":")[1])) throw "Invalid repeat value." +  + vm.lineNumber;
+                if (fields[8].split(":")[1] == 'y'
+                    && !_.contains(['daily', 'weekly', 'monthly', 'Daily', 'Weekly', 'Monthly'], fields[9].split(":")[1])) throw "Invalid repeat value."  +vm.lineNumber;
 
 
                 if (fields[8].split(":")[1] == 'y'
@@ -342,6 +356,36 @@
                     && parseInt(fields[13].split(":")[1].split("/")[0]) == now.getMonth() + 1
                     && parseInt(fields[13].split(":")[1].split("/")[1]) == now.getDate()
                     && parseInt(fields[13].split(":")[1].split("/")[3]) < now.getHours()))) throw "Invalid time or time is backdated, line " + vm.lineNumber;
+
+                if (fields[14].split(":")[1] == 'y/n') throw "Choose whether you want to share event";
+
+                // Check whether follower exists via get follower
+                if (fields[14].split(":")[1] == 'y') {
+                    nameAndRules = fields[15].split(":")[1].split(".");
+                    var i;
+                    for (i = 0; i < nameAndRules.length; i++) {
+                        textFollowers[i] = nameAndRules[i].split("/")[0];
+                        textRules[i] = nameAndRules[i].split("/")[1];
+                    }
+
+
+                    for (i = 0; i < textFollowers.length; i++) {
+                        if (followers.indexOf(textFollowers[i]) == -1) {
+                            invalidName = textFollowers[i];
+                            throw invalidName + " is an invalid follower name in line " +vm.lineNumber;
+                        }
+                    }
+
+                    //for(i = 0; i < textRules.length; i++){
+                    //    if(textRules[i] != 'Busy' || textRules[i] != 'Modify' || textRules[i] != "Read Only" ){
+                    //        if(textRules[i] != 'busy' || textRules[i] != 'modify' || textRules[i] != "read only" ){
+                    //            throw textRules[i] + " is an invalid rule in line " +vm.lineNumber;
+                    //        }
+                    //    }
+                    //}
+                }
+
+
             } catch (err) {
                 Snackbar.error(err, 5000);
                 areValuesValid = false;
@@ -351,6 +395,14 @@
             if (areFieldsValid && areValuesValid) {
                 Snackbar.show("Event fields and values valid on line " + vm.lineNumber, 5000);
                 vm.validated = false;
+            }
+
+        }
+
+        function followerSuccessFn(data, status, headers, config) {
+            var i;
+            for (i = 0; i < data.data.length; i++) {
+                followers[i] = data.data[i].name;
             }
 
         }

@@ -368,6 +368,7 @@
 
                 var i;
                 for (i = 0; i < data.data.length; i++) {
+                    //console.log("follower: " + data.data[i].name);
                     followerDict[data.data[i].name] = true;
                 }
                 Groups.get(username).then(groupsSuccessFn, groupsErrorFn);
