@@ -24,7 +24,7 @@
         vm.validated = true;
         var lines;
         var fieldKeys = ['content', 'priority', 'duration', 'recurring', 'expires', 'escalates', 'time', 'day', 'notify', 'when'];
-        var eventfieldKeys = ['content', 'description', 'dateOfEvent', 'allDay', 'optionalStartTime', 'optionalEndTime', 'repeat', 'optionalRepeatValue', 'pudAllocation', 'notify', 'optionalNotificationTime', 'shareEvent'];
+        var eventfieldKeys = ['content', 'description', 'location', 'dateOfEvent', 'allDay', 'optionalStartTime', 'optionalEndTime', 'repeat', 'optionalRepeatValue', 'optionalRepeatEndDate', 'pudAllocation', 'notify', 'optionalNotificationTime', 'shareEvent'];
 
         function check(event, keyCode) {
             var textArea = event.target;
@@ -279,56 +279,69 @@
 
             try {
                 var now = new Date();
-                if ((isNaN(parseInt(fields[3].split(":")[1].split("/")[0]))
-                    || isNaN(parseInt(fields[3].split(":")[1].split("/")[1]))
-                    || isNaN(parseInt(fields[3].split(":")[1].split("/")[2]))
-                    ) || parseInt(fields[3].split(":")[1].split("/")[1]) < 1
-                    || parseInt(fields[3].split(":")[1].split("/")[1]) > 31
-                    || parseInt(fields[3].split(":")[1].split("/")[2]) < now.getFullYear()
-                    || (parseInt(fields[3].split(":")[1].split("/")[2]) == now.getFullYear()
-                    && parseInt(fields[3].split(":")[1].split("/")[0]) < now.getMonth() + 1)
-                    || (parseInt(fields[3].split(":")[1].split("/")[2]) == now.getFullYear()
-                    && parseInt(fields[3].split(":")[1].split("/")[0]) == now.getMonth() + 1
-                    && parseInt(fields[3].split(":")[1].split("/")[1]) < now.getDate())
-                    || (parseInt(fields[3].split(":")[1].split("/")[2]) == now.getFullYear()
-                    && parseInt(fields[3].split(":")[1].split("/")[0]) == now.getMonth() + 1
-                    && parseInt(fields[3].split(":")[1].split("/")[1]) == now.getDate())
+                if ((isNaN(parseInt(fields[4].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[4].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[4].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[4].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[4].split(":")[1].split("/")[1]) > 41
+                    || parseInt(fields[4].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[4].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[4].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[4].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[4].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[4].split(":")[1].split("/")[1]) < now.getDate())
+                    || (parseInt(fields[4].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[4].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[4].split(":")[1].split("/")[1]) == now.getDate())
                 ) throw "Invalid date and/or date-time is backdated, line " + vm.lineNumber;
-                if (fields[4].split(":")[1] == 'y/n') throw "Choose whether the event is all day";
-                if (fields[4].split(":")[1] == 'y'
-                    && (parseInt(fields[5].split(":")[1].split("/")[0]) < now.getHours()
-                    || parseInt(fields[6].split(":")[1].split("/")[0]) < now.getHours()))
+                if (fields[5].split(":")[1] == 'y/n') throw "Choose whether the event is all day";
+                if (fields[5].split(":")[1] == 'y'
+                    && (parseInt(fields[6].split(":")[1].split("/")[0]) < now.getHours()
+                    || parseInt(fields[7].split(":")[1].split("/")[0]) < now.getHours()))
                     throw "Invalid time or time is backdated, line " + vm.lineNumber;
 
-                if (fields[7].split(":")[1] == 'y/n') throw "Choose whether the event repeats.";
-                if (fields[7].split(":")[1] == 'y'
-                && (fields[8].split(":")[1] != "Daily" ||
-                    fields[8].split(":")[1] != "Weekly" ||
-                    fields[8].split(":")[1] != "Monthly" ||
-                    fields[8].split(":")[1] != "daily" ||
-                    fields[8].split(":")[1] != "weekly" ||
-                    fields[8].split(":")[1] != "monthly")) throw "Invalid repeat value:";
+                console.log('field 9' + fields[9].split(":")[1]);
+                if (fields[8].split(":")[1] == 'y/n') throw "Choose whether the event repeats.";
+                 if (fields[8].split(":")[1] == 'y'
+                    && !_.contains(['daily', 'weekly', 'monthly', 'Daily', 'Weekly', 'Monthly'], fields[9].split(":")[1])) throw "Invalid repeat value." +  + vm.lineNumber;
 
 
-                if (fields[9].split(":")[1] == 'y/n') throw "Choose whether you want PUD allocation";
-                if (fields[10].split(":")[1] == 'y/n') throw "Choose whether you want to be notified of the event";
+                if (fields[8].split(":")[1] == 'y'
+                    && ((isNaN(parseInt(fields[10].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[10].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[10].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[10].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[10].split(":")[1].split("/")[1]) > 31
+                    || parseInt(fields[10].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[10].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[10].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[10].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[10].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[10].split(":")[1].split("/")[1]) < now.getDate())
+                    || (parseInt(fields[10].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[10].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[10].split(":")[1].split("/")[1]) == now.getDate()))) throw "Invalid time or time is backdated, line " + vm.lineNumber;
 
-                if (fields[10].split(":")[1] == 'y'
-                    && ((isNaN(parseInt(fields[11].split(":")[1].split("/")[0]))
-                    || isNaN(parseInt(fields[11].split(":")[1].split("/")[1]))
-                    || isNaN(parseInt(fields[11].split(":")[1].split("/")[2]))
-                    ) || parseInt(fields[11].split(":")[1].split("/")[1]) < 1
-                    || parseInt(fields[11].split(":")[1].split("/")[1]) > 31
-                    || parseInt(fields[11].split(":")[1].split("/")[2]) < now.getFullYear()
-                    || (parseInt(fields[11].split(":")[1].split("/")[2]) == now.getFullYear()
-                    && parseInt(fields[11].split(":")[1].split("/")[0]) < now.getMonth() + 1)
-                    || (parseInt(fields[11].split(":")[1].split("/")[2]) == now.getFullYear()
-                    && parseInt(fields[11].split(":")[1].split("/")[0]) == now.getMonth() + 1
-                    && parseInt(fields[11].split(":")[1].split("/")[1]) < now.getDate())
-                    || (parseInt(fields[11].split(":")[1].split("/")[2]) == now.getFullYear()
-                    && parseInt(fields[11].split(":")[1].split("/")[0]) == now.getMonth() + 1
-                    && parseInt(fields[11].split(":")[1].split("/")[1]) == now.getDate()
-                    && parseInt(fields[11].split(":")[1].split("/")[3]) < now.getHours()))) throw "Invalid time or time is backdated, line " + vm.lineNumber;
+
+                if (fields[11].split(":")[1] == 'y/n') throw "Choose whether you want PUD allocation";
+                if (fields[12].split(":")[1] == 'y/n') throw "Choose whether you want to be notified of the event";
+
+                if (fields[12].split(":")[1] == 'y'
+                    && ((isNaN(parseInt(fields[13].split(":")[1].split("/")[0]))
+                    || isNaN(parseInt(fields[13].split(":")[1].split("/")[1]))
+                    || isNaN(parseInt(fields[13].split(":")[1].split("/")[2]))
+                    ) || parseInt(fields[13].split(":")[1].split("/")[1]) < 1
+                    || parseInt(fields[13].split(":")[1].split("/")[1]) > 31
+                    || parseInt(fields[13].split(":")[1].split("/")[2]) < now.getFullYear()
+                    || (parseInt(fields[13].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[13].split(":")[1].split("/")[0]) < now.getMonth() + 1)
+                    || (parseInt(fields[13].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[13].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[13].split(":")[1].split("/")[1]) < now.getDate())
+                    || (parseInt(fields[13].split(":")[1].split("/")[2]) == now.getFullYear()
+                    && parseInt(fields[13].split(":")[1].split("/")[0]) == now.getMonth() + 1
+                    && parseInt(fields[13].split(":")[1].split("/")[1]) == now.getDate()
+                    && parseInt(fields[13].split(":")[1].split("/")[3]) < now.getHours()))) throw "Invalid time or time is backdated, line " + vm.lineNumber;
             } catch (err) {
                 Snackbar.error(err, 5000);
                 areValuesValid = false;
@@ -344,6 +357,169 @@
 
         function parseCreateEvent(fields) {
 
+            var content = fields[1].split(":")[1];
+            var description = fields[2].split(":")[1];
+            var location = fields[3].split(":")[1];
+
+            var dateOfEvent;
+            var allDay;
+            var optionalStartTime;
+            var optionalEndTime;
+            var repeat;
+            var optionalRepeatValue;
+            var optionalRepeatEndDate;
+            var pudAllocation;
+            var notify;
+            var optionalNotificationTime;
+            var shareEvent;
+
+            // 4 Set dateOfEvent
+            var d2 = new Date();
+            var year = parseInt(fields[4].split(":")[1].split("/")[2]);
+            var day = parseInt(fields[4].split(":")[1].split("/")[1]);
+            var month = parseInt(fields[4].split(":")[1].split("/")[0]);
+            d2.setFullYear(year, month - 1, day);
+            dateOfEvent = d2;
+
+            // 5 All Day
+            if (fields[5].split(":")[1] == "n") {
+                allDay = true;
+                var t1 = new Date();
+                t1.setHours(parseInt(fields[6].split(":")[1].split("/")[0]));
+                t1.setMinutes(parseInt(fields[6].split(":")[1].split("/")[1]));
+                optionalStartTime = t1;
+
+                var t2 = new Date();
+                t2.setHours(parseInt(fields[7].split(":")[1].split("/")[0]));
+                t2.setMinutes(parseInt(fields[7].split(":")[1].split("/")[1]));
+                optionalEndTime = t2;
+            } else {
+                allDay = false;
+            }
+
+            if (fields[8].split(":")[1] == "y") {
+                repeat = true;
+                optionalRepeatValue = fields[9].split(":")[1];
+                var d3 = new Date();
+                var year = parseInt(fields[10].split(":")[1].split("/")[2]);
+                var day = parseInt(fields[10].split(":")[1].split("/")[1]);
+                var month = parseInt(fields[10].split(":")[1].split("/")[0]);
+                d3.setFullYear(year, month - 1, day);
+                optionalRepeatEndDate = d3;
+                console.log('repeat end date: ' + optionalRepeatEndDate);
+            }
+            else {
+                repeat = false;
+            }
+
+            if (fields[11].split(":")[1] == "y") {
+                pudAllocation = true;
+            }
+            else {
+                pudAllocation = false;
+            }
+
+            if (fields[12].split(":")[1] == "y") {
+                notify = true;
+                var d3 = new Date();
+                var year = parseInt(fields[13].split(":")[1].split("/")[2]);
+                var day = parseInt(fields[13].split(":")[1].split("/")[1]);
+                var month = parseInt(fields[13].split(":")[1].split("/")[0]);
+                var hours = parseInt(fields[13].split(":")[1].split("/")[3]);
+                var minutes = parseInt(fields[13].split(":")[1].split("/")[4]);
+                d3.setFullYear(year, month - 1, day);
+                d3.setHours(hours);
+                d3.setMinutes(minutes);
+                optionalNotificationTime = d3;
+            }
+            else {
+                notify = false;
+            }
+
+            if (fields[14].split(":")[1] == "y") {
+                shareEvent = true;
+            }
+            else {
+                shareEvent = false;
+            }
+
+            var num_day = dateOfEvent.getDay();
+            var weekNum = dateOfEvent.getWeekNum();
+            var dayOfWeek;
+            var isWeekSet = true;
+
+            if (num_day == 0) dayOfWeek = 'Sunday';
+            else if (num_day == 1) dayOfWeek = 'Monday';
+            else if (num_day == 2) dayOfWeek = 'Tuesday';
+            else if (num_day == 3) dayOfWeek = 'Wednesday';
+            else if (num_day == 4) dayOfWeek = 'Thursday';
+            else if (num_day == 5) dayOfWeek = 'Friday';
+            else dayOfWeek = 'Saturday';
+
+
+            if (dayOfWeek == 'Sunday') weekNum++;
+
+            Posts.create(content, dateOfEvent, notify, optionalNotificationTime, optionalRepeatValue, location,
+                description, optionalStartTime, optionalEndTime, optionalRepeatEndDate, allDay, dayOfWeek,
+                repeat, weekNum, isWeekSet, false, pudAllocation, 0).then(createPostSuccessFn, createPostErrorFn);
+
+
+            $rootScope.$broadcast('post.created', {
+                content: vm.content,
+                repeat: optionalRepeatValue,
+                start_time: dateOfEvent,
+                notification: notify,
+                notify_when: optionalNotificationTime,
+                location_event: location,
+                description_event: description,
+                begin_time: optionalStartTime,
+                end_time: optionalEndTime,
+                end_repeat: optionalRepeatEndDate,
+                not_all_day: allDay,
+                dayOfWeek: dayOfWeek,
+                weekNum: weekNum,
+                isWeekSet: isWeekSet,
+                author: {
+                    username: Authentication.getAuthenticatedAccount().username
+                }
+            });
+
+            $scope.closeThisDialog();
+
+
+            /**
+             * @name createPostSuccessFn
+             * @desc Show snackbar with success message
+             */
+            function createPostSuccessFn(data, status, headers, config) {
+                Snackbar.show('Success! Event added to Kalendr');
+
+                // Benson to David: Access Rule API call here
+                // Post is created by now.
+                // Passing back whole post
+
+                // To get latest group make create API get call that filters for latest group
+                // e.g. filter queryset via .latest('created_at')
+                // returned group will be data.data not data.data[0] because single item (not array)
+
+                console.log("post creation successful and here is data.data: ");
+                console.log(data.data.id);
+                //console.log("This is the group rule:");
+                //console.log(vm.groupRuleDict);
+                //Access.createShareable(data.data.id, vm.groupRuleDict);
+
+
+            }
+
+
+            /**
+             * @name createPostErrorFn
+             * @desc Propogate error event and show snackbar with error message
+             */
+            function createPostErrorFn(data, status, headers, config) {
+                $rootScope.$broadcast('post.created.error');
+                Snackbar.error(data.error);
+            }
         }
 
         function validateSignUp(fields) {

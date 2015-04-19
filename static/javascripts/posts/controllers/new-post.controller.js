@@ -9,13 +9,13 @@
         .module('kalendr.posts.controllers')
         .controller('NewPostController', NewPostController);
 
-    NewPostController.$inject = ['$rootScope', '$scope', '$routeParams', 'Authentication', 'Snackbar', 'Posts', 'Access'];
+    NewPostController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Posts', 'Access'];
 
 
     /**
      * @namespace NewPostController
      */
-    function NewPostController($rootScope, $scope, $routeParams, Authentication, Snackbar, Posts, Access) {
+    function NewPostController($rootScope, $scope, Authentication, Snackbar, Posts, Access) {
         var vm = this;
         vm.submit = submit;
         vm.need_repeat = false;
