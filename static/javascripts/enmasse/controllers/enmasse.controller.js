@@ -9,13 +9,13 @@
         .module('kalendr.enmasse.controllers')
         .controller('EnmasseController', EnmasseController);
 
-    EnmasseController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Posts', 'Access', 'Puds', 'Groups'];
+    EnmasseController.$inject = ['$rootScope', '$scope', 'Authentication', 'Snackbar', 'Posts', 'Access', 'Puds', 'Groups', 'Signup'];
 
 
     /**
      * @namespace EnmasseController
      */
-    function EnmasseController($rootScope, $scope, Authentication, Snackbar, Posts, Access, Puds, Groups) {
+    function EnmasseController($rootScope, $scope, Authentication, Snackbar, Posts, Access, Puds, Groups, Signup) {
         var vm = this;
         vm.submit = submit;
         vm.check = check;
@@ -587,24 +587,27 @@
 
             try {
 
-                if (isNaN(parseInt(fields[3].split(":")[1]))
+                if(fields[9].split(":")[1] != 'y') {
+
+
+                    if (isNaN(parseInt(fields[3].split(":")[1]))
                     //|| parseInt(fields[3].split(":")[1]) != 5
                     //|| parseInt(fields[3].split(":")[1]) != 10
                     //|| parseInt(fields[3].split(":")[1]) != 15
                     //|| parseInt(fields[3].split(":")[1]) != 20
                     //|| parseInt(fields[3].split(":")[1]) != 25
                     //|| parseInt(fields[3].split(":")[1]) != 30
-                ) throw "Minimum time " + fields[3].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
+                    ) throw "Minimum time " + fields[3].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
 
-                if (isNaN(parseInt(fields[4].split(":")[1]))
+                    if (isNaN(parseInt(fields[4].split(":")[1]))
                     //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 1
                     //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 2
                     //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 3
                     //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 4
                     //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 5
                     //|| parseInt(fields[4].split(":")[1]) != parseInt(fields[3].split(":")[1]) * 6
-                ) throw "Maximum time " + fields[4].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
-
+                    ) throw "Maximum time " + fields[4].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
+                }
                 var numOfBlocks = parseInt(fields[6].split(":")[1]);
                 var maxSlotsPerUser = parseInt(fields[5].split(":")[1]);
 
@@ -623,8 +626,6 @@
                     console.log("2: " + blockDateTimes[i].split("/")[2]);
                     console.log("3: " + blockDateTimes[i].split("/")[3]);
                     console.log("4: " + blockDateTimes[i].split("/")[4]);
-                    console.log("5: " + blockDateTimes[i].split("/")[5]);
-                    console.log("6: " + blockDateTimes[i].split("/")[6]);
 
                     var now = new Date();
 
@@ -633,8 +634,6 @@
                         || isNaN(parseInt(blockDateTimes[i].split("/")[2]))
                         || isNaN(parseInt(blockDateTimes[i].split("/")[3]))
                         || isNaN(parseInt(blockDateTimes[i].split("/")[4]))
-                        || isNaN(parseInt(blockDateTimes[i].split("/")[5]))
-                        || isNaN(parseInt(blockDateTimes[i].split("/")[6]))
                         ) || parseInt(blockDateTimes[i].split("/")[1]) < 1
                         || parseInt(blockDateTimes[i].split("/")[1]) > 31
                         || parseInt(blockDateTimes[i].split("/")[2]) < now.getFullYear()
@@ -647,18 +646,12 @@
                         && parseInt(blockDateTimes[i].split("/")[0]) == now.getMonth() + 1
                         && parseInt(blockDateTimes[i].split("/")[1]) == now.getDate()
                         && parseInt(blockDateTimes[i].split("/")[3]) < now.getHours())
-                        ||
-                        (parseInt(blockDateTimes[i].split("/")[5]) < now.getHours())
-                        && parseInt(blockDateTimes[i].split("/")[3]) < now.getHours())
                         || ((parseInt(blockDateTimes[i].split("/")[3]) < 0
                         || parseInt(blockDateTimes[i].split("/")[3]) > 23
                         || parseInt(blockDateTimes[i].split("/")[4]) < 0
-                        || parseInt(blockDateTimes[i].split("/")[4]) > 59))
-                        || ((parseInt(blockDateTimes[i].split("/")[5]) < 0
-                        || parseInt(blockDateTimes[i].split("/")[5]) > 23
-                        || parseInt(blockDateTimes[i].split("/")[6]) < 0
-                        || parseInt(blockDateTimes[i].split("/")[6]) > 59)
-                        )) throw "Invalid date and/or date-time is backdated, line " + vm.lineNumber;
+                        || parseInt(blockDateTimes[i].split("/")[4]) > 23))))
+
+                    throw "Invalid date and/or date-time is backdated, line " + vm.lineNumber;
 
                 }
                 var followersString = fields[8].split(":")[1];
@@ -674,13 +667,14 @@
                 if (fields[9].split(":")[1] == 'y/n') throw "Choose whether you want a preference based signup";
 
                 // Check whether follower exists via get follower
-                if (fields[9].split(":")[1] == 'y' &&
-                    (parseInt(fields[10].split(":")[1]) != 10 ||
-                    parseInt(fields[10].split(":")[1]) != 20 ||
-                    parseInt(fields[10].split(":")[1]) != 30 ||
-                    parseInt(fields[10].split(":")[1]) != 40 ||
-                    parseInt(fields[10].split(":")[1]) != 50 ||
-                    parseInt(fields[10].split(":")[1]) != 60)) throw fields[10].split(":")[1] + " is an invalid preference time, line " + vm.lineNumber;
+                //if (fields[9].split(":")[1] == 'y' &&
+                //    (fields[10].split(":")[1] != '10' ||
+                //    fields[10].split(":")[1] != '20' ||
+                //    fields[10].split(":")[1] != '30' ||
+                //    fields[10].split(":")[1] != '40' ||
+                //    fields[10].split(":")[1] != '50' ||
+                //    fields[10].split(":")[1] != '60')
+                //    ) throw fields[10].split(":")[1] + " is an invalid preference time, line " + vm.lineNumber;
 
 
             }
@@ -700,6 +694,186 @@
 
 
         function parseCreateSignUp(fields) {
+
+            var name = fields[1].split(":")[1];
+            var location = fields[2].split(":")[1];
+            var minTimeValue = parseInt(fields[3].split(":")[1]);
+            var maxTimeValue = parseInt(fields[4].split(":")[1]);
+
+            var minTime = new Object();
+            var maxTime = new Object();
+
+            // Format for backend to query correctly
+
+            minTime[undefined] = minTimeValue;
+            maxTime[undefined] = maxTimeValue;
+
+            var maxSlotsPerUser = parseInt(fields[5].split(":")[1]);
+            var numberOfBlocks = parseInt(fields[6].split(":")[1]);
+
+
+
+            var blockDateTimes = fields[7].split(":")[1].split(".");
+            vm.dates = [];
+            vm.beginTimes = [];
+            vm.endTimes = [];
+            vm.beginDateTimes = [];
+            vm.endDateTimes = [];
+            vm.dayOfWeek;
+
+
+            for (var i = 0; i < blockDateTimes.length; i++) {
+                var date = new Date();
+                var month = parseInt(blockDateTimes[i].split("/")[0]);
+                var day = parseInt(blockDateTimes[i].split("/")[1]);
+                var year = parseInt(blockDateTimes[i].split("/")[2]);
+
+                date.setFullYear(year, month - 1, day);
+                vm.dates[i] = date;
+
+                var beginHour = parseInt(blockDateTimes[i].split("/")[3]);
+                var endHour = parseInt(blockDateTimes[i].split("/")[4]);
+
+                var d2 = new Date();
+                var d3 = new Date();
+                d2.setHours(parseInt(beginHour));
+                d2.setHours(parseInt(endHour));
+
+                vm.beginTimes[i] = d2;
+                vm.endTimes[i] = d3;
+            }
+
+            createDateTime();
+            createDayOfWeek();
+
+
+            var followersString = fields[8].split(":")[1];
+            var signUpFollowers = followersString.split(".");
+            var groupRuleDict = new Object();
+            for (var i = 0; i < signUpFollowers.length; i++) {
+                groupRuleDict[signUpFollowers[i]] = 'ALL';
+            }
+
+            var isPreferenceBased = false;
+            var preferenceDuration;
+
+            if(fields[9].split(":")[1] == 'y'){
+                isPreferenceBased = true;
+                preferenceDuration = parseInt(fields[10].split(":")[1]);
+            }
+
+
+            var firstMeetingMonth = vm.dates[0].getMonth();
+            var firstMeetingDate = vm.dates[0].getDate();
+            var firstMeetingWeek = vm.dates[0].getWeekNum();
+            console.log('week num: ' + firstMeetingWeek);
+
+            if (vm.dayOfWeek == 'Sunday') firstMeetingWeek++;
+
+            if (!vm.isPreference) {
+
+                Signup.create(name, location, vm.beginDateTimes, vm.endDateTimes, minTime, maxTime, maxSlotsPerUser, vm.dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
+
+                $rootScope.$broadcast('signup.created', {
+                    content: name,
+                    location: location,
+                    beginDateTimes: vm.beginDateTimes,
+                    endDateTimes: vm.endDateTimes,
+                    minTimes: minTime,
+                    maxTimes: maxTime,
+                    numSlotsPerUser: maxSlotsPerUser,
+                    dayOfWeek: vm.dayOfWeek,
+                    firstMeetingMonth: firstMeetingMonth,
+                    firstMeetingDate: firstMeetingDate,
+                    firstMeetingWeek: firstMeetingWeek,
+                    author: {
+                        username: Authentication.getAuthenticatedAccount().username
+                    }
+                });
+
+            }
+
+            else {
+
+                /*Preference-Based Signup*/
+                Signup.createPref(name, location, vm.beginDateTimes, vm.endDateTimes, vm.dayOfWeek, firstMeetingWeek, preferenceDuration).then(createPostSuccessFn, createPostErrorFn);
+
+                $rootScope.$broadcast('prefSignup.created', {
+                    content: name,
+                    location: location,
+                    beginDateTimes: vm.beginDateTimes,
+                    endDateTimes: vm.endDateTimes,
+                    dayOfWeek: vm.dayOfWeek,
+                    firstMeetingMonth: firstMeetingMonth,
+                    firstMeetingDate: firstMeetingDate,
+                    firstMeetingWeek: firstMeetingWeek,
+                    author: {
+                        username: Authentication.getAuthenticatedAccount().username
+                    }
+                });
+            }
+
+
+            $scope.closeThisDialog();
+
+
+            /**
+             * @name createPostSuccessFn
+             * @desc Show snackbar with success message
+             */
+            function createPostSuccessFn(data, status, headers, config) {
+                Snackbar.show('Success! Signup Created.');
+
+                console.log("signup creation successful and here is data.data: ");
+                console.log(data.data);
+                console.log(data.data.id);
+                Access.createShareable(data.data.id, groupRuleDict);
+            }
+
+
+            /**
+             * @name createPostErrorFn
+             * @desc Propogate error event and show snackbar with error message
+             */
+            function createPostErrorFn(data, status, headers, config) {
+                $rootScope.$broadcast('signup.created.error');
+                Snackbar.error(data.error);
+            }
+
+        }
+
+        function createDateTime() {
+
+            var i;
+            for (i = 0; i < vm.dates.length; i++) {
+                var day = vm.dates[i].getDate();
+                console.log('day: ' + day);
+                var month = vm.dates[i].getMonth();
+                console.log('month: ' + month);
+                var year = vm.dates[i].getFullYear();
+                console.log('year: ' + year);
+
+                var beginHour = vm.beginTimes[i].getHours();
+                var endHour = vm.endTimes[i].getHours();
+
+                vm.beginDateTimes[i] = new Date(year, month, day, beginHour, 0, 0);
+                vm.endDateTimes[i] = new Date(year, month, day, endHour, 0, 0);
+
+                console.log('beginDateTimes: ' + vm.beginDateTimes[i]);
+                console.log('endDateTimes: ' + vm.endDateTimes[i]);
+            }
+        }
+
+        function createDayOfWeek() {
+            var num_day = vm.dates[0].getDay();
+
+            if (num_day == 0) vm.dayOfWeek = 'Sunday';
+            else if (num_day == 1) vm.dayOfWeek = 'Monday';
+            else if (num_day == 2) vm.dayOfWeek = 'Tuesday';
+            else if (num_day == 3) vm.dayOfWeek = 'Wednesday';
+            else if (num_day == 4) vm.dayOfWeek = 'Thursday';
+            else if (num_day == 5) vm.dayOfWeek = 'Friday';
+            else vm.dayOfWeek = 'Saturday';
 
         }
 

@@ -68,6 +68,9 @@
 
             if (!vm.isPreference) {
 
+                console.log(vm.minTimes[undefined]);
+                console.log(vm.minTimes);
+
                 Signup.create(vm.content, vm.location, beginDateTimes, endDateTimes, vm.minTimes, vm.maxTimes, vm.numSlotsPerUser, dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
 
                 $rootScope.$broadcast('signup.created', {

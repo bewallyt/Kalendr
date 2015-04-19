@@ -39,6 +39,11 @@
          */
         function create(content, location, beginDateTimes, endDateTimes, minTimes, maxTimes, numSlotsPerUser, dayOfWeek, weekNum) {
 
+            console.log('minTimes' + minTimes);
+            console.log('maxTimes' + minTimes);
+
+            for(var i = 0; i < minTimes.length; i++) console.log(minTimes);
+
             return $http.post('/api/v1/signup/', {
                 content: content,
                 location: location,

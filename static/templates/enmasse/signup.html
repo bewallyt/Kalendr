@@ -1,5 +1,5 @@
 <h6>signup; name:val; location:val; minTime:#; maxTime:val; maxSlotsPerUser:#; numberOfBlocks:#;
-    blockDateStartTimeEndTime:mm/dd/yyyy/hh/mm/hh/mm.mm/dd/yyyy/hh/mm/hh/mm;
+    blockDateStartTimeEndTime:mm/dd/yyyy/hh/hh.mm/dd/yyyy/hh/hh;
     optionalShareWith:name1.name2; preferenceBased:y/n; preferenceDuration:#;</h6>
 
 <h6>Above template shows blockDateSTartEndTime with two blocks.</h6>
@@ -7,12 +7,13 @@
 <h6>maxTime ranges: [minTime,minTime*6]</h6>
 <h6>Preference duration needs to be between 10 and 60 minutes, in iterations of 10.</h6>
 <h6>Fields maxSlotsPerUser and minTime and maxTime are irrelevant if preference based</h6>
+<h6>blockDateStartTimeEndTime:Start Date/Begin Hour/End Hour</h6>
 
 <h5>Example 1 (Normal Signup):</h5>
 <h6>signup; name:Enmasse Signup; location:Houzz; minTime:15; maxTime:30; maxSlotsPerUser:2; numberOfBlocks:2;
-    blockDateStartTimeEndTime:04/20/2015/05/40/07/40.04/21/2015/05/40/07/40;
+    blockDateStartTimeEndTime:04/20/2015/05/07.04/21/2015/05/07;
     shareWith:Ellen.Test; preferenceBased:n; preferenceDuration:#;</h6>
 
 <h5>Example 2 (Preference-Based Signup):</h5>
 <h6>signup; name:Enmasse Signup Pref Based; location:Houzz; minTime:; maxTime:; maxSlotsPerUser:; numberOfBlocks:2;
-    blockDateStartTimeEndTime:04/20/2015/05/40/07/40.04/21/2015/05/40/07/40; shareWith:Ellen.Test; preferenceBased:y; preferenceDuration:20;</h6>
+    blockDateStartTimeEndTime:04/20/2015/05/07.04/21/2015/05/07; shareWith:Ellen.Test; preferenceBased:y; preferenceDuration:20;</h6>
