@@ -31,6 +31,8 @@
         var textRules = [];
         var trueNames;
         var invalidName;
+        vm.groupRuleDict = new Object();
+
 
 
         var username = Authentication.getAuthenticatedAccount().username;
@@ -490,6 +492,10 @@
 
             if (fields[14].split(":")[1] == "y") {
                 shareEvent = true;
+                var i;
+                for(i = 0; i < textFollowers.length; i++){
+                    vm.groupRuleDict[textFollowers[i]] = textRules;
+                }
             }
             else {
                 shareEvent = false;
@@ -546,19 +552,9 @@
             function createPostSuccessFn(data, status, headers, config) {
                 Snackbar.show('Success! Event added to Kalendr');
 
-                // Benson to David: Access Rule API call here
-                // Post is created by now.
-                // Passing back whole post
-
-                // To get latest group make create API get call that filters for latest group
-                // e.g. filter queryset via .latest('created_at')
-                // returned group will be data.data not data.data[0] because single item (not array)
-
-                console.log("post creation successful and here is data.data: ");
-                console.log(data.data.id);
-                //console.log("This is the group rule:");
-                //console.log(vm.groupRuleDict);
-                //Access.createShareable(data.data.id, vm.groupRuleDict);
+                if(shareEvent){
+                    Access.createShareable(data.data.id, vm.groupRuleDict);
+                }
 
 
             }
