@@ -10,7 +10,7 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
+##### dist/
 downloads/
 eggs/
 lib64/
@@ -53,17 +53,17 @@ docs/_build/
 target/
 
 # SQLite3 database, add more databases here before creating database
-*.sqlite3
+##### *.sqlite3
 
 # Node modules
 node_modules/
 npm-debug.log
 
 # Bower components
-static/bower_components/
+##### static/bower_components/
 
 # Uglified JavaScript
-dist/
+##### dist/
 
 # Staticfiles
 staticfiles/
