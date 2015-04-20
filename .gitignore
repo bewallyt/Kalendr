@@ -19,7 +19,7 @@ sdist/
 var/
 *.egg-info/
 .installed.cfg
-*.egg
+*.eggs
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -53,7 +53,6 @@ docs/_build/
 target/
 
 # SQLite3 database, add more databases here before creating database
-*.sqlite3
 
 # Node modules
 node_modules/
