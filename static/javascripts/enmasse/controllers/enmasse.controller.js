@@ -609,7 +609,8 @@
                     ) throw "Maximum time " + fields[4].split(":")[1] + " minutes is an incorrect time, line " + vm.lineNumber;
                 }
                 var numOfBlocks = parseInt(fields[6].split(":")[1]);
-                var maxSlotsPerUser = parseInt(fields[5].split(":")[1]);
+                var maxSlotsPerUser;
+
 
                 if (maxSlotsPerUser < 1) throw "Max slots per user needs to be greater than 1, line " + vm.lineNumber;
                 if (numOfBlocks < 1) throw "Number of blocks needs to be greater than 1, line " + vm.lineNumber;
@@ -676,6 +677,9 @@
                 //    fields[10].split(":")[1] != '60')
                 //    ) throw fields[10].split(":")[1] + " is an invalid preference time, line " + vm.lineNumber;
 
+                if(fields[9].split(":")[1] == 'n'){
+                    maxSlotsPerUser = parseInt(fields[5].split(":")[1]);
+                }
 
             }
 
@@ -708,7 +712,7 @@
             minTime[undefined] = minTimeValue;
             maxTime[undefined] = maxTimeValue;
 
-            var maxSlotsPerUser = parseInt(fields[5].split(":")[1]);
+            var maxSlotsPerUser;
             var numberOfBlocks = parseInt(fields[6].split(":")[1]);
 
 
@@ -737,7 +741,7 @@
                 var d2 = new Date();
                 var d3 = new Date();
                 d2.setHours(parseInt(beginHour));
-                d2.setHours(parseInt(endHour));
+                d3.setHours(parseInt(endHour));
 
                 vm.beginTimes[i] = d2;
                 vm.endTimes[i] = d3;
@@ -761,6 +765,11 @@
                 isPreferenceBased = true;
                 preferenceDuration = parseInt(fields[10].split(":")[1]);
             }
+            else{
+                maxSlotsPerUser = parseInt(fields[5].split(":")[1])
+            }
+
+            console.log('this isnt preference based: ' + !isPreferenceBased);
 
 
             var firstMeetingMonth = vm.dates[0].getMonth();
@@ -770,7 +779,8 @@
 
             if (vm.dayOfWeek == 'Sunday') firstMeetingWeek++;
 
-            if (!vm.isPreference) {
+            if (!isPreferenceBased) {
+                console.log('non preference signup');
 
                 Signup.create(name, location, vm.beginDateTimes, vm.endDateTimes, minTime, maxTime, maxSlotsPerUser, vm.dayOfWeek, firstMeetingWeek).then(createPostSuccessFn, createPostErrorFn);
 
@@ -794,6 +804,12 @@
             }
 
             else {
+
+
+                console.log('preference signup');
+                console.log('maxTime:' + maxTime);
+                console.log('minTime' + minTime);
+                console.log('maxSlotsPerUser' + maxSlotsPerUser);
 
                 /*Preference-Based Signup*/
                 Signup.createPref(name, location, vm.beginDateTimes, vm.endDateTimes, vm.dayOfWeek, firstMeetingWeek, preferenceDuration).then(createPostSuccessFn, createPostErrorFn);
