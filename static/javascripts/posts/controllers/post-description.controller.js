@@ -95,7 +95,6 @@
         vm.startResolve = false;
 
 
-
         function init(id) {
 
             vm.postId = id;
@@ -185,13 +184,13 @@
                         var numFreeSlots = 0;
                         for (j = 0; j < vm.blocks[i].myslots.length; j++) {
                             vm.numSlots = vm.blocks[i].myslots.length;
-                            vm.numSlotsFront[i+1] = vm.numSlots;
+                            vm.numSlotsFront[i + 1] = vm.numSlots;
                             vm.frontEndPreferenceValues[i] = new Array(vm.blocks[i].myslots.length);
                             vm.frontEndPreferenceValues[i][j] = "am";
                             // add info for pref
                             if (vm.blocks[i].myslots.owner == null) numFreeSlots++;
                             if (vm.isPrefSignup) {
-                                if(vm.blocks[i].myslots[j].owner.length > 0){
+                                if (vm.blocks[i].myslots[j].owner.length > 0) {
                                     vm.isSuggested = true;
                                     console.log('is suggested');
                                 }
@@ -201,7 +200,7 @@
                                 // parse for requester info
                                 var preferencePlaceholder = "";
                                 for (k = 0; k < vm.blocks[i].myslots[j].requester_list.length; k++) {
-                                    if(k > 0) preferencePlaceholder = preferencePlaceholder + "&";
+                                    if (k > 0) preferencePlaceholder = preferencePlaceholder + "&";
                                     //console.log(vm.blocks[i].myslots[j].requester_list[k]);
                                     var tempPreference;
                                     if (vm.blocks[i].myslots[j].requester_list[k][1] == 1) tempPreference = "Not Preferred";
@@ -325,7 +324,7 @@
             for (i = 0; i < vm.numBlocks; i++) {
                 console.log('i: ' + i);
                 var j;
-                for (j = 0; j < vm.numSlotsFront[i+1]; j++) {
+                for (j = 0; j < vm.numSlotsFront[i + 1]; j++) {
                     console.log('j ' + j);
                     if (vm.frontEndPreferenceValues[i][j] != null) {
                         vm.preferenceValues[counter] = vm.frontEndPreferenceValues[i][j];
@@ -356,101 +355,109 @@
             Signup.suggestSchedule(vm.postId).then(successSuggestFn, errorFn);
 
             function successSuggestFn(data, status, headers, config) {
-                vm.isSuggested = true;
-                vm.startResolve = true;
-                Snackbar.show('Schedule Suggested!');
-                console.log('suggested: ' + data.data);
+
+                for (var i = 0; i < data.data['myblocks'].length; i++) {
+                    vm.blocks[i] = data.data['myblocks'][i];
+
+                }
+                    vm.isSuggested = true;
+                    vm.startResolve = true;
+
+                    Snackbar.show('Schedule Suggested!');
+                    console.log('suggested: ' + data.data);
+                }
+
+                function errorFn(data, status, headers, config) {
+                    Snackbar.error('Error');
+                }
             }
 
-            function errorFn(data, status, headers, config) {
-                Snackbar.error('Error');
+
+            function resolve() {
+                console.log('number of requesters: ' + vm.resolvedRequesters.length);
+                Signup.resolveSchedule(vm.postId, vm.resolvedRequesters).then(successResolveFn, errorFn);
+
+                function successResolveFn(data, status, headers, config) {
+                    vm.isSuggested = false;
+                    Snackbar.show('Schedule Resolved!');
+                    console.log('suggested: ' + data.data);
+                    $scope.closeThisDialog();
+                }
+
+                function errorFn(data, status, headers, config) {
+                    Snackbar.error('Error');
+                    $scope.closeThisDialog();
+                }
             }
-        }
 
-
-        function resolve(){
-            console.log('number of requesters: ' + vm.resolvedRequesters.length);
-            Signup.resolveSchedule(vm.postId, vm.resolvedRequesters).then(successResolveFn, errorFn);
-
-            function successResolveFn(data, status, headers, config) {
-                vm.isSuggested = false;
-                Snackbar.show('Schedule Resolved!');
-                console.log('suggested: ' + data.data);
-                $scope.closeThisDialog();
+            function checkSlot(start_time, end_time) {
+                //if (pass == false) {
+                //    console.log('selected start and end time: ' + start_time + ' ' + end_time);
+                //    console.log('numSelected: ' + vm.numSelected);
+                //    vm.selectedSlots[slotIndex] = true;
+                vm.numSelected++;
+                vm.selectedStart.push(start_time);
+                vm.selectedEnd.push(end_time);
+                //}
+                //else {
+                //    console.log('deselected');
+                //    console.log('numSelected: ' + vm.numSelected);
+                //    vm.numSelected--;
+                //    vm.selectedStart.pop();
+                //    vm.selectedEnd.pop();
+                //}
+                //if (vm.numSelected == vm.maxSlots) ;
             }
 
-            function errorFn(data, status, headers, config) {
-                Snackbar.error('Error');
-                $scope.closeThisDialog();
+            function parseBlockDates(backendStartTime, backendEndTime, index) {
+                var startDateAndTime = backendStartTime.split('T');
+                var startYearMonthDate = startDateAndTime[0].split('-');
+                var startHourMinSec = startDateAndTime[1].split(':');
+
+                var endDateAndTime = backendEndTime.split('T');
+                var endHourMinSec = endDateAndTime[1].split(':');
+
+                var date = startYearMonthDate[1] + '/' + startYearMonthDate[2] + '/' + startYearMonthDate[0];
+                var startTime = startHourMinSec[0] + ':' + startHourMinSec[1];
+                var endTime = endHourMinSec[0] + ':' + endHourMinSec[1];
+
+                vm.blockDates[index] = date + ' ' + startTime + '-' + endTime;
+
             }
-        }
 
-        function checkSlot(start_time, end_time) {
-            //if (pass == false) {
-            //    console.log('selected start and end time: ' + start_time + ' ' + end_time);
-            //    console.log('numSelected: ' + vm.numSelected);
-            //    vm.selectedSlots[slotIndex] = true;
-            vm.numSelected++;
-            vm.selectedStart.push(start_time);
-            vm.selectedEnd.push(end_time);
-            //}
-            //else {
-            //    console.log('deselected');
-            //    console.log('numSelected: ' + vm.numSelected);
-            //    vm.numSelected--;
-            //    vm.selectedStart.pop();
-            //    vm.selectedEnd.pop();
-            //}
-            //if (vm.numSelected == vm.maxSlots) ;
-        }
+            function parseReturnedBlockDates(backendStartTime, backendEndTime, index) {
+                var startDateAndTime = backendStartTime.split('T');
+                var startYearMonthDate = startDateAndTime[0].split('-');
+                var startHourMinSec = startDateAndTime[1].split(':');
 
-        function parseBlockDates(backendStartTime, backendEndTime, index) {
-            var startDateAndTime = backendStartTime.split('T');
-            var startYearMonthDate = startDateAndTime[0].split('-');
-            var startHourMinSec = startDateAndTime[1].split(':');
+                var endDateAndTime = backendEndTime.split('T');
+                var endHourMinSec = endDateAndTime[1].split(':');
 
-            var endDateAndTime = backendEndTime.split('T');
-            var endHourMinSec = endDateAndTime[1].split(':');
+                var date = startYearMonthDate[1] + '/' + startYearMonthDate[2] + '/' + startYearMonthDate[0];
+                var startTime = startHourMinSec[0] + ':' + startHourMinSec[1];
+                var endTime = endHourMinSec[0] + ':' + endHourMinSec[1];
 
-            var date = startYearMonthDate[1] + '/' + startYearMonthDate[2] + '/' + startYearMonthDate[0];
-            var startTime = startHourMinSec[0] + ':' + startHourMinSec[1];
-            var endTime = endHourMinSec[0] + ':' + endHourMinSec[1];
+                vm.returnedblockDates[index] = date + ' ' + startTime + '-' + endTime;
 
-            vm.blockDates[index] = date + ' ' + startTime + '-' + endTime;
+            }
+
+            function parseSlotTimes(slotTime) {
+                var slotDateAndTime = slotTime.split('T');
+                var hourMinSec = slotDateAndTime[1].split(':');
+
+
+                var parsedTime = hourMinSec[0] + ':' + hourMinSec[1];
+
+                return parsedTime;
+            }
+
+            function getNumber(num) {
+                return new Array(num);
+            }
+
 
         }
-
-        function parseReturnedBlockDates(backendStartTime, backendEndTime, index) {
-            var startDateAndTime = backendStartTime.split('T');
-            var startYearMonthDate = startDateAndTime[0].split('-');
-            var startHourMinSec = startDateAndTime[1].split(':');
-
-            var endDateAndTime = backendEndTime.split('T');
-            var endHourMinSec = endDateAndTime[1].split(':');
-
-            var date = startYearMonthDate[1] + '/' + startYearMonthDate[2] + '/' + startYearMonthDate[0];
-            var startTime = startHourMinSec[0] + ':' + startHourMinSec[1];
-            var endTime = endHourMinSec[0] + ':' + endHourMinSec[1];
-
-            vm.returnedblockDates[index] = date + ' ' + startTime + '-' + endTime;
-
-        }
-
-        function parseSlotTimes(slotTime) {
-            var slotDateAndTime = slotTime.split('T');
-            var hourMinSec = slotDateAndTime[1].split(':');
-
-
-            var parsedTime = hourMinSec[0] + ':' + hourMinSec[1];
-
-            return parsedTime;
-        }
-
-        function getNumber(num) {
-            return new Array(num);
-        }
-
-
     }
-})
-();
+
+    )
+    ();
